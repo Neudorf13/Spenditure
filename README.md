@@ -4,7 +4,7 @@
 
 ## Vision Statement
 
-**Spenditure** is a personal finance tool that will allow users to track, record, and analyze their financial transactions. Unlike a banking app, Spenditure is focused on helping users track where their money goes and better understand their spending habits.
+Spenditure is a personal finance tool that will allow users to track, record, and analyze their financial transactions. Unlike a banking app, Spenditure is focused on helping users track where their money goes and better understand their spending habits.
 
 It is easy to feel overwhelmed when it comes to finances, that’s why the vision of Spenditure is to provide users with a system that has an approachable learning curve and all the necessary tools to reach their financial goals. Due to our adaptable design, Spenditure proves invaluable for both novices embarking on their financial journey as well as seasoned veterans seeking a deeper insight into their finances.
 
