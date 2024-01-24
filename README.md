@@ -21,84 +21,135 @@ Spenditure will be considered a success if a majority of users, measured by surv
 
 ## Features and User Stories
 
-- [ ] [Create](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#create-a-file) or [upload](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#upload-a-file) files
-- [ ] [Add files using the command line](https://docs.gitlab.com/ee/gitlab-basics/add-file.html#add-a-file-using-the-command-line) or push an existing Git repository with the following command:
+### *Iteration 1*
 
-```
-cd existing_repo
-git remote add origin https://code.cs.umanitoba.ca/comp3350-winter2024/threequarterscs-a02-3.git
-git branch -M main
-git push -uf origin main
-```
+1. Transaction Controller
 
-## Integrate with your tools
+    **Description:** A feature to help users manage and view information about their transaction details.
 
-- [ ] [Set up project integrations](https://code.cs.umanitoba.ca/comp3350-winter2024/threequarterscs-a02-3/-/settings/integrations)
+    **Priority:** High
 
-## Collaborate with your team
+    **Duration:** 6 days
 
-- [ ] [Invite team members and collaborators](https://docs.gitlab.com/ee/user/project/members/)
-- [ ] [Create a new merge request](https://docs.gitlab.com/ee/user/project/merge_requests/creating_merge_requests.html)
-- [ ] [Automatically close issues from merge requests](https://docs.gitlab.com/ee/user/project/issues/managing_issues.html#closing-issues-automatically)
-- [ ] [Enable merge request approvals](https://docs.gitlab.com/ee/user/project/merge_requests/approvals/)
-- [ ] [Set auto-merge](https://docs.gitlab.com/ee/user/project/merge_requests/merge_when_pipeline_succeeds.html)
+    **User Stories:**
 
-## Test and Deploy
+    * As a user, I want to be able to permanently save details of my financial transactions because I want to review my previous transactions later.
+        * **Duration:** 2 days
+    * As a user, I want to be able to edit or remove all my transaction information in case I make a mistake or need to make changes. 
+        * **Duration:** 2 days
+    * As a user, I want to be able to search my transactions based on different criteria. 
+        * **Duration:** 2 days
 
-Use the built-in continuous integration in GitLab.
+<br/>
 
-- [ ] [Get started with GitLab CI/CD](https://docs.gitlab.com/ee/ci/quick_start/index.html)
-- [ ] [Analyze your code for known vulnerabilities with Static Application Security Testing (SAST)](https://docs.gitlab.com/ee/user/application_security/sast/)
-- [ ] [Deploy to Kubernetes, Amazon EC2, or Amazon ECS using Auto Deploy](https://docs.gitlab.com/ee/topics/autodevops/requirements.html)
-- [ ] [Use pull-based deployments for improved Kubernetes management](https://docs.gitlab.com/ee/user/clusters/agent/)
-- [ ] [Set up protected environments](https://docs.gitlab.com/ee/ci/environments/protected_environments.html)
+2. Category Handler
 
-***
+    **Description:** A feature to help users group their transactions into meaningful spending categories.
 
-# Editing this README
+    **Priority:** High
 
-When you're ready to make this README your own, just edit this file and use the handy template below (or feel free to structure it however you want - this is just a starting point!). Thanks to [makeareadme.com](https://www.makeareadme.com/) for this template.
+    **Duration:** 4 days
 
-## Suggestions for a good README
+    **User Stories:**
 
-Every project is different, so consider which of these sections apply to yours. The sections used in the template are suggestions for most open source projects. Also keep in mind that while a README can be too long and detailed, too long is better than too short. If you think your README is too long, consider utilizing another form of documentation rather than cutting out information.
+    * As a user, I want to be able to create categories for different types of expenses because I want to organize my transactions.
+        * **Duration:** 2 days
+    * As a user, I want to be able to organize different transactions into groups because I want to see how much I spend on different types of expenses. 
+        * **Duration:** 2 days
 
-## Name
-Choose a self-explaining name for your project.
+<br/>
 
-## Description
-Let people know what your project can do specifically. Provide context and add a link to any reference visitors might be unfamiliar with. A list of Features or a Background subsection can also be added here. If there are alternatives to your project, this is a good place to list differentiating factors.
+3. Report Manager
 
-## Badges
-On some READMEs, you may see small images that convey metadata, such as whether or not all the tests are passing for the project. You can use Shields to add some to your README. Many services also have instructions for adding a badge.
+    **Description:** A feature that provides the user with a summary of their spending habits.
 
-## Visuals
-Depending on what you are making, it can be a good idea to include screenshots or even a video (you'll frequently see GIFs rather than actual videos). Tools like ttygif can help, but check out Asciinema for a more sophisticated method.
+    **Priority:** High
 
-## Installation
-Within a particular ecosystem, there may be a common way of installing things, such as using Yarn, NuGet, or Homebrew. However, consider the possibility that whoever is reading your README is a novice and would like more guidance. Listing specific steps helps remove ambiguity and gets people to using your project as quickly as possible. If it only runs in a specific context like a particular programming language version or operating system or has dependencies that have to be installed manually, also add a Requirements subsection.
+    **Duration:** 4 days
 
-## Usage
-Use examples liberally, and show the expected output if you can. It's helpful to have inline the smallest example of usage that you can demonstrate, while providing links to more sophisticated examples if they are too long to reasonably include in the README.
+    **User Stories:**
 
-## Support
-Tell people where they can go to for help. It can be any combination of an issue tracker, a chat room, an email address, etc.
+    * As a user, I want to be able to see a summary of how much I spend on different types of expenses.
+        * **Duration:** 2 days
+    * As a user, I want to be able to customize my spending summary according to my preferences.
+        * **Duration:** 2 days
 
-## Roadmap
-If you have ideas for releases in the future, it is a good idea to list them in the README.
+### *Iteration 2*
 
-## Contributing
-State if you are open to contributions and what your requirements are for accepting them.
+1. Time-Based Report Manager
 
-For people who want to make changes to your project, it's helpful to have some documentation on how to get started. Perhaps there is a script that they should run or some environment variables that they need to set. Make these steps explicit. These instructions could also be useful to your future self.
+    **Description:** A feature that provides weekly and monthly summaries to users on their spending habits.
 
-You can also document commands to lint the code or run tests. These steps help to ensure high code quality and reduce the likelihood that the changes inadvertently break something. Having instructions for running tests is especially helpful if it requires external setup, such as starting a Selenium server for testing in a browser.
+    **Priority:** Medium
 
-## Authors and acknowledgment
-Show your appreciation to those who have contributed to the project.
+    **Duration:** 4 days
 
-## License
-For open source projects, say how it is licensed.
+<br/>
 
-## Project status
-If you have run out of energy or time for your project, put a note at the top of the README saying that development has slowed down or stopped completely. Someone may choose to fork your project or volunteer to step in as a maintainer or owner, allowing your project to keep going. You can also make an explicit request for maintainers.
+2. Upload Receipt Images to Transactions
+
+    **Description:** A feature that allows users to attach and save images of receipts to their transactions.
+
+    **Priority:** Medium
+
+    **Duration:** 6 days
+
+<br/>
+
+3. User Account Management
+
+    **Description:** A feature that allows users to create and log in to their personal accounts.
+
+    **Priority:** Medium
+
+    **Duration:** 2 days
+
+<br/>
+
+4. Financial Goal Tracker
+
+    **Description:**  A feature that allows users to set and manage their financial goals.
+
+    **Priority:** Medium
+
+    **Duration:** 9 days
+
+### *Iteration 3*
+
+1. Illustrative Report Manager
+
+    **Description:** A feature that provides users with visual reporting graphics on their spending habits.
+
+    **Priority:** Medium
+
+    **Duration:** 10 days
+
+<br/>
+
+2. User Authentication
+
+    **Description:** A feature that allows users to increase account security by verifying their email addresses.
+
+    **Priority:** Low
+
+    **Duration:** 3 days
+
+<br/>
+
+3. Notification System
+
+    **Description:** A feature that provides users with notifications on their financial goals and upcoming transactions.
+
+    **Priority:** Medium
+
+    **Duration:** 5 days
+
+<br/>
+
+4. Financial Accountability Reminders
+
+    **Description:**  A feature that encourages users to stay on track with their financial goals.
+
+    **Priority:** Low
+
+    **Duration:** 3 days
