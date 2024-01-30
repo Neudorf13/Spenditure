@@ -1,4 +1,4 @@
-package com.example.spenditure;
+package com.spenditure;
 
 import org.junit.Test;
 

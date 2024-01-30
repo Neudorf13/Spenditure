@@ -12,6 +12,7 @@ import androidx.navigation.ui.NavigationUI;
 
 import com.example.spenditure.databinding.ActivityMainBinding;
 
+
 public class MainActivity extends AppCompatActivity {
 
     private ActivityMainBinding binding;
