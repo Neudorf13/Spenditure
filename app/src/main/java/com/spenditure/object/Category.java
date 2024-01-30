@@ -3,13 +3,11 @@ package com.spenditure.object;
 public class Category implements ICategory {
     //Attributes
     private String name;
-    private int userID;
     private int categoryID;
 
     //Constructors
-    public Category(String name, int userID, int categoryID){
+    public Category(String name, int categoryID){
         this.name = name;
-        this.userID = userID;
         this.categoryID = categoryID;
     }
 
@@ -22,8 +20,5 @@ public class Category implements ICategory {
     public int getID() {
         return this.categoryID;
     }
-    @Override
-    public int getUserID() {
-        return this.userID;
-    }
+
 }
