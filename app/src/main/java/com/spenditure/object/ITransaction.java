@@ -27,6 +27,8 @@ public interface ITransaction {
 
     void removeCategory(int categoryID);
 
+    boolean containsCategory(int categoryID);
+
 
     // setters
     void setTransactionID(int transactionID);

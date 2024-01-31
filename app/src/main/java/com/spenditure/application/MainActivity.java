@@ -1,7 +1,8 @@
-package com.example.spenditure;
+package com.spenditure.application;
 
 import android.os.Bundle;
 
+import com.example.spenditure.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.appcompat.app.AppCompatActivity;

@@ -38,6 +38,7 @@ public class CategoryStub implements CategoryPersistence {
         int index = this.categoryList.indexOf(targetCategory);
         if(index >0){
             categoryList.remove(targetCategory);
+
         }
         return index >0;
     }

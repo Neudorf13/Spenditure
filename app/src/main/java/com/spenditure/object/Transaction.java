@@ -132,6 +132,19 @@ public class Transaction implements ITransaction{
 
     }
 
+    public boolean containsCategory(int categoryID)
+    {
+        for(int i = 0; i < categories.size(); i++)
+        {
+            if(categories.get(i) == categoryID)
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
 
     // setters
     public void setTransactionID(int transactionID)
