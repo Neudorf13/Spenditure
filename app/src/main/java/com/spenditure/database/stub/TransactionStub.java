@@ -108,47 +108,6 @@ public class TransactionStub {
         return transactionList;
     }
 
-    public ArrayList<Transaction> filterByCategory(ArrayList<Category> categories)
-    {
-        ArrayList<Transaction> filteredTransactions = new ArrayList<Transaction>();
 
-        // loop through all transaction stored in database
-        for(int i = 0; i < transactionList.size(); i++)
-        {
-            // checks whether at least
-            boolean atLeastOneLabel = false;
 
-            // compare the given category to the categories of the transaction being looked at
-            for(int m = 0; m < categories.size(); m++)
-            {
-                // if the current transaction contains at least one of the give category labels set variable to true
-                if(transactionList.get(i).containsCategory(m))
-                {
-                    atLeastOneLabel = true;
-                }
-
-            }
-
-            // if boolean true (meaning the current transaction contains at least one of the target categories)
-            // then add it to the new array list
-            if(atLeastOneLabel)
-            {
-                filteredTransactions.add(transactionList.get(i));
-            }
-
-        }
-
-        return filteredTransactions;
-    }
-
-    // NOT IN THE INTERFACE
-    // only used for the stub database to remove a deleted category from every existing transactions
-    public void removeCategoryFromAllTransactions(int categoryID)
-    {
-        for(int i = 0; i < transactionList.size(); i++)
-        {
-            // don't bother checking whether its in the transaction, transaction object handles that
-            transactionList.get(i).removeCategory(categoryID);
-        }
-    }
 }

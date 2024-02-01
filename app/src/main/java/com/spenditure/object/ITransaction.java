@@ -19,15 +19,6 @@ public interface ITransaction {
 
     boolean getType();
 
-    ArrayList<Integer> getCategories();
-
-
-    // category stuff
-    void addCategory(int categoryID);
-
-    void removeCategory(int categoryID);
-
-    boolean containsCategory(int categoryID);
 
 
     // setters
@@ -45,6 +36,5 @@ public interface ITransaction {
 
     void setType(boolean type);
 
-    void setCategories(ArrayList<Integer> categories);
 
 }

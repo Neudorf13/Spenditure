@@ -14,11 +14,9 @@ public interface TransactionPersistence {
     boolean modifyTransaction(Transaction targetTransaction);
     boolean deleteTransaction(Transaction targetTransaction);
     Transaction getTransactionByID(int id);
-    int generateUniqueID();
 
     // sorting
     ArrayList<Transaction> sortByDateNewestFirst();
     ArrayList<Transaction> sortByDateOldestFirst();
-    ArrayList<Transaction> filterByCategory(ArrayList<Category> categories);
 
 }

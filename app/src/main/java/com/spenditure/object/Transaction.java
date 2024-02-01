@@ -19,29 +19,6 @@ public class Transaction implements ITransaction{
 
     private boolean type;
 
-    private ArrayList<Integer> categories;
-
-    public Transaction(int transactionID, String name, DateTime dateTime,
-                       String place, double amount, String comments,
-                       boolean type, ArrayList<Integer> categories)
-    {
-        this.transactionID = transactionID;
-
-        this.name = name;
-
-        this.dateTime = dateTime;
-
-        this.place = place;
-
-        this.amount = amount;
-
-        this.comments = comments;
-
-        this.type = type;
-
-        this.categories = categories;
-    }
-
     public Transaction(int transactionID, String name, DateTime dateTime,
                        String place, double amount, String comments,
                        boolean type) {
@@ -59,7 +36,6 @@ public class Transaction implements ITransaction{
 
         this.type = type;
 
-        this.categories = new ArrayList<Integer>();
     }
 
     //getters
@@ -98,52 +74,6 @@ public class Transaction implements ITransaction{
         return type;
     }
 
-    public ArrayList<Integer> getCategories()
-    {
-        return categories;
-    }
-
-
-    // category stuff
-    public void addCategory(int categoryID)
-    {
-        for(int i = 0; i < categories.size(); i++)
-        {
-            if(categories.get(i) == categoryID)
-            {
-                return;
-            }
-        }
-
-        categories.add(categoryID);
-    }
-
-    public void removeCategory(int categoryID)
-    {
-        Iterator<Integer> itr = categories.iterator();
-        while (itr.hasNext())
-        {
-            int current = itr.next();
-            if (current == categoryID)
-            {
-                itr.remove();
-            }
-        }
-
-    }
-
-    public boolean containsCategory(int categoryID)
-    {
-        for(int i = 0; i < categories.size(); i++)
-        {
-            if(categories.get(i) == categoryID)
-            {
-                return true;
-            }
-        }
-
-        return false;
-    }
 
 
     // setters
@@ -182,8 +112,4 @@ public class Transaction implements ITransaction{
         this.type = type;
     }
 
-    public void setCategories(ArrayList<Integer> categories)
-    {
-        this.categories = categories;
-    }
 }
