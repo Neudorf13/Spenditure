@@ -1,5 +1,6 @@
 package com.spenditure.database.stub;
 
+import com.spenditure.database.TransactionPersistence;
 import com.spenditure.object.Category;
 import com.spenditure.object.DateNewestFirstComparator;
 import com.spenditure.object.DateOldestFirstComparator;
@@ -11,7 +12,7 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
-public class TransactionStub {
+public class TransactionStub implements TransactionPersistence {
 
     private ArrayList<Transaction> transactionList;
     private static int currentID = 1;

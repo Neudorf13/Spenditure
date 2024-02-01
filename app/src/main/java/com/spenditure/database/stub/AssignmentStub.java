@@ -1,5 +1,6 @@
 package com.spenditure.database.stub;
 
+import com.spenditure.database.AssignmentPersistence;
 import com.spenditure.object.CT;
 import com.spenditure.object.Category;
 import com.spenditure.object.Transaction;
@@ -7,7 +8,7 @@ import com.spenditure.object.Transaction;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-public class AssignmentStub {
+public class AssignmentStub implements AssignmentPersistence {
 
     private ArrayList<CT> assignmentsList;
     public AssignmentStub()
