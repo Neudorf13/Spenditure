@@ -1,10 +1,11 @@
 package com.spenditure.database.stub;
 
 import com.spenditure.database.CategoryPersistence;
+import com.spenditure.logic.exceptions.InvalidCategoryException;
 import com.spenditure.object.Category;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
+
 
 public class CategoryStub implements CategoryPersistence {
     //Attributes
@@ -25,31 +26,40 @@ public class CategoryStub implements CategoryPersistence {
     }
 
     @Override
-    public Category addCategory(Category newCategory) {
-        if (validateUnique(newCategory.getName())){
+    public Category addCategory(String newCategoryName) throws InvalidCategoryException{
+        if (validateUnique(newCategoryName)){
+            Category newCategory = new Category(newCategoryName,generateUniqueID());
             this.categoryList.add(newCategory);
-            return newCategory;
-        };
-        return null;
-    }
-
-    @Override
-    public boolean deleteCategory(Category targetCategory) {
-        int index = this.categoryList.indexOf(targetCategory);
-        if(index >0){
-            categoryList.remove(targetCategory);
+            return newCategory ;
+        }else{
+            throw new InvalidCategoryException("Category's ID not exist");
         }
-        return index >0;
+
+
     }
 
     @Override
-    public Category getCategoryByID(int id) {
+    public void deleteCategoryByID(int id) throws InvalidCategoryException {
+        Iterator<Category> iterator = this.categoryList.iterator();
+        boolean found = false;
+        while (iterator.hasNext() && !found) {
+            Category curr = iterator.next();
+            if(curr.getID() == id){
+                iterator.remove();
+                found = true;
+            }
+        }
+        if(!found) throw new InvalidCategoryException("Category's ID not exist");
+    }
+
+    @Override
+    public Category getCategoryByID(int id) throws InvalidCategoryException {
         for(Category category : this.categoryList){
             if(category.getID() == id){
                 return  category;
             }
         }
-        return null;
+        throw new InvalidCategoryException("Category's ID not exist");
     }
 
     //Support methods
@@ -62,6 +72,10 @@ public class CategoryStub implements CategoryPersistence {
             if (categoryName.equalsIgnoreCase(currCategory.getName())) return false;
         }
         return true;
+    }
+
+    public static void cleanup(){
+        currentID = 1;
     }
 
 }

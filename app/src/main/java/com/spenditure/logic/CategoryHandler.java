@@ -2,6 +2,7 @@ package com.spenditure.logic;
 
 import com.spenditure.application.Services;
 import com.spenditure.database.CategoryPersistence;
+import com.spenditure.logic.exceptions.InvalidCategoryException;
 import com.spenditure.object.Category;
 import java.util.List;
 
@@ -15,16 +16,19 @@ public class CategoryHandler {
         return this.dataAccessCategory.getAllCategory();
     }
 
-    public Category getCategoryByID(int id){
+    public Category getCategoryByID(int id) throws InvalidCategoryException{
         return this.dataAccessCategory.getCategoryByID(id);
     }
 
-    public Category addCategory(Category newCategory){
-        return this.dataAccessCategory.addCategory(newCategory);
+    public Category addCategory(String newCategoryName) throws InvalidCategoryException {
+        if (newCategoryName == null){
+            throw new InvalidCategoryException("Null pointer");
+        }
+        return this.dataAccessCategory.addCategory(newCategoryName);
     }
 
-    public boolean deleteCategory(Category targetCategory){
-        return this.dataAccessCategory.deleteCategory(targetCategory);
+    public void deleteCategory(int id) throws InvalidCategoryException{
+        this.dataAccessCategory.deleteCategoryByID(id);
     }
 
 

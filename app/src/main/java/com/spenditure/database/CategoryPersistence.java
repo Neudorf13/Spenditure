@@ -1,14 +1,15 @@
 package com.spenditure.database;
 
+import com.spenditure.logic.exceptions.InvalidCategoryException;
 import com.spenditure.object.Category;
 import java.util.*;
 
 public interface CategoryPersistence {
     List <Category> getAllCategory();
-    Category addCategory(Category newCategory);
+    Category addCategory(String newCategory);
 
-    boolean deleteCategory(Category targetCategory);
+    void deleteCategoryByID(int id) throws InvalidCategoryException;
 
-    Category getCategoryByID(int id);
+    Category getCategoryByID(int id) throws InvalidCategoryException;
 
 }
