@@ -4,7 +4,9 @@ import com.spenditure.object.Transaction;
 
 public class TransactionValidator {
 
+    //Minimum amount to increment values by: 0.01 to store values to the nearest cent
     private static final double MIN_AMOUNT_INCREMENT = 0.01;
+    //Max number of characters allowed in a comment
     private static final int COMMENT_CHAR_LENGTH = 300;
 
     /*
