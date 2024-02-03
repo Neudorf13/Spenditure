@@ -1,6 +1,9 @@
 package com.spenditure.database.stub;
 
 import com.spenditure.database.AssignmentPersistence;
+import com.spenditure.database.CategoryPersistence;
+import com.spenditure.database.TransactionPersistence;
+import com.spenditure.logic.CategoryHandler;
 import com.spenditure.object.CT;
 import com.spenditure.object.Category;
 import com.spenditure.object.Transaction;
@@ -11,10 +14,8 @@ import java.util.Iterator;
 public class AssignmentStub implements AssignmentPersistence {
 
     private ArrayList<CT> assignmentsList;
-    public AssignmentStub()
-    {
-        assignmentsList = new ArrayList<CT>();
-    }
+
+    public AssignmentStub() {this.assignmentsList = new ArrayList<CT>();}
 
     public ArrayList<CT> getAllAssignments()
     {
