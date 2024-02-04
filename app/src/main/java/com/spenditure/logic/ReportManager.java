@@ -16,7 +16,7 @@ public class ReportManager {
     //instance vars
     private CategoryPersistence dataAccessCategory;
     private TransactionPersistence dataAccessTransaction;
-    //private AssignmentPersistence dataAccessAssignment;
+    private AssignmentPersistence dataAccessAssignment;
 
     public ReportManager(boolean inDeveloping) {
         this.dataAccessCategory = Services.getCategoryPersistence(inDeveloping);
