@@ -4,6 +4,7 @@ import com.spenditure.application.Services;
 import com.spenditure.database.CategoryPersistence;
 import com.spenditure.database.TransactionPersistence;
 import com.spenditure.logic.CategoryHandler;
+import com.spenditure.object.CT;
 import com.spenditure.object.Category;
 import com.spenditure.object.DateNewestFirstComparator;
 import com.spenditure.object.DateOldestFirstComparator;
@@ -18,18 +19,22 @@ import java.util.List;
 public class TransactionStub implements TransactionPersistence {
 
     private ArrayList<Transaction> transactionList;
-    private CategoryHandler categoryHandler;
+    //private CategoryStub categoryData;
     private static int currentID = 1;
 
     public TransactionStub()
     {
         transactionList = new ArrayList<Transaction>();
 
-        categoryHandler = new CategoryHandler(true);
+//        categoryData = new CategoryStub();
+//
+//        Category grocery = this.categoryData.getCategoryByID(1);
+//        Category food = this.categoryData.getCategoryByID(2);
+//        Category stuff = this.categoryData.getCategoryByID(3);
 
-        Category grocery = this.categoryHandler.getCategoryByID(1);
-        Category food = this.categoryHandler.getCategoryByID(2);
-        Category stuff = this.categoryHandler.getCategoryByID(3);
+        Category grocery = new Category("Grocery",1);
+        Category food = new Category("Food",2);
+        Category stuff = new Category("Hang out",3);
 
         transactionList.add(new Transaction(TransactionStub.generateUniqueID(), "Morning Dons", new DateTime(1,1,1,1,1),
                 "Mcdonalds",5.99, "was luke warm today, 2/10", true, food));
@@ -128,6 +133,18 @@ public class TransactionStub implements TransactionPersistence {
     public static int generateUniqueID()
     {
         return currentID++;
+    }
+
+    public ArrayList<Transaction> getTransactionByCategoryID(int categoryID) {
+        ArrayList<Transaction> allTransactionsWithID = new ArrayList<Transaction>();
+
+        for(Transaction t : this.transactionList){
+            if(t.getCategory().getID() == categoryID){
+                allTransactionsWithID.add(t);
+            }
+        }
+
+        return allTransactionsWithID;
     }
 
     // sorting

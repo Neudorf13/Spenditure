@@ -4,24 +4,34 @@ package com.spenditure.business;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.*;
 
+import com.spenditure.database.stub.CategoryStub;
+import com.spenditure.database.stub.TransactionStub;
 import com.spenditure.logic.CategoryHandler;
 import com.spenditure.logic.ReportManager;
 import com.spenditure.object.Category;
+import com.spenditure.object.Transaction;
 
 import org.junit.Before;
 import org.junit.Test;
+
+import java.util.ArrayList;
 
 public class ReportManagerTest {
 
     private ReportManager reportManager;
 
-    private CategoryHandler categoryHandler;
+    //private CategoryHandler categoryHandler;
+
+    //TransactionStub testStub;
 
     @Before
     public void setup() {
+        //CategoryStub.cleanup();
         this.reportManager = new ReportManager(true);
 
-        categoryHandler = new CategoryHandler(true);
+        //categoryHandler = new CategoryHandler(true);
+
+        //testStub = new TransactionStub();
 
 //        Category grocery = this.categoryHandler.getCategoryByID(1);
 //        Category food = this.categoryHandler.getCategoryByID(2);
@@ -48,6 +58,7 @@ public class ReportManagerTest {
         assertTrue(categoryTotal <= total);
     }
 
+
     @Test
     public void testAverageForCategory() {
         //should have average for
@@ -55,7 +66,10 @@ public class ReportManagerTest {
         double testCategory2 = reportManager.getAverageForCategory(2);
         double testCategory3 = reportManager.getAverageForCategory(3);
 
+    }
 
-
+    @Test
+    public void testThis() {
+        //ArrayList<Transaction> test = testStub.getTransactionByCategoryID(1);
     }
 }

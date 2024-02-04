@@ -12,12 +12,17 @@ public class CategoryStub implements CategoryPersistence {
     private List<Category> categoryList;
     private static int currentID = 1;
 
+    //private int currentID;
+
     //Constructors
     public CategoryStub(){
         this.categoryList = new ArrayList<>();
         this.categoryList.add(new Category("Grocery",generateUniqueID()));
         this.categoryList.add(new Category("Food",generateUniqueID()));
         this.categoryList.add(new Category("Hang out",generateUniqueID()));
+//        this.categoryList.add(new Category("Grocery",1));
+//        this.categoryList.add(new Category("Food",2));
+//        this.categoryList.add(new Category("Hang out",3));
     }
     //Business methods
     @Override
@@ -59,7 +64,7 @@ public class CategoryStub implements CategoryPersistence {
                 return  category;
             }
         }
-        throw new InvalidCategoryException("Category's ID not exist");
+        throw new InvalidCategoryException("Category's ID not exist: " + id);
     }
 
     //Support methods

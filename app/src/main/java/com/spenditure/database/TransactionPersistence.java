@@ -1,5 +1,6 @@
 package com.spenditure.database;
 
+import com.spenditure.object.CT;
 import com.spenditure.object.Category;
 import com.spenditure.object.Transaction;
 
@@ -14,6 +15,8 @@ public interface TransactionPersistence {
     boolean modifyTransaction(Transaction targetTransaction);
     boolean deleteTransaction(Transaction targetTransaction);
     Transaction getTransactionByID(int id);
+
+    ArrayList<Transaction> getTransactionByCategoryID(int categoryID);
 
     // sorting
     ArrayList<Transaction> sortByDateNewestFirst();
