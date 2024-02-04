@@ -19,6 +19,29 @@ public class Transaction implements ITransaction{
 
     private boolean type;
 
+    private Category category;
+
+    public Transaction(int transactionID, String name, DateTime dateTime,
+                       String place, double amount, String comments,
+                       boolean type, Category category) {
+        this.transactionID = transactionID;
+
+        this.name = name;
+
+        this.dateTime = dateTime;
+
+        this.place = place;
+
+        this.amount = amount;
+
+        this.comments = comments;
+
+        this.type = type;
+
+        this.category = category;
+
+    }
+
     public Transaction(int transactionID, String name, DateTime dateTime,
                        String place, double amount, String comments,
                        boolean type) {
@@ -35,6 +58,8 @@ public class Transaction implements ITransaction{
         this.comments = comments;
 
         this.type = type;
+
+        this.category = null;
 
     }
 
@@ -74,6 +99,10 @@ public class Transaction implements ITransaction{
         return type;
     }
 
+    public Category getCategory() {
+        return category;
+    }
+
 
 
     // setters
@@ -110,6 +139,10 @@ public class Transaction implements ITransaction{
     public void setType(boolean type)
     {
         this.type = type;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
     }
 
 }
