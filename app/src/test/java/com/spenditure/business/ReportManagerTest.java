@@ -52,6 +52,10 @@ public class ReportManagerTest {
     public void testAverageForCategory() {
         //should have average for
         double testCategory1 = reportManager.getAverageForCategory(1);
+        double testCategory2 = reportManager.getAverageForCategory(2);
+        double testCategory3 = reportManager.getAverageForCategory(3);
+
+
 
     }
 }

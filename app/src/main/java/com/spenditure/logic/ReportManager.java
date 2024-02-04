@@ -21,7 +21,7 @@ public class ReportManager {
     public ReportManager(boolean inDeveloping) {
         this.dataAccessCategory = Services.getCategoryPersistence(inDeveloping);
         this.dataAccessTransaction = Services.getTransactionPersistence(inDeveloping);
-        this.dataAccessAssignment = Services.getAssignmentPersistence(inDeveloping);
+        //this.dataAccessAssignment = Services.getAssignmentPersistence(inDeveloping);
     }
 
     public void printCategories() {
@@ -38,7 +38,7 @@ public class ReportManager {
     }
 
     public int countTransactionsByCategory(int categoryID) {
-        ArrayList<CT> categoryTransactions =  dataAccessAssignment.getAssignmentByCategoryID(categoryID);
+        ArrayList<CT> categoryTransactions = dataAccessAssignment.getAssignmentByCategoryID(categoryID);
         return categoryTransactions.size();
     }
 
