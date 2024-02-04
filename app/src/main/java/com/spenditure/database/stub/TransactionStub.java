@@ -19,50 +19,46 @@ import java.util.List;
 public class TransactionStub implements TransactionPersistence {
 
     private ArrayList<Transaction> transactionList;
-    //private CategoryStub categoryData;
-    private static int currentID = 1;
+    private CategoryHandler categoryHandler;
+    private int currentID = 1;
 
     public TransactionStub()
     {
         transactionList = new ArrayList<Transaction>();
 
-//        categoryData = new CategoryStub();
-//
-//        Category grocery = this.categoryData.getCategoryByID(1);
-//        Category food = this.categoryData.getCategoryByID(2);
-//        Category stuff = this.categoryData.getCategoryByID(3);
+        categoryHandler = new CategoryHandler(true);
 
-        Category grocery = new Category("Grocery",1);
-        Category food = new Category("Food",2);
-        Category stuff = new Category("Hang out",3);
+        Category grocery = this.categoryHandler.getCategoryByID(1);
+        Category food = this.categoryHandler.getCategoryByID(2);
+        Category stuff = this.categoryHandler.getCategoryByID(3);
 
-        transactionList.add(new Transaction(TransactionStub.generateUniqueID(), "Morning Dons", new DateTime(1,1,1,1,1),
+        transactionList.add(new Transaction(generateUniqueID(), "Morning Dons", new DateTime(1,1,1,1,1),
                 "Mcdonalds",5.99, "was luke warm today, 2/10", true, food));
-        transactionList.add(new Transaction(TransactionStub.generateUniqueID(), "Star Wars Rebels merch", new DateTime(2024,2,1,16,59),
+        transactionList.add(new Transaction(generateUniqueID(), "Star Wars Rebels merch", new DateTime(2024,2,1,16,59),
                 "Toys R Us",500.95, "Sabine looking kinda nice O_o", true, stuff));
-        transactionList.add(new Transaction(TransactionStub.generateUniqueID(), "Shopping spree at the mall", new DateTime(2023, 5, 20, 15, 30),
+        transactionList.add(new Transaction(generateUniqueID(), "Shopping spree at the mall", new DateTime(2023, 5, 20, 15, 30),
                 "Mall", 250.50, "Bought clothes and accessories", true, stuff));
-        transactionList.add(new Transaction(TransactionStub.generateUniqueID(), "Dinner at a fancy restaurant", new DateTime(2023, 7, 8, 19, 0),
+        transactionList.add(new Transaction(generateUniqueID(), "Dinner at a fancy restaurant", new DateTime(2023, 7, 8, 19, 0),
                 "Gourmet Restaurant", 150.75, "Celebrated anniversary", true, food));
-        transactionList.add(new Transaction(TransactionStub.generateUniqueID(), "Hotel accommodation for business trip", new DateTime(2023, 8, 15, 12, 0),
+        transactionList.add(new Transaction(generateUniqueID(), "Hotel accommodation for business trip", new DateTime(2023, 8, 15, 12, 0),
                 "Grand Hotel", 300.0, "Stayed for 3 nights", true, stuff));
-        transactionList.add(new Transaction(TransactionStub.generateUniqueID(), "Grocery shopping for the week", new DateTime(2023, 8, 20, 10, 0),
+        transactionList.add(new Transaction(generateUniqueID(), "Grocery shopping for the week", new DateTime(2023, 8, 20, 10, 0),
                 "Supermarket", 80.25, "Bought fruits, vegetables, and dairy products", true, grocery));
-        transactionList.add(new Transaction(TransactionStub.generateUniqueID(), "Utility bill payment", new DateTime(2023, 8, 25, 9, 0),
+        transactionList.add(new Transaction(generateUniqueID(), "Utility bill payment", new DateTime(2023, 8, 25, 9, 0),
                 "Utility Company", 120.0, "Paid electricity and water bills", true, grocery));
-        transactionList.add(new Transaction(TransactionStub.generateUniqueID(), "Concert ticket purchase", new DateTime(2023, 9, 5, 18, 30),
+        transactionList.add(new Transaction(generateUniqueID(), "Concert ticket purchase", new DateTime(2023, 9, 5, 18, 30),
                 "Concert Hall", 50.0, "Attended the concert of favorite band", true, stuff));
-        transactionList.add(new Transaction(TransactionStub.generateUniqueID(), "Car maintenance service", new DateTime(2023, 9, 10, 8, 0),
+        transactionList.add(new Transaction(generateUniqueID(), "Car maintenance service", new DateTime(2023, 9, 10, 8, 0),
                 "Auto Service Center", 200.0, "Performed routine maintenance and oil change", true, stuff));
-        transactionList.add(new Transaction(TransactionStub.generateUniqueID(), "Online shopping for household items", new DateTime(2023, 9, 15, 16, 0),
+        transactionList.add(new Transaction(generateUniqueID(), "Online shopping for household items", new DateTime(2023, 9, 15, 16, 0),
                 "Online Store", 90.50, "Bought cleaning supplies and kitchenware", true, grocery));
-        transactionList.add(new Transaction(TransactionStub.generateUniqueID(), "Movie tickets for family outing", new DateTime(2023, 9, 20, 14, 0),
+        transactionList.add(new Transaction(generateUniqueID(), "Movie tickets for family outing", new DateTime(2023, 9, 20, 14, 0),
                 "Cinema", 60.0, "Watched latest blockbuster movie with family", true, food));
-        transactionList.add(new Transaction(TransactionStub.generateUniqueID(), "Gym membership subscription", new DateTime(2023, 9, 25, 17, 0),
+        transactionList.add(new Transaction(generateUniqueID(), "Gym membership subscription", new DateTime(2023, 9, 25, 17, 0),
                 "Fitness Center", 75.0, "Monthly subscription for gym access", true,stuff));
-        transactionList.add(new Transaction(TransactionStub.generateUniqueID(), "Restaurant bill for friend's birthday dinner", new DateTime(2023, 9, 30, 20, 0),
+        transactionList.add(new Transaction(generateUniqueID(), "Restaurant bill for friend's birthday dinner", new DateTime(2023, 9, 30, 20, 0),
                 "Fine Dining Restaurant", 200.0, "Celebrated friend's birthday with a fancy dinner", true, food));
-        transactionList.add(new Transaction(TransactionStub.generateUniqueID(), "Online course enrollment fee", new DateTime(2023, 10, 5, 11, 0),
+        transactionList.add(new Transaction(generateUniqueID(), "Online course enrollment fee", new DateTime(2023, 10, 5, 11, 0),
                 "Online Education Platform", 150.0, "Enrolled in a programming course", true, grocery));
 
     }
@@ -131,7 +127,7 @@ public class TransactionStub implements TransactionPersistence {
         return null;
     }
 
-    public static int generateUniqueID()
+    public int generateUniqueID()
     {
         return currentID++;
     }
@@ -161,7 +157,7 @@ public class TransactionStub implements TransactionPersistence {
         return transactionList;
     }
 
-    public static void cleanup() { currentID = 1; }
+//    public static void cleanup() { currentID = 1; }
 
 
 

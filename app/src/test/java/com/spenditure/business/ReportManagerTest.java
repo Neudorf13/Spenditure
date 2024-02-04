@@ -20,24 +20,10 @@ public class ReportManagerTest {
 
     private ReportManager reportManager;
 
-    //private CategoryHandler categoryHandler;
-
-    //TransactionStub testStub;
-
     @Before
     public void setup() {
         //CategoryStub.cleanup();
         this.reportManager = new ReportManager(true);
-
-        //categoryHandler = new CategoryHandler(true);
-
-        //testStub = new TransactionStub();
-
-//        Category grocery = this.categoryHandler.getCategoryByID(1);
-//        Category food = this.categoryHandler.getCategoryByID(2);
-//        Category stuff = this.categoryHandler.getCategoryByID(3);
-
-
 
     }
 

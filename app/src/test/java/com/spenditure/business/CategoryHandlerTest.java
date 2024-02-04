@@ -16,7 +16,6 @@ public class CategoryHandlerTest {
     private CategoryHandler categoryHandler;
     @Before
     public void setup(){
-        CategoryStub.cleanup();
         this.categoryHandler = new CategoryHandler(true);
     }
     @After
