@@ -66,6 +66,7 @@ public class TransactionStub implements TransactionPersistence {
             }
         }
 
+        newTransaction.setTransactionID(generateUniqueID());
         transactionList.add(newTransaction);
         return true;
     }
@@ -131,6 +132,8 @@ public class TransactionStub implements TransactionPersistence {
         Collections.sort(transactionList, new DateOldestFirstComparator());
         return transactionList;
     }
+
+    public static void cleanup() { currentID = 1; }
 
 
 

@@ -13,6 +13,8 @@ public class DateTimeValidator {
     private static final int MAX_HOURS = 24;
     //Earliest year allowed to be entered
     private static final int MIN_YEAR = 2000;
+    //Latest year allowed to be entered
+    private static final int MAX_YEAR = 2024;
 
 
 
@@ -85,7 +87,7 @@ public class DateTimeValidator {
 
         ensures year is greater than or equal to the minimum allowed year
      */
-    private static boolean validateYear(int year) { return year >= MIN_YEAR; }
+    private static boolean validateYear(int year) { return MAX_YEAR >= year && year >= MIN_YEAR; }
 
     /*
         validateMonth
@@ -139,9 +141,8 @@ public class DateTimeValidator {
      */
     private static boolean checkLeapYear(int year) {
 
-        return year % 4 == 0
-                && year % 100 == 0
-                && year % 400 == 0;
+        return ( year % 4 == 0 && year % 100 != 0 )
+                || (year % 100 == 0 && year % 400 == 0);
 
     }
 
