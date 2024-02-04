@@ -16,21 +16,21 @@ public class ReportManager {
     //instance vars
     private CategoryPersistence dataAccessCategory;
     private TransactionPersistence dataAccessTransaction;
-    private AssignmentPersistence dataAccessAssignment;
+    //private AssignmentPersistence dataAccessAssignment;
 
     public ReportManager(boolean inDeveloping) {
-        this.dataAccessCategory = Services.getCategoryPersistence(inDeveloping);
+        //this.dataAccessCategory = Services.getCategoryPersistence(inDeveloping);
         this.dataAccessTransaction = Services.getTransactionPersistence(inDeveloping);
         //this.dataAccessAssignment = Services.getAssignmentPersistence(inDeveloping);
     }
 
-    public void printCategories() {
-        List<Category> listCategories = this.dataAccessCategory.getAllCategory();
-
-        for (Category element : listCategories) {
-            System.out.println(element);
-        }
-    }
+//    public void printCategories() {
+//        List<Category> listCategories = this.dataAccessCategory.getAllCategory();
+//
+//        for (Category element : listCategories) {
+//            System.out.println(element);
+//        }
+//    }
 
     public int countAllTransactions() {
         List<Transaction> transactions = dataAccessTransaction.getAllTransactions();
@@ -38,7 +38,7 @@ public class ReportManager {
     }
 
     public int countTransactionsByCategory(int categoryID) {
-        ArrayList<CT> categoryTransactions = dataAccessAssignment.getAssignmentByCategoryID(categoryID);
+        ArrayList<Transaction> categoryTransactions = dataAccessTransaction.getTransactionByCategoryID(categoryID);
         return categoryTransactions.size();
     }
 
@@ -54,19 +54,19 @@ public class ReportManager {
     }
 
     public double getTotalForCategory(int categoryID) {
-        ArrayList<CT> categoryTransactions =  dataAccessAssignment.getAssignmentByCategoryID(categoryID);
+        ArrayList<Transaction> categoryTransactions =  dataAccessTransaction.getTransactionByCategoryID(categoryID);
         double total = 0.0;
 
-        for(CT element : categoryTransactions) {
+        for(Transaction element : categoryTransactions) {
             //for each CT, access its transaction, add the transaction value to total
-            total += element.getTransaction().getAmount();
+            total += element.getAmount();
         }
 
         return total;
     }
 
     public double getAverageForCategory(int categoryID) {
-        ArrayList<CT> categoryTransactions =  dataAccessAssignment.getAssignmentByCategoryID(categoryID);
+        ArrayList<Transaction> categoryTransactions =  dataAccessTransaction.getTransactionByCategoryID(categoryID);
         double total = getTotalForCategory(categoryID);
         int count = countTransactionsByCategory(categoryID);
 
