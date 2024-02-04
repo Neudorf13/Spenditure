@@ -23,7 +23,6 @@ public class TransactionHandlerTest {
 
     @Before
     public void setup() {
-        TransactionStub.cleanup();
         this.transactionHandler = new TransactionHandler(true);
     }
 

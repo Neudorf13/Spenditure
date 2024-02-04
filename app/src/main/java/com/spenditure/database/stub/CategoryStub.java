@@ -10,9 +10,7 @@ import java.util.*;
 public class CategoryStub implements CategoryPersistence {
     //Attributes
     private List<Category> categoryList;
-    private static int currentID = 1;
-
-    //private int currentID;
+    private int currentID = 1;
 
     //Constructors
     public CategoryStub(){
@@ -20,10 +18,8 @@ public class CategoryStub implements CategoryPersistence {
         this.categoryList.add(new Category("Grocery",generateUniqueID()));
         this.categoryList.add(new Category("Food",generateUniqueID()));
         this.categoryList.add(new Category("Hang out",generateUniqueID()));
-//        this.categoryList.add(new Category("Grocery",1));
-//        this.categoryList.add(new Category("Food",2));
-//        this.categoryList.add(new Category("Hang out",3));
     }
+
     //Business methods
     @Override
     public List<Category> getAllCategory() {
@@ -68,7 +64,7 @@ public class CategoryStub implements CategoryPersistence {
     }
 
     //Support methods
-    private static int generateUniqueID(){
+    private  int generateUniqueID(){
         return currentID++;
     }
 
@@ -79,8 +75,8 @@ public class CategoryStub implements CategoryPersistence {
         return true;
     }
 
-    public static void cleanup(){
-        currentID = 1;
-    }
+//    public static void cleanup(){
+//        currentID = 1;
+//    }
 
 }
