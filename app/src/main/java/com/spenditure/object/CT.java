@@ -2,16 +2,16 @@ package com.spenditure.object;
 
 public class CT implements ICT {
 
-    Category category;
+    MainCategory category;
     Transaction transaction;
 
-    public CT(Category category, Transaction transaction)
+    public CT(MainCategory category, Transaction transaction)
     {
         this.category = category;
         this.transaction = transaction;
     }
 
-    public Category getCategory()
+    public MainCategory getCategory()
     {
         return category;
     }

@@ -1,11 +1,8 @@
 package com.spenditure.logic;
 
 import com.spenditure.application.Services;
-import com.spenditure.database.AssignmentPersistence;
 import com.spenditure.database.CategoryPersistence;
 import com.spenditure.database.TransactionPersistence;
-import com.spenditure.object.CT;
-import com.spenditure.object.Category;
 import com.spenditure.object.Transaction;
 
 import java.util.ArrayList;

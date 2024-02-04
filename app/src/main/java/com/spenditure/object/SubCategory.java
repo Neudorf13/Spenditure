@@ -1,24 +1,21 @@
 package com.spenditure.object;
 
-public class Category implements ICategory {
-    //Attributes
+public class SubCategory implements ICategory{
     private String name;
     private int categoryID;
-
-    //Constructors
-    public Category(String name, int categoryID){
-        this.name = name;
+    public SubCategory(String name, int categoryID) {
         this.categoryID = categoryID;
+        this.name = name;
+
     }
 
-    //Business methods
     @Override
     public String getName() {
         return this.name;
     }
+
     @Override
     public int getID() {
         return this.categoryID;
     }
-
 }

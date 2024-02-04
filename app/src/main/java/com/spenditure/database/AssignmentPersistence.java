@@ -1,11 +1,10 @@
 package com.spenditure.database;
 
 import com.spenditure.object.CT;
-import com.spenditure.object.Category;
+import com.spenditure.object.MainCategory;
 import com.spenditure.object.Transaction;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public interface AssignmentPersistence {
 
@@ -25,5 +24,5 @@ public interface AssignmentPersistence {
 
     CT getAssignment(int categoryID, int transactionID);
 
-    ArrayList<Transaction> filterByCategories(ArrayList<Category> searchedCategories);
+    ArrayList<Transaction> filterByCategories(ArrayList<MainCategory> searchedCategories);
 }

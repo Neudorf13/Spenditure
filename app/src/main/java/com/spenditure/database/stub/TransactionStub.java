@@ -1,11 +1,8 @@
 package com.spenditure.database.stub;
 
-import com.spenditure.application.Services;
-import com.spenditure.database.CategoryPersistence;
 import com.spenditure.database.TransactionPersistence;
 import com.spenditure.logic.CategoryHandler;
-import com.spenditure.object.CT;
-import com.spenditure.object.Category;
+import com.spenditure.object.MainCategory;
 import com.spenditure.object.DateNewestFirstComparator;
 import com.spenditure.object.DateOldestFirstComparator;
 import com.spenditure.object.DateTime;
@@ -14,7 +11,6 @@ import com.spenditure.object.Transaction;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
-import java.util.List;
 
 public class TransactionStub implements TransactionPersistence {
 
@@ -28,9 +24,9 @@ public class TransactionStub implements TransactionPersistence {
 
         categoryHandler = new CategoryHandler(true);
 
-        Category grocery = this.categoryHandler.getCategoryByID(1);
-        Category food = this.categoryHandler.getCategoryByID(2);
-        Category stuff = this.categoryHandler.getCategoryByID(3);
+        MainCategory grocery = this.categoryHandler.getCategoryByID(1);
+        MainCategory food = this.categoryHandler.getCategoryByID(2);
+        MainCategory stuff = this.categoryHandler.getCategoryByID(3);
 
         transactionList.add(new Transaction(generateUniqueID(), "Morning Dons", new DateTime(1,1,1,1,1),
                 "Mcdonalds",5.99, "was luke warm today, 2/10", true, food));
