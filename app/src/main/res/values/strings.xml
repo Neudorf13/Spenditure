@@ -1,7 +1,8 @@
 <resources>
     <string name="app_name">Spenditure</string>
-    <string name="title_home">Home</string>
+    <string name="title_reports">Reports</string>
     <string name="title_dashboard">Dashboard</string>
-    <string name="title_notifications">Notifications</string>
-    <string name="tittle_category">Category</string>
+    <string name="title_view_transactions">View Transactions</string>
+    <string name="title_create_transaction">Create Transaction</string>
+    <string name="title_activity_home">HomeActivity</string>
 </resources>
