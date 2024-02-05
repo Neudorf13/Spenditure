@@ -7,15 +7,169 @@
     tools:context="com.spenditure.presentation.CreateTransactionActivity">
 
     <TextView
+        android:id="@+id/title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/title_create_transaction"
         android:textSize="25dp"
-        app:layout_constraintBottom_toTopOf="@+id/nav_view"
+        app:layout_constraintBottom_toTopOf="@+id/what_the_heck"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <TextView
+        android:id="@+id/what_the_heck"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/field_what_the_heck"
+        android:textSize="25dp"
+        app:layout_constraintBottom_toTopOf="@+id/date"
+        app:layout_constraintEnd_toEndOf="@+id/edit_what_the_heck"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/title" />
+
+    <EditText
+        android:id="@+id/edit_what_the_heck"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="coffee at Don's"
+        android:textSize="25dp"
+        app:layout_constraintBottom_toTopOf="@+id/edit_date"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/what_the_heck"
+        app:layout_constraintTop_toBottomOf="@+id/title"/>
+
+    <TextView
+        android:id="@+id/date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/field_date"
+        android:textSize="25dp"
+        app:layout_constraintBottom_toTopOf="@+id/place"
+        app:layout_constraintEnd_toEndOf="@+id/edit_date"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/what_the_heck" />
+
+    <EditText
+        android:id="@+id/edit_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Jan. 7th"
+        android:textSize="25dp"
+        app:layout_constraintBottom_toTopOf="@+id/place"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/date"
+        app:layout_constraintTop_toBottomOf="@+id/edit_what_the_heck"/>
+
+    <TextView
+        android:id="@+id/place"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/field_place"
+        android:textSize="25dp"
+        app:layout_constraintBottom_toTopOf="@+id/amount"
+        app:layout_constraintEnd_toEndOf="@+id/edit_place"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/date" />
+
+    <EditText
+        android:id="@+id/edit_place"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="McDonald's"
+        android:textSize="25dp"
+        app:layout_constraintBottom_toTopOf="@+id/amount"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/place"
+        app:layout_constraintTop_toBottomOf="@+id/edit_date"/>
+
+    <TextView
+        android:id="@+id/amount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/field_amount"
+        android:textSize="25dp"
+        app:layout_constraintBottom_toTopOf="@+id/type"
+        app:layout_constraintEnd_toEndOf="@+id/edit_amount"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/place" />
+
+    <EditText
+        android:id="@+id/edit_amount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="$3.95"
+        android:textSize="25dp"
+        app:layout_constraintBottom_toTopOf="@+id/type"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/amount"
+        app:layout_constraintTop_toBottomOf="@+id/edit_place"/>
+
+    <TextView
+        android:id="@+id/type"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/field_type"
+        android:textSize="25dp"
+        app:layout_constraintBottom_toTopOf="@+id/comments"
+        app:layout_constraintEnd_toEndOf="@+id/edit_type"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/amount" />
+
+    <EditText
+        android:id="@+id/edit_type"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Deposit"
+        android:textSize="25dp"
+        app:layout_constraintBottom_toTopOf="@+id/comments"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/type"
+        app:layout_constraintTop_toBottomOf="@+id/edit_amount"/>
+
+    <TextView
+        android:id="@+id/comments"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/field_comments"
+        android:textSize="25dp"
+        app:layout_constraintBottom_toTopOf="@+id/categories"
+        app:layout_constraintEnd_toEndOf="@+id/edit_comments"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/type" />
+
+    <EditText
+        android:id="@+id/edit_comments"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Deposit"
+        android:textSize="25dp"
+        app:layout_constraintBottom_toTopOf="@+id/categories"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/comments"
+        app:layout_constraintTop_toBottomOf="@+id/edit_type"/>
+
+    <TextView
+        android:id="@+id/categories"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/field_categories"
+        android:textSize="25dp"
+        app:layout_constraintBottom_toTopOf="@+id/nav_view"
+        app:layout_constraintEnd_toEndOf="@+id/edit_categories"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/comments" />
+
+    <EditText
+        android:id="@+id/edit_categories"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Food"
+        android:textSize="25dp"
+        app:layout_constraintBottom_toTopOf="@+id/nav_view"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/categories"
+        app:layout_constraintTop_toBottomOf="@+id/edit_comments"/>
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/nav_view"
         android:layout_width="0dp"

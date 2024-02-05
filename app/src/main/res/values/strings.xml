@@ -6,4 +6,12 @@
     <string name="title_view_transactions">View Transactions</string>
     <string name="title_create_transaction">Create Transaction</string>
     <string name="title_activity_home">Home Activity</string>
+
+    <string name="field_what_the_heck">What the heck?</string>
+    <string name="field_date">Date</string>
+    <string name="field_place">Place</string>
+    <string name="field_amount">Amount</string>
+    <string name="field_type">Type</string>
+    <string name="field_comments">Comments</string>
+    <string name="field_categories">Categories</string>
 </resources>
