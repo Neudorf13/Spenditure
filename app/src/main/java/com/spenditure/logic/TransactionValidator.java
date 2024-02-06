@@ -4,8 +4,6 @@ import com.spenditure.object.Transaction;
 
 public class TransactionValidator {
 
-    //Minimum amount to increment values by: 0.01 to store values to the nearest cent
-    private static final double MIN_AMOUNT_INCREMENT = 0.01;
     //Max number of characters allowed in a comment
     private static final int COMMENT_CHAR_LENGTH = 300;
 
@@ -56,8 +54,7 @@ public class TransactionValidator {
      */
     private static boolean validateAmount(double amount) {
 
-        return amount >= 0
-                && amount % MIN_AMOUNT_INCREMENT == 0;
+        return amount >= 0;
 
     }
 
@@ -72,7 +69,7 @@ public class TransactionValidator {
         boolean withinLimit = true;
 
         if( comment != null )
-            withinLimit = comment.length() > COMMENT_CHAR_LENGTH;
+            withinLimit = comment.length() <= COMMENT_CHAR_LENGTH;
 
         return withinLimit;
 

@@ -26,7 +26,8 @@ public class TransactionHandler implements ITransactionHandler {
     @Override
     public boolean addTransaction(Transaction t) {
 
-        if(checkNewTransactionID(t)
+        if(t != null
+                && checkNewTransactionID(t)
                 && TransactionValidator.validateTransaction(t))
             return dataAccessTransaction.addTransaction(t);
         else
@@ -44,7 +45,8 @@ public class TransactionHandler implements ITransactionHandler {
     @Override
     public boolean modifyTransaction(Transaction t) {
 
-        if(!checkNewTransactionID(t)
+        if(t != null
+                && !checkNewTransactionID(t)
                 && TransactionValidator.validateTransaction(t))
             return dataAccessTransaction.modifyTransaction(t);
         else
@@ -61,7 +63,10 @@ public class TransactionHandler implements ITransactionHandler {
     @Override
     public boolean deleteTransaction(Transaction t) {
 
-        return dataAccessTransaction.deleteTransaction(t);
+        if(t != null)
+            return dataAccessTransaction.deleteTransaction(t);
+        else
+            return false;
 
     }
 
