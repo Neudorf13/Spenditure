@@ -7,7 +7,7 @@ public class InvalidTransactionCommentException extends InvalidTransactionExcept
     public InvalidTransactionCommentException(String error) {
 
         super("Transaction comments may not be more than "
-                + TransactionValidator.COMMENT_CHAR_LENGTH
+                + TransactionValidator.COMMENT_CHAR_LIMIT
                 + " characters long.\n" + error);
 
     }

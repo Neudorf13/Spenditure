@@ -19,7 +19,7 @@ import com.spenditure.logic.exceptions.*;
 public class TransactionValidator {
 
     //Max number of characters allowed in a comment
-    public static final int COMMENT_CHAR_LENGTH = 300;
+    public static final int COMMENT_CHAR_LIMIT = 300;
 
     /*
         validateTransaction
@@ -99,13 +99,13 @@ public class TransactionValidator {
         boolean withinLimit = true;
 
         if( comment != null )
-            withinLimit = comment.length() <= COMMENT_CHAR_LENGTH;
+            withinLimit = comment.length() <= COMMENT_CHAR_LIMIT;
 
         if( withinLimit )
             return withinLimit;
 
         else {
-            int overflow = comment.length() - COMMENT_CHAR_LENGTH;
+            int overflow = comment.length() - COMMENT_CHAR_LIMIT;
             throw new InvalidTransactionCommentException("Provided comment was " + overflow + " characters too long.");
         }
 

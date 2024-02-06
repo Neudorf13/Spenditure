@@ -311,7 +311,7 @@ public class TransactionExceptionTest {
 
         String comment = "So excited";
 
-        for( int i = 0; i < 2*TransactionValidator.COMMENT_CHAR_LENGTH; i ++)
+        for(int i = 0; i < 2*TransactionValidator.COMMENT_CHAR_LIMIT; i ++)
             comment += "!";
 
         test.setComments(comment);
