@@ -30,13 +30,13 @@ public class CustomTransactionAdapter extends BaseAdapter {
     }
 
     @Override
-    public Object getItem(int i) {
-        return true;
+    public Transaction getItem(int i) {
+        return transactions.get(i);
     }
 
     @Override
     public long getItemId(int i) {
-        return 0;
+        return transactions.get(i).getTransactionID();
     }
 
     @Override
