@@ -4,6 +4,7 @@ import com.spenditure.application.Services;
 import com.spenditure.database.AssignmentPersistence;
 import com.spenditure.database.CategoryPersistence;
 import com.spenditure.database.TransactionPersistence;
+import com.spenditure.logic.exceptions.InvalidCategoryException;
 import com.spenditure.object.CT;
 import com.spenditure.object.Category;
 import com.spenditure.object.Transaction;
@@ -14,27 +15,21 @@ import java.util.List;
 public class ReportManager {
 
     //instance vars
-    private CategoryPersistence dataAccessCategory;
     private TransactionPersistence dataAccessTransaction;
-    //private AssignmentPersistence dataAccessAssignment;
+    private CategoryPersistence dataAccessCategory;
 
     public ReportManager(boolean inDeveloping) {
-        //this.dataAccessCategory = Services.getCategoryPersistence(inDeveloping);
         this.dataAccessTransaction = Services.getTransactionPersistence(inDeveloping);
-        //this.dataAccessAssignment = Services.getAssignmentPersistence(inDeveloping);
     }
-
-//    public void printCategories() {
-//        List<Category> listCategories = this.dataAccessCategory.getAllCategory();
-//
-//        for (Category element : listCategories) {
-//            System.out.println(element);
-//        }
-//    }
 
     public int countAllTransactions() {
         List<Transaction> transactions = dataAccessTransaction.getAllTransactions();
         return transactions.size();
+    }
+
+    public int countAllCategories() {
+        List<Category> categories = dataAccessCategory.getAllCategory();
+        return categories.size();
     }
 
     public int countTransactionsByCategory(int categoryID) {
@@ -66,24 +61,46 @@ public class ReportManager {
     }
 
     public double getAverageForCategory(int categoryID) {
-        ArrayList<Transaction> categoryTransactions =  dataAccessTransaction.getTransactionByCategoryID(categoryID);
         double total = getTotalForCategory(categoryID);
         int count = countTransactionsByCategory(categoryID);
 
         return (total / count);
     }
 
-    //might want to write a test to check that the sum of these percents adds to 100
     public double getPercentForCategory(int categoryID) {
-        //will need total across all transactions + total for specific category
-        //int countAll = countAllTransactions();
-        //int countCategory = countTransactionsByCategory(categoryID);
 
         double totalAllTransactions = getTotalForAllTransactions();
         double totalForCategory = getTotalForCategory(categoryID);
 
         return ((totalForCategory / totalAllTransactions) * 100);
     }
+
+    //sorting methods
+    public ArrayList<Category> sortByLargestTotal() {
+        return null;
+    }
+
+    public ArrayList<Category> sortBySmallestTotal() {
+        return null;
+    }
+
+    public ArrayList<Category> sortByLargestPercent() {
+        return null;
+    }
+
+    public ArrayList<Category> sortBySmallestPercent() {
+        return null;
+    }
+
+    public ArrayList<Category> sortByLargestAverage() {
+        return null;
+    }
+
+    public ArrayList<Category> sortBySmallestAverage() {
+        return null;
+    }
+
+
 
 
 }

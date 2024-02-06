@@ -69,7 +69,7 @@ public class TransactionValidator {
         boolean withinLimit = true;
 
         if( comment != null )
-            withinLimit = comment.length() < COMMENT_CHAR_LENGTH;
+            withinLimit = comment.length() <= COMMENT_CHAR_LENGTH;
 
         return withinLimit;
 
