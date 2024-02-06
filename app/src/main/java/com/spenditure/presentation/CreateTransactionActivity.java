@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.spenditure.logic.TransactionHandler;
 import com.spenditure.object.DateTime;
 import com.spenditure.object.Transaction;
 
@@ -25,13 +26,16 @@ public class CreateTransactionActivity extends AppCompatActivity {
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 // Call helper method
-                createTransaction();
+                Transaction newTransaction = createTransaction();
+
+                TransactionHandler handler = new TransactionHandler(true);
+                handler.addTransaction(newTransaction);
             }
         });
     }
 
     // Helper method: creates and return new Transaction object made from user-entered info
-    private Transaction createTransaction(){
+    private Transaction createTransaction() {
         // Parse all the user fields
         EditText whatTheHeck = (EditText) findViewById(R.id.edittext_what_the_heck);
         DateTime date = new DateTime(1,1,1,1,1);
@@ -41,7 +45,7 @@ public class CreateTransactionActivity extends AppCompatActivity {
         AppCompatToggleButton type = (AppCompatToggleButton) findViewById(R.id.togglebutton_type);
 
         // Create the new transaction object
-        Transaction newTransaction = new Transaction(1, whatTheHeck.getText().toString(), date, place.getText().toString(), Double.parseDouble(amount.getText().toString()), comments.getText().toString(), type.isChecked());
+        Transaction newTransaction = new Transaction(-1, whatTheHeck.getText().toString(), date, place.getText().toString(), Double.parseDouble(amount.getText().toString()), comments.getText().toString(), type.isChecked());
 
         return newTransaction;
     };
