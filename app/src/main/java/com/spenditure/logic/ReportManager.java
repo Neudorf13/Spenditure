@@ -10,6 +10,8 @@ import com.spenditure.object.Category;
 import com.spenditure.object.Transaction;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class ReportManager {
@@ -20,6 +22,7 @@ public class ReportManager {
 
     public ReportManager(boolean inDeveloping) {
         this.dataAccessTransaction = Services.getTransactionPersistence(inDeveloping);
+        this.dataAccessCategory = Services.getCategoryPersistence(inDeveloping);
     }
 
     public int countAllTransactions() {
@@ -76,31 +79,128 @@ public class ReportManager {
     }
 
     //sorting methods
-    public ArrayList<Category> sortByLargestTotal() {
-        return null;
+    public ArrayList<ReportManagerNode> buildCategoryList() {
+        ArrayList<ReportManagerNode> categoryList = new ArrayList<>();
+        int numCategories = countAllCategories();
+
+        for(int i = 1; i < numCategories+1; i++) {
+            //for each Category calculate -> total, average, %
+            Category category = dataAccessCategory.getCategoryByID(i);
+            double total = getTotalForCategory(i);
+            double average = getAverageForCategory(i);
+            double percent = getPercentForCategory(i);
+
+            ReportManagerNode node = new ReportManagerNode(category,total,average,percent);
+            categoryList.add(node);
+        }
+
+        return categoryList;
     }
 
-    public ArrayList<Category> sortBySmallestTotal() {
-        return null;
+    public ArrayList<Category> sortByTotal(boolean descending) {
+        ArrayList<ReportManagerNode> categoryList = buildCategoryList();
+
+        Collections.sort(categoryList, (node1, node2) -> {
+            // Compare based on the 'total' attribute
+            if(descending) {
+                return Double.compare(node2.getTotal(), node1.getTotal());
+            }
+            else {
+                return Double.compare(node1.getTotal(), node2.getTotal());
+            }
+
+        });
+
+        // Create a new ArrayList to store sorted categories
+        ArrayList<Category> sortedCategories = new ArrayList<>();
+
+        for (ReportManagerNode node : categoryList) {
+            sortedCategories.add(node.getCategory());
+        }
+
+        return sortedCategories;
     }
 
-    public ArrayList<Category> sortByLargestPercent() {
-        return null;
+    public ArrayList<Category> sortByPercent(boolean descending) {
+        ArrayList<ReportManagerNode> categoryList = buildCategoryList();
+
+        Collections.sort(categoryList, (node1, node2) -> {
+            // Compare based on the 'total' attribute
+            if(descending) {
+                return Double.compare(node2.getPercent(), node1.getPercent());
+            }
+            else {
+                return Double.compare(node1.getPercent(), node2.getPercent());
+            }
+
+        });
+
+        // Create a new ArrayList to store sorted categories
+        ArrayList<Category> sortedCategories = new ArrayList<>();
+
+        for (ReportManagerNode node : categoryList) {
+            sortedCategories.add(node.getCategory());
+        }
+
+        return sortedCategories;
     }
 
-    public ArrayList<Category> sortBySmallestPercent() {
-        return null;
+
+    public ArrayList<Category> sortByAverage(boolean descending) {
+        ArrayList<ReportManagerNode> categoryList = buildCategoryList();
+
+        Collections.sort(categoryList, (node1, node2) -> {
+            // Compare based on the 'total' attribute
+            if(descending) {
+                return Double.compare(node2.getAverage(), node1.getAverage());
+            }
+            else {
+                return Double.compare(node1.getAverage(), node2.getAverage());
+            }
+
+        });
+
+        // Create a new ArrayList to store sorted categories
+        ArrayList<Category> sortedCategories = new ArrayList<>();
+
+        for (ReportManagerNode node : categoryList) {
+            sortedCategories.add(node.getCategory());
+        }
+
+        return sortedCategories;
     }
 
-    public ArrayList<Category> sortByLargestAverage() {
-        return null;
+
+    private class ReportManagerNode {
+        //instance vars
+        private Category category;
+        private double total;
+        private double average;
+        private double percent;
+
+        public ReportManagerNode(Category category, double total, double average, double percent) {
+            this.category = category;
+            this.total = total;
+            this.average = average;
+            this.percent = percent;
+        }
+
+        public Category getCategory() {
+            return category;
+        }
+
+        public double getTotal() {
+            return total;
+        }
+
+        public double getAverage() {
+            return average;
+        }
+
+        public double getPercent() {
+            return percent;
+        }
     }
-
-    public ArrayList<Category> sortBySmallestAverage() {
-        return null;
-    }
-
-
 
 
 }
