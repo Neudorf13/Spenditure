@@ -43,8 +43,6 @@ public class CreateTransactionActivity extends AppCompatActivity {
             if (item.getItemId() == R.id.navigation_home) {
                 startActivity(new Intent(getApplicationContext(), MainActivity.class));
                 return true;
-            } else if (item.getItemId() == R.id.navigation_reports) {
-                return true;
             } else if (item.getItemId() == R.id.navigation_create_transaction) {
                 return true;
             } else if (item.getItemId() == R.id.navigation_view_transactions) {

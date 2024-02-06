@@ -33,8 +33,6 @@ public class MainActivity extends AppCompatActivity {
         navView.setOnItemSelectedListener((item -> {
             if (item.getItemId() == R.id.navigation_home) {
                 return true;
-            } else if (item.getItemId() == R.id.navigation_reports) {
-                return true;
             } else if (item.getItemId() == R.id.navigation_create_transaction) {
                 startActivity(new Intent(getApplicationContext(), CreateTransactionActivity.class));
                 return true;

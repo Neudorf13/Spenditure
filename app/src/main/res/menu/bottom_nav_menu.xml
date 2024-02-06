@@ -5,12 +5,6 @@
         android:id="@+id/navigation_home"
         android:title="@string/title_home"
         android:icon="@drawable/ic_home_black_24dp"/>
-
-    <item
-        android:id="@+id/navigation_reports"
-        android:title="@string/title_reports"
-        android:icon="@drawable/ic_notifications_black_24dp"/>
-
     <item
         android:id="@+id/navigation_create_transaction"
         android:title="@string/title_create_transaction"
@@ -18,6 +12,7 @@
 
     <item
         android:id="@+id/navigation_view_transactions"
-        android:title="@string/title_view_transactions" />
+        android:title="@string/title_view_transactions"
+        android:icon="@drawable/ic_notifications_black_24dp"/>
 
 </menu>
