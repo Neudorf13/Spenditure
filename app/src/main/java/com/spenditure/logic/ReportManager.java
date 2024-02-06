@@ -5,7 +5,7 @@ import com.spenditure.database.CategoryPersistence;
 import com.spenditure.database.TransactionPersistence;
 import com.spenditure.logic.exceptions.InvalidCategoryException;
 import com.spenditure.object.CT;
-import com.spenditure.object.Category;
+import com.spenditure.object.MainCategory;
 import com.spenditure.object.Transaction;
 
 import java.util.ArrayList;
@@ -30,7 +30,7 @@ public class ReportManager {
     }
 
     public int countAllCategories() {
-        List<Category> categories = dataAccessCategory.getAllCategory();
+        List<MainCategory> categories = dataAccessCategory.getAllCategory();
         return categories.size();
     }
 
@@ -84,7 +84,7 @@ public class ReportManager {
 
         for(int i = 1; i < numCategories+1; i++) {
             //for each Category calculate -> total, average, %
-            Category category = dataAccessCategory.getCategoryByID(i);
+            MainCategory category = dataAccessCategory.getCategoryByID(i);
             double total = getTotalForCategory(i);
             double average = getAverageForCategory(i);
             double percent = getPercentForCategory(i);
@@ -96,7 +96,7 @@ public class ReportManager {
         return categoryList;
     }
 
-    public ArrayList<Category> sortByTotal(boolean descending) {
+    public ArrayList<MainCategory> sortByTotal(boolean descending) {
         ArrayList<ReportManagerNode> categoryList = buildCategoryList();
 
         Collections.sort(categoryList, (node1, node2) -> {
@@ -111,7 +111,7 @@ public class ReportManager {
         });
 
         // Create a new ArrayList to store sorted categories
-        ArrayList<Category> sortedCategories = new ArrayList<>();
+        ArrayList<MainCategory> sortedCategories = new ArrayList<>();
 
         for (ReportManagerNode node : categoryList) {
             sortedCategories.add(node.getCategory());
@@ -120,7 +120,7 @@ public class ReportManager {
         return sortedCategories;
     }
 
-    public ArrayList<Category> sortByPercent(boolean descending) {
+    public ArrayList<MainCategory> sortByPercent(boolean descending) {
         ArrayList<ReportManagerNode> categoryList = buildCategoryList();
 
         Collections.sort(categoryList, (node1, node2) -> {
@@ -135,7 +135,7 @@ public class ReportManager {
         });
 
         // Create a new ArrayList to store sorted categories
-        ArrayList<Category> sortedCategories = new ArrayList<>();
+        ArrayList<MainCategory> sortedCategories = new ArrayList<>();
 
         for (ReportManagerNode node : categoryList) {
             sortedCategories.add(node.getCategory());
@@ -145,7 +145,7 @@ public class ReportManager {
     }
 
 
-    public ArrayList<Category> sortByAverage(boolean descending) {
+    public ArrayList<MainCategory> sortByAverage(boolean descending) {
         ArrayList<ReportManagerNode> categoryList = buildCategoryList();
 
         Collections.sort(categoryList, (node1, node2) -> {
@@ -160,7 +160,7 @@ public class ReportManager {
         });
 
         // Create a new ArrayList to store sorted categories
-        ArrayList<Category> sortedCategories = new ArrayList<>();
+        ArrayList<MainCategory> sortedCategories = new ArrayList<>();
 
         for (ReportManagerNode node : categoryList) {
             sortedCategories.add(node.getCategory());
@@ -172,19 +172,19 @@ public class ReportManager {
 
     private class ReportManagerNode {
         //instance vars
-        private Category category;
+        private MainCategory category;
         private double total;
         private double average;
         private double percent;
 
-        public ReportManagerNode(Category category, double total, double average, double percent) {
+        public ReportManagerNode(MainCategory category, double total, double average, double percent) {
             this.category = category;
             this.total = total;
             this.average = average;
             this.percent = percent;
         }
 
-        public Category getCategory() {
+        public MainCategory getCategory() {
             return category;
         }
 
