@@ -1,11 +1,8 @@
 package com.spenditure.database.stub;
 
 import com.spenditure.database.AssignmentPersistence;
-import com.spenditure.database.CategoryPersistence;
-import com.spenditure.database.TransactionPersistence;
-import com.spenditure.logic.CategoryHandler;
 import com.spenditure.object.CT;
-import com.spenditure.object.Category;
+import com.spenditure.object.MainCategory;
 import com.spenditure.object.Transaction;
 
 import java.util.ArrayList;
@@ -128,7 +125,7 @@ public class AssignmentStub implements AssignmentPersistence {
 
     }
 
-    public ArrayList<Transaction> filterByCategories(ArrayList<Category> searchedCategories)
+    public ArrayList<Transaction> filterByCategories(ArrayList<MainCategory> searchedCategories)
     {
         ArrayList<Transaction> allAssignmentsWithCategory = new ArrayList<Transaction>();
 
@@ -136,7 +133,7 @@ public class AssignmentStub implements AssignmentPersistence {
 
              boolean addToList = false;
 
-             for(Category currentCategory: searchedCategories)
+             for(MainCategory currentCategory: searchedCategories)
              {
                  if(ct.getCategory().getID() == currentCategory.getID())
                  {

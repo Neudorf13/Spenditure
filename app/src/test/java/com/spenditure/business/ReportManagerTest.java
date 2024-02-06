@@ -4,17 +4,10 @@ package com.spenditure.business;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.*;
 
-import com.spenditure.database.stub.CategoryStub;
-import com.spenditure.database.stub.TransactionStub;
-import com.spenditure.logic.CategoryHandler;
 import com.spenditure.logic.ReportManager;
-import com.spenditure.object.Category;
-import com.spenditure.object.Transaction;
 
 import org.junit.Before;
 import org.junit.Test;
-
-import java.util.ArrayList;
 
 public class ReportManagerTest {
 

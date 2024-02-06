@@ -2,7 +2,7 @@ package com.spenditure.object;
 
 public interface ICT {
 
-    Category getCategory();
+    MainCategory getCategory();
 
     Transaction getTransaction();
 }

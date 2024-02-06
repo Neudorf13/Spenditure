@@ -1,7 +1,6 @@
 package com.spenditure.logic;
 
 import com.spenditure.application.Services;
-import com.spenditure.database.AssignmentPersistence;
 import com.spenditure.database.CategoryPersistence;
 import com.spenditure.database.TransactionPersistence;
 import com.spenditure.logic.exceptions.InvalidCategoryException;
