@@ -18,20 +18,24 @@ import com.spenditure.object.Transaction;
 
 public class EditTransactionActivity extends AppCompatActivity {
 
+    private Transaction givenTransaction;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_transaction);
+
+        populateTransactionFields(givenTransaction);
 
         // Set up an OnClick event for the Edit Transaction Button
         Button button = (Button) findViewById(R.id.button_edit_transaction);
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 // Call helper method
-                Transaction newTransaction = editTransaction();
+                Transaction updatedTransaction = editTransaction();
 
                 TransactionHandler handler = new TransactionHandler(true);
-                handler.addTransaction(newTransaction);
+                handler.modifyTransaction(updatedTransaction);
             }
         });
 
