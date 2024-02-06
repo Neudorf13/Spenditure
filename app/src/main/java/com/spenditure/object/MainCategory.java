@@ -7,6 +7,11 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+/**
+ * Main Category class
+ * @author Bao Ngo
+ * @version 06 Feb 2024
+ */
 public class MainCategory implements IMainCategory {
     //Attributes
     private String name;
@@ -31,7 +36,6 @@ public class MainCategory implements IMainCategory {
     public int getID() {
         return this.categoryID;
     }
-
 
     @Override
     public List<SubCategory> getSubCategories() { //For future development
@@ -74,6 +78,9 @@ public class MainCategory implements IMainCategory {
         throw new InvalidSubCategoryException("Sub-category ID not exist");
     }
 
+    /*
+     * Support methods
+     */
     private boolean checkUniqueSub(String newSubCategoryName){
         for( SubCategory currSubCategory : this.listSubCategories){
             if( currSubCategory.getName().equalsIgnoreCase(newSubCategoryName)) return false;
@@ -84,8 +91,4 @@ public class MainCategory implements IMainCategory {
     private static int generateUniqueID(){
         return currentID++;
     }
-
-
-
-
 }

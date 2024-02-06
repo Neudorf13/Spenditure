@@ -5,6 +5,14 @@ import com.spenditure.database.TransactionPersistence;
 import com.spenditure.database.stub.CategoryStub;
 import com.spenditure.database.stub.TransactionStub;
 
+
+/**
+ * Service
+ * @author Bao Ngo
+ * @version 06 Feb 2024
+ * PURPOSE: provide database services for application
+ */
+
 public class Services {
     private static CategoryPersistence categoryPersistence = null;
     private static TransactionPersistence transactionPersistence = null;

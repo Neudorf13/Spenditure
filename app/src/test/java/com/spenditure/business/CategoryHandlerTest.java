@@ -8,8 +8,13 @@ import org.junit.Test;
 import org.junit.After;
 import static org.junit.Assert.*;
 
-public class CategoryHandlerTest {
+/**
+ * Category handler unit tests
+ * @author Bao Ngo
+ * @version 06 Feb 2024
+ */
 
+public class CategoryHandlerTest {
     private CategoryHandler categoryHandler;
     @Before
     public void setup(){
@@ -43,7 +48,6 @@ public class CategoryHandlerTest {
 
     @Test
     public void testDelete(){
-
         int expectedSize = 3;
 
         assertEquals(categoryHandler.getAllCategory().size(),expectedSize);
@@ -81,8 +85,6 @@ public class CategoryHandlerTest {
         assertNotNull(newSubFromListLunch);
         assertEquals(newSubCategoryLunch.getID(),newSubFromListLunch.getID());
         assertEquals(newSubCategoryLunch.getName(),newSubFromListLunch.getName());
-
-
     }
 
     @Test

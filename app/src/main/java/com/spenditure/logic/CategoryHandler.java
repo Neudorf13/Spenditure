@@ -9,12 +9,23 @@ import com.spenditure.object.SubCategory;
 
 import java.util.List;
 
+/**
+ * Category Handler
+ * @author Bao Ngo
+ * @version 06 Feb 2024
+ * PURPOSE: Handle all logic related to Category
+ */
+
 public class CategoryHandler {
-    private CategoryPersistence dataAccessCategory;
+    //Attribute
+    private final CategoryPersistence dataAccessCategory;
+
+    //Constructor
     public CategoryHandler(boolean inDeveloping){
         this.dataAccessCategory = Services.getCategoryPersistence(inDeveloping);
     }
 
+    //Business methods
     public List<MainCategory> getAllCategory(){
         return this.dataAccessCategory.getAllCategory();
     }
@@ -37,8 +48,8 @@ public class CategoryHandler {
     }
 
     /*
-    All methods implemented below are optional for future development for next iteration(2,3)
-
+     * All methods implemented below are optional for future development for next iteration(2,3)
+     * We are still considering about whether to allow user to add sub-category to each category
      */
     public SubCategory addSubCategory(int parentCategoryID,String newSubCategory) throws InvalidCategoryException,InvalidSubCategoryException{
         if(newSubCategory == null){
@@ -64,8 +75,6 @@ public class CategoryHandler {
         MainCategory parentCategory = getCategoryByID(parentCategoryID);
         return parentCategory.getSubCategoryByID(subCategoryID);
     }
-
-
 
 
 }
