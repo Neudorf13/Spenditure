@@ -3,35 +3,35 @@ package com.spenditure.logic;
 import com.spenditure.application.Services;
 import com.spenditure.database.CategoryPersistence;
 import com.spenditure.database.TransactionPersistence;
+import com.spenditure.logic.exceptions.InvalidCategoryException;
+import com.spenditure.object.CT;
+import com.spenditure.object.Category;
 import com.spenditure.object.Transaction;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class ReportManager {
 
     //instance vars
-    private CategoryPersistence dataAccessCategory;
     private TransactionPersistence dataAccessTransaction;
-    //private AssignmentPersistence dataAccessAssignment;
+    private CategoryPersistence dataAccessCategory;
 
     public ReportManager(boolean inDeveloping) {
-        //this.dataAccessCategory = Services.getCategoryPersistence(inDeveloping);
         this.dataAccessTransaction = Services.getTransactionPersistence(inDeveloping);
-        //this.dataAccessAssignment = Services.getAssignmentPersistence(inDeveloping);
+        this.dataAccessCategory = Services.getCategoryPersistence(inDeveloping);
     }
-
-//    public void printCategories() {
-//        List<Category> listCategories = this.dataAccessCategory.getAllCategory();
-//
-//        for (Category element : listCategories) {
-//            System.out.println(element);
-//        }
-//    }
 
     public int countAllTransactions() {
         List<Transaction> transactions = dataAccessTransaction.getAllTransactions();
         return transactions.size();
+    }
+
+    public int countAllCategories() {
+        List<Category> categories = dataAccessCategory.getAllCategory();
+        return categories.size();
     }
 
     public int countTransactionsByCategory(int categoryID) {
@@ -63,23 +63,142 @@ public class ReportManager {
     }
 
     public double getAverageForCategory(int categoryID) {
-        ArrayList<Transaction> categoryTransactions =  dataAccessTransaction.getTransactionByCategoryID(categoryID);
         double total = getTotalForCategory(categoryID);
         int count = countTransactionsByCategory(categoryID);
 
         return (total / count);
     }
 
-    //might want to write a test to check that the sum of these percents adds to 100
     public double getPercentForCategory(int categoryID) {
-        //will need total across all transactions + total for specific category
-        //int countAll = countAllTransactions();
-        //int countCategory = countTransactionsByCategory(categoryID);
 
         double totalAllTransactions = getTotalForAllTransactions();
         double totalForCategory = getTotalForCategory(categoryID);
 
         return ((totalForCategory / totalAllTransactions) * 100);
+    }
+
+    //sorting methods
+    public ArrayList<ReportManagerNode> buildCategoryList() {
+        ArrayList<ReportManagerNode> categoryList = new ArrayList<>();
+        int numCategories = countAllCategories();
+
+        for(int i = 1; i < numCategories+1; i++) {
+            //for each Category calculate -> total, average, %
+            Category category = dataAccessCategory.getCategoryByID(i);
+            double total = getTotalForCategory(i);
+            double average = getAverageForCategory(i);
+            double percent = getPercentForCategory(i);
+
+            ReportManagerNode node = new ReportManagerNode(category,total,average,percent);
+            categoryList.add(node);
+        }
+
+        return categoryList;
+    }
+
+    public ArrayList<Category> sortByTotal(boolean descending) {
+        ArrayList<ReportManagerNode> categoryList = buildCategoryList();
+
+        Collections.sort(categoryList, (node1, node2) -> {
+            // Compare based on the 'total' attribute
+            if(descending) {
+                return Double.compare(node2.getTotal(), node1.getTotal());
+            }
+            else {
+                return Double.compare(node1.getTotal(), node2.getTotal());
+            }
+
+        });
+
+        // Create a new ArrayList to store sorted categories
+        ArrayList<Category> sortedCategories = new ArrayList<>();
+
+        for (ReportManagerNode node : categoryList) {
+            sortedCategories.add(node.getCategory());
+        }
+
+        return sortedCategories;
+    }
+
+    public ArrayList<Category> sortByPercent(boolean descending) {
+        ArrayList<ReportManagerNode> categoryList = buildCategoryList();
+
+        Collections.sort(categoryList, (node1, node2) -> {
+            // Compare based on the 'total' attribute
+            if(descending) {
+                return Double.compare(node2.getPercent(), node1.getPercent());
+            }
+            else {
+                return Double.compare(node1.getPercent(), node2.getPercent());
+            }
+
+        });
+
+        // Create a new ArrayList to store sorted categories
+        ArrayList<Category> sortedCategories = new ArrayList<>();
+
+        for (ReportManagerNode node : categoryList) {
+            sortedCategories.add(node.getCategory());
+        }
+
+        return sortedCategories;
+    }
+
+
+    public ArrayList<Category> sortByAverage(boolean descending) {
+        ArrayList<ReportManagerNode> categoryList = buildCategoryList();
+
+        Collections.sort(categoryList, (node1, node2) -> {
+            // Compare based on the 'total' attribute
+            if(descending) {
+                return Double.compare(node2.getAverage(), node1.getAverage());
+            }
+            else {
+                return Double.compare(node1.getAverage(), node2.getAverage());
+            }
+
+        });
+
+        // Create a new ArrayList to store sorted categories
+        ArrayList<Category> sortedCategories = new ArrayList<>();
+
+        for (ReportManagerNode node : categoryList) {
+            sortedCategories.add(node.getCategory());
+        }
+
+        return sortedCategories;
+    }
+
+
+    private class ReportManagerNode {
+        //instance vars
+        private Category category;
+        private double total;
+        private double average;
+        private double percent;
+
+        public ReportManagerNode(Category category, double total, double average, double percent) {
+            this.category = category;
+            this.total = total;
+            this.average = average;
+            this.percent = percent;
+        }
+
+        public Category getCategory() {
+            return category;
+        }
+
+        public double getTotal() {
+            return total;
+        }
+
+        public double getAverage() {
+            return average;
+        }
+
+        public double getPercent() {
+            return percent;
+        }
     }
 
 
