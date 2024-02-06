@@ -3,14 +3,11 @@ package com.spenditure.logic;
 import com.spenditure.application.Services;
 import com.spenditure.database.CategoryPersistence;
 import com.spenditure.database.TransactionPersistence;
-import com.spenditure.logic.exceptions.InvalidCategoryException;
-import com.spenditure.object.CT;
 import com.spenditure.object.MainCategory;
 import com.spenditure.object.Transaction;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 public class ReportManager {

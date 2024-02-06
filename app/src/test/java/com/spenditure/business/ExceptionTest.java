@@ -6,10 +6,12 @@ import static org.junit.Assert.*;
 import com.spenditure.logic.CategoryHandler;
 import com.spenditure.logic.exceptions.InvalidCategoryException;
 import com.spenditure.logic.exceptions.InvalidSubCategoryException;
-
-
+/**
+ * Exception unit tests
+ * @author Bao Ngo
+ * @version 06 Feb 2024
+ */
 public class ExceptionTest {
-
     @Test
     public void testInvalidCategory(){
         CategoryHandler categoryHandler = new CategoryHandler(true);
@@ -94,10 +96,6 @@ public class ExceptionTest {
             caught = true;
         }
         assertTrue(caught);
-
-
-
-
     }
 
     @Test
