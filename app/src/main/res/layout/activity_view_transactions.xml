@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:text="@string/title_view_transactions"
         android:textSize="40dp"
-        app:layout_constraintBottom_toTopOf="listview_transactions"
+        app:layout_constraintBottom_toTopOf="@+id/listview_transactions"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -23,10 +23,10 @@
         android:layout_height="wrap_content"
         android:text="@string/title_view_transactions"
         android:textSize="40dp"
-        app:layout_constraintBottom_toTopOf="nav_view"
+        app:layout_constraintBottom_toTopOf="@+id/nav_view"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="textview_title"/>
+        app:layout_constraintTop_toBottomOf="@+id/textview_title"/>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/nav_view"
