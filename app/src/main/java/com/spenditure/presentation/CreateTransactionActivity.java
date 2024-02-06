@@ -3,11 +3,14 @@ package com.spenditure.presentation;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatToggleButton;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.spenditure.application.MainActivity;
 import com.spenditure.logic.TransactionHandler;
 import com.spenditure.object.DateTime;
 import com.spenditure.object.Transaction;
@@ -32,13 +35,32 @@ public class CreateTransactionActivity extends AppCompatActivity {
                 handler.addTransaction(newTransaction);
             }
         });
+
+        BottomNavigationView navView = findViewById(R.id.nav_view);
+        navView.setSelectedItemId(R.id.navigation_home);
+
+        navView.setOnItemSelectedListener((item -> {
+            if (item.getItemId() == R.id.navigation_home) {
+                startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                return true;
+            } else if (item.getItemId() == R.id.navigation_reports) {
+                return true;
+            } else if (item.getItemId() == R.id.navigation_create_transaction) {
+                return true;
+            } else if (item.getItemId() == R.id.navigation_view_transactions) {
+                startActivity(new Intent(getApplicationContext(), ViewTransactionsActivity.class));
+                return true;
+            } else {
+                return false;
+            }
+        }));
     }
 
     // Helper method: creates and return new Transaction object made from user-entered info
     private Transaction createTransaction() {
         // Parse all the user fields
         EditText whatTheHeck = (EditText) findViewById(R.id.edittext_what_the_heck);
-        DateTime date = new DateTime(1,1,1,1,1);
+        DateTime date = new DateTime(2023,1,1,1,1); // Set default date for now
         EditText place = (EditText) findViewById(R.id.edittext_place);
         EditText amount = (EditText) findViewById(R.id.edittext_amount);
         EditText comments = (EditText) findViewById(R.id.edittext_comments);

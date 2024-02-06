@@ -1,37 +1,36 @@
-package com.spenditure.application;
+package com.spenditure.presentation;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.ListView;
+import android.widget.ArrayAdapter;
 
 import com.example.spenditure.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.spenditure.application.MainActivity;
+import com.spenditure.object.Transaction;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
-import androidx.navigation.ui.AppBarConfiguration;
-import androidx.navigation.ui.NavigationUI;
-
-import com.example.spenditure.databinding.ActivityMainBinding;
-import com.spenditure.presentation.CreateTransactionActivity;
-import com.spenditure.presentation.ViewTransactionsActivity;
-
-
-public class MainActivity extends AppCompatActivity {
-
-    private ActivityMainBinding binding;
+public class ViewTransactionsActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_view_transactions);
 
-        setContentView(R.layout.activity_main);
+
+
+        /*ListView transactions = (ListView)findViewById(R.id.listview_transactions);
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<Transaction>(this, R.layout.listview, countryList);
+        transactions.setAdapter(arrayAdapter);*/
 
         BottomNavigationView navView = findViewById(R.id.nav_view);
         navView.setSelectedItemId(R.id.navigation_home);
 
         navView.setOnItemSelectedListener((item -> {
             if (item.getItemId() == R.id.navigation_home) {
+                startActivity(new Intent(getApplicationContext(), MainActivity.class));
                 return true;
             } else if (item.getItemId() == R.id.navigation_reports) {
                 return true;
@@ -39,7 +38,6 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(new Intent(getApplicationContext(), CreateTransactionActivity.class));
                 return true;
             } else if (item.getItemId() == R.id.navigation_view_transactions) {
-                startActivity(new Intent(getApplicationContext(), ViewTransactionsActivity.class));
                 return true;
             } else {
                 return false;
