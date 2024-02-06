@@ -1,8 +1,23 @@
+/**
+ * TransactionHandler.java
+ *
+ * COMP3350 SECTION A02
+ *
+ * @author Toran Pillay, 7842389
+ * @date Tuesday, February 6, 2024
+ *
+ * PURPOSE:
+ *  This file interprets information from Transactions sent by the UI layer,
+ * sends information to the Database layer, and also validates all necessary
+ * information in the Transactions.
+ **/
+
 package com.spenditure.logic;
 
 import com.spenditure.application.Services;
 import com.spenditure.database.TransactionPersistence;
 import com.spenditure.object.Transaction;
+import com.spenditure.logic.exceptions.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,15 +39,20 @@ public class TransactionHandler implements ITransactionHandler {
         validates it, then sends it to the data layer to be added.
      */
     @Override
-    public boolean addTransaction(Transaction t) {
+    public boolean addTransaction(Transaction t) throws InvalidTransactionException {
 
-        if(t != null
-                && checkNewTransactionID(t)
-                && TransactionValidator.validateTransaction(t))
+
+        if( t == null )
+            throw new InvalidTransactionException("No transaction was provided to add!");
+
+        else if(!checkNewTransactionID(t))
+            throw new InvalidTransactionException("Transaction I.D. of new transaction (I.D.: "
+                    + t.getTransactionID() +") is invalid; the transaction may already exist.");
+
+        if(TransactionValidator.validateTransaction(t))
             return dataAccessTransaction.addTransaction(t);
         else
             return false;
-
     }
 
     /*
@@ -43,11 +63,16 @@ public class TransactionHandler implements ITransactionHandler {
         the old one.
      */
     @Override
-    public boolean modifyTransaction(Transaction t) {
+    public boolean modifyTransaction(Transaction t) throws InvalidTransactionException {
 
-        if(t != null
-                && !checkNewTransactionID(t)
-                && TransactionValidator.validateTransaction(t))
+        if( t == null )
+            throw new InvalidTransactionException("No transaction was provided to modify!");
+
+        else if(checkNewTransactionID(t))
+            throw new InvalidTransactionException("Transaction I.D. of new transaction (I.D.: "
+                    + t.getTransactionID() +") is invalid; the transaction may not exist.");
+
+        if(TransactionValidator.validateTransaction(t))
             return dataAccessTransaction.modifyTransaction(t);
         else
             return false;
@@ -61,12 +86,16 @@ public class TransactionHandler implements ITransactionHandler {
         so it can be deleted.
      */
     @Override
-    public boolean deleteTransaction(Transaction t) {
+    public boolean deleteTransaction(Transaction t) throws InvalidTransactionException {
 
-        if(t != null)
-            return dataAccessTransaction.deleteTransaction(t);
-        else
-            return false;
+        if( t == null )
+            throw new InvalidTransactionException("No transaction was provided to delete!");
+
+        else if(checkNewTransactionID(t))
+            throw new InvalidTransactionException("Transaction I.D. of new transaction (I.D.: "
+                    + t.getTransactionID() +") is invalid; the transaction may not exist.");
+
+        return dataAccessTransaction.deleteTransaction(t);
 
     }
 
@@ -116,6 +145,21 @@ public class TransactionHandler implements ITransactionHandler {
     public ArrayList<Transaction> getAllByOldestFirst() {
 
         return dataAccessTransaction.sortByDateOldestFirst();
+
+    }
+
+    /*
+
+        getTransactionByCategoryID
+
+        Returns all transactions associated with the specified
+        category.
+
+     */
+    @Override
+    public ArrayList<Transaction> getTransactionByCategoryID(int categoryID) {
+
+        return dataAccessTransaction.getTransactionByCategoryID(categoryID);
 
     }
 

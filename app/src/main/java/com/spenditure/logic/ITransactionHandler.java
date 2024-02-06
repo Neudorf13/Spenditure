@@ -1,3 +1,15 @@
+/**
+ * ITransactionHandler.java
+ *
+ * COMP3350 SECTION A02
+ *
+ * @author Toran Pillay, 7842389
+ * @date Tuesday, February 6, 2024
+ *
+ * PURPOSE:
+ *  Interface file for the Transaction Handler.
+ **/
+
 package com.spenditure.logic;
 
 import com.spenditure.object.Transaction;
@@ -19,4 +31,6 @@ public interface ITransactionHandler {
     ArrayList<Transaction> getAllByNewestFirst();
 
     ArrayList<Transaction> getAllByOldestFirst();
+
+    ArrayList<Transaction> getTransactionByCategoryID(int categoryID);
 }
