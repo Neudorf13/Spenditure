@@ -125,7 +125,7 @@ public class ReportManager {
         ArrayList<ReportManagerNode> categoryList = buildCategoryList();
 
         Collections.sort(categoryList, (node1, node2) -> {
-            // Compare based on the 'total' attribute
+            // Compare based on the 'percent' attribute
             if(descending) {
                 return Double.compare(node2.getPercent(), node1.getPercent());
             }
@@ -150,7 +150,7 @@ public class ReportManager {
         ArrayList<ReportManagerNode> categoryList = buildCategoryList();
 
         Collections.sort(categoryList, (node1, node2) -> {
-            // Compare based on the 'total' attribute
+            // Compare based on the 'average' attribute
             if(descending) {
                 return Double.compare(node2.getAverage(), node1.getAverage());
             }
