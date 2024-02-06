@@ -1,12 +1,31 @@
+/**
+ * TransactionHandlerTest.java
+ *
+ * COMP3350 SECTION A02
+ *
+ * @author Toran Pillay, 7842389
+ * @date Tuesday, February 6, 2024
+ *
+ * PURPOSE:
+ *  This file tests for expected behavior in the Transaction Handler.
+ **/
+
 package com.spenditure.business;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
 
 import com.spenditure.logic.TransactionHandler;
 import com.spenditure.database.stub.TransactionStub;
+import com.spenditure.logic.exceptions.InvalidDateException;
+import com.spenditure.logic.exceptions.InvalidDateTimeException;
+import com.spenditure.logic.exceptions.InvalidTransactionAmountException;
+import com.spenditure.logic.exceptions.InvalidTransactionException;
+import com.spenditure.logic.exceptions.InvalidTransactionNameException;
+import com.spenditure.logic.exceptions.InvalidTransactionPlaceException;
 import com.spenditure.object.DateTime;
 import com.spenditure.object.Transaction;
 
@@ -34,6 +53,7 @@ public class TransactionHandlerTest {
 
         assertEquals(transactionHandler.getAllTransactions().size(), EXPECTED_SIZE);
 
+        //Tests to make sure all transactions are returned. All should return true
         assertEquals("Morning Dons", transactionHandler.getTransactionByID(1).getName());
         assertEquals("Star Wars Rebels merch", transactionHandler.getTransactionByID(2).getName());
         assertEquals("Shopping spree at the mall", transactionHandler.getTransactionByID(3).getName());
@@ -74,16 +94,21 @@ public class TransactionHandlerTest {
         //invalid amount
         invalid[6] = new Transaction(-1, "The Moon", new DateTime(2020, 12, 25, 16, 20), "Space", -1398140054810.5082150, "Illegally acquired", true);
 
+        //Invalid comment over character limit
         String invalidComment = "CANTWAIT!!";
         for( int i = 0; i < 350; i++ )
             invalidComment += "!";
 
         invalid[7] = new Transaction(-1, "2024 Porsche 911 GT3 RS", new DateTime(2024, 5, 8, 12, 12), "Porsche Dealership", 301439, invalidComment, true);
 
+        //Try inserting all invalid tests, all should return false
         for( int i = 0; i < numInvalidTests; i ++ ) {
-            assertFalse(transactionHandler.addTransaction(invalid[i]));
+            try {
+                assertFalse(transactionHandler.addTransaction(invalid[i]));
+            } catch(InvalidTransactionException ignored) {}
         }
 
+        //Should return true, none should have been inserted
         assertEquals(transactionHandler.getAllTransactions().size(), EXPECTED_SIZE);
 
         //Test valid insertion
@@ -92,6 +117,7 @@ public class TransactionHandlerTest {
 
         assertEquals(transactionHandler.getAllTransactions().size(), EXPECTED_SIZE + 1);
 
+        //Should return true
         assertEquals("Morning Dons", transactionHandler.getTransactionByID(1).getName());
         assertEquals("Tow Truck Fee", transactionHandler.getTransactionByID(EXPECTED_SIZE + 1).getName());
 
@@ -103,6 +129,7 @@ public class TransactionHandlerTest {
 
         assertEquals(transactionHandler.getAllTransactions().size(), EXPECTED_SIZE);
 
+        //Make sure all items are in the list
         assertEquals("Morning Dons", transactionHandler.getTransactionByID(1).getName());
         assertEquals("Star Wars Rebels merch", transactionHandler.getTransactionByID(2).getName());
         assertEquals("Shopping spree at the mall", transactionHandler.getTransactionByID(3).getName());
@@ -118,18 +145,30 @@ public class TransactionHandlerTest {
         assertEquals("Restaurant bill for friend's birthday dinner", transactionHandler.getTransactionByID(13).getName());
         assertEquals("Online course enrollment fee", transactionHandler.getTransactionByID(14).getName());
 
+        //Ensure requests to delete invalid IDs return false
         Transaction test = new Transaction(-1, "", new DateTime(0, 0, 0, 0, 0), "", 0, "", false);
-        assertFalse(transactionHandler.deleteTransaction(test));
-        test.setTransactionID(1000);
+
+        try {
+            assertFalse(transactionHandler.deleteTransaction(test));
+        } catch(InvalidTransactionException ignored) {}
+
+        test = new Transaction(1000, "Quarter Pounder With Cheese", new DateTime(2024, 12, 25, 23, 13), "McDonald's", 11.75, "I'm lovin' it", true);
+
         assertFalse(transactionHandler.deleteTransaction(test));
 
+        //Delete every odd transaction ID
         for( int i = 0; i <= EXPECTED_SIZE/2; i ++ ) {
             Transaction toDelete = transactionHandler.getTransactionByID((2* i + 1));
-            transactionHandler.deleteTransaction(toDelete);
+
+            try {
+                transactionHandler.deleteTransaction(toDelete);
+            } catch(InvalidTransactionException ignored) {}
         }
 
+        //Should return true, list should be half the size
         assertEquals(EXPECTED_SIZE/2, transactionHandler.getAllTransactions().size());
 
+        //Ensure the correct transactions were deleted
         assertNull(transactionHandler.getTransactionByID(1));
         assertEquals("Star Wars Rebels merch", transactionHandler.getTransactionByID(2).getName());
         assertNull(transactionHandler.getTransactionByID(3));
@@ -154,29 +193,49 @@ public class TransactionHandlerTest {
 
         Transaction toModify = transactionHandler.getTransactionByID(2);
 
-        //Modifying name
+        //Modifying name to invalid value, should return false
         toModify.setName("");
-        assertFalse(transactionHandler.modifyTransaction(toModify));
+
+        try {
+            assertFalse(transactionHandler.modifyTransaction(toModify));
+        } catch(InvalidTransactionNameException ignored) {}
+
+        //Modifying name to valid value, should return true
         toModify.setName("Paycheck");
         assertTrue(transactionHandler.modifyTransaction(toModify));
         assertEquals(transactionHandler.getTransactionByID(2).getName(), "Paycheck");
 
-        //Modifying date/time
+        //Modifying date/time to invalid value, should return false
         toModify.setDateTime(new DateTime(159025, 1048, 1058, 159810, 15970135));
-        assertFalse(transactionHandler.modifyTransaction(toModify));
+
+        //Modifying date/time to valid value, should return true
+        try {
+            assertFalse(transactionHandler.modifyTransaction(toModify));
+        } catch(InvalidDateTimeException ignored) {}
+
         toModify.setDateTime(new DateTime(2024, 4, 15, 00, 00));
         assertTrue(transactionHandler.modifyTransaction(toModify));
 
-        //Modifying place
+        //Modifying place to invalid value, should return false
         toModify.setPlace("");
-        assertFalse(transactionHandler.modifyTransaction(toModify));
+
+        try {
+            assertFalse(transactionHandler.modifyTransaction(toModify));
+        } catch(InvalidTransactionPlaceException ignored) {}
+
+        //Modifying place to valid value, should return true
         toModify.setPlace("Work");
         assertTrue(transactionHandler.modifyTransaction(toModify));
         assertEquals(transactionHandler.getTransactionByID(2).getPlace(), "Work");
 
-        //Modifying amount
+        //Modifying amount to invalid value, should return false
         toModify.setAmount(-1358154093.91399);
-        assertFalse(transactionHandler.modifyTransaction(toModify));
+
+        try {
+            assertFalse(transactionHandler.modifyTransaction(toModify));
+        } catch(InvalidTransactionAmountException ignored) {}
+
+        //Modifying amount to valid value, should return true
         toModify.setAmount(1500.00);
         assertTrue(transactionHandler.modifyTransaction(toModify));
         assertEquals(transactionHandler.getTransactionByID(2).getAmount(), 1500.00, 1);
@@ -198,6 +257,7 @@ public class TransactionHandlerTest {
 
         ArrayList<Transaction> list = transactionHandler.getAllByOldestFirst();
 
+        //Test specific names that should have gone to the front/back; should return true
         assertEquals(list.get(0).getName(), transactionHandler.getTransactionByID(2).getName());
         assertEquals(list.get(EXPECTED_SIZE-1).getName(), transactionHandler.getTransactionByID(1).getName());
 
@@ -208,8 +268,26 @@ public class TransactionHandlerTest {
 
         ArrayList<Transaction> list = transactionHandler.getAllByNewestFirst();
 
+        //Test specific names that should have gone to the front/back; should return true
         assertEquals(list.get(0).getName(), transactionHandler.getTransactionByID(1).getName());
         assertEquals(list.get(EXPECTED_SIZE-1).getName(), transactionHandler.getTransactionByID(2).getName());
+    }
+
+    @Test
+    public void testGetTransactionByCategoryID() {
+
+        //Should only contain transactions with "grocery" category
+        ArrayList<Transaction> list = transactionHandler.getTransactionByCategoryID(1);
+
+        //Should only be 4 items
+        assertEquals(list.size(), 4);
+
+        //Check items, all should be true
+        assertEquals(list.get(0).getName(), "Grocery shopping for the week");
+        assertEquals(list.get(1).getName(), "Utility bill payment");
+        assertEquals(list.get(2).getName(), "Online shopping for household items");
+        assertEquals(list.get(3).getName(), "Online course enrollment fee");
+
     }
 
 }
