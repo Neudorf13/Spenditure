@@ -15,12 +15,9 @@ package com.spenditure.business;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
 
 import com.spenditure.logic.TransactionHandler;
-import com.spenditure.database.stub.TransactionStub;
-import com.spenditure.logic.exceptions.InvalidDateException;
 import com.spenditure.logic.exceptions.InvalidDateTimeException;
 import com.spenditure.logic.exceptions.InvalidTransactionAmountException;
 import com.spenditure.logic.exceptions.InvalidTransactionException;
@@ -287,6 +284,102 @@ public class TransactionHandlerTest {
         assertEquals(list.get(1).getName(), "Utility bill payment");
         assertEquals(list.get(2).getName(), "Online shopping for household items");
         assertEquals(list.get(3).getName(), "Online course enrollment fee");
+
+    }
+
+    @Test
+    public void testGetTransactionByNameAndPlace() {
+
+        int numInserts = 3;
+
+        //Search for existing item
+        ArrayList<Transaction> nameList = transactionHandler.getTransactionByName("Morning Dons");
+        ArrayList<Transaction> placeList = transactionHandler.getTransactionByPlace("Mcdonalds");
+
+        //Should only be one
+        assertEquals(nameList.size(), 1);
+        assertEquals(placeList.size(), 1);
+
+        //Get multiple transactions with the same name
+        for(int i = 0; i < numInserts; i ++) {
+
+            transactionHandler.addTransaction(new Transaction(-1,  "2024 Honda Civic Type R", new DateTime(2024, 2, 29, 16, 20), "Winnipeg Honda", 53280.00, "MSRP", true));
+
+        }
+
+        nameList = transactionHandler.getTransactionByName("2024 Honda Civic Type R");
+        placeList = transactionHandler.getTransactionByPlace("Winnipeg Honda");
+
+        //Should return true, list should have the specified number of inserts
+        assertEquals(nameList.size(), numInserts);
+        assertEquals(placeList.size(), numInserts);
+
+    }
+
+    @Test
+    public void testGetByAmount() {
+
+        //Check getByAmount
+        ArrayList<Transaction> list = transactionHandler.getTransactionByAmount(200.00);
+
+        //There are 2 values that are exactly 200
+        assertEquals(list.size(), 2);
+
+        //Check amountLessThan
+        list = transactionHandler.getTransactionByAmountLessThan(200);
+
+        //Only 9 elements are strictly less than 200
+        assertEquals(list.size(), 9);
+
+        //Check amountGreaterThan
+        list = transactionHandler.getTransactionByAmountGreaterThan(250.50);
+
+        //Only 2 elements are strictly greater than 2
+        assertEquals(list.size(), 2);
+
+        //Check amountBetween, which is inclusive unlike the others
+        list = transactionHandler.getTransactionByAmountBetween(80.25, 200.00);
+
+        //7 elements are between 80.25 and 200 (inclusive)
+        assertEquals(list.size(),7);
+
+    }
+
+    @Test
+    public void testGetByDate() {
+
+        int numInsertions = 3;
+
+        //Test retrieval of specific item by date
+        ArrayList<Transaction> list = transactionHandler.getTransactionByDateTime(new DateTime(2023, 9, 15, 16, 0));
+
+        //Both should be true
+        assertEquals(list.size(), 1);
+        assertEquals(list.get(0).getName(), "Online shopping for household items");
+
+        //Test retrieval of items after a specified date
+        list = transactionHandler.getTransactionByDateTimeAfter(new DateTime(2023, 9, 20));
+        assertEquals(list.size(), 5);
+
+        //Test retrieval of items before a specified date
+        list = transactionHandler.getTransactionByDateTimeBefore(new DateTime(2023, 8, 20));
+        assertEquals(list.size(), 4);
+
+        //Test retrieval of items between specified dates
+        list = transactionHandler.getTransactionByDateTimeBetween(
+                new DateTime(2023, 9, 1, 00, 00),
+                new DateTime(2023, 9, 31, 23, 59));
+        assertEquals(list.size(), 6);
+
+        //Test retrieval of all transactions from a specific date
+        for(int i = 0; i < numInsertions; i ++)
+
+            transactionHandler.addTransaction(new Transaction(-1,  "2024 Honda Civic Type R", new DateTime(2024, 2, 29, 16 + i, 20 + i), "Winnipeg Honda", 53280.00, "MSRP", true));
+
+        list = transactionHandler.getTransactionByDate(new DateTime(2024, 2, 29));
+
+        //Should return true
+        assertEquals(list.size(), numInsertions);
 
     }
 
