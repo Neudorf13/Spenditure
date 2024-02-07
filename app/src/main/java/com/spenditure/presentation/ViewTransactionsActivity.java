@@ -26,6 +26,8 @@ public class ViewTransactionsActivity extends AppCompatActivity {
     List<Transaction> transactions;
     int currentIdSelected;
 
+    CustomTransactionAdapter adaptor;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,7 +39,7 @@ public class ViewTransactionsActivity extends AppCompatActivity {
 
         ListView transactionsListView = (ListView)findViewById(R.id.listview_transactions);
         // Create an adaptor to format transactions in the list view
-        CustomTransactionAdapter adaptor = new CustomTransactionAdapter(transactions, getApplicationContext());
+        adaptor = new CustomTransactionAdapter(transactions, getApplicationContext());
         transactionsListView.setAdapter(adaptor);
 
         transactionsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -92,6 +94,8 @@ public class ViewTransactionsActivity extends AppCompatActivity {
         // Get and delete the chosen transaction
         Transaction toDelete = transactionHandler.getTransactionByID(currentIdSelected);
         transactionHandler.deleteTransaction(toDelete);
+
+        adaptor.notifyDataSetChanged();
 
         changeButtonEnabled(false);
         currentIdSelected = -1;

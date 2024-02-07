@@ -33,6 +33,7 @@
             android:layout_height="wrap_content"
             android:textOn="Newest First"
             android:textOff="Oldest First"
+            android:layout_margin="50dp"
             app:layout_constraintBottom_toTopOf="@+id/listview_transactions"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -43,6 +44,7 @@
             android:enabled="false"
             android:onClick="editTransactionClicked"
             android:text="@string/label_edit"
+            android:layout_margin="50dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 
@@ -51,6 +53,7 @@
             android:enabled="false"
             android:onClick="deleteTransactionClicked"
             android:text="@string/label_delete"
+            android:layout_margin="50dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 
