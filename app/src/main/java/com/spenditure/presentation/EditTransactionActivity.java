@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
 
 import com.example.spenditure.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -15,6 +16,8 @@ import com.spenditure.application.MainActivity;
 import com.spenditure.logic.TransactionHandler;
 import com.spenditure.object.DateTime;
 import com.spenditure.object.Transaction;
+
+import java.util.List;
 
 public class EditTransactionActivity extends AppCompatActivity {
 
@@ -24,6 +27,18 @@ public class EditTransactionActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_transaction);
+
+        int givenID = -1;
+
+        // Get the passed transaction ID
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            givenID = extras.getInt("selectedTransaction");
+        }
+
+        // Get the transaction
+        TransactionHandler handler = new TransactionHandler(true);
+        givenTransaction = handler.getTransactionByID(givenID);
 
         populateTransactionFields(givenTransaction);
 

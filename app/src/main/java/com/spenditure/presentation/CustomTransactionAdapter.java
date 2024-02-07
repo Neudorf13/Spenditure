@@ -1,10 +1,12 @@
 package com.spenditure.presentation;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.spenditure.R;
@@ -49,8 +51,9 @@ public class CustomTransactionAdapter extends BaseAdapter {
 
         // Set the transaction amount
         TextView amount = (TextView) view.findViewById(R.id.textview_list_amount);
-        amount.setText("$" + Double.toString(transactions.get(i).getAmount()));
+        amount.setText(String.format("$%s", Double.toString(transactions.get(i).getAmount())));
 
         return view;
     }
+
 }
