@@ -1,8 +1,5 @@
 package com.spenditure.object;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-
 public class Transaction implements ITransaction{
 
     private int transactionID;
@@ -19,11 +16,11 @@ public class Transaction implements ITransaction{
 
     private boolean type;
 
-    private Category category;
+    private MainCategory category;
 
     public Transaction(int transactionID, String name, DateTime dateTime,
                        String place, double amount, String comments,
-                       boolean type, Category category) {
+                       boolean type, MainCategory category) {
         this.transactionID = transactionID;
 
         this.name = name;
@@ -99,7 +96,7 @@ public class Transaction implements ITransaction{
         return type;
     }
 
-    public Category getCategory() {
+    public MainCategory getCategory() {
         return category;
     }
 
@@ -141,7 +138,7 @@ public class Transaction implements ITransaction{
         this.type = type;
     }
 
-    public void setCategory(Category category) {
+    public void setCategory(MainCategory category) {
         this.category = category;
     }
 

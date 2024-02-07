@@ -1,21 +1,35 @@
+/**
+ * DateTimeValidator.java
+ *
+ * COMP3350 SECTION A02
+ *
+ * @author Toran Pillay, 7842389
+ * @date Tuesday, February 6, 2024
+ *
+ * PURPOSE:
+ *  This file contains all of the methods necessary to validate DateTimes, ensuring
+ * that they are actual valid dates and times.
+ **/
+
 package com.spenditure.logic;
 
-
 import com.spenditure.object.DateTime;
+import com.spenditure.logic.exceptions.*;
 
 public class DateTimeValidator {
 
+    //Number of hours in a day, can be changed to 12 if only 12-hour time is used
+    public static final int MAX_HOURS = 24;
+    //Number of minutes in an hour
+    public static final int MAX_MINUTES = 60;
     //Months with 30 days rather than 31
     private static final int[] THIRTY_DAY_MONTHS = { 4, 6, 9, 11 };
     //February, which has 28 or 29 days
     private static final int FEBRUARY = 2;
-    //Number of hours in a day, can be changed to 12 if only 12-hour time is used
-    private static final int MAX_HOURS = 24;
     //Earliest year allowed to be entered
     private static final int MIN_YEAR = 2000;
     //Latest year allowed to be entered
     private static final int MAX_YEAR = 2024;
-
 
 
     /*
@@ -23,7 +37,7 @@ public class DateTimeValidator {
 
         returns true if the DateTime has valid values.
      */
-    public static boolean validateDateTime(DateTime dateTime) {
+    public static boolean validateDateTime(DateTime dateTime) throws InvalidDateTimeException {
 
         return validateDate(dateTime) && validateTime(dateTime);
 
@@ -35,7 +49,7 @@ public class DateTimeValidator {
         returns true if the date values are valid according
         to a standard Gregorian calendar.
      */
-    public static boolean validateDate(DateTime date) {
+    public static boolean validateDate(DateTime date) throws InvalidDateException {
         boolean valid = false;
 
         int year = date.getYear();
@@ -59,7 +73,7 @@ public class DateTimeValidator {
 
         returns true if the time values are valid.
      */
-    public static boolean validateTime(DateTime time) {
+    public static boolean validateTime(DateTime time) throws InvalidTimeException {
 
         int hour = time.getHour();
         int minute = time.getMinute();
@@ -73,35 +87,66 @@ public class DateTimeValidator {
 
         ensures hour value is less than MAX_HOURS and at least 0.
      */
-    private static boolean validateHour(int hour) { return MAX_HOURS > hour && hour >= 0; }
+    private static boolean validateHour(int hour) throws InvalidTimeException {
+
+        if( hour >= MAX_HOURS || hour < 0 )
+            throw new InvalidTimeException("Provided hour value (" + hour + ") must be at least 0 and at most 23.");
+
+        return true;
+
+    }
 
     /*
         validateMinute
 
         ensures minute value is less than 60 and at least 0.
      */
-    private static boolean validateMinute(int minute) { return 60 > minute && minute >= 0; }
+    private static boolean validateMinute(int minute) throws InvalidTimeException {
+
+        if( minute >= MAX_MINUTES || minute < 0 )
+            throw new InvalidTimeException("Provided minute value (" + minute + ") must be at least 0 and at most 59.");
+
+        return true;
+    }
 
     /*
         validateYear
 
         ensures year is greater than or equal to the minimum allowed year
      */
-    private static boolean validateYear(int year) { return MAX_YEAR >= year && year >= MIN_YEAR; }
+    private static boolean validateYear(int year) throws InvalidDateException {
+
+        if( year > MAX_YEAR || year < MIN_YEAR )
+            throw new InvalidDateException("Provided year value (" + year + ") must be between " + MIN_YEAR + " and " + MAX_YEAR + ".");
+
+        return true;
+    }
 
     /*
         validateMonth
 
         ensures the month value is between 12 (inclusive) and 0 (exclusive).
      */
-    private static boolean validateMonth(int month) { return 12 >= month && month > 0; }
+    private static boolean validateMonth(int month) throws InvalidDateException {
+
+        if( month > 12 || month <= 0 )
+            throw new InvalidDateException("Provided month value (" + month + ") must be at least 1 and at most 12.");
+
+        return true;
+    }
 
     /*
         validateDay
 
         ensures the day valie is between 31 (inclusive) and 0 (exclusive).
      */
-    private static boolean validateDay(int day) { return 31 >= day && day > 0; }
+    private static boolean validateDay(int day) throws InvalidDateException {
+
+        if( day > 31 || day <= 0 )
+            throw new InvalidDateException("Provided day value (" + day + ") must be at least 1 and at most 31.");
+
+        return true;
+    }
 
     /*
         validateMonthDay
@@ -109,7 +154,7 @@ public class DateTimeValidator {
         checks to make sure the day value is within the appropriate range for
         the month it's paired with
      */
-    private static boolean validateMonthDay(int month, int day, boolean leapYear) {
+    private static boolean validateMonthDay(int month, int day, boolean leapYear) throws InvalidDateException {
 
         int numDays;
 
@@ -130,14 +175,32 @@ public class DateTimeValidator {
 
         }
 
-        return numDays >= day && day > 0;
+        if( numDays >= day && day > 0 )
+            return true;
+
+        else {
+
+            String leapYearMessage = "";
+
+            if( month == FEBRUARY ) {
+                if (leapYear)
+                    leapYearMessage = "The year entered is a leap year.";
+                else
+                    leapYearMessage = "The year entered is not a leap year.";
+            }
+
+
+            throw new InvalidDateException("Provided day value (" + day + ") must be at least 1 and at most " + numDays + ". " + leapYearMessage);
+
+        }
 
     }
 
     /*
         checkLeapYear
 
-        checks the year to see if it's a leap year
+        checks the year to see if it's a leap year. Formula taken from
+        https://www.wikihow.com/Calculate-Leap-Years#:~:text=How%20to%20Calculate%20Leap%20Years%20Using%20Division%201,but%20it%20is%20not%20evenly%20divisible...%20See%20More.
      */
     private static boolean checkLeapYear(int year) {
 

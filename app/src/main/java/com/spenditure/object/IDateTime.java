@@ -4,6 +4,8 @@ import java.util.ArrayList;
 
 public interface IDateTime {
 
+    String toString();
+
     int getYear();
 
     int getMonth();
