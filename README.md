@@ -2,7 +2,7 @@
 
 ## Iteration Documents
 
-** Iteration 1
+* Iteration 1
 
 ## Vision Statement
 
