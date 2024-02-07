@@ -1,3 +1,17 @@
+/**
+ * ViewTransactionsActivity.java
+ *
+ * COMP3350 SECTION A02
+ *
+ * @author Jillian Friesen, 7889402
+ * @date Tuesday, February 7, 2024
+ *
+ * PURPOSE:
+ *  This file contains all the event handlers and UI management for the View Transactions
+ *  activity where users can view a list of all their transactions. The UI allows users
+ *  to sort these transaction by date and to edit/delete transactions.
+ **/
+
 package com.spenditure.presentation;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -9,13 +23,10 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.ArrayAdapter;
 
 import com.example.spenditure.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.spenditure.application.MainActivity;
-import com.spenditure.application.Services;
-import com.spenditure.database.TransactionPersistence;
 import com.spenditure.logic.TransactionHandler;
 import com.spenditure.object.Transaction;
 
@@ -24,22 +35,23 @@ import java.util.List;
 
 public class ViewTransactionsActivity extends AppCompatActivity {
 
-    TransactionHandler transactionHandler;
-    List<Transaction> transactions;
-    int currentIdSelected;
-
-    CustomTransactionAdapter adaptor;
+    // Instance Variables
+    private TransactionHandler transactionHandler;
+    private List<Transaction> transactions;
+    private int currentIdSelected;
+    private CustomTransactionAdapter adaptor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_transactions);
 
-        // Get the transactions from the handler
+        // Get all the transactions from the handler
         transactionHandler = new TransactionHandler(true);
         transactions = transactionHandler.getAllByNewestFirst();
 
         ListView transactionsListView = (ListView)findViewById(R.id.listview_transactions);
+
         // Create an adaptor to format transactions in the list view
         adaptor = new CustomTransactionAdapter(transactions, getApplicationContext());
         transactionsListView.setAdapter(adaptor);
@@ -66,7 +78,11 @@ public class ViewTransactionsActivity extends AppCompatActivity {
             }
         });
 
-        // Bottom nav bar handling
+        navBarHandling();
+    }
+
+    // Handle the bottom navigation bar
+    private void navBarHandling(){
         BottomNavigationView navView = findViewById(R.id.nav_view);
         navView.setSelectedItemId(R.id.navigation_home);
 

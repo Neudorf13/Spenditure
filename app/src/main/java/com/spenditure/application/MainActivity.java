@@ -7,10 +7,6 @@ import com.example.spenditure.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
-import androidx.navigation.ui.AppBarConfiguration;
-import androidx.navigation.ui.NavigationUI;
 
 import com.example.spenditure.databinding.ActivityMainBinding;
 import com.spenditure.presentation.CreateTransactionActivity;
@@ -27,6 +23,14 @@ public class MainActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_main);
 
+        BottomNavigationView navView = findViewById(R.id.nav_view);
+        navView.setSelectedItemId(R.id.navigation_home);
+
+        navBarHandling();
+    }
+
+    // Handle the bottom navigation bar
+    private void navBarHandling(){
         BottomNavigationView navView = findViewById(R.id.nav_view);
         navView.setSelectedItemId(R.id.navigation_home);
 

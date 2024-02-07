@@ -136,6 +136,7 @@
         android:textSize="25dp"
         android:textOn="Withdrawal"
         android:textOff="Deposit"
+        android:checked="true"
         app:layout_constraintBottom_toTopOf="@+id/edittext_comments"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/textview_type"

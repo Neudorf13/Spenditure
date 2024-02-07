@@ -1,12 +1,23 @@
+/**
+ * CustomTransactionAdapter.java
+ *
+ * COMP3350 SECTION A02
+ *
+ * @author Jillian Friesen, 7889402
+ * @date Tuesday, February 7, 2024
+ *
+ * PURPOSE:
+ *  This file contains an adapter that takes in a list of Transaction objects and generates
+ *  a custom UI list of transactions for the user to view.
+ **/
+
 package com.spenditure.presentation;
 
 import android.content.Context;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.spenditure.R;
@@ -16,10 +27,12 @@ import java.util.List;
 
 public class CustomTransactionAdapter extends BaseAdapter {
 
-    Context context;
-    List<Transaction> transactions;
-    LayoutInflater inflator;
+    // Instance Variables
+    private Context context;
+    private List<Transaction> transactions;
+    private LayoutInflater inflator;
 
+    // Constructor
     public CustomTransactionAdapter(List<Transaction> transactions, Context context){
         this.context = context;
         this.transactions = transactions;

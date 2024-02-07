@@ -1,3 +1,16 @@
+/**
+ * EditTransactionActivity.java
+ *
+ * COMP3350 SECTION A02
+ *
+ * @author Jillian Friesen, 7889402
+ * @date Tuesday, February 7, 2024
+ *
+ * PURPOSE:
+ *  This file contains all the event handlers and UI management for the Edit Transaction
+ *  activity where users can modify and save an existing transaction.
+ **/
+
 package com.spenditure.presentation;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -8,7 +21,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ListView;
 
 import com.example.spenditure.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -17,10 +29,9 @@ import com.spenditure.logic.TransactionHandler;
 import com.spenditure.object.DateTime;
 import com.spenditure.object.Transaction;
 
-import java.util.List;
-
 public class EditTransactionActivity extends AppCompatActivity {
 
+    // Instance Variables
     private Transaction givenTransaction;
 
     @Override
@@ -40,9 +51,10 @@ public class EditTransactionActivity extends AppCompatActivity {
         TransactionHandler handler = new TransactionHandler(true);
         givenTransaction = handler.getTransactionByID(givenID);
 
+        // Populate the UI fields
         populateTransactionFields(givenTransaction);
 
-        // Set up an OnClick event for the Edit Transaction Button
+        // Set up click event for the Edit Transaction Button
         Button button = (Button) findViewById(R.id.button_edit_transaction);
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -54,6 +66,11 @@ public class EditTransactionActivity extends AppCompatActivity {
             }
         });
 
+        navBarHandling();
+    }
+
+    // Handle the bottom navigation bar
+    private void navBarHandling(){
         BottomNavigationView navView = findViewById(R.id.nav_view);
         navView.setSelectedItemId(R.id.navigation_home);
 
@@ -75,7 +92,6 @@ public class EditTransactionActivity extends AppCompatActivity {
 
     // Populate the fields on the UI using the given transaction
     private void populateTransactionFields(Transaction transaction){
-        // Populate all the user fields
         EditText whatTheHeck = (EditText) findViewById(R.id.edittext_what_the_heck);
         whatTheHeck.setText(transaction.getName());
 

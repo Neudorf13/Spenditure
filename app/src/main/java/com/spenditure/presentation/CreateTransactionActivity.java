@@ -1,3 +1,17 @@
+/**
+ * CreateTransactionActivity.java
+ *
+ * COMP3350 SECTION A02
+ *
+ * @author Jillian Friesen, 7889402
+ * @date Tuesday, February 7, 2024
+ *
+ * PURPOSE:
+ *  This file contains all the event handlers and UI management for the Create Transaction
+ *  activity where users can create and save a new transaction.
+ **/
+
+
 package com.spenditure.presentation;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -24,7 +38,7 @@ public class CreateTransactionActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_transaction);
 
-        // Set up an OnClick event for the Create Transaction Button
+        // Set up click event for the Create Transaction Button
         Button button = (Button) findViewById(R.id.button_create_transaction);
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -33,9 +47,17 @@ public class CreateTransactionActivity extends AppCompatActivity {
 
                 TransactionHandler handler = new TransactionHandler(true);
                 handler.addTransaction(newTransaction);
+
+                // Return to the main window
+                startActivity(new Intent(getApplicationContext(), MainActivity.class));
             }
         });
 
+        navBarHandling();
+    }
+
+    // Handle the bottom navigation bar
+    private void navBarHandling(){
         BottomNavigationView navView = findViewById(R.id.nav_view);
         navView.setSelectedItemId(R.id.navigation_home);
 
@@ -54,7 +76,7 @@ public class CreateTransactionActivity extends AppCompatActivity {
         }));
     }
 
-    // Helper method: creates and return new Transaction object made from user-entered info
+    // Helper method: create and return new Transaction object made from user-entered info
     private Transaction createTransaction() {
         // Parse all the user fields
         EditText whatTheHeck = (EditText) findViewById(R.id.edittext_what_the_heck);
