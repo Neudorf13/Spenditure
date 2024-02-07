@@ -34,6 +34,7 @@
             android:textOn="Newest First"
             android:textOff="Oldest First"
             android:layout_margin="50dp"
+            android:checked="true"
             app:layout_constraintBottom_toTopOf="@+id/listview_transactions"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

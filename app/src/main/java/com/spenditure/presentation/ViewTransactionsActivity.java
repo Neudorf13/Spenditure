@@ -1,6 +1,7 @@
 package com.spenditure.presentation;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatToggleButton;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -18,6 +19,7 @@ import com.spenditure.database.TransactionPersistence;
 import com.spenditure.logic.TransactionHandler;
 import com.spenditure.object.Transaction;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ViewTransactionsActivity extends AppCompatActivity {
@@ -35,13 +37,14 @@ public class ViewTransactionsActivity extends AppCompatActivity {
 
         // Get the transactions from the handler
         transactionHandler = new TransactionHandler(true);
-        transactions = transactionHandler.getAllTransactions();
+        transactions = transactionHandler.getAllByNewestFirst();
 
         ListView transactionsListView = (ListView)findViewById(R.id.listview_transactions);
         // Create an adaptor to format transactions in the list view
         adaptor = new CustomTransactionAdapter(transactions, getApplicationContext());
         transactionsListView.setAdapter(adaptor);
 
+        // Trigger when list item is selected
         transactionsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -52,6 +55,18 @@ public class ViewTransactionsActivity extends AppCompatActivity {
             }
         });
 
+        // Trigger when sorting mode is changed
+        AppCompatToggleButton sortingMode = (AppCompatToggleButton) findViewById(R.id.togglebutton_transaction_date_sort);
+        sortingMode.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // True: newest first, False: oldest first
+                boolean newestFirst = sortingMode.isChecked();
+                changeSortingMode(newestFirst);
+            }
+        });
+
+        // Bottom nav bar handling
         BottomNavigationView navView = findViewById(R.id.nav_view);
         navView.setSelectedItemId(R.id.navigation_home);
 
@@ -68,6 +83,23 @@ public class ViewTransactionsActivity extends AppCompatActivity {
                 return false;
             }
         }));
+    }
+
+    // Change the sorting mode for the transactions
+    private void changeSortingMode(boolean newestFirst){
+        ArrayList<Transaction> updatedList;
+
+        if (newestFirst){
+            // Newest transactions first
+            updatedList = transactionHandler.getAllByNewestFirst();
+        } else {
+            // Oldest transactions first
+            updatedList = transactionHandler.getAllByOldestFirst();
+        }
+
+        // Update the list view with the new order
+        transactions = updatedList;
+        adaptor.notifyDataSetChanged();
     }
 
     // Change the state of the edit and delete button
@@ -91,10 +123,15 @@ public class ViewTransactionsActivity extends AppCompatActivity {
 
     // Delete the selected transaction
     public void deleteTransactionClicked(View view){
+        // Deselect any items
+        ListView transactionsListView = (ListView)findViewById(R.id.listview_transactions);
+        transactionsListView.clearChoices();
+
         // Get and delete the chosen transaction
         Transaction toDelete = transactionHandler.getTransactionByID(currentIdSelected);
         transactionHandler.deleteTransaction(toDelete);
 
+        // Refresh the list view
         adaptor.notifyDataSetChanged();
 
         changeButtonEnabled(false);
