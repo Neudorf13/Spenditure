@@ -123,6 +123,74 @@ public class TransactionStub implements TransactionPersistence {
         return null;
     }
 
+    public ArrayList<Transaction> getTransactionByName(String name) {
+
+        ArrayList<Transaction> allTransactionsWithName = new ArrayList<>();
+
+        for(Transaction transaction : this.transactionList) {
+
+            if(transaction.getName().equalsIgnoreCase(name))
+                allTransactionsWithName.add(transaction);
+
+        }
+
+        return allTransactionsWithName;
+
+    }
+
+    public ArrayList<Transaction> getTransactionsByPlace(String place) {
+
+        ArrayList<Transaction> allTransactionsWithPlace = new ArrayList<>();
+
+        for(Transaction transaction : this.transactionList) {
+
+            if(transaction.getPlace().equalsIgnoreCase(place))
+                allTransactionsWithPlace.add(transaction);
+
+        }
+
+        return allTransactionsWithPlace;
+
+    }
+
+    public ArrayList<Transaction> getTransactionsByAmount(double lower, double upper) {
+
+        ArrayList<Transaction> allTransactionsInBounds = new ArrayList<>();
+
+        for(Transaction transaction : this.transactionList) {
+
+            double amount = transaction.getAmount();
+
+            if( lower <= amount && amount <= upper )
+                allTransactionsInBounds.add(transaction);
+
+        }
+
+        return allTransactionsInBounds;
+
+    }
+
+    public ArrayList<Transaction> getTransactionsByDateTime(DateTime lower, DateTime upper) {
+
+        ArrayList<Transaction> allTransactionsInBounds = new ArrayList<>();
+
+        for(Transaction transaction : this.transactionList) {
+
+            int lowerBound = transaction.getDateTime().compare(lower);
+            int upperBound = transaction.getDateTime().compare(upper);
+
+            if( 0 <= lowerBound && upperBound <= 0 ) {
+
+                allTransactionsInBounds.add(transaction);
+
+            }
+
+        }
+
+        return allTransactionsInBounds;
+
+    }
+
     public int generateUniqueID()
     {
         return currentID++;

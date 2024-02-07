@@ -18,12 +18,14 @@ import com.spenditure.logic.exceptions.*;
 
 public class DateTimeValidator {
 
+    //Number of hours in a day, can be changed to 12 if only 12-hour time is used
+    public static final int MAX_HOURS = 24;
+    //Number of minutes in an hour
+    public static final int MAX_MINUTES = 60;
     //Months with 30 days rather than 31
     private static final int[] THIRTY_DAY_MONTHS = { 4, 6, 9, 11 };
     //February, which has 28 or 29 days
     private static final int FEBRUARY = 2;
-    //Number of hours in a day, can be changed to 12 if only 12-hour time is used
-    private static final int MAX_HOURS = 24;
     //Earliest year allowed to be entered
     private static final int MIN_YEAR = 2000;
     //Latest year allowed to be entered
@@ -101,7 +103,7 @@ public class DateTimeValidator {
      */
     private static boolean validateMinute(int minute) throws InvalidTimeException {
 
-        if( minute >= 60 || minute < 0 )
+        if( minute >= MAX_MINUTES || minute < 0 )
             throw new InvalidTimeException("Provided minute value (" + minute + ") must be at least 0 and at most 59.");
 
         return true;
