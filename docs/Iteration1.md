@@ -3,11 +3,11 @@
 
 ## Features:
 
-Transaction Controller
+* Transaction Controller
 
-Category Handler
+* Category Handler
 
-Report Manager
+* Report Manager
 
 ## User Stories:
 
