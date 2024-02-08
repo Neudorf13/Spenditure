@@ -19,7 +19,7 @@ public class Services {
 
     public static CategoryPersistence getCategoryPersistence(boolean getStubDB){
         if(getStubDB){
-            if (categoryPersistence == null){
+            if (categoryPersistence == null){   //Apply Singleton
                 categoryPersistence = new CategoryStub();
             }
         }else {
@@ -40,7 +40,7 @@ public class Services {
 
     public static TransactionPersistence getTransactionPersistence(boolean getStubDB){
         if(getStubDB){
-            if(transactionPersistence == null) {
+            if(transactionPersistence == null) { //Apply Singleton
                 transactionPersistence = new TransactionStub();
             }
         }else{
