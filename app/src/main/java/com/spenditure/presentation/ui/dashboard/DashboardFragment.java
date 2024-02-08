@@ -1,4 +1,4 @@
-package com.example.spenditure.ui.dashboard;
+package com.spenditure.presentation.ui.dashboard;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;

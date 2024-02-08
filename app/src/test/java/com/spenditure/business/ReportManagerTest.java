@@ -5,6 +5,7 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.*;
 import java.util.ArrayList; // import the ArrayList class
 
+import com.spenditure.application.Services;
 import com.spenditure.logic.ReportManager;
 import com.spenditure.object.MainCategory;
 
@@ -18,6 +19,7 @@ public class ReportManagerTest {
 
     @Before
     public void setup() {
+        Services.restartCategoryDB(true);
         this.reportManager = new ReportManager(true);
     }
 

@@ -1,4 +1,4 @@
-package com.example.spenditure.ui.home;
+package com.spenditure.presentation.ui.home;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;

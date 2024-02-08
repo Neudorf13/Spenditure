@@ -16,9 +16,9 @@ public class ReportManager {
     private TransactionPersistence dataAccessTransaction;
     private CategoryPersistence dataAccessCategory;
 
-    public ReportManager(boolean inDeveloping) {
-        this.dataAccessTransaction = Services.getTransactionPersistence(inDeveloping);
-        this.dataAccessCategory = Services.getCategoryPersistence(inDeveloping);
+    public ReportManager(boolean getStubDB) {
+        this.dataAccessTransaction = Services.getTransactionPersistence(getStubDB);
+        this.dataAccessCategory = Services.getCategoryPersistence(getStubDB);
     }
 
     //return count of total transactions
