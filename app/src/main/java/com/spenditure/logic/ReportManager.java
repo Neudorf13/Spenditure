@@ -21,21 +21,25 @@ public class ReportManager {
         this.dataAccessCategory = Services.getCategoryPersistence(inDeveloping);
     }
 
+    //return count of total transactions
     public int countAllTransactions() {
         List<Transaction> transactions = dataAccessTransaction.getAllTransactions();
         return transactions.size();
     }
 
+    //return count of total categories
     public int countAllCategories() {
         List<MainCategory> categories = dataAccessCategory.getAllCategory();
         return categories.size();
     }
 
+    //return count of transactions with specific category
     public int countTransactionsByCategory(int categoryID) {
         ArrayList<Transaction> categoryTransactions = dataAccessTransaction.getTransactionByCategoryID(categoryID);
         return categoryTransactions.size();
     }
 
+    //return sum of total amount for all transactions
     public double getTotalForAllTransactions() {
         List<Transaction> transactions = dataAccessTransaction.getAllTransactions();
         double total = 0.0;
@@ -47,6 +51,7 @@ public class ReportManager {
         return total;
     }
 
+    //return sum of total amount for specified category
     public double getTotalForCategory(int categoryID) {
         ArrayList<Transaction> categoryTransactions =  dataAccessTransaction.getTransactionByCategoryID(categoryID);
         double total = 0.0;
@@ -59,6 +64,7 @@ public class ReportManager {
         return total;
     }
 
+    //return average transaction amount for a given category
     public double getAverageForCategory(int categoryID) {
         double total = getTotalForCategory(categoryID);
         int count = countTransactionsByCategory(categoryID);
@@ -66,6 +72,7 @@ public class ReportManager {
         return (total / count);
     }
 
+    //return % of total transaction sum for given category
     public double getPercentForCategory(int categoryID) {
 
         double totalAllTransactions = getTotalForAllTransactions();
@@ -75,6 +82,8 @@ public class ReportManager {
     }
 
     //sorting methods
+
+    //returns list of ReportManagerNodes (one for each category)
     public ArrayList<ReportManagerNode> buildCategoryList() {
         ArrayList<ReportManagerNode> categoryList = new ArrayList<>();
         int numCategories = countAllCategories();
@@ -93,6 +102,7 @@ public class ReportManager {
         return categoryList;
     }
 
+    //returns list of categories sorted by total amount
     public ArrayList<MainCategory> sortByTotal(boolean descending) {
         ArrayList<ReportManagerNode> categoryList = buildCategoryList();
 
@@ -117,11 +127,12 @@ public class ReportManager {
         return sortedCategories;
     }
 
+    //returns list of categories sorted by percent
     public ArrayList<MainCategory> sortByPercent(boolean descending) {
         ArrayList<ReportManagerNode> categoryList = buildCategoryList();
 
         Collections.sort(categoryList, (node1, node2) -> {
-            // Compare based on the 'total' attribute
+            // Compare based on the 'percent' attribute
             if(descending) {
                 return Double.compare(node2.getPercent(), node1.getPercent());
             }
@@ -141,12 +152,12 @@ public class ReportManager {
         return sortedCategories;
     }
 
-
+    //returns list of categories sorted by average amount
     public ArrayList<MainCategory> sortByAverage(boolean descending) {
         ArrayList<ReportManagerNode> categoryList = buildCategoryList();
 
         Collections.sort(categoryList, (node1, node2) -> {
-            // Compare based on the 'total' attribute
+            // Compare based on the 'average' attribute
             if(descending) {
                 return Double.compare(node2.getAverage(), node1.getAverage());
             }
@@ -166,7 +177,8 @@ public class ReportManager {
         return sortedCategories;
     }
 
-
+    //ReportManagerNode class used for internal ReportManager purposes
+    //Stores each Category with associated total, average and percent values
     private class ReportManagerNode {
         //instance vars
         private MainCategory category;
