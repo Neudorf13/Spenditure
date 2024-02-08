@@ -26,17 +26,17 @@ The architecture for iteration 1 can be found [here](./docs/Architecture_Diagram
 
 ### For the second Iteration we plan to incorporate the following features:
 
-Time-based report manager
+* Time-based report manager
 
 -provides weekly and monthly summaries to users on their spending habits
 
-Upload receipt images to transactions
+* Upload receipt images to transactions
 -allows users to attach and save images of receipts to their transactions
 
-User account management
+* User account management
 -allows users to create and login to personal accounts
 
-Financial goal tracker
+* Financial goal tracker
 -allows users to set and manage financial goals
 
 
