@@ -1,3 +1,16 @@
+/**
+ * DateTime.java
+ *
+ * COMP3350 SECTION A02
+ *
+ * @author Jared Rost,
+ * @date Feb 7, 2024
+ *
+ * PURPOSE:
+ *  Store all info related to datetime object
+ *
+ **/
+
 package com.spenditure.object;
 
 public class DateTime implements IDateTime{

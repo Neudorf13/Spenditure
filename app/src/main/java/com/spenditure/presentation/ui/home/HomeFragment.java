@@ -1,3 +1,16 @@
+/**
+ * HomeFragment.java
+ *
+ * COMP3350 SECTION A02
+ *
+ * @author Jillian Friesen, 7889402
+ * @date Tuesday, February 7, 2024
+ *
+ * PURPOSE:
+ *  This file contains formats the home screen
+ **/
+
+
 package com.spenditure.presentation.ui.home;
 
 import android.os.Bundle;

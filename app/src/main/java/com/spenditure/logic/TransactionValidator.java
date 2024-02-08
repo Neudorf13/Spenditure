@@ -16,6 +16,8 @@ package com.spenditure.logic;
 import com.spenditure.object.Transaction;
 import com.spenditure.logic.exceptions.*;
 
+
+
 public class TransactionValidator {
 
     //Max number of characters allowed in a comment

@@ -6,6 +6,19 @@ import com.spenditure.object.Transaction;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * TransactionPersistence.java
+ *
+ * COMP3350 SECTION A02
+ *
+ * @author Jared Rost,
+ * @date Feb 7, 2024
+ *
+ * PURPOSE:
+ *  This file provides information on what methods the transaction database handler should implement
+ *
+ **/
+
 public interface TransactionPersistence {
 
     // query database

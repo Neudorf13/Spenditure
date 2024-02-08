@@ -1,3 +1,15 @@
+/**
+ * DashboardFragment.java
+ *
+ * COMP3350 SECTION A02
+ *
+ * @author Jillian Friesen, 7889402
+ * @date Tuesday, February 7, 2024
+ *
+ * PURPOSE:
+ *  This file contains formats the dashboard
+ **/
+
 package com.spenditure.presentation.ui.dashboard;
 
 import android.os.Bundle;

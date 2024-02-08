@@ -1,3 +1,16 @@
+/**
+ * TransactionsListViewActivity.java
+ *
+ * COMP3350 SECTION A02
+ *
+ * @author Jillian Friesen, 7889402
+ * @date Tuesday, February 7, 2024
+ *
+ * PURPOSE:
+ *  This file changes the layout when a new transaction is created
+ **/
+
+
 package com.spenditure.presentation;
 
 import androidx.appcompat.app.AppCompatActivity;

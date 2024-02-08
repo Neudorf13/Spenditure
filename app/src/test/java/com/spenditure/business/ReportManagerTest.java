@@ -1,3 +1,16 @@
+/**
+ * TransactionsListViewActivity.java
+ *
+ * COMP3350 SECTION A02
+ *
+ * @author Trevor
+ * @date Tuesday, February 7, 2024
+ *
+ * PURPOSE:
+ *  Tests Report Manager class in logic layer
+ **/
+
+
 package com.spenditure.business;
 
 //import static org.junit.Assert.assertEquals;

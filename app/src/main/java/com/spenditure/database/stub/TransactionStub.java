@@ -12,6 +12,21 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 
+/**
+ * TransactionStub.java
+ *
+ * COMP3350 SECTION A02
+ *
+ * @author Jared Rost,
+ * @date Feb 7, 2024
+ *
+ * PURPOSE:
+ *  This file stores information using array lists and has some default transactions for testing purposes
+ *  It sorts data and returns an array list for use in the logic layer.
+ *  It is in the database layer because it is the stub database, where else would it go?
+ *
+ **/
+
 public class TransactionStub implements TransactionPersistence {
 
     private ArrayList<Transaction> transactionList;

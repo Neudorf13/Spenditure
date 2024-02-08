@@ -1,3 +1,16 @@
+/**
+ * Transaction.java
+ *
+ * COMP3350 SECTION A02
+ *
+ * @author Jared Rost,
+ * @date Feb 7, 2024
+ *
+ * PURPOSE:
+ *  Store all infromation relavent to a single transaction
+ *
+ **/
+
 package com.spenditure.object;
 
 public class Transaction implements ITransaction{

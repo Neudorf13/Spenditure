@@ -10,6 +10,20 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * ReportManager.java
+ *
+ * COMP3350 SECTION A02
+ *
+ * @author Trevor,
+ * @date Feb 7, 2024
+ *
+ * PURPOSE:
+ *  This file handles all logic calculations related to generating reports
+ *
+ **/
+
+
 public class ReportManager {
 
     //instance vars

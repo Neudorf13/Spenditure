@@ -18,6 +18,7 @@ import com.spenditure.object.Transaction;
 import java.util.ArrayList;
 import java.util.List;
 
+
 public interface ITransactionHandler {
     boolean addTransaction(Transaction t);
 
