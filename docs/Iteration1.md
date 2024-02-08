@@ -4,25 +4,27 @@
 ## Features:
 
 Transaction Controller
+
 Category Handler
+
 Report Manager
 
 ## User Stories:
 
-# Completed:
+### Completed:
 
 
 
-# In Progress:
+### In Progress:
 
 
 
-### *Architecture*
+## *Architecture*
 The architecture for iteration 1 can be found [here](./docs/Architecture_Diagram_Iteration1.pdf).
 
 ## Next Iteration
 
-# For the second Iteration we plan to incorporate the following features:
+### For the second Iteration we plan to incorporate the following features:
 
 Time-based report manager
 -provides weekly and monthly summaries to users on their spending habits
