@@ -28,15 +28,15 @@ The architecture for iteration 1 can be found [here](./docs/Architecture_Diagram
 
 * Time-based report manager
 
--provides weekly and monthly summaries to users on their spending habits
+- provides weekly and monthly summaries to users on their spending habits
 
 * Upload receipt images to transactions
--allows users to attach and save images of receipts to their transactions
+- allows users to attach and save images of receipts to their transactions
 
 * User account management
--allows users to create and login to personal accounts
+- allows users to create and login to personal accounts
 
 * Financial goal tracker
--allows users to set and manage financial goals
+- allows users to set and manage financial goals
 
 
