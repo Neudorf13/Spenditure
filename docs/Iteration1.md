@@ -12,7 +12,8 @@
 
 ### Completed:
 
-
+* View Spending Summary
+* Customize Spending Summary
 
 ### Not complete:
 * UI for Category Handler and Report Manager
