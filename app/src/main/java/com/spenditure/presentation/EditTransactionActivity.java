@@ -63,6 +63,8 @@ public class EditTransactionActivity extends AppCompatActivity {
 
                 TransactionHandler handler = new TransactionHandler(true);
                 handler.modifyTransaction(updatedTransaction);
+
+                startActivity(new Intent(getApplicationContext(), ViewTransactionsActivity.class));
             }
         });
 
@@ -122,7 +124,7 @@ public class EditTransactionActivity extends AppCompatActivity {
         AppCompatToggleButton type = (AppCompatToggleButton) findViewById(R.id.togglebutton_type);
 
         // Create the new transaction object
-        Transaction updatedTransaction = new Transaction(-1, whatTheHeck.getText().toString(), date, place.getText().toString(), Double.parseDouble(amount.getText().toString()), comments.getText().toString(), type.isChecked());
+        Transaction updatedTransaction = new Transaction(givenTransaction.getTransactionID(), whatTheHeck.getText().toString(), date, place.getText().toString(), Double.parseDouble(amount.getText().toString()), comments.getText().toString(), type.isChecked());
 
         return updatedTransaction;
     };
