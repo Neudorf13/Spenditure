@@ -12,6 +12,14 @@
 
 ### Completed:
 
+
+* Permanently save details of transactions
+* Edit/remove transaction data
+* Search transactions based on different criteria
+
+* Create categories for different types of expenses
+* Organize transactions into categories
+
 * View Spending Summary
 * Customize Spending Summary
 
