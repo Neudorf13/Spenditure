@@ -16,6 +16,7 @@
 * Permanently save details of transactions
 * Edit/remove transaction data
 * Search transactions based on different criteria
+* Organize Transactions
 
 * Create categories for different types of expenses
 * Organize transactions into categories
