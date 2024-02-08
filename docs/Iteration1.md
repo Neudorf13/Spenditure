@@ -15,10 +15,9 @@
 
 
 ### Not complete:
+* UI for Category Handler and Report Manager
 
-
-
-
+We underestimated the time to get used to how UI works in AndroidStudio. We were focusing on developing UI for creating a Transaction form and UI for listing out all transactions to get it done by iteration 1. We decided to move the UI of the Report manager & Category Handler to iteration 2, since with UI for the transaction handler, we can re-use helpful components from the transaction handler's UI.
 
 
 
