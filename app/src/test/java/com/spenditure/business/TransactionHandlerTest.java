@@ -40,6 +40,7 @@ public class TransactionHandlerTest {
     @Before
     public void setup() {
         this.transactionHandler = new TransactionHandler(true);
+        transactionHandler.cleanup(true);
     }
 
     @After

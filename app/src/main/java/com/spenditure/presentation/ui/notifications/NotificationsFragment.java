@@ -1,4 +1,4 @@
-package com.example.spenditure.ui.notifications;
+package com.spenditure.presentation.ui.notifications;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;

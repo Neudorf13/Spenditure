@@ -20,17 +20,29 @@ import com.spenditure.object.DateTime;
 import com.spenditure.object.Transaction;
 import com.spenditure.logic.exceptions.*;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-public class TransactionHandler implements ITransactionHandler {
+public class TransactionHandler implements ITransactionHandler, Serializable {
+
+
 
     //Handles communication with data layer
-    private final TransactionPersistence dataAccessTransaction;
+    private static TransactionPersistence dataAccessTransaction;
     //Expected ID for new transactions that have not yet been added
     private static final int NEW_TRANSACTION_ID = -1;
 
-    public TransactionHandler(boolean inDevelopment) {
-        dataAccessTransaction = Services.getTransactionPersistence(inDevelopment);
+    public TransactionHandler(boolean getStubDB) {
+        if( dataAccessTransaction == null){
+            dataAccessTransaction = Services.getTransactionPersistence(getStubDB);
+        }
+    }
+    /*
+        Clean up stub transaction database for testing purpose ( for iteration 1)
+     */
+    public void cleanup(boolean getStubDB){
+        Services.restartTransactionDB(getStubDB);
+        dataAccessTransaction = Services.getTransactionPersistence(getStubDB);
     }
 
     /*

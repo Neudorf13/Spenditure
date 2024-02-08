@@ -18,14 +18,22 @@ import java.util.List;
 
 public class CategoryHandler {
     //Attribute
-    private final CategoryPersistence dataAccessCategory;
+    private CategoryPersistence dataAccessCategory;
 
     //Constructor
-    public CategoryHandler(boolean inDeveloping){
-        this.dataAccessCategory = Services.getCategoryPersistence(inDeveloping);
+    public CategoryHandler(boolean getStubDB){
+        dataAccessCategory = Services.getCategoryPersistence(getStubDB);
+
     }
 
     //Business methods
+    /*
+        Clean up methods to get new category stub database for the shake of testing
+     */
+    public void cleanup(boolean getSubDB){
+        Services.restartCategoryDB(getSubDB);
+        dataAccessCategory = Services.getCategoryPersistence(getSubDB);
+    }
     public List<MainCategory> getAllCategory(){
         return this.dataAccessCategory.getAllCategory();
     }

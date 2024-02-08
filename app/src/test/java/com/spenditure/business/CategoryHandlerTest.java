@@ -19,6 +19,7 @@ public class CategoryHandlerTest {
     @Before
     public void setup(){
         this.categoryHandler = new CategoryHandler(true);
+        categoryHandler.cleanup(true);
     }
     @After
     public void tearDown(){

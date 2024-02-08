@@ -36,7 +36,7 @@ import java.util.List;
 public class ViewTransactionsActivity extends AppCompatActivity {
 
     // Instance Variables
-    private TransactionHandler transactionHandler;
+    private static TransactionHandler transactionHandler = null;
     private List<Transaction> transactions;
     private int currentIdSelected;
     private CustomTransactionAdapter adaptor;
@@ -47,7 +47,9 @@ public class ViewTransactionsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_view_transactions);
 
         // Get all the transactions from the handler
-        transactionHandler = new TransactionHandler(true);
+        if( transactionHandler == null){
+            transactionHandler = new TransactionHandler(true);
+        }
         transactions = transactionHandler.getAllByNewestFirst();
 
         ListView transactionsListView = (ListView)findViewById(R.id.listview_transactions);
@@ -131,6 +133,7 @@ public class ViewTransactionsActivity extends AppCompatActivity {
         // Pass the ID of the selected transaction to be edited
         Intent newIntent = new Intent(getApplicationContext(), EditTransactionActivity.class);
         newIntent.putExtra("selectedTransaction", currentIdSelected);
+        newIntent.putExtra("transaction_handler",transactionHandler);
         startActivity(newIntent);
 
         changeButtonEnabled(false);

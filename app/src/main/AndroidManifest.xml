@@ -13,7 +13,7 @@
         android:theme="@style/Theme.Spenditure"
         tools:targetApi="31">
         <activity
-            android:name=".TransactionsListViewActivity"
+            android:name="com.spenditure.presentation.TransactionsListViewActivity"
             android:exported="false" />
         <activity
             android:name="com.spenditure.presentation.EditTransactionActivity"

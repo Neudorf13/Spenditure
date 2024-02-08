@@ -35,6 +35,7 @@ public class TransactionExceptionTest {
     public void setup() {
 
         transactionHandler = new TransactionHandler(true);
+        transactionHandler.cleanup(true);
 
         test = new Transaction(-1, "2024 Honda Civic Type R", new DateTime(2024, 2, 29, 16, 20), "Winnipeg Honda", 53280.00, "MSRP", true);
 
