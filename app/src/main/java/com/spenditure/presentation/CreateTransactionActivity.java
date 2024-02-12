@@ -59,7 +59,7 @@ public class CreateTransactionActivity extends AppCompatActivity {
     // Handle the bottom navigation bar
     private void navBarHandling(){
         BottomNavigationView navView = findViewById(R.id.nav_view);
-        navView.setSelectedItemId(R.id.navigation_home);
+        navView.setSelectedItemId(R.id.navigation_create_transaction);
 
         navView.setOnItemSelectedListener((item -> {
             if (item.getItemId() == R.id.navigation_home) {

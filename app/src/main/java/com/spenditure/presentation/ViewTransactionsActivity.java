@@ -86,7 +86,7 @@ public class ViewTransactionsActivity extends AppCompatActivity {
     // Handle the bottom navigation bar
     private void navBarHandling(){
         BottomNavigationView navView = findViewById(R.id.nav_view);
-        navView.setSelectedItemId(R.id.navigation_home);
+        navView.setSelectedItemId(R.id.navigation_view_transactions);
 
         navView.setOnItemSelectedListener((item -> {
             if (item.getItemId() == R.id.navigation_home) {
