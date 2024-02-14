@@ -26,7 +26,6 @@ import android.widget.ListView;
 
 import com.example.spenditure.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.spenditure.application.MainActivity;
 import com.spenditure.logic.TransactionHandler;
 import com.spenditure.object.Transaction;
 
@@ -90,12 +89,15 @@ public class ViewTransactionsActivity extends AppCompatActivity {
 
         navView.setOnItemSelectedListener((item -> {
             if (item.getItemId() == R.id.navigation_home) {
-                startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                startActivity(new Intent(getApplicationContext(), ViewReportActivity.class));
                 return true;
             } else if (item.getItemId() == R.id.navigation_create_transaction) {
                 startActivity(new Intent(getApplicationContext(), CreateTransactionActivity.class));
                 return true;
             } else if (item.getItemId() == R.id.navigation_view_transactions) {
+                return true;
+            }else if(item.getItemId() == R.id.navigation_category){
+                startActivity(new Intent(getApplicationContext(), ViewCategoryActivity.class));
                 return true;
             } else {
                 return false;

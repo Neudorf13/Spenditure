@@ -24,7 +24,6 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.spenditure.application.MainActivity;
 import com.spenditure.logic.TransactionHandler;
 import com.spenditure.object.DateTime;
 import com.spenditure.object.Transaction;
@@ -49,7 +48,7 @@ public class CreateTransactionActivity extends AppCompatActivity {
                 handler.addTransaction(newTransaction);
 
                 // Return to the main window
-                startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                startActivity(new Intent(getApplicationContext(), ViewReportActivity.class));
             }
         });
 
@@ -63,12 +62,15 @@ public class CreateTransactionActivity extends AppCompatActivity {
 
         navView.setOnItemSelectedListener((item -> {
             if (item.getItemId() == R.id.navigation_home) {
-                startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                startActivity(new Intent(getApplicationContext(), ViewReportActivity.class));
                 return true;
             } else if (item.getItemId() == R.id.navigation_create_transaction) {
                 return true;
             } else if (item.getItemId() == R.id.navigation_view_transactions) {
                 startActivity(new Intent(getApplicationContext(), ViewTransactionsActivity.class));
+                return true;
+            }else if(item.getItemId() == R.id.navigation_category){
+                startActivity(new Intent(getApplicationContext(), ViewCategoryActivity.class));
                 return true;
             } else {
                 return false;

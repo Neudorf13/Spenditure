@@ -2,14 +2,14 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/navigation_stats"
-        android:title="@string/title_stats"
-        android:icon="@drawable/chart_line_solid"/>
+        android:id="@+id/navigation_category"
+        android:title="@string/tittle_category"
+        android:icon="@drawable/table_list_solid"/>
 
     <item
         android:id="@+id/navigation_home"
-        android:title="@string/tittle_category"
-        android:icon="@drawable/table_list_solid"/>
+        android:title="@string/title_reports"
+        android:icon="@drawable/chart_line_solid"/>
     <item
         android:id="@+id/navigation_create_transaction"
         android:title="@string/title_create_transaction"
