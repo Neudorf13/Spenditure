@@ -17,7 +17,7 @@ public class BottomNavigationHandler {
     private final Context context;
     private final Map<Integer, Class<? extends AppCompatActivity>> activityMap;
 
-    public BottomNavigationHandler(Context context, Map<Integer, Class<? extends AppCompatActivity>> activityMap) {
+    public BottomNavigationHandler(Context context) {
         this.context = context;
         this.activityMap = NavigationConfig.ACTIVITY_MAP;
     }

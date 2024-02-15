@@ -44,12 +44,8 @@ public class ViewCategoryActivity extends AppCompatActivity {
 
     private void navBarHandling(){
         BottomNavigationView navView = findViewById(R.id.nav_view);
-        Map<Integer, Class<? extends AppCompatActivity>> activityMap = new HashMap<Integer,Class<? extends AppCompatActivity>>();
-        activityMap.put(R.id.navigation_home, ViewReportActivity.class);
-        activityMap.put(R.id.navigation_create_transaction, CreateTransactionActivity.class);
-        activityMap.put(R.id.navigation_view_transactions, ViewTransactionsActivity.class);
 
-        BottomNavigationHandler navigationHandler = new BottomNavigationHandler(this, activityMap);
+        BottomNavigationHandler navigationHandler = new BottomNavigationHandler(this);
         navigationHandler.setupWithNavController(navView);
 
         // Set the selected item if needed
