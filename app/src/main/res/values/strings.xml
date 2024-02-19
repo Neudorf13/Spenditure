@@ -1,12 +1,16 @@
 <resources>
+
     <string name="app_name">Spenditure</string>
     <string name="title_home">Home</string>
     <string name="title_reports">Reports</string>
     <string name="title_dashboard">Dashboard</string>
+    <string name="tittle_category">Category</string>
     <string name="title_view_transactions">View Transactions</string>
     <string name="title_create_transaction">Create Transaction</string>
     <string name="title_edit_transaction">Edit Transaction</string>
     <string name="title_activity_home">Home Activity</string>
+    <string name="title_stats">Stats</string>
+    <string name="title_profile">Profile</string>
 
     <string name="field_what_the_heck">What the heck?</string>
     <string name="field_date">Date</string>
