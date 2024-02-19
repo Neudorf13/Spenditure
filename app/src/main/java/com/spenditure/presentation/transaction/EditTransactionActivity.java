@@ -11,7 +11,7 @@
  *  activity where users can modify and save an existing transaction.
  **/
 
-package com.spenditure.presentation;
+package com.spenditure.presentation.transaction;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatToggleButton;
@@ -27,6 +27,9 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.spenditure.logic.TransactionHandler;
 import com.spenditure.object.DateTime;
 import com.spenditure.object.Transaction;
+import com.spenditure.presentation.ViewReportActivity;
+import com.spenditure.presentation.transaction.CreateTransactionActivity;
+import com.spenditure.presentation.transaction.ViewTransactionsActivity;
 
 public class EditTransactionActivity extends AppCompatActivity {
 

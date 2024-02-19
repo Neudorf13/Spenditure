@@ -12,7 +12,7 @@
  **/
 
 
-package com.spenditure.presentation;
+package com.spenditure.presentation.transaction;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatToggleButton;
@@ -29,6 +29,8 @@ import com.spenditure.object.DateTime;
 import com.spenditure.object.Transaction;
 
 import com.example.spenditure.R;
+import com.spenditure.presentation.category.ViewCategoryActivity;
+import com.spenditure.presentation.ViewReportActivity;
 
 public class CreateTransactionActivity extends AppCompatActivity {
 

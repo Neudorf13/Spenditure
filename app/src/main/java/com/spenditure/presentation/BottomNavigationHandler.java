@@ -5,10 +5,11 @@ import android.content.Context;
 import android.content.Intent;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
 
 import com.example.spenditure.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.spenditure.presentation.transaction.CreateTransactionActivity;
+import com.spenditure.presentation.transaction.ViewTransactionsActivity;
 
 import java.util.HashMap;
 import java.util.Map;

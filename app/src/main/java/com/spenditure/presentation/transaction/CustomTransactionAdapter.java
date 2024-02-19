@@ -11,7 +11,7 @@
  *  a custom UI list of transactions for the user to view.
  **/
 
-package com.spenditure.presentation;
+package com.spenditure.presentation.transaction;
 
 import android.content.Context;
 import android.view.LayoutInflater;

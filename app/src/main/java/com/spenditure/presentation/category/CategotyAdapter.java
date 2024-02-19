@@ -1,4 +1,4 @@
-package com.spenditure.presentation;
+package com.spenditure.presentation.category;
 
 
 
@@ -15,7 +15,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.spenditure.R;
 import com.spenditure.logic.CategoryHandler;
 import com.spenditure.object.MainCategory;
-
 
 
 import java.util.List;

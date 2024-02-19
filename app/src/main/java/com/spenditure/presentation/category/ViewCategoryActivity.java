@@ -1,11 +1,10 @@
-package com.spenditure.presentation;
+package com.spenditure.presentation.category;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
@@ -13,9 +12,8 @@ import com.example.spenditure.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.spenditure.logic.CategoryHandler;
-import com.spenditure.object.MainCategory;
-
-import java.util.*;
+import com.spenditure.presentation.BottomNavigationHandler;
+import com.spenditure.presentation.TouchHelper;
 
 public class ViewCategoryActivity extends AppCompatActivity {
 

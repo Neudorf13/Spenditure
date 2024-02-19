@@ -12,7 +12,7 @@
  *  to sort these transaction by date and to edit/delete transactions.
  **/
 
-package com.spenditure.presentation;
+package com.spenditure.presentation.transaction;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatToggleButton;
@@ -28,6 +28,8 @@ import com.example.spenditure.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.spenditure.logic.TransactionHandler;
 import com.spenditure.object.Transaction;
+import com.spenditure.presentation.category.ViewCategoryActivity;
+import com.spenditure.presentation.ViewReportActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -54,7 +56,7 @@ public class ViewTransactionsActivity extends AppCompatActivity {
         ListView transactionsListView = (ListView)findViewById(R.id.listview_transactions);
 
         // Create an adaptor to format transactions in the list view
-        adaptor = new CustomTransactionAdapter(transactions, getApplicationContext());
+        adaptor = new CustomTransactionAdapter(transactions, this);
         transactionsListView.setAdapter(adaptor);
 
         // Trigger when list item is selected

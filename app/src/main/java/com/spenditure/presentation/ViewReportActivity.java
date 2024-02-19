@@ -9,8 +9,9 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.spenditure.databinding.ActivityMainBinding;
-import com.spenditure.presentation.CreateTransactionActivity;
-import com.spenditure.presentation.ViewTransactionsActivity;
+import com.spenditure.presentation.category.ViewCategoryActivity;
+import com.spenditure.presentation.transaction.CreateTransactionActivity;
+import com.spenditure.presentation.transaction.ViewTransactionsActivity;
 
 
 public class ViewReportActivity extends AppCompatActivity {

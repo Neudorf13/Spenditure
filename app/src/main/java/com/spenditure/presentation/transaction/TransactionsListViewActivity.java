@@ -11,7 +11,7 @@
  **/
 
 
-package com.spenditure.presentation;
+package com.spenditure.presentation.transaction;
 
 import androidx.appcompat.app.AppCompatActivity;
 

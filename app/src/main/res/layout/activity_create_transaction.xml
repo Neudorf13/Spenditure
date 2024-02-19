@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.spenditure.presentation.CreateTransactionActivity">
+    tools:context="com.spenditure.presentation.transaction.CreateTransactionActivity">
 
     <TextView
         android:id="@+id/textview_title"

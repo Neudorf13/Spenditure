@@ -1,4 +1,4 @@
-package com.spenditure.presentation;
+package com.spenditure.presentation.category;
 
 import android.app.Activity;
 import android.content.Context;
@@ -20,6 +20,7 @@ import androidx.annotation.Nullable;
 import com.example.spenditure.R;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.spenditure.logic.CategoryHandler;
+import com.spenditure.presentation.IOnDialogCloseListener;
 
 public class AddNewCategory extends BottomSheetDialogFragment {
     public static final String TAG = "AddNewCategory";
