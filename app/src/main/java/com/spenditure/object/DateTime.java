@@ -50,6 +50,24 @@ public class DateTime implements IDateTime{
         this.minute = minute;
     }
 
+    public DateTime(int year) {
+
+        this.year = year;
+        this.month = -1; // -1 signifies it was not given
+        this.day = -1;
+        hour = 0;
+        minute = 0;
+    }
+
+    public DateTime(int year, int month) {
+
+        this.year = year;
+        this.month = month;
+        this.day = -1; // -1 signifies that it was not given
+        hour = 0;
+        minute = 0;
+    }
+
     public DateTime(int year, int month, int day) {
 
         this.year = year;
