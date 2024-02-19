@@ -10,6 +10,7 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Adapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -20,6 +21,7 @@ import androidx.annotation.Nullable;
 import com.example.spenditure.R;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.spenditure.logic.CategoryHandler;
+import com.spenditure.logic.exceptions.InvalidCategoryException;
 import com.spenditure.presentation.IOnDialogCloseListener;
 
 public class AddNewCategory extends BottomSheetDialogFragment {
@@ -28,6 +30,7 @@ public class AddNewCategory extends BottomSheetDialogFragment {
     private Button mSaveBtn;
     private CategoryHandler categoryHandler;
     private Context context;
+    private Adapter adapter;
 
     public static AddNewCategory newInstance(){
         return new AddNewCategory();
@@ -78,7 +81,12 @@ public class AddNewCategory extends BottomSheetDialogFragment {
                     Toast.makeText(context,"Empty Category not Allowed", Toast.LENGTH_SHORT).show();
 
                 }else{
-                    categoryHandler.addCategory(newCategory);
+                    try {
+                        categoryHandler.addCategory(newCategory);
+                    }catch (InvalidCategoryException e){
+                        Toast.makeText(context,"Category already exists", Toast.LENGTH_SHORT).show();
+                    }
+
                     Toast.makeText(context,"Category added successfully", Toast.LENGTH_SHORT).show();
                 }
                 dismiss();

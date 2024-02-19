@@ -38,12 +38,13 @@ public class ViewCategoryActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 AddNewCategory.newInstance().show(getSupportFragmentManager(),AddNewCategory.TAG);
+                adapter.notifyDataSetChanged();
             }
         });
 
         adapter = new CategotyAdapter(ViewCategoryActivity.this, categoryHandler.getAllCategory());
         recyclerView.setAdapter(adapter);
-        adapter.notifyDataSetChanged();
+
 
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new TouchHelper(adapter));
         itemTouchHelper.attachToRecyclerView(recyclerView);

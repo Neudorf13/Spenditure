@@ -23,8 +23,6 @@ public class CategotyAdapter extends RecyclerView.Adapter<CategotyAdapter.MyView
 
     private List<MainCategory> categories;
     private ViewCategoryActivity activity;
-    private int counter = 0;
-    private String[] colors = {"#9b5de5","#f15bb5","#fee440","#00bbf9","#00f5d4"};
 
 
     public CategotyAdapter (ViewCategoryActivity activity,List<MainCategory> categories){
@@ -45,8 +43,6 @@ public class CategotyAdapter extends RecyclerView.Adapter<CategotyAdapter.MyView
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         MainCategory currCat = categories.get(position);
         holder.categoryName.setText(currCat.getName());
-        holder.categoryName.setBackgroundColor(Color.parseColor(colors[(counter++) % colors.length]));
-
 
     }
 
