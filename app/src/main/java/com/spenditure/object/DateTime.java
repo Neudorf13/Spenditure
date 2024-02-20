@@ -123,6 +123,26 @@ public class DateTime implements IDateTime{
 
     }
 
+    public void adjust( int changeYear, int changeMonth, int changeDay, int changeHour, int changeMinute ) {
+
+        year += changeYear;
+
+        month += changeMonth;
+
+        day += changeDay;
+
+        hour += changeHour;
+
+        minute += changeMinute;
+
+    }
+
+    public DateTime copy() {
+
+        return new DateTime(year, month, day, hour, minute);
+
+    }
+
     public int getYear()
     {
         return year;
