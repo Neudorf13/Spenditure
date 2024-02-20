@@ -19,7 +19,7 @@ import static org.junit.Assert.*;
 import java.util.ArrayList; // import the ArrayList class
 
 import com.spenditure.application.Services;
-import com.spenditure.logic.ReportManager;
+import com.spenditure.logic.ReportHandler;
 import com.spenditure.object.MainCategory;
 
 
@@ -28,12 +28,12 @@ import org.junit.Test;
 
 public class ReportManagerTest {
 
-    private ReportManager reportManager;
+    private ReportHandler reportManager;
 
     @Before
     public void setup() {
         Services.restartCategoryDB(true);
-        this.reportManager = new ReportManager(true);
+        this.reportManager = new ReportHandler(true);
     }
 
     @Test

@@ -3,6 +3,11 @@ package com.spenditure.logic;
 import com.spenditure.application.Services;
 import com.spenditure.database.CategoryPersistence;
 import com.spenditure.database.TransactionPersistence;
+import com.spenditure.object.DateTime;
+import com.spenditure.object.IDateTime;
+import com.spenditure.object.IReport;
+import com.spenditure.object.Report;
+import com.spenditure.object.CategoryStatistics;
 import com.spenditure.object.MainCategory;
 import com.spenditure.object.Transaction;
 
@@ -24,37 +29,69 @@ import java.util.List;
  **/
 
 
-public class ReportManager {
+public class ReportHandler implements IReportHandler{
 
     //instance vars
     private TransactionPersistence dataAccessTransaction;
     private CategoryPersistence dataAccessCategory;
 
-    public ReportManager(boolean getStubDB) {
+    public ReportHandler(boolean getStubDB) {
         this.dataAccessTransaction = Services.getTransactionPersistence(getStubDB);
         this.dataAccessCategory = Services.getCategoryPersistence(getStubDB);
     }
 
+    public IReport reportOnLastYear()
+    {
+        // manually set to 1 year ago from current date
+        IDateTime yearStart = new DateTime();
+        // manually set to current date (probably an API for getting this info)
+        IDateTime yearEnd = new DateTime();
+
+        double avgTransSize = getAvgTransSize(yearStart, yearEnd);
+        int numTrans = getNumTrans(yearStart, yearEnd);
+        double getStdDev = getStdDev(yearStart, yearEnd);
+
+        ArrayList<CategoryStatistics> listOfCategoryStatisticss = buildCategoryList(yearStart, yearEnd);
+
+        return new Report(avgTransSize, numTrans, getStdDev, listOfCategoryStatisticss);
+
+    }
+
+    public ArrayList<IReport> reportOnLastYearByMonth()
+    {
+
+    }
+
+    public ArrayList<IReport> reportOnLastMonthByWeek()
+    {
+
+    }
+
+    public IReport reportOnUserProvidedDates()
+    {
+
+    }
+
     //return count of total transactions
-    public int countAllTransactions() {
+    private int countAllTransactions(IDateTime startDate, IDateTime EndDate) {
         List<Transaction> transactions = dataAccessTransaction.getAllTransactions();
         return transactions.size();
     }
 
     //return count of total categories
-    public int countAllCategories() {
+    private int countAllCategories() {
         List<MainCategory> categories = dataAccessCategory.getAllCategory();
         return categories.size();
     }
 
     //return count of transactions with specific category
-    public int countTransactionsByCategory(int categoryID) {
+    private int countTransactionsByCategory(IDateTime startDate, IDateTime EndDate) {
         ArrayList<Transaction> categoryTransactions = dataAccessTransaction.getTransactionByCategoryID(categoryID);
         return categoryTransactions.size();
     }
 
     //return sum of total amount for all transactions
-    public double getTotalForAllTransactions() {
+    private double getTotalForAllTransactions(IDateTime startDate, IDateTime EndDate) {
         List<Transaction> transactions = dataAccessTransaction.getAllTransactions();
         double total = 0.0;
 
@@ -66,7 +103,7 @@ public class ReportManager {
     }
 
     //return sum of total amount for specified category
-    public double getTotalForCategory(int categoryID) {
+    private double getTotalForCategory(int categoryID, IDateTime startDate, IDateTime EndDate) {
         ArrayList<Transaction> categoryTransactions =  dataAccessTransaction.getTransactionByCategoryID(categoryID);
         double total = 0.0;
 
@@ -79,7 +116,7 @@ public class ReportManager {
     }
 
     //return average transaction amount for a given category
-    public double getAverageForCategory(int categoryID) {
+    private double getAverageForCategory(int categoryID, IDateTime startDate, IDateTime EndDate) {
         double total = getTotalForCategory(categoryID);
         int count = countTransactionsByCategory(categoryID);
 
@@ -87,7 +124,7 @@ public class ReportManager {
     }
 
     //return % of total transaction sum for given category
-    public double getPercentForCategory(int categoryID) {
+    private double getPercentForCategory(int categoryID, IDateTime startDate, IDateTime EndDate) {
 
         double totalAllTransactions = getTotalForAllTransactions();
         double totalForCategory = getTotalForCategory(categoryID);
@@ -97,9 +134,9 @@ public class ReportManager {
 
     //sorting methods
 
-    //returns list of ReportManagerNodes (one for each category)
-    public ArrayList<ReportManagerNode> buildCategoryList() {
-        ArrayList<ReportManagerNode> categoryList = new ArrayList<>();
+    //returns list of CategoryStatisticss (one for each category)
+    private ArrayList<CategoryStatistics> buildCategoryList(IDateTime startDate, IDateTime EndDate) {
+        ArrayList<CategoryStatistics> categoryList = new ArrayList<>();
         int numCategories = countAllCategories();
 
         for(int i = 1; i < numCategories+1; i++) {
@@ -109,7 +146,7 @@ public class ReportManager {
             double average = getAverageForCategory(i);
             double percent = getPercentForCategory(i);
 
-            ReportManagerNode node = new ReportManagerNode(category,total,average,percent);
+            CategoryStatistics node = new CategoryStatistics(category,total,average,percent);
             categoryList.add(node);
         }
 
@@ -117,8 +154,8 @@ public class ReportManager {
     }
 
     //returns list of categories sorted by total amount
-    public ArrayList<MainCategory> sortByTotal(boolean descending) {
-        ArrayList<ReportManagerNode> categoryList = buildCategoryList();
+    private ArrayList<MainCategory> sortByTotal(boolean descending, IDateTime startDate, IDateTime EndDate) {
+        ArrayList<CategoryStatistics> categoryList = buildCategoryList();
 
         Collections.sort(categoryList, (node1, node2) -> {
             // Compare based on the 'total' attribute
@@ -134,7 +171,7 @@ public class ReportManager {
         // Create a new ArrayList to store sorted categories
         ArrayList<MainCategory> sortedCategories = new ArrayList<>();
 
-        for (ReportManagerNode node : categoryList) {
+        for (CategoryStatistics node : categoryList) {
             sortedCategories.add(node.getCategory());
         }
 
@@ -142,8 +179,8 @@ public class ReportManager {
     }
 
     //returns list of categories sorted by percent
-    public ArrayList<MainCategory> sortByPercent(boolean descending) {
-        ArrayList<ReportManagerNode> categoryList = buildCategoryList();
+    private ArrayList<MainCategory> sortByPercent(boolean descending, IDateTime startDate, IDateTime EndDate) {
+        ArrayList<CategoryStatistics> categoryList = buildCategoryList();
 
         Collections.sort(categoryList, (node1, node2) -> {
             // Compare based on the 'percent' attribute
@@ -159,7 +196,7 @@ public class ReportManager {
         // Create a new ArrayList to store sorted categories
         ArrayList<MainCategory> sortedCategories = new ArrayList<>();
 
-        for (ReportManagerNode node : categoryList) {
+        for (CategoryStatistics node : categoryList) {
             sortedCategories.add(node.getCategory());
         }
 
@@ -167,8 +204,8 @@ public class ReportManager {
     }
 
     //returns list of categories sorted by average amount
-    public ArrayList<MainCategory> sortByAverage(boolean descending) {
-        ArrayList<ReportManagerNode> categoryList = buildCategoryList();
+    private ArrayList<MainCategory> sortByAverage(boolean descending, IDateTime startDate, IDateTime EndDate) {
+        ArrayList<CategoryStatistics> categoryList = buildCategoryList();
 
         Collections.sort(categoryList, (node1, node2) -> {
             // Compare based on the 'average' attribute
@@ -184,45 +221,14 @@ public class ReportManager {
         // Create a new ArrayList to store sorted categories
         ArrayList<MainCategory> sortedCategories = new ArrayList<>();
 
-        for (ReportManagerNode node : categoryList) {
+        for (CategoryStatistics node : categoryList) {
             sortedCategories.add(node.getCategory());
         }
 
         return sortedCategories;
     }
 
-    //ReportManagerNode class used for internal ReportManager purposes
-    //Stores each Category with associated total, average and percent values
-    private class ReportManagerNode {
-        //instance vars
-        private MainCategory category;
-        private double total;
-        private double average;
-        private double percent;
 
-        public ReportManagerNode(MainCategory category, double total, double average, double percent) {
-            this.category = category;
-            this.total = total;
-            this.average = average;
-            this.percent = percent;
-        }
-
-        public MainCategory getCategory() {
-            return category;
-        }
-
-        public double getTotal() {
-            return total;
-        }
-
-        public double getAverage() {
-            return average;
-        }
-
-        public double getPercent() {
-            return percent;
-        }
-    }
 
 
 }

@@ -15,13 +15,16 @@ public class Report implements IReport{
 
     private ArrayList<Integer> amtPerCategory;
 
-    public Report(double avgTransSize, int numTrans, double stdDev, ArrayList<MainCategory> categoryList, ArrayList<Integer> amtPerCategory)
+    private ArrayList<CategoryStatistics> categoryStatisticsList;
+
+    public Report(double avgTransSize, int numTrans, double stdDev, ArrayList<MainCategory> categoryList, ArrayList<Integer> amtPerCategory, ArrayList<CategoryStatistics> categoryStatisticsList)
     {
         this.avgTransSize = avgTransSize;
         this.numTrans = numTrans;
         this.stdDev = stdDev;
         this.categoryList = categoryList;
         this.amtPerCategory = amtPerCategory;
+        this.categoryStatisticsList = categoryStatisticsList;
     }
 
     public double getAvgTransSize()
@@ -47,5 +50,10 @@ public class Report implements IReport{
     public List<Integer> getAmtPerCategory()
     {
         return amtPerCategory;
+    }
+
+    public List<CategoryStatistics> getCategoryStatisticsList()
+    {
+        return categoryStatisticsList;
     }
 }
