@@ -100,7 +100,7 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintVertical_bias="0.0"
-                        app:srcCompat="@drawable/report_card_backgroud" />
+                        app:srcCompat="@drawable/gradient_backgroud_light_blue" />
 
                     <ImageView
 
@@ -207,7 +207,7 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintVertical_bias="0.0"
-                        app:srcCompat="@drawable/report_card_backgroud" />
+                        app:srcCompat="@drawable/gradient_backgroud_light_blue" />
 
                     <ImageView
 
@@ -225,6 +225,77 @@
                         app:layout_constraintVertical_bias="0.0"
                         app:srcCompat="@drawable/bar_report_grey" />
 
+                    <Spinner
+                        android:id="@+id/spinner_report"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="24dp"
+                        android:pointerIcon="grabbing"
+                        app:layout_constraintBottom_toBottomOf="@+id/imageview_customize_report"
+                        app:layout_constraintEnd_toEndOf="@+id/imageview_customize_report"
+
+                        app:layout_constraintHorizontal_bias="1.0"
+                        app:layout_constraintStart_toStartOf="@+id/imageview_customize_report"
+                        app:layout_constraintTop_toTopOf="@+id/imageview_customize_report"
+                        app:layout_constraintVertical_bias="0.045" />
+
+                    <TextView
+                        android:id="@+id/textview_spending_total_custom"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+
+                        android:text="Mostly spending on Food"
+                        android:textColor="@color/white"
+                        android:textSize="30sp"
+                        android:textStyle="bold"
+                        app:layout_constraintBottom_toBottomOf="@+id/imageview_customize_report"
+                        app:layout_constraintEnd_toEndOf="@+id/imageview_customize_report"
+                        app:layout_constraintStart_toStartOf="@+id/imageview_customize_report"
+                        app:layout_constraintTop_toTopOf="@+id/imageview_customize_report"
+                        app:layout_constraintVertical_bias="0.37" />
+
+                    <TextView
+                        android:id="@+id/textview_number_transactions_custom"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+
+                        android:text="Least spending on Grocery"
+                        android:textColor="@color/white"
+                        android:textSize="30sp"
+                        android:textStyle="bold"
+                        app:layout_constraintBottom_toBottomOf="@+id/imageview_customize_report"
+                        app:layout_constraintEnd_toEndOf="@+id/imageview_customize_report"
+                        app:layout_constraintStart_toStartOf="@+id/imageview_customize_report"
+                        app:layout_constraintTop_toTopOf="@+id/imageview_customize_report"
+                        app:layout_constraintVertical_bias="0.68" />
+
+
+
+                    <ImageView
+
+                        android:id="@+id/imageView"
+                        android:layout_width="40dp"
+
+                        android:layout_height="40dp"
+                        app:layout_constraintBottom_toBottomOf="@+id/imageview_customize_report"
+                        app:layout_constraintEnd_toEndOf="@+id/imageView_report_summary_check_custom"
+                        app:layout_constraintTop_toTopOf="@+id/imageview_customize_report"
+                        app:layout_constraintVertical_bias="0.375"
+                        app:srcCompat="@drawable/check_report_grey" />
+
+                    <ImageView
+
+                        android:id="@+id/imageView_report_summary_check_custom"
+                        android:layout_width="40dp"
+
+                        android:layout_height="40dp"
+                        android:layout_marginEnd="40dp"
+                        app:layout_constraintBottom_toBottomOf="@+id/imageview_customize_report"
+                        app:layout_constraintEnd_toStartOf="@+id/textview_number_transactions_custom"
+                        app:layout_constraintTop_toTopOf="@+id/imageview_customize_report"
+                        app:layout_constraintVertical_bias="0.687"
+                        app:srcCompat="@drawable/check_report_grey" />
+
                     <ImageView
 
 
@@ -241,7 +312,24 @@
                         app:srcCompat="@drawable/hand_holding_dollar_solid" />
 
 
+
+
                 </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="16dp" />
+
+                <androidx.viewpager.widget.ViewPager
+                    android:id="@+id/viewpager_report"
+                    android:layout_width="match_parent"
+                    android:layout_height="400dp"
+                    android:layout_marginHorizontal="50dp"
+
+                    />
+
+
+
 
             </LinearLayout>
 

@@ -102,7 +102,7 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintVertical_bias="0.0"
-                        app:srcCompat="@drawable/report_card_backgroud" />
+                        app:srcCompat="@drawable/gradient_backgroud_light_blue" />
 
                     <ImageView
                         android:id="@+id/imageView3"

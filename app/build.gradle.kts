@@ -47,4 +47,5 @@ dependencies {
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
     implementation("it.xabaras.android:recyclerview-swipedecorator:1.4")
+    implementation("com.facebook.shimmer:shimmer:0.1.0@aar")
 }
