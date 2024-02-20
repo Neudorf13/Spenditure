@@ -352,7 +352,8 @@ public class TransactionHandlerTest {
         int numInsertions = 3;
 
         //Test retrieval of specific item by date
-        ArrayList<Transaction> list = transactionHandler.getTransactionByDateTime(new DateTime(2023, 9, 15, 16, 0));
+        DateTime testTime = new DateTime(2023, 9, 15, 16, 0);
+        ArrayList<Transaction> list = transactionHandler.getTransactionByDateTime(testTime, testTime);
 
         //Both should be true
         assertEquals(list.size(), 1);
