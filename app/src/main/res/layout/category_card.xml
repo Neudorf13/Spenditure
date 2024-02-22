@@ -22,11 +22,11 @@
                 android:id="@+id/category_card_name"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:background="@drawable/gradient_backgroud_light_blue"
                 android:padding="10dp"
                 android:text="Category 1"
-                android:textSize="32dp"
                 android:textColor="@color/white"
-                android:background="#c8c8fe"
+                android:textSize="32dp"
                 android:textStyle="bold"
 
                 app:layout_constraintBottom_toBottomOf="parent"
