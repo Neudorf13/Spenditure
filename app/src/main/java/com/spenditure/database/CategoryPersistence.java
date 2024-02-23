@@ -11,11 +11,11 @@ import java.util.*;
  * PURPOSE: Handle all logic related to Category
  */
 public interface CategoryPersistence {
-    List <MainCategory> getAllCategory();
-    MainCategory addCategory(String newCategory);
+    List <MainCategory> getAllCategory(int userID);
+    MainCategory addCategory(MainCategory category);
 
-    void deleteCategoryByID(int id) throws InvalidCategoryException;
+    void deleteCategoryByID(int userID, int categoryID) throws InvalidCategoryException;
 
-    MainCategory getCategoryByID(int id) throws InvalidCategoryException;
+    MainCategory getCategoryByID(int userID, int categoryID) throws InvalidCategoryException;
 
 }
