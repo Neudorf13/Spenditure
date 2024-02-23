@@ -67,7 +67,7 @@ public class CategorySQL implements CategoryPersistence {
             final PreparedStatement statement = connection.prepareStatement("INSERT INTO CATEGORIES VALUES(?, ?)");
             statement.setString(1, category.getName());
             statement.setInt(2, category.getUserID());
-            
+
             statement.executeUpdate();
 
             return category;
