@@ -67,23 +67,23 @@ public class CategoryHandlerTest {
         assertEquals(0,categoryHandler.getAllSubCategoriesFromParent(1).size());
         SubCategory newSubCategoryKid =categoryHandler.addSubCategory(1,"For kids");
         assertEquals(1,categoryHandler.getAllSubCategoriesFromParent(1).size());
-        SubCategory newSubFromListKid = categoryHandler.getSubCategoryFromParent(1,newSubCategoryKid.getID());
+        SubCategory newSubFromListKid = categoryHandler.getSubCategoryFromParent(1,newSubCategoryKid.getCategoryID());
         assertNotNull(newSubFromListKid);
-        assertEquals(newSubCategoryKid.getID(),newSubFromListKid.getID());
+        assertEquals(newSubCategoryKid.getCategoryID(),newSubFromListKid.getCategoryID());
         assertEquals(newSubCategoryKid.getName(),newSubFromListKid.getName());
 
         SubCategory newSubCategoryAdult =categoryHandler.addSubCategory(1,"For adult");
         assertEquals(2,categoryHandler.getAllSubCategoriesFromParent(1).size());
-        SubCategory newSubFromListAdult = categoryHandler.getSubCategoryFromParent(1,newSubCategoryAdult.getID());
+        SubCategory newSubFromListAdult = categoryHandler.getSubCategoryFromParent(1,newSubCategoryAdult.getCategoryID());
         assertNotNull(newSubFromListKid);
-        assertEquals(newSubCategoryAdult.getID(),newSubFromListAdult.getID());
+        assertEquals(newSubCategoryAdult.getCategoryID(),newSubFromListAdult.getCategoryID());
         assertEquals(newSubCategoryAdult.getName(),newSubFromListAdult.getName());
 
         SubCategory newSubCategoryLunch = categoryHandler.addSubCategory(2,"For lunch");
         assertEquals(1,categoryHandler.getAllSubCategoriesFromParent(2).size());
-        SubCategory newSubFromListLunch = categoryHandler.getSubCategoryFromParent(2,newSubCategoryLunch.getID());
+        SubCategory newSubFromListLunch = categoryHandler.getSubCategoryFromParent(2,newSubCategoryLunch.getCategoryID());
         assertNotNull(newSubFromListLunch);
-        assertEquals(newSubCategoryLunch.getID(),newSubFromListLunch.getID());
+        assertEquals(newSubCategoryLunch.getCategoryID(),newSubFromListLunch.getCategoryID());
         assertEquals(newSubCategoryLunch.getName(),newSubFromListLunch.getName());
     }
 
@@ -94,10 +94,10 @@ public class CategoryHandlerTest {
         SubCategory newSubCategoryAdult =categoryHandler.addSubCategory(1,"For adult");
         assertEquals(2,categoryHandler.getAllSubCategoriesFromParent(1).size());
 
-        categoryHandler.deleteSubCategory(1,newSubCategoryKid.getID());
+        categoryHandler.deleteSubCategory(1,newSubCategoryKid.getCategoryID());
         assertEquals(1,categoryHandler.getAllSubCategoriesFromParent(1).size());
-        SubCategory newSubFromListAdult = categoryHandler.getSubCategoryFromParent(1,newSubCategoryAdult.getID());
-        assertEquals(newSubCategoryAdult.getID(),newSubFromListAdult.getID());
+        SubCategory newSubFromListAdult = categoryHandler.getSubCategoryFromParent(1,newSubCategoryAdult.getCategoryID());
+        assertEquals(newSubCategoryAdult.getCategoryID(),newSubFromListAdult.getCategoryID());
         assertEquals(newSubCategoryAdult.getName(),newSubFromListAdult.getName());
     }
 

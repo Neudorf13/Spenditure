@@ -4,6 +4,8 @@ public class Transaction implements ITransaction{
 
     private int transactionID;
 
+    private int userID;
+
     private String name;
 
     private DateTime dateTime;
@@ -18,10 +20,12 @@ public class Transaction implements ITransaction{
 
     private MainCategory category;
 
-    public Transaction(int transactionID, String name, DateTime dateTime,
+    public Transaction(int transactionID, int userID, String name, DateTime dateTime,
                        String place, double amount, String comments,
                        boolean type, MainCategory category) {
         this.transactionID = transactionID;
+
+        this.userID = userID;
 
         this.name = name;
 
@@ -65,6 +69,8 @@ public class Transaction implements ITransaction{
     {
         return transactionID;
     }
+
+    public int getUserID() { return userID;}
 
     public String getName()
     {

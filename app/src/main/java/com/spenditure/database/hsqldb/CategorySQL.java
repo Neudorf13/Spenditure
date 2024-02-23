@@ -29,8 +29,8 @@ public class CategorySQL implements CategoryPersistence {
     private MainCategory fromResultSet(final ResultSet rs) throws SQLException {
         final String categoryName = rs.getString("CATEGORYNAME");
         final String categoryID = rs.getString("CATEGORYID");
-        int id = Integer.parseInt(categoryID);
-        return new MainCategory(categoryName, id);
+        final String userID = rs.getString("USERID");
+        return new MainCategory(categoryName, Integer.parseInt(categoryID), Integer.parseInt(userID));
     }
 
 
@@ -75,7 +75,6 @@ public class CategorySQL implements CategoryPersistence {
         catch (final SQLException e) {
             throw new RuntimeException("An error occurred while processing the SQL operation", e);  //temp exception
         }
-        return null;
     }
 
     @Override

@@ -19,7 +19,7 @@ public class MainCategoryTest {
         MainCategory category = new MainCategory("tuition fee",1);
         assertNotNull(category);
         assertEquals("tuition fee",category.getName());
-        assertEquals(1,category.getID());
+        assertEquals(1,category.getCategoryID());
 
         System.out.println("Finished testCreateCategory");
     }

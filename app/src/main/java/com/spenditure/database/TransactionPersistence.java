@@ -10,6 +10,7 @@ public interface TransactionPersistence {
 
     // query database
     List<Transaction> getAllTransactions();
+    List<Transaction> getAllTransactionsForUser(int userID);
     boolean addTransaction(Transaction newTransaction);
     boolean modifyTransaction(Transaction targetTransaction);
     boolean deleteTransaction(Transaction targetTransaction);
