@@ -4,26 +4,26 @@
     <item
         android:id="@+id/navigation_category"
         android:title="@string/tittle_category"
-        android:icon="@drawable/table_list_solid"/>
+        android:icon="@drawable/symbol_list"/>
 
     <item
         android:id="@+id/navigation_home"
         android:title="@string/title_reports"
-        android:icon="@drawable/chart_line_solid"/>
+        android:icon="@drawable/symbol_chartline"/>
     <item
         android:id="@+id/navigation_create_transaction"
         android:title="@string/title_create_transaction"
-        android:icon="@drawable/circle_plus_solid"/>
+        android:icon="@drawable/symbol_circleplus"/>
 
     <item
         android:id="@+id/navigation_view_transactions"
         android:title="@string/title_view_transactions"
-        android:icon="@drawable/hand_holding_dollar_solid"/>
+        android:icon="@drawable/symbol_holding_dollar"/>
 
     <item
         android:id="@+id/navigation_user"
         android:title="@string/title_profile"
-        android:icon="@drawable/user_solid"/>
+        android:icon="@drawable/symbol_user"/>
 
 
 </menu>

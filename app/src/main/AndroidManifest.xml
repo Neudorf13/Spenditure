@@ -28,7 +28,7 @@
             android:name="com.spenditure.presentation.transaction.CreateTransactionActivity"
             android:exported="false" />
         <activity
-            android:name="com.spenditure.presentation.ViewReportActivity"
+            android:name="com.spenditure.presentation.report.ViewReportActivity"
             android:exported="true"
             android:label="@string/app_name">
             <intent-filter>

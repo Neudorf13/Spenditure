@@ -1,7 +1,6 @@
-package com.spenditure.presentation;
+package com.spenditure.presentation.report;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,17 +17,17 @@ import com.spenditure.object.MainCategory;
 import java.util.List;
 
 
-public class Slider_Adapter extends PagerAdapter {
+public class SliderAdapter extends PagerAdapter {
     Context context;
     LayoutInflater inflater;
     private ReportManager reportManager;
     private List<MainCategory> categoryList;
     private int[] list_bg_color = {
-      R.drawable.gradient_background_light_green,
-      R.drawable.gradient_background_dark_blue
+      R.drawable.background_light_green,
+      R.drawable.background_dark_blue
     };
 
-    public Slider_Adapter(Context context, List<MainCategory> categoryList){
+    public SliderAdapter(Context context, List<MainCategory> categoryList){
         this.context = context;
         this.reportManager = new ReportManager(true);
         this.categoryList = categoryList;
@@ -53,24 +52,25 @@ public class Slider_Adapter extends PagerAdapter {
         LinearLayout linearLayout = view.findViewById(R.id.report_slider_layout);
         MainCategory currCategory = categoryList.get(position);
 
+        //Get data from report manager
         String countTransactionsString = reportManager.countTransactionsByCategory(currCategory.getID())+ " transactions";
-        String totalTransactionsString= "$"+ reportManager.getTotalForCategory(currCategory.getID());
-        String averageString= "$"+ reportManager.getAverageForCategory(currCategory.getID());
-        String percentageString = reportManager.getPercentForCategory(currCategory.getID()) + "%";
+        String totalTransactionsString= "$"+ handle_decimal(reportManager.getTotalForCategory(currCategory.getID()));
+        String averageString= "$"+ handle_decimal(reportManager.getAverageForCategory(currCategory.getID()));
+        String percentageString = handle_decimal(reportManager.getPercentForCategory(currCategory.getID())) + "%";
 
-
+        //query UI components
         TextView tittle = view.findViewById(R.id.slide_tittle);
         TextView countTransactions = view.findViewById(R.id.textview_catReport_transactionsCount);
         TextView totalTransactions = view.findViewById(R.id.textview_catReport_total);
         TextView average = view.findViewById(R.id.textview_catReport_average);
         TextView percentage = view.findViewById(R.id.textview_catReport_percentage);
 
+        //Fill UI component with information
         tittle.setText(currCategory.getName());
         countTransactions.setText(countTransactionsString);
         totalTransactions.setText(totalTransactionsString);
         average.setText(averageString);
         percentage.setText(percentageString);
-
 
         linearLayout.setBackgroundResource(list_bg_color[position % list_bg_color.length]);
         container.addView(view);
@@ -80,6 +80,10 @@ public class Slider_Adapter extends PagerAdapter {
     @Override
     public void destroyItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
         container.removeView((LinearLayout)object);
+    }
+
+    private double handle_decimal(double number){
+        return Math.ceil(number * 100) / 100;
     }
 
 

@@ -1,18 +1,15 @@
-package com.spenditure.presentation;
+package com.spenditure.presentation.report;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.spenditure.R;
-import com.facebook.shimmer.ShimmerFrameLayout;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -22,11 +19,11 @@ import com.example.spenditure.databinding.ActivityMainBinding;
 import com.spenditure.logic.CategoryHandler;
 import com.spenditure.logic.ReportManager;
 import com.spenditure.object.MainCategory;
+import com.spenditure.presentation.BottomNavigationHandler;
 import com.spenditure.presentation.category.ViewCategoryActivity;
 import com.spenditure.presentation.transaction.CreateTransactionActivity;
 import com.spenditure.presentation.transaction.ViewTransactionsActivity;
 
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -34,7 +31,7 @@ public class ViewReportActivity extends AppCompatActivity {
 
     private ActivityMainBinding binding;
     private ViewPager viewPager;
-    private Slider_Adapter adapter;
+    private SliderAdapter adapter;
     private ReportManager reportManager;
     private final String[] custom_option = {"Report by average","Report by total","Report by percentage"};
     private CategoryHandler categoryHandler;
@@ -55,25 +52,42 @@ public class ViewReportActivity extends AppCompatActivity {
 
     // Handle the bottom navigation bar
     private void navBarHandling(){
+//        BottomNavigationView navView = findViewById(R.id.nav_view);
+//        navView.setSelectedItemId(R.id.navigation_home);
+//
+//        navView.setOnItemSelectedListener((item -> {
+//            if (item.getItemId() == R.id.navigation_home) {
+//                return true;
+//            } else if (item.getItemId() == R.id.navigation_create_transaction) {
+//                startActivity(new Intent(getApplicationContext(), CreateTransactionActivity.class));
+//                return true;
+//            } else if (item.getItemId() == R.id.navigation_view_transactions) {
+//                startActivity(new Intent(getApplicationContext(), ViewTransactionsActivity.class));
+//                return true;
+//            }else if(item.getItemId() == R.id.navigation_category){
+//                startActivity(new Intent(getApplicationContext(), ViewCategoryActivity.class));
+//                return true;
+//            }else {
+//                return false;
+//            }
+//        }));
+
         BottomNavigationView navView = findViewById(R.id.nav_view);
         navView.setSelectedItemId(R.id.navigation_home);
+        BottomNavigationHandler navigationHandler = new BottomNavigationHandler();
 
         navView.setOnItemSelectedListener((item -> {
-            if (item.getItemId() == R.id.navigation_home) {
-                return true;
-            } else if (item.getItemId() == R.id.navigation_create_transaction) {
-                startActivity(new Intent(getApplicationContext(), CreateTransactionActivity.class));
-                return true;
-            } else if (item.getItemId() == R.id.navigation_view_transactions) {
-                startActivity(new Intent(getApplicationContext(), ViewTransactionsActivity.class));
-                return true;
-            }else if(item.getItemId() == R.id.navigation_category){
-                startActivity(new Intent(getApplicationContext(), ViewCategoryActivity.class));
-                return true;
-            }else {
+            if (item.getItemId() == R.id.navigation_home){
                 return false;
             }
+            Class<? extends AppCompatActivity> newActivity = navigationHandler.select(item.getItemId());
+            if(newActivity != null){
+                startActivity(new Intent(getApplicationContext(), newActivity));
+                return true;
+            }
+            return false;
         }));
+
 
     }
 
@@ -144,7 +158,7 @@ public class ViewReportActivity extends AppCompatActivity {
 
     private void handleCategoriesReport(){
         viewPager = findViewById(R.id.viewpager_report);
-        adapter = new Slider_Adapter(this,categoryHandler.getAllCategory());
+        adapter = new SliderAdapter(this,categoryHandler.getAllCategory());
         viewPager.setAdapter(adapter);
     }
 

@@ -3,7 +3,6 @@ package com.spenditure.presentation.category;
 
 
 import android.content.Context;
-import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,13 +18,13 @@ import com.spenditure.object.MainCategory;
 
 import java.util.List;
 
-public class CategotyAdapter extends RecyclerView.Adapter<CategotyAdapter.MyViewHolder> {
+public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.MyViewHolder> {
 
     private List<MainCategory> categories;
     private ViewCategoryActivity activity;
 
 
-    public CategotyAdapter (ViewCategoryActivity activity,List<MainCategory> categories){
+    public CategoryAdapter(ViewCategoryActivity activity, List<MainCategory> categories){
         this.categories = categories;
         this.activity = activity;
 
