@@ -15,6 +15,7 @@
     <dimen name="space_3">30dp</dimen>
     <dimen name="space_4">40dp</dimen>
     <dimen name="space_5">50dp</dimen>
+    <dimen name="space_6">100dp</dimen>
 
     <dimen name="radius_2">20dp</dimen>
 </resources>
