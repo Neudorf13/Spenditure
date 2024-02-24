@@ -8,14 +8,14 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.spenditure.R;
-import com.spenditure.presentation.category.CategotyAdapter;
+import com.spenditure.presentation.category.CategoryAdapter;
 
 import it.xabaras.android.recyclerview.swipedecorator.RecyclerViewSwipeDecorator;
 
 public class TouchHelper extends ItemTouchHelper.SimpleCallback {
-    private CategotyAdapter adapter;
+    private CategoryAdapter adapter;
 
-    public TouchHelper(CategotyAdapter adapter) {
+    public TouchHelper(CategoryAdapter adapter) {
         super(0,  ItemTouchHelper.RIGHT);
         this.adapter = adapter;
     }
@@ -48,7 +48,7 @@ public class TouchHelper extends ItemTouchHelper.SimpleCallback {
     @Override
     public void onChildDraw(@NonNull Canvas c, @NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
         new RecyclerViewSwipeDecorator.Builder(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
-                .addSwipeRightActionIcon(R.drawable.baseline_delete_24)
+                .addSwipeRightActionIcon(R.drawable.symbol_delete)
                 .addSwipeRightBackgroundColor(Color.RED)
                 .create()
                 .decorate();

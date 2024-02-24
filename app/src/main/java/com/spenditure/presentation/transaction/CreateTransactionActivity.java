@@ -30,7 +30,7 @@ import com.spenditure.object.Transaction;
 
 import com.example.spenditure.R;
 import com.spenditure.presentation.category.ViewCategoryActivity;
-import com.spenditure.presentation.ViewReportActivity;
+import com.spenditure.presentation.report.ViewReportActivity;
 
 public class CreateTransactionActivity extends AppCompatActivity {
 
