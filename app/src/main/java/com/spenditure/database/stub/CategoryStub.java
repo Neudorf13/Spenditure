@@ -56,27 +56,27 @@ public class CategoryStub implements CategoryPersistence {
     }
 
     @Override
-    public void deleteCategoryByID(int userID, int categoryID) throws InvalidCategoryException {
+    public void deleteCategoryByID(int categoryID) throws InvalidCategoryException {
         Iterator<MainCategory> iterator = this.categoryList.iterator();
         boolean found = false;
         while (iterator.hasNext() && !found) {
             MainCategory curr = iterator.next();
-            if(curr.getCategoryID() == categoryID && curr.getUserID() == userID){
+            if(curr.getCategoryID() == categoryID){
                 iterator.remove();
                 found = true;
             }
         }
-        if(!found) throw new InvalidCategoryException("Category ID: " + categoryID + " does not exist for the the user with ID: " + userID);
+        if(!found) throw new InvalidCategoryException("Category ID: " + categoryID + " does not exist.");
     }
 
     @Override
-    public MainCategory getCategoryByID(int userID, int categoryID) throws InvalidCategoryException {
+    public MainCategory getCategoryByID(int categoryID) throws InvalidCategoryException {
         for(MainCategory category : this.categoryList){
-            if(category.getCategoryID() == categoryID && category.getUserID() == userID){
+            if(category.getCategoryID() == categoryID){
                 return  category;
             }
         }
-        throw new InvalidCategoryException("Category's ID not exist: " + categoryID + " for the user with ID: " + userID);
+        throw new InvalidCategoryException("Category ID: "+ categoryID + "does not exist.");
     }
 
     //Support methods

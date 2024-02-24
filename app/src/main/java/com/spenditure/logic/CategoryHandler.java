@@ -26,8 +26,8 @@ public class CategoryHandler {
     }
 
     //Business methods
-    public List<MainCategory> getAllCategory(){
-        return this.dataAccessCategory.getAllCategory();
+    public List<MainCategory> getAllCategory(int userID){
+        return this.dataAccessCategory.getAllCategory(userID);
     }
 
     public MainCategory getCategoryByID(int id) throws InvalidCategoryException{

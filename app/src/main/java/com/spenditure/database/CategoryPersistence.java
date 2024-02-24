@@ -14,8 +14,8 @@ public interface CategoryPersistence {
     List <MainCategory> getAllCategory(int userID);
     MainCategory addCategory(MainCategory category);
 
-    void deleteCategoryByID(int userID, int categoryID) throws InvalidCategoryException;
+    void deleteCategoryByID(int categoryID) throws InvalidCategoryException;
 
-    MainCategory getCategoryByID(int userID, int categoryID) throws InvalidCategoryException;
+    MainCategory getCategoryByID(int categoryID) throws InvalidCategoryException;
 
 }

@@ -39,7 +39,7 @@ public class CategorySQL implements CategoryPersistence {
         final List<MainCategory> categories = new ArrayList<>();
 
         try(final Connection connection = connection()) {
-            final PreparedStatement statement = connection.prepareStatement("SELECT * FROM categories\nWHERE userID=?"); //might need to change this from * to name, id
+            final PreparedStatement statement = connection.prepareStatement("SELECT * FROM categories\nWHERE USERID=?"); //might need to change this from * to name, id
             statement.setString(1, Integer.toString(userID));
 
             final ResultSet resultSet = statement.executeQuery();
@@ -78,13 +78,40 @@ public class CategorySQL implements CategoryPersistence {
     }
 
     @Override
-    public void deleteCategoryByID(int userID, int categoryID) throws InvalidCategoryException {
+    public void deleteCategoryByID(int categoryID) throws InvalidCategoryException {
 
+        try(final Connection connection = connection()) {
+            final PreparedStatement statement = connection.prepareStatement("DELETE FROM categories\nWHERE CATEGORYID=?");
+            statement.setInt(1,categoryID);
+            statement.executeUpdate();
+
+            //should this return something?
+        }
+        catch (final SQLException e) {
+            throw new RuntimeException("An error occurred while processing the SQL operation", e);  //temp exception
+        }
     }
 
     @Override
-    public MainCategory getCategoryByID(int userID, int categoryID) throws InvalidCategoryException {
-        return null;
+    public MainCategory getCategoryByID(int categoryID) throws InvalidCategoryException {
+
+        try(final Connection connection = connection()) {
+            final PreparedStatement statement = connection.prepareStatement("SELECT * FROM categories\nWHERE CATEGORYID=?");
+            statement.setInt(1,categoryID);
+
+            final ResultSet resultSet = statement.executeQuery();
+            final MainCategory category = fromResultSet(resultSet);
+
+            resultSet.close();
+            statement.close();
+
+            return category;
+
+        }
+        catch (final SQLException e) {
+            throw new RuntimeException("An error occurred while processing the SQL operation", e);  //temp exception
+        }
+
     }
 
 

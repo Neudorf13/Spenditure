@@ -39,7 +39,7 @@ public class Transaction implements ITransaction{
 
         this.type = type;
 
-        this.category = category;
+        this.category = category;   //should a Transaction really store a Category?? Shouldn't it just be a category ID?
 
     }
 

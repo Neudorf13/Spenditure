@@ -71,12 +71,12 @@ public class ReportManagerTest {
     @Test
     public void testSortByTotal() {
         //tests categories are sorted properly based on total attribute, both ascending + descending
-        ArrayList<MainCategory> descendingCategoryList = reportManager.sortByTotal(true);
+        ArrayList<MainCategory> descendingCategoryList = reportManager.sortByTotal(1,true);
         assertEquals("Expected Category: 'Hang out'",descendingCategoryList.get(0).getName(), "Hang out");
         assertEquals("Expected Category: 'Grocery'",descendingCategoryList.get(1).getName(), "Grocery");
         assertEquals("Expected Category: 'Food'",descendingCategoryList.get(2).getName(), "Food");
 
-        ArrayList<MainCategory> ascendingCategoryList = reportManager.sortByTotal(false);
+        ArrayList<MainCategory> ascendingCategoryList = reportManager.sortByTotal(1,false);
         assertEquals("Expected Category: 'Food'",ascendingCategoryList.get(0).getName(), "Food");
         assertEquals("Expected Category: 'Grocery'",ascendingCategoryList.get(1).getName(), "Grocery");
         assertEquals("Expected Category: 'Hang out'",ascendingCategoryList.get(2).getName(), "Hang out");
@@ -85,12 +85,12 @@ public class ReportManagerTest {
     @Test
     public void testSortByPercent() {
         //tests categories are sorted properly based on percent attribute, both ascending + descending
-        ArrayList<MainCategory> descendingCategoryList = reportManager.sortByPercent(true);
+        ArrayList<MainCategory> descendingCategoryList = reportManager.sortByPercent(1,true);
         assertEquals("Expected Category: 'Hang out'",descendingCategoryList.get(0).getName(), "Hang out");
         assertEquals("Expected Category: 'Grocery'",descendingCategoryList.get(1).getName(), "Grocery");
         assertEquals("Expected Category: 'Food'",descendingCategoryList.get(2).getName(), "Food");
 
-        ArrayList<MainCategory> ascendingCategoryList = reportManager.sortByPercent(false);
+        ArrayList<MainCategory> ascendingCategoryList = reportManager.sortByPercent(1,false);
         assertEquals("Expected Category: 'Food'",ascendingCategoryList.get(0).getName(), "Food");
         assertEquals("Expected Category: 'Grocery'",ascendingCategoryList.get(1).getName(), "Grocery");
         assertEquals("Expected Category: 'Hang out'",ascendingCategoryList.get(2).getName(), "Hang out");
@@ -99,12 +99,12 @@ public class ReportManagerTest {
     @Test
     public void testSortByAverage() {
         //tests categories are sorted properly based on average attribute, both ascending + descending
-        ArrayList<MainCategory> descendingCategoryList = reportManager.sortByAverage(true);
+        ArrayList<MainCategory> descendingCategoryList = reportManager.sortByAverage(1,true);
         assertEquals("Expected Category: 'Hang out'",descendingCategoryList.get(0).getName(), "Hang out");
         assertEquals("Expected Category: 'Grocery'",descendingCategoryList.get(1).getName(), "Grocery");
         assertEquals("Expected Category: 'Food'",descendingCategoryList.get(2).getName(), "Food");
 
-        ArrayList<MainCategory> ascendingCategoryList = reportManager.sortByAverage(false);
+        ArrayList<MainCategory> ascendingCategoryList = reportManager.sortByAverage(1,false);
         assertEquals("Expected Category: 'Food'",ascendingCategoryList.get(0).getName(), "Food");
         assertEquals("Expected Category: 'Grocery'",ascendingCategoryList.get(1).getName(), "Grocery");
         assertEquals("Expected Category: 'Hang out'",ascendingCategoryList.get(2).getName(), "Hang out");

@@ -28,8 +28,8 @@ public class ReportManager {
     }
 
     //return count of total categories
-    public int countAllCategories() {
-        List<MainCategory> categories = dataAccessCategory.getAllCategory();
+    public int countAllCategories(int userID) {
+        List<MainCategory> categories = dataAccessCategory.getAllCategory(userID);
         return categories.size();
     }
 
@@ -84,9 +84,9 @@ public class ReportManager {
     //sorting methods
 
     //returns list of ReportManagerNodes (one for each category)
-    public ArrayList<ReportManagerNode> buildCategoryList() {
+    public ArrayList<ReportManagerNode> buildCategoryList(int userID) {
         ArrayList<ReportManagerNode> categoryList = new ArrayList<>();
-        int numCategories = countAllCategories();
+        int numCategories = countAllCategories(userID);
 
         for(int i = 1; i < numCategories+1; i++) {
             //for each Category calculate -> total, average, %
@@ -103,8 +103,8 @@ public class ReportManager {
     }
 
     //returns list of categories sorted by total amount
-    public ArrayList<MainCategory> sortByTotal(boolean descending) {
-        ArrayList<ReportManagerNode> categoryList = buildCategoryList();
+    public ArrayList<MainCategory> sortByTotal(int userID, boolean descending) {
+        ArrayList<ReportManagerNode> categoryList = buildCategoryList(userID);
 
         Collections.sort(categoryList, (node1, node2) -> {
             // Compare based on the 'total' attribute
@@ -128,8 +128,8 @@ public class ReportManager {
     }
 
     //returns list of categories sorted by percent
-    public ArrayList<MainCategory> sortByPercent(boolean descending) {
-        ArrayList<ReportManagerNode> categoryList = buildCategoryList();
+    public ArrayList<MainCategory> sortByPercent(int userID, boolean descending) {
+        ArrayList<ReportManagerNode> categoryList = buildCategoryList(userID);
 
         Collections.sort(categoryList, (node1, node2) -> {
             // Compare based on the 'percent' attribute
@@ -153,8 +153,8 @@ public class ReportManager {
     }
 
     //returns list of categories sorted by average amount
-    public ArrayList<MainCategory> sortByAverage(boolean descending) {
-        ArrayList<ReportManagerNode> categoryList = buildCategoryList();
+    public ArrayList<MainCategory> sortByAverage(int userID, boolean descending) {
+        ArrayList<ReportManagerNode> categoryList = buildCategoryList(userID);
 
         Collections.sort(categoryList, (node1, node2) -> {
             // Compare based on the 'average' attribute
