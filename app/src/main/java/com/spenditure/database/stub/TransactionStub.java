@@ -159,7 +159,24 @@ public class TransactionStub implements TransactionPersistence {
         return false;
     }
 
-    public boolean deleteTransaction(Transaction targetTransaction)
+//    public boolean deleteTransaction(Transaction targetTransaction)
+//    {
+//        boolean foundTransaction = false;
+//
+//        Iterator<Transaction> itr = transactionList.iterator();
+//        while (itr.hasNext())
+//        {
+//            Transaction current = itr.next();
+//            if (current.getTransactionID() == targetTransaction.getTransactionID())
+//            {
+//                foundTransaction = true;
+//                itr.remove();
+//            }
+//        }
+//
+//        return foundTransaction;
+//    }
+    public boolean deleteTransaction(int transactionID)
     {
         boolean foundTransaction = false;
 
@@ -167,7 +184,7 @@ public class TransactionStub implements TransactionPersistence {
         while (itr.hasNext())
         {
             Transaction current = itr.next();
-            if (current.getTransactionID() == targetTransaction.getTransactionID())
+            if (current.getTransactionID() == transactionID)
             {
                 foundTransaction = true;
                 itr.remove();

@@ -17,7 +17,7 @@ public interface ITransaction {
 
     String getComments();
 
-    boolean getType();
+    boolean getWithdrawal();
 
 
 
@@ -34,7 +34,7 @@ public interface ITransaction {
 
     void setComments(String comments);
 
-    void setType(boolean type);
+    void setWithdrawal(boolean withdrawal);
 
 
 }

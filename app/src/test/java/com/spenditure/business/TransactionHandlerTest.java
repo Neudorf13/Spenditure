@@ -242,9 +242,9 @@ public class TransactionHandlerTest {
         assertTrue(transactionHandler.modifyTransaction(toModify));
 
         //Modifying type
-        toModify.setType(false);
+        toModify.setWithdrawal(false);
         assertTrue(transactionHandler.modifyTransaction(toModify));
-        assertFalse(transactionHandler.getTransactionByID(2).getType());
+        assertFalse(transactionHandler.getTransactionByID(2).getWithdrawal());
 
         assertEquals(transactionHandler.getAllTransactions().size(), EXPECTED_SIZE);
     }

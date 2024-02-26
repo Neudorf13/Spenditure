@@ -96,7 +96,7 @@ public class TransactionHandler implements ITransactionHandler {
             throw new InvalidTransactionException("Transaction I.D. of new transaction (I.D.: "
                     + t.getTransactionID() +") is invalid; the transaction may not exist.");
 
-        return dataAccessTransaction.deleteTransaction(t);
+        return dataAccessTransaction.deleteTransaction(t.getTransactionID());
 
     }
 

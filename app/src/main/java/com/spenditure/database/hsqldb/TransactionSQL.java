@@ -86,7 +86,7 @@ public class TransactionSQL implements TransactionPersistence {
             statement.setString(4,newTransaction.getPlace());
             statement.setDouble(5,newTransaction.getAmount());
             statement.setString(6,newTransaction.getComments());
-            statement.setBoolean(7,newTransaction.getType());
+            statement.setBoolean(7,newTransaction.getWithdrawal());
             statement.setBytes(8, newTransaction.getImage());
             statement.setInt(9,newTransaction.getCategoryID());
 
@@ -102,13 +102,42 @@ public class TransactionSQL implements TransactionPersistence {
     }
 
     @Override
-    public boolean modifyTransaction(Transaction targetTransaction) {
+    public boolean modifyTransaction(Transaction transaction) {
+//        try (Connection connection = connection()) {
+//            // Delete the existing transaction with the given transactionID
+//            try (PreparedStatement deleteStatement = connection.prepareStatement("DELETE FROM transactions WHERE TRANSACTIONID = ?")) {
+//                deleteStatement.setInt(1, transaction.getTransactionID());
+//                deleteStatement.executeUpdate();
+//            }
+//
+//            // Insert the new transaction object
+//            try (PreparedStatement insertStatement = connection.prepareStatement("INSERT INTO transactions (transactionID, amount, image) VALUES (?, ?, ?)")) {
+//                insertStatement.setInt(1, transaction.getTransactionID());
+//                insertStatement.setDouble(2, transaction.getAmount());
+//                insertStatement.setBytes(3, transaction.getImage());
+//                int rowsInserted = insertStatement.executeUpdate();
+//
+//                return rowsInserted > 0; // Return true if row(s) inserted successfully
+//            }
+//        } catch (SQLException e) {
+//            throw new RuntimeException("An error occurred while processing the SQL operation", e);
+//        }
         return false;
     }
 
     @Override
-    public boolean deleteTransaction(Transaction targetTransaction) {
-        return false;
+    public boolean deleteTransaction(int transactionID) {
+        try(final Connection connection = connection()) {
+            final PreparedStatement statement = connection.prepareStatement("DELETE FROM transactions\nWHERE TRANSACTIONID=?");
+            statement.setInt(1,transactionID);
+
+            int row = statement.executeUpdate();
+
+            return row > 0; //true if row number is greater than 0
+        }
+        catch (final SQLException e) {
+            throw new RuntimeException("An error occurred while processing the SQL operation", e);  //temp exception
+        }
     }
 
     @Override

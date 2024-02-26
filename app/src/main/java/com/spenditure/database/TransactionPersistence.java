@@ -13,7 +13,7 @@ public interface TransactionPersistence {
     List<Transaction> getAllTransactionsForUser(int userID);
     boolean addTransaction(Transaction newTransaction);
     boolean modifyTransaction(Transaction targetTransaction);
-    boolean deleteTransaction(Transaction targetTransaction);
+    boolean deleteTransaction(int transactionID);
     Transaction getTransactionByID(int id);
     ArrayList<Transaction> getTransactionByName(String name);
     ArrayList<Transaction> getTransactionsByPlace(String place);

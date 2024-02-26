@@ -16,7 +16,7 @@ public class Transaction implements ITransaction{
 
     private String comments;
 
-    private boolean type;
+    private boolean withdrawal;
 
     private byte[] image;
 
@@ -25,7 +25,7 @@ public class Transaction implements ITransaction{
 
     public Transaction(int transactionID, int userID, String name, DateTime dateTime,
                        String place, double amount, String comments,
-                       boolean type, byte[] image, int categoryID) {
+                       boolean withdrawal, byte[] image, int categoryID) {
         this.transactionID = transactionID;
 
         this.userID = userID;
@@ -40,7 +40,7 @@ public class Transaction implements ITransaction{
 
         this.comments = comments;
 
-        this.type = type;
+        this.withdrawal = withdrawal;
 
         this.image = image;
 
@@ -50,7 +50,7 @@ public class Transaction implements ITransaction{
 
     public Transaction(int transactionID, String name, DateTime dateTime,
                        String place, double amount, String comments,
-                       boolean type, byte[] image) {
+                       boolean withdrawal, byte[] image) {
         this.transactionID = transactionID;
 
         this.name = name;
@@ -63,7 +63,7 @@ public class Transaction implements ITransaction{
 
         this.comments = comments;
 
-        this.type = type;
+        this.withdrawal = withdrawal;
 
         this.image = image;
 
@@ -104,9 +104,9 @@ public class Transaction implements ITransaction{
         return comments;
     }
 
-    public boolean getType()
+    public boolean getWithdrawal()
     {
-        return type;
+        return withdrawal;
     }
 
 //    public MainCategory getCategory() {
@@ -155,9 +155,9 @@ public class Transaction implements ITransaction{
         this.comments = comments;
     }
 
-    public void setType(boolean type)
+    public void setWithdrawal(boolean withdrawal)
     {
-        this.type = type;
+        this.withdrawal = withdrawal;
     }
 
 //    public void setCategory(MainCategory category) {
