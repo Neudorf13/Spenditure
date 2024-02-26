@@ -18,11 +18,14 @@ public class Transaction implements ITransaction{
 
     private boolean type;
 
-    private MainCategory category;
+    private byte[] image;
+
+    //private MainCategory category;
+    private int categoryID;
 
     public Transaction(int transactionID, int userID, String name, DateTime dateTime,
                        String place, double amount, String comments,
-                       boolean type, MainCategory category) {
+                       boolean type, byte[] image, int categoryID) {
         this.transactionID = transactionID;
 
         this.userID = userID;
@@ -39,13 +42,15 @@ public class Transaction implements ITransaction{
 
         this.type = type;
 
-        this.category = category;   //should a Transaction really store a Category?? Shouldn't it just be a category ID?
+        this.image = image;
+
+        this.categoryID = categoryID;   //should a Transaction really store a Category?? Shouldn't it just be a category ID?
 
     }
 
     public Transaction(int transactionID, String name, DateTime dateTime,
                        String place, double amount, String comments,
-                       boolean type) {
+                       boolean type, byte[] image) {
         this.transactionID = transactionID;
 
         this.name = name;
@@ -60,8 +65,10 @@ public class Transaction implements ITransaction{
 
         this.type = type;
 
-        this.category = null;
+        this.image = image;
 
+        //this.category = null;
+        this.categoryID = 0;    //represents not having an associated category
     }
 
     //getters
@@ -102,8 +109,17 @@ public class Transaction implements ITransaction{
         return type;
     }
 
-    public MainCategory getCategory() {
-        return category;
+//    public MainCategory getCategory() {
+//        return category;
+//    }
+
+
+    public byte[] getImage() {
+        return image;
+    }
+
+    public int getCategoryID() {
+        return categoryID;
     }
 
 
@@ -144,8 +160,17 @@ public class Transaction implements ITransaction{
         this.type = type;
     }
 
-    public void setCategory(MainCategory category) {
-        this.category = category;
+//    public void setCategory(MainCategory category) {
+//        this.category = category;
+//    }
+
+
+    public void setImage(byte[] image) {
+        this.image = image;
+    }
+
+    public void setCategoryID(int categoryID) {
+        this.categoryID = categoryID;
     }
 
 }

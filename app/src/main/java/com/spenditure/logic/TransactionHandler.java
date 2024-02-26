@@ -160,7 +160,7 @@ public class TransactionHandler implements ITransactionHandler {
     @Override
     public ArrayList<Transaction> getTransactionByCategoryID(int categoryID) {
 
-        return dataAccessTransaction.getTransactionByCategoryID(categoryID);
+        return dataAccessTransaction.getTransactionsByCategoryID(categoryID);
 
     }
 

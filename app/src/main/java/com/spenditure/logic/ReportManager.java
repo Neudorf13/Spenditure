@@ -35,7 +35,7 @@ public class ReportManager {
 
     //return count of transactions with specific category
     public int countTransactionsByCategory(int categoryID) {
-        ArrayList<Transaction> categoryTransactions = dataAccessTransaction.getTransactionByCategoryID(categoryID);
+        ArrayList<Transaction> categoryTransactions = dataAccessTransaction.getTransactionsByCategoryID(categoryID);
         return categoryTransactions.size();
     }
 
@@ -53,7 +53,7 @@ public class ReportManager {
 
     //return sum of total amount for specified category
     public double getTotalForCategory(int categoryID) {
-        ArrayList<Transaction> categoryTransactions =  dataAccessTransaction.getTransactionByCategoryID(categoryID);
+        ArrayList<Transaction> categoryTransactions =  dataAccessTransaction.getTransactionsByCategoryID(categoryID);
         double total = 0.0;
 
         for(Transaction element : categoryTransactions) {

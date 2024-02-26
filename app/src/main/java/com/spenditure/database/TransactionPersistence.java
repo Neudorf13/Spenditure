@@ -21,7 +21,7 @@ public interface TransactionPersistence {
     ArrayList<Transaction> getTransactionsByDateTime(DateTime lower, DateTime upper);
 
 
-    ArrayList<Transaction> getTransactionByCategoryID(int categoryID);
+    ArrayList<Transaction> getTransactionsByCategoryID(int categoryID);
 
     // sorting
     ArrayList<Transaction> sortByDateNewestFirst();
