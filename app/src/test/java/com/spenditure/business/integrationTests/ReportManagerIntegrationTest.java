@@ -1,23 +1,32 @@
 package com.spenditure.business.integrationTests;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import com.spenditure.logic.ReportManager;
 import com.spenditure.object.MainCategory;
+import com.spenditure.utils.TestUtils;
 
 import org.junit.Before;
 import org.junit.Test;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class ReportManagerIntegrationTest {
 
     private ReportManager reportManager;
+    private File tempDB;
 
     @Before
-    public void setup() {
+    public void setup() throws IOException {
+
+        this.tempDB = TestUtils.copyDB();
         this.reportManager = new ReportManager(false);
+
+        assertNotNull(this.reportManager);
     }
 
 //    @Test
