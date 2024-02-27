@@ -177,6 +177,10 @@ public class ReportManager {
         return sortedCategories;
     }
 
+    public void callShitMethod() {
+        dataAccessTransaction.getCourseSequential();
+    }
+
     //ReportManagerNode class used for internal ReportManager purposes
     //Stores each Category with associated total, average and percent values
     private class ReportManagerNode {

@@ -18,6 +18,7 @@ public class MainActivity extends AppCompatActivity {
 
     private ActivityMainBinding binding;
     private static String dbName="SC";
+    //private static String dbName="src/main/java/com/spenditure/database/assets/SC.script";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

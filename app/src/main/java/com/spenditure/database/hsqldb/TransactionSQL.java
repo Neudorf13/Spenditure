@@ -9,6 +9,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
@@ -345,4 +346,38 @@ public class TransactionSQL implements TransactionPersistence {
             throw new RuntimeException("An error occurred while processing the SQL operation", e);  //temp exception
         }
     }
+
+    public void getCourseSequential() {
+        //final List<Course> courses = new ArrayList<>();
+
+        try (final Connection c = connection()) {
+            final Statement st = c.createStatement();
+            final ResultSet rs = st.executeQuery("SELECT TABLE_NAME\n" +
+                    "FROM INFORMATION_SCHEMA.TABLES\n" +
+                    "WHERE TABLE_SCHEMA = 'PUBLIC';\n");
+
+            System.out.println("LOOK HERE!!!!!!!!!!!!!");
+            if(!rs.next()) {
+                System.out.println("F's in chat gentlemen");
+            }
+
+            while (rs.next())
+            {
+//                final Course course = fromResultSet(rs);
+//                courses.add(course);
+                System.out.println(rs.getString("TABLE_NAME"));
+                System.out.println("Maybe Baby");
+            }
+            rs.close();
+            st.close();
+
+            //return courses;
+        }
+        catch (final SQLException e)
+        {
+            //throw new PersistenceException(e);
+            throw new RuntimeException("An error occurred while processing the SQL operation", e);  //temp exception
+        }
+    }
+
 }

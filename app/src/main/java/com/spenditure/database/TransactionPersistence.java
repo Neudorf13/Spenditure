@@ -27,4 +27,6 @@ public interface TransactionPersistence {
     ArrayList<Transaction> getNewestTransactionsForUser(int userID);
     ArrayList<Transaction> getOldestTransactionsForUser(int userID);
 
+    public void getCourseSequential();
+
 }

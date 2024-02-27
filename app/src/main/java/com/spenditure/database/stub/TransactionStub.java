@@ -302,6 +302,11 @@ public class TransactionStub implements TransactionPersistence {
         return null;
     }
 
+    @Override
+    public void getCourseSequential() {
+
+    }
+
     // sorting
     public ArrayList<Transaction> getNewestTransactionsForUser()
     {
