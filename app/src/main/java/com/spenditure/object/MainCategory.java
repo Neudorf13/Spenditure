@@ -37,7 +37,6 @@ public class MainCategory implements IMainCategory {
     public int getCategoryID() {
         return this.categoryID;
     }
-
     public int getUserID() { return this.userID;}
 
     @Override

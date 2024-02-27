@@ -24,7 +24,7 @@ public interface TransactionPersistence {
     ArrayList<Transaction> getTransactionsByCategoryID(int categoryID);
 
     // sorting
-    ArrayList<Transaction> sortByDateNewestFirst();
-    ArrayList<Transaction> sortByDateOldestFirst();
+    ArrayList<Transaction> getNewestTransactionsForUser(int userID);
+    ArrayList<Transaction> getOldestTransactionsForUser(int userID);
 
 }

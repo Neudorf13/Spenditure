@@ -133,7 +133,7 @@ public class TransactionHandler implements ITransactionHandler {
     @Override
     public ArrayList<Transaction> getAllByNewestFirst() {
 
-        return dataAccessTransaction.sortByDateNewestFirst();
+        return dataAccessTransaction.getNewestTransactionsForUser();
 
     }
 
@@ -145,7 +145,7 @@ public class TransactionHandler implements ITransactionHandler {
     @Override
     public ArrayList<Transaction> getAllByOldestFirst() {
 
-        return dataAccessTransaction.sortByDateOldestFirst();
+        return dataAccessTransaction.getOldestTransactionsForUser();
 
     }
 

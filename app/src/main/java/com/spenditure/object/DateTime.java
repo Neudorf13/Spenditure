@@ -1,5 +1,8 @@
 package com.spenditure.object;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 public class DateTime implements IDateTime{
 
     private int year;
@@ -11,6 +14,8 @@ public class DateTime implements IDateTime{
     private int hour;
 
     private int minute;
+
+    private int seconds;
 
     //Relates month names to month value; names correlate to month-1
     private static final String[] MONTHS = {
@@ -28,13 +33,14 @@ public class DateTime implements IDateTime{
             "December"
     };
 
-    public DateTime(int year, int month, int day, int hour, int minute)
+    public DateTime(int year, int month, int day, int hour, int minute, int seconds)
     {
         this.year = year;
         this.month = month;
         this.day = day;
         this.hour = hour;
         this.minute = minute;
+        this.seconds = seconds;
     }
 
     public DateTime(int year, int month, int day) {
@@ -44,7 +50,22 @@ public class DateTime implements IDateTime{
         this.day = day;
         hour = 0;
         minute = 0;
+        seconds = 0;
+    }
 
+    public DateTime(String dateString) {
+
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
+        LocalDateTime dateTime = LocalDateTime.parse(dateString, formatter);
+
+        this.year = dateTime.getYear();
+        this.month = dateTime.getMonthValue();
+        this.day = dateTime.getDayOfMonth();
+        this.hour = dateTime.getHour();
+        this.minute = dateTime.getMinute();
+        this.seconds = dateTime.getSecond();
     }
 
     public String toString() {
@@ -61,6 +82,28 @@ public class DateTime implements IDateTime{
                 + hour + ":" + adjustMinutesPrefix + minute + adjustMinutesSuffix;
 
     }
+
+
+
+//    public static DateTime FromTimestamp(Timestamp timestamp)
+//    {
+//        // Convert milliseconds since the epoch to seconds
+//        long secondsSinceEpoch = timestamp.Value / 1000;
+//
+//        // Create a DateTimeOffset object representing the timestamp
+//        DateTimeOffset dateTimeOffset = DateTimeOffset.FromUnixTimeSeconds(secondsSinceEpoch);
+//
+//        // Extract year, month, day, hour, minute, and second components
+//        int year = dateTimeOffset.Year;
+//        int month = dateTimeOffset.Month;
+//        int day = dateTimeOffset.Day;
+//        int hour = dateTimeOffset.Hour;
+//        int minute = dateTimeOffset.Minute;
+//        int seconds = dateTimeOffset.Second;
+//
+//        // Create and return a new DateTime object using the constructor
+//        return new DateTime(year, month, day, hour, minute, seconds);
+//    }
 
     /*
         compare()
@@ -87,6 +130,8 @@ public class DateTime implements IDateTime{
         } else if( minute - other.getMinute() != 0 ) {
             return minute - other.getMinute();
 
+        } else if(seconds - other.getSeconds() != 0) {
+            return seconds - other.getSeconds();
         } else
             return 0;
 
@@ -117,4 +162,5 @@ public class DateTime implements IDateTime{
         return minute;
     }
 
+    public int getSeconds() {return seconds; }
 }

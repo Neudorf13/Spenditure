@@ -9,6 +9,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,8 +38,8 @@ public class TransactionSQL implements TransactionPersistence {
         final byte[] image = rs.getBytes("IMAGE");
         final int categoryID = rs.getInt("CATEGORYID");
 
-        //need to write a method in DateTime to convert from String
-        DateTime dateTime = null;
+
+        DateTime dateTime = new DateTime(date);
 
         return new Transaction(transactionID, userID, name, dateTime, place, amount, comments, withdrawal, image, categoryID);
         //return new MainCategory(categoryName, Integer.parseInt(categoryID), Integer.parseInt(userID));
@@ -294,12 +295,54 @@ public class TransactionSQL implements TransactionPersistence {
     }
 
     @Override
-    public ArrayList<Transaction> sortByDateNewestFirst() {
-        return null;
+    public ArrayList<Transaction> getNewestTransactionsForUser(int userID) {
+        ArrayList<Transaction> transactions = new ArrayList<>();
+
+        try(final Connection connection = connection()) {
+            final PreparedStatement statement = connection.prepareStatement("SELECT * FROM transactions\nWHERE USERID = ?\nORDER BY DATE DESC;");
+            statement.setInt(1,userID);
+
+            final ResultSet resultSet = statement.executeQuery();
+
+            while(resultSet.next()) {
+                final Transaction transaction = fromResultSet(resultSet);
+                transactions.add(transaction);
+            }
+
+            resultSet.close();
+            statement.close();
+
+            return transactions;
+
+        }
+        catch (final SQLException e) {
+            throw new RuntimeException("An error occurred while processing the SQL operation", e);  //temp exception
+        }
     }
 
     @Override
-    public ArrayList<Transaction> sortByDateOldestFirst() {
-        return null;
+    public ArrayList<Transaction> getOldestTransactionsForUser(int userID) {
+        ArrayList<Transaction> transactions = new ArrayList<>();
+
+        try(final Connection connection = connection()) {
+            final PreparedStatement statement = connection.prepareStatement("SELECT * FROM transactions\nWHERE USERID = ?\nORDER BY DATE;");
+            statement.setInt(1,userID);
+
+            final ResultSet resultSet = statement.executeQuery();
+
+            while(resultSet.next()) {
+                final Transaction transaction = fromResultSet(resultSet);
+                transactions.add(transaction);
+            }
+
+            resultSet.close();
+            statement.close();
+
+            return transactions;
+
+        }
+        catch (final SQLException e) {
+            throw new RuntimeException("An error occurred while processing the SQL operation", e);  //temp exception
+        }
     }
 }
