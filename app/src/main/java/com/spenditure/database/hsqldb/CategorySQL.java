@@ -15,7 +15,6 @@ import java.util.List;
 
 public class CategorySQL implements CategoryPersistence {
 
-
     private final String dbPath;
 
     public CategorySQL(final String dbPath) {

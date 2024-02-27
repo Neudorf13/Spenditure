@@ -2,6 +2,8 @@ package com.spenditure.application;
 
 import com.spenditure.database.CategoryPersistence;
 import com.spenditure.database.TransactionPersistence;
+import com.spenditure.database.hsqldb.CategorySQL;
+import com.spenditure.database.hsqldb.TransactionSQL;
 import com.spenditure.database.stub.CategoryStub;
 import com.spenditure.database.stub.TransactionStub;
 
@@ -22,7 +24,7 @@ public class Services {
             categoryPersistence = new CategoryStub();
         }else {
             //Hanlde connect to DB
-
+            categoryPersistence = new CategorySQL(MainActivity.getDBPathName());
         }
         return categoryPersistence;
     }
@@ -32,6 +34,7 @@ public class Services {
             transactionPersistence = new TransactionStub();
         }else{
             //Hanlde connect to DB
+            transactionPersistence = new TransactionSQL(MainActivity.getDBPathName());
         }
         return transactionPersistence;
     }
