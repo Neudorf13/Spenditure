@@ -1,14 +1,11 @@
 package com.spenditure.logic;
 
-import com.spenditure.object.CategoryStatistics;
-import com.spenditure.object.DateTime;
 import com.spenditure.object.IDateTime;
 import com.spenditure.object.IReport;
-import com.spenditure.object.Report;
 
 import java.util.ArrayList;
 
-public interface IReportHandler {
+public interface IReportManager {
 
     public IReport reportOnLastYear();
 
@@ -16,5 +13,5 @@ public interface IReportHandler {
 
     public ArrayList<IReport> reportOnLastMonthByWeek();
 
-    public IReport reportOnUserProvidedDates();
+    public IReport reportOnUserProvidedDates(IDateTime start, IDateTime end);
 }

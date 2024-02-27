@@ -15,8 +15,8 @@ import com.spenditure.object.MainCategory;
 import com.spenditure.object.Transaction;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
+import java.time.*;
 
 /**
  * ReportManager.java
@@ -32,37 +32,47 @@ import java.util.List;
  **/
 
 
-public class ReportHandler implements IReportHandler{
+public class ReportManager implements IReportManager {
 
     //instance vars
     private TransactionPersistence dataAccessTransaction;
     private CategoryPersistence dataAccessCategory;
 
-    public ReportHandler(boolean getStubDB) {
+    public ReportManager(boolean getStubDB) {
         this.dataAccessTransaction = Services.getTransactionPersistence(getStubDB);
         this.dataAccessCategory = Services.getCategoryPersistence(getStubDB);
     }
 
     public IReport reportOnLastYear()
     {
-        // manually set to 1 year ago from current date
-        IDateTime yearStart = new DateTime();
         // manually set to current date (probably an API for getting this info)
-        IDateTime yearEnd = new DateTime();
+        IDateTime yearEnd = getCurrentDate();
+        // manually set to 1 year ago from current date
+        IDateTime yearStart = new DateTime(yearEnd.getYear()-1, yearEnd.getMonth());
 
-        double avgTransSize = getAvgTransSize(yearStart, yearEnd);
-        int numTrans = getNumTrans(yearStart, yearEnd);
-        double getStdDev = getStdDev(yearStart, yearEnd);
 
-        ArrayList<CategoryStatistics> listOfCategoryStatisticss = buildCategoryList(yearStart, yearEnd);
+        double avgTransSize = getAverageTransactionSize(yearStart, yearEnd);
+        int numTrans = countAllTransactions(yearStart, yearEnd);
+        double stdDev = getStandardDeviation(yearStart, yearEnd);
 
-        return new Report(avgTransSize, numTrans, getStdDev, listOfCategoryStatisticss);
+        ArrayList<CategoryStatistics> listOfCategoryStatistics = buildCategoryList(yearStart, yearEnd);
+
+        return new Report(avgTransSize, numTrans, stdDev, listOfCategoryStatistics);
 
     }
 
     public ArrayList<IReport> reportOnLastYearByMonth()
     {
+        ArrayList<IReport> monthReports = new ArrayList<IReport>();
+        DateTime today = getCurrentDate();
 
+        for(int i = 0; i < 12; i++)
+        {
+            monthReports.add(reportOnUserProvidedDates(new DateTime(today.getYear()-1, i),
+                    new DateTime(today.getYear()-1, i)));
+        }
+
+        return monthReports;
     }
 
     public ArrayList<IReport> reportOnLastMonthByWeek() {
@@ -70,7 +80,7 @@ public class ReportHandler implements IReportHandler{
         DateTime[] weekDates = new DateTime[5];
         ArrayList<IReport> result = new ArrayList<IReport>();
 
-        weekDates[0] = new DateTime(); //current day
+        weekDates[0] = getCurrentDate(); //current day
 
         int weeks = 7;
 
@@ -81,29 +91,13 @@ public class ReportHandler implements IReportHandler{
 
             weekDates[i] = week;
 
-            result.add(setupReport(weekDates[i - 1], weekDates[i]));
-
+            result.add(reportOnUserProvidedDates(weekDates[i - 1], weekDates[i]));
         }
 
         return result;
-
     }
 
     public IReport reportOnUserProvidedDates(IDateTime start, IDateTime end) {
-//
-//        double avgTransactionSize = getAvgTransSize(start, end);
-//        int numTransactions = getNumTrans(start, end);
-//        double standardDeviation = getStdDev(start, end);
-//
-//        ArrayList<CategoryStatistics> categoryStatistics = buildCategoryList(start, end);
-//
-//        return new Report( avgTransactionSize, numTransactions, standardDeviation, categoryStatistics );
-
-        return setupReport(start, end);
-
-    }
-
-    public IReport setupReport(IDateTime start, IDateTime end) {
 
         double averageTransactionSize = getAverageTransactionSize(start, end);
         int numTransactions = countAllTransactions(start, end);
@@ -112,7 +106,12 @@ public class ReportHandler implements IReportHandler{
         ArrayList<CategoryStatistics> categoryStatistics = buildCategoryList(start, end);
 
         return new Report( averageTransactionSize, numTransactions, standardDeviation, categoryStatistics );
+    }
 
+    private DateTime getCurrentDate()
+    {
+        LocalDate javaDateObject = LocalDate.now(); // Create a date object
+        return new DateTime(javaDateObject.getYear(), javaDateObject.getMonthValue());
     }
 
     private double getAverageTransactionSize(IDateTime startDate, IDateTime endDate) {
@@ -136,7 +135,6 @@ public class ReportHandler implements IReportHandler{
         List<Transaction> transactions = dataAccessTransaction.getTransactionsByDateTime(startDate, endDate);
 
         double mean = getAverageTransactionSize(startDate, endDate);
-//        double[] calculations = new double[transactions.size()];
         double sum = 0.00;
         double variance = 0.00;
         double standardDeviation = 0.00;
@@ -148,7 +146,6 @@ public class ReportHandler implements IReportHandler{
             current = abs(current - mean);
             current *= current;
 
-//            calculations[i] = current;
             sum += current;
         }
 
@@ -162,7 +159,6 @@ public class ReportHandler implements IReportHandler{
 
     //return count of total transactions
     private int countAllTransactions(IDateTime startDate, IDateTime endDate) {
-//        List<Transaction> transactions = dataAccessTransaction.getAllTransactions();
         List<Transaction> transactions = dataAccessTransaction.getTransactionsByDateTime(startDate, endDate);
         return transactions.size();
     }
@@ -202,11 +198,9 @@ public class ReportHandler implements IReportHandler{
 
     //return sum of total amount for specified category
     private double getTotalForCategory(int categoryID, IDateTime startDate, IDateTime endDate) {
-//        ArrayList<Transaction> categoryTransactions =  dataAccessTransaction.getTransactionByCategoryID(categoryID);
         ArrayList<Transaction> transactionsInTimeframe = dataAccessTransaction.getTransactionsByDateTime(startDate, endDate);
         double total = 0.0;
 
-//        for(Transaction element : categoryTransactions) {
         for( int i = 0; i < transactionsInTimeframe.size(); i++ ) {
 
             Transaction element = transactionsInTimeframe.get(i);
@@ -257,82 +251,6 @@ public class ReportHandler implements IReportHandler{
 
         return categoryList;
     }
-
-    //returns list of categories sorted by total amount
-    private ArrayList<MainCategory> sortByTotal(boolean descending, IDateTime startDate, IDateTime endDate) {
-        ArrayList<CategoryStatistics> categoryList = buildCategoryList(startDate, endDate);
-
-        Collections.sort(categoryList, (node1, node2) -> {
-            // Compare based on the 'total' attribute
-            if(descending) {
-                return Double.compare(node2.getTotal(), node1.getTotal());
-            }
-            else {
-                return Double.compare(node1.getTotal(), node2.getTotal());
-            }
-
-        });
-
-        // Create a new ArrayList to store sorted categories
-        ArrayList<MainCategory> sortedCategories = new ArrayList<>();
-
-        for (CategoryStatistics node : categoryList) {
-            sortedCategories.add(node.getCategory());
-        }
-
-        return sortedCategories;
-    }
-
-    //returns list of categories sorted by percent
-    private ArrayList<MainCategory> sortByPercent(boolean descending, IDateTime startDate, IDateTime endDate) {
-        ArrayList<CategoryStatistics> categoryList = buildCategoryList(startDate, endDate);
-
-        Collections.sort(categoryList, (node1, node2) -> {
-            // Compare based on the 'percent' attribute
-            if(descending) {
-                return Double.compare(node2.getPercent(), node1.getPercent());
-            }
-            else {
-                return Double.compare(node1.getPercent(), node2.getPercent());
-            }
-
-        });
-
-        // Create a new ArrayList to store sorted categories
-        ArrayList<MainCategory> sortedCategories = new ArrayList<>();
-
-        for (CategoryStatistics node : categoryList) {
-            sortedCategories.add(node.getCategory());
-        }
-
-        return sortedCategories;
-    }
-
-    //returns list of categories sorted by average amount
-    private ArrayList<MainCategory> sortByAverage(boolean descending, IDateTime startDate, IDateTime endDate) {
-        ArrayList<CategoryStatistics> categoryList = buildCategoryList(startDate, endDate);
-
-        Collections.sort(categoryList, (node1, node2) -> {
-            // Compare based on the 'average' attribute
-            if(descending) {
-                return Double.compare(node2.getAverage(), node1.getAverage());
-            }
-            else {
-                return Double.compare(node1.getAverage(), node2.getAverage());
-            }
-
-        });
-
-        // Create a new ArrayList to store sorted categories
-        ArrayList<MainCategory> sortedCategories = new ArrayList<>();
-
-        for (CategoryStatistics node : categoryList) {
-            sortedCategories.add(node.getCategory());
-        }
-
-        return sortedCategories;
-    }
-
 
 
 

@@ -10,9 +10,5 @@ public interface IReport {
 
     public double getStdDev();
 
-    public List<MainCategory> getCategoryList();
-
-    public List<Integer> getAmtPerCategory();
-
     public List<CategoryStatistics> getCategoryStatisticsList();
 }
