@@ -292,6 +292,16 @@ public class TransactionStub implements TransactionPersistence {
         return allTransactionsWithID;
     }
 
+    @Override
+    public ArrayList<Transaction> getNewestTransactionsForUser(int userID) {
+        return null;
+    }
+
+    @Override
+    public ArrayList<Transaction> getOldestTransactionsForUser(int userID) {
+        return null;
+    }
+
     // sorting
     public ArrayList<Transaction> getNewestTransactionsForUser()
     {

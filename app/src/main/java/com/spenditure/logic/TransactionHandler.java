@@ -131,9 +131,9 @@ public class TransactionHandler implements ITransactionHandler {
         Returns all transactions, sorted by newest first
      */
     @Override
-    public ArrayList<Transaction> getAllByNewestFirst() {
+    public ArrayList<Transaction> getAllByNewestFirst(int userID) {
 
-        return dataAccessTransaction.getNewestTransactionsForUser();
+        return dataAccessTransaction.getNewestTransactionsForUser(userID);
 
     }
 
@@ -143,9 +143,9 @@ public class TransactionHandler implements ITransactionHandler {
         Returns all transactions, sorted by oldest first
      */
     @Override
-    public ArrayList<Transaction> getAllByOldestFirst() {
+    public ArrayList<Transaction> getAllByOldestFirst(int userID) {
 
-        return dataAccessTransaction.getOldestTransactionsForUser();
+        return dataAccessTransaction.getOldestTransactionsForUser(userID);
 
     }
 
@@ -267,9 +267,9 @@ public class TransactionHandler implements ITransactionHandler {
     public ArrayList<Transaction> getTransactionByDate(DateTime target) {
 
         DateTime lower = new DateTime(target.getYear(), target.getMonth(), target.getDay(),
-                00, 00);
+                00, 00, 00);
         DateTime upper = new DateTime(target.getYear(), target.getMonth(), target.getDay(),
-                DateTimeValidator.MAX_HOURS, DateTimeValidator.MAX_MINUTES);
+                DateTimeValidator.MAX_HOURS, DateTimeValidator.MAX_MINUTES, DateTimeValidator.MAX_SECONDS);
 
         return dataAccessTransaction.getTransactionsByDateTime(lower, upper);
 
@@ -300,7 +300,7 @@ public class TransactionHandler implements ITransactionHandler {
     public ArrayList<Transaction> getTransactionByDateTimeBefore(DateTime date) {
 
         return dataAccessTransaction.getTransactionsByDateTime(
-                new DateTime(0, 0, 0, 0, 0), date);
+                new DateTime(0, 0, 0, 0, 0, 0), date);
 
     }
 
@@ -315,7 +315,7 @@ public class TransactionHandler implements ITransactionHandler {
     public ArrayList<Transaction> getTransactionByDateTimeAfter(DateTime lower) {
 
         return dataAccessTransaction.getTransactionsByDateTime(lower,
-                new DateTime(9999, 99, 99, 99, 99));
+                new DateTime(9999, 99, 99, 99, 99, 99));
 
     }
 

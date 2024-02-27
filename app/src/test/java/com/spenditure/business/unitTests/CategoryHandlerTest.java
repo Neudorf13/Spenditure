@@ -1,6 +1,7 @@
-package com.spenditure.business;
+package com.spenditure.business.unitTests;
 
 import com.spenditure.logic.CategoryHandler;
+import com.spenditure.object.MainCategory;
 import com.spenditure.object.SubCategory;
 
 import org.junit.Before;
@@ -29,19 +30,21 @@ public class CategoryHandlerTest {
     public void testCategorySet(){
         int expectedSize = 3;
 
-        assertEquals(categoryHandler.getAllCategory().size(),expectedSize);
+        assertEquals(categoryHandler.getAllCategory(1).size(),expectedSize);
         assertEquals("Grocery",categoryHandler.getCategoryByID(1).getName());
         assertEquals("Food",categoryHandler.getCategoryByID(2).getName());
         assertEquals("Hang out",categoryHandler.getCategoryByID(3).getName());
     }
-//
+
     @Test
     public void testInsert(){
         int expectedSize = 3;
+        MainCategory bills = new MainCategory("bills", 4, 1);
+        assertEquals(categoryHandler.getAllCategory(1).size(),expectedSize);
 
-        assertEquals(categoryHandler.getAllCategory().size(),expectedSize);
-        categoryHandler.addCategory("bills");
-        assertEquals(expectedSize + 1,categoryHandler.getAllCategory().size());
+        //categoryHandler.addCategory("bills");
+        categoryHandler.addCategory(bills);
+        assertEquals(expectedSize + 1,categoryHandler.getAllCategory(1).size());
         assertEquals("Grocery",categoryHandler.getCategoryByID(1).getName());
         assertEquals("bills",categoryHandler.getCategoryByID(4).getName());
     }
@@ -50,14 +53,14 @@ public class CategoryHandlerTest {
     public void testDelete(){
         int expectedSize = 3;
 
-        assertEquals(categoryHandler.getAllCategory().size(),expectedSize);
+        assertEquals(categoryHandler.getAllCategory(1).size(),expectedSize);
         assertEquals("Grocery",categoryHandler.getCategoryByID(1).getName());
         assertEquals("Food",categoryHandler.getCategoryByID(2).getName());
         assertEquals("Hang out",categoryHandler.getCategoryByID(3).getName());
 
         categoryHandler.deleteCategory(1);
 
-        assertEquals(expectedSize - 1 ,categoryHandler.getAllCategory().size());
+        assertEquals(expectedSize - 1 ,categoryHandler.getAllCategory(1).size());
         assertEquals("Food",categoryHandler.getCategoryByID(2).getName());
         assertEquals("Hang out",categoryHandler.getCategoryByID(3).getName());
     }

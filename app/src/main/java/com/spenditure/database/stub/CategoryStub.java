@@ -17,7 +17,8 @@ import java.util.*;
 public class CategoryStub implements CategoryPersistence {
     //Attributes
     private List<MainCategory> categoryList;
-    private int currentID = 1;
+    private int currentCategoryID = 1;
+    private int currentUserID = 1;
 
     //Constructors
     public CategoryStub(){
@@ -45,9 +46,9 @@ public class CategoryStub implements CategoryPersistence {
     @Override
     public MainCategory addCategory(MainCategory category) throws InvalidCategoryException{
         if (validateUnique(category.getName())){
-            //MainCategory newCategory = new MainCategory(newCategoryName,generateUniqueID());
+            //MainCategory newCategory = new MainCategory(newCategoryName,generateUniqueCategoryID(),userID);
             this.categoryList.add(category);
-            return category ;
+            return category;
         }else{
             throw new InvalidCategoryException("Category's ID not exist");
         }
@@ -80,8 +81,12 @@ public class CategoryStub implements CategoryPersistence {
     }
 
     //Support methods
-    private  int generateUniqueID(){
-        return currentID++;
+    private  int generateUniqueCategoryID(){
+        return currentCategoryID++;
+    }
+
+    private  int generateUniqueUserID(){
+        return currentUserID++;
     }
 
     private boolean validateUnique(String categoryName){

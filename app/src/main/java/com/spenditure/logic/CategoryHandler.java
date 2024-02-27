@@ -34,16 +34,22 @@ public class CategoryHandler {
         return this.dataAccessCategory.getCategoryByID(id);
     }
 
-    public MainCategory addCategory(String newCategoryName) throws InvalidCategoryException {
-        if (newCategoryName == null){
+//    public MainCategory addCategory(String newCategoryName) throws InvalidCategoryException {
+//        if (newCategoryName == null){
+//            throw new InvalidCategoryException("Null pointer");
+//        }else if(newCategoryName.equals("")){
+//            throw new InvalidCategoryException("Name of category must not be blank");
+//        }
+//        return this.dataAccessCategory.addCategory(newCategoryName);
+//    }
+    public MainCategory addCategory(MainCategory category) throws InvalidCategoryException {
+        if (category == null)
             throw new InvalidCategoryException("Null pointer");
-        }else if(newCategoryName.equals("")){
-            throw new InvalidCategoryException("Name of category must not be blank");
-        }
-        return this.dataAccessCategory.addCategory(newCategoryName);
+
+        return this.dataAccessCategory.addCategory(category);
     }
 
-    public void deleteCategory(int id) throws InvalidCategoryException{
+    public void deleteCategory(int id) throws InvalidCategoryException {
         this.dataAccessCategory.deleteCategoryByID(id);
     }
 

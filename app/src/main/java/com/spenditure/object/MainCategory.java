@@ -18,7 +18,8 @@ public class MainCategory implements IMainCategory {
     private int userID;
     private List<SubCategory> listSubCategories; //For future development
     private final int MAX_SUB_CATEGORIES = 5;
-    private static int currentID = 1;
+    private static int currentCategoryID = 1;
+    private static int currentUserID = 1;
 
     //Constructors
     public MainCategory(String name, int categoryID, int userID){
@@ -49,7 +50,7 @@ public class MainCategory implements IMainCategory {
             throw new InvalidSubCategoryException("Only " + this.MAX_SUB_CATEGORIES + " sub-categories are allowed per Category");
         }else{
             if (checkUniqueSub(newSubCategoryName)){
-                SubCategory newSubCategory = new SubCategory(newSubCategoryName,generateUniqueID());
+                SubCategory newSubCategory = new SubCategory(newSubCategoryName, generateUniqueCategoryID());
                 this.listSubCategories.add(newSubCategory);
                 return newSubCategory;
             }else{
@@ -90,7 +91,9 @@ public class MainCategory implements IMainCategory {
         return true;
     }
 
-    private static int generateUniqueID(){
-        return currentID++;
+    private static int generateUniqueCategoryID(){
+        return currentCategoryID++;
     }
+
+    private static int generateUniqueUserID() { return currentUserID++; }
 }
