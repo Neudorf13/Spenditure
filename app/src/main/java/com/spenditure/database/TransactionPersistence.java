@@ -1,6 +1,6 @@
 package com.spenditure.database;
 
-import com.spenditure.object.DateTime;
+import com.spenditure.object.IDateTime;
 import com.spenditure.object.Transaction;
 
 import java.util.ArrayList;
@@ -30,7 +30,7 @@ public interface TransactionPersistence {
     ArrayList<Transaction> getTransactionByName(String name);
     ArrayList<Transaction> getTransactionsByPlace(String place);
     ArrayList<Transaction> getTransactionsByAmount(double lower, double upper);
-    ArrayList<Transaction> getTransactionsByDateTime(DateTime lower, DateTime upper);
+    ArrayList<Transaction> getTransactionsByDateTime(IDateTime lower, IDateTime upper);
 
 
     ArrayList<Transaction> getTransactionByCategoryID(int categoryID);

@@ -6,6 +6,7 @@ import com.spenditure.object.MainCategory;
 import com.spenditure.object.DateNewestFirstComparator;
 import com.spenditure.object.DateOldestFirstComparator;
 import com.spenditure.object.DateTime;
+import com.spenditure.object.IDateTime;
 import com.spenditure.object.Transaction;
 
 import java.util.ArrayList;
@@ -185,7 +186,7 @@ public class TransactionStub implements TransactionPersistence {
 
     }
 
-    public ArrayList<Transaction> getTransactionsByDateTime(DateTime lower, DateTime upper) {
+    public ArrayList<Transaction> getTransactionsByDateTime(IDateTime lower, IDateTime upper) {
 
         ArrayList<Transaction> allTransactionsInBounds = new ArrayList<>();
 

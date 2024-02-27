@@ -204,7 +204,6 @@ public class TransactionHandler implements ITransactionHandler, Serializable {
         Returns all transactions with amount values equal to the specified value.
 
      */
-    @Override
     public ArrayList<Transaction> getTransactionByAmount(double amount) {
 
         return dataAccessTransaction.getTransactionsByAmount(amount, amount);
@@ -261,10 +260,9 @@ public class TransactionHandler implements ITransactionHandler, Serializable {
         Returns all transactions which occur at the specified date and time
 
      */
-    @Override
-    public ArrayList<Transaction> getTransactionByDateTime(DateTime target) {
+    public ArrayList<Transaction> getTransactionByDateTime(DateTime lower, DateTime upper) {
 
-        return dataAccessTransaction.getTransactionsByDateTime(target, target);
+        return dataAccessTransaction.getTransactionsByDateTime(lower, upper);
 
     }
 
@@ -275,7 +273,6 @@ public class TransactionHandler implements ITransactionHandler, Serializable {
         Returns all transactions which occur at any time on the specified date.
 
      */
-    @Override
     public ArrayList<Transaction> getTransactionByDate(DateTime target) {
 
         DateTime lower = new DateTime(target.getYear(), target.getMonth(), target.getDay(),
@@ -294,7 +291,6 @@ public class TransactionHandler implements ITransactionHandler, Serializable {
         Returns all transactions which occurred between the specified dates and times.
 
      */
-    @Override
     public ArrayList<Transaction> getTransactionByDateTimeBetween(DateTime lower, DateTime upper) {
 
         return dataAccessTransaction.getTransactionsByDateTime(lower, upper);
@@ -308,7 +304,6 @@ public class TransactionHandler implements ITransactionHandler, Serializable {
         Returns all transactions which occurred before the specified date and time.
 
      */
-    @Override
     public ArrayList<Transaction> getTransactionByDateTimeBefore(DateTime date) {
 
         return dataAccessTransaction.getTransactionsByDateTime(
@@ -323,7 +318,6 @@ public class TransactionHandler implements ITransactionHandler, Serializable {
         Returns all transactions which occurred after the specified date and time.
 
      */
-    @Override
     public ArrayList<Transaction> getTransactionByDateTimeAfter(DateTime lower) {
 
         return dataAccessTransaction.getTransactionsByDateTime(lower,

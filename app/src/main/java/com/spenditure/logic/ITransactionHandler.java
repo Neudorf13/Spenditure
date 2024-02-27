@@ -40,28 +40,12 @@ public interface ITransactionHandler {
 
     ArrayList<Transaction> getTransactionByPlace(String place);
 
-    /*
-
-        getTransactionByAmount
-
-        Returns all transactions with amount values equal to the specified value.
-
-     */
-    ArrayList<Transaction> getTransactionByAmount(double amount);
-
     ArrayList<Transaction> getTransactionByAmountBetween(double lower, double upper);
 
     ArrayList<Transaction> getTransactionByAmountGreaterThan(double amount);
 
     ArrayList<Transaction> getTransactionByAmountLessThan(double amount);
 
-    ArrayList<Transaction> getTransactionByDateTime(DateTime target);
+    ArrayList<Transaction> getTransactionByDateTime(DateTime lower, DateTime upper);
 
-    ArrayList<Transaction> getTransactionByDate(DateTime target);
-
-    ArrayList<Transaction> getTransactionByDateTimeBetween(DateTime lower, DateTime upper);
-
-    ArrayList<Transaction> getTransactionByDateTimeBefore(DateTime date);
-
-    ArrayList<Transaction> getTransactionByDateTimeAfter(DateTime lower);
 }
