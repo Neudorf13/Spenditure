@@ -13,6 +13,9 @@
         android:theme="@style/Theme.Spenditure"
         tools:targetApi="31">
         <activity
+            android:name=".CategorySpinnerActivity"
+            android:exported="false" />
+        <activity
             android:name="com.spenditure.presentation.category.ViewCategoryActivity"
             android:exported="false" />
         <activity
