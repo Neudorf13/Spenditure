@@ -44,7 +44,6 @@ public class CreateTransactionActivity extends AppCompatActivity {
 
     private CustomCategorySpinnerAdapter adapter;
     private DateTime selectedDate;
-    private DateTime defaultDate = new DateTime(2024, 1, 1);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -162,7 +161,8 @@ public class CreateTransactionActivity extends AppCompatActivity {
                 Double.parseDouble(amount.getText().toString()),
                 comments.getText().toString(),
                 type.isChecked(),
-                (MainCategory) category.getSelectedItem());
+                (MainCategory) category.getSelectedItem()
+        );
 
         return newTransaction;
     };

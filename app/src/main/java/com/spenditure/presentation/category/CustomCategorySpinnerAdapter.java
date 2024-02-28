@@ -17,7 +17,6 @@ import java.util.List;
 
 public class CustomCategorySpinnerAdapter extends BaseAdapter {
 
-
     // Instance Variables
     private Context context;
     private List<MainCategory> categories;
@@ -43,6 +42,10 @@ public class CustomCategorySpinnerAdapter extends BaseAdapter {
     @Override
     public long getItemId(int i) {
         return categories.get(i).getID();
+    }
+
+    public int getPosition(MainCategory category) {
+        return categories.indexOf(category);
     }
 
     @Override
