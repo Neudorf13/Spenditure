@@ -1,8 +1,10 @@
-package com.example.spenditure;
+package com.spenditure.presentation.category;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+
+import com.example.spenditure.R;
 
 public class CategorySpinnerActivity extends AppCompatActivity {
 

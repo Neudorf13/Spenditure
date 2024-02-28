@@ -49,7 +49,6 @@ public class CustomCategorySpinnerAdapter extends BaseAdapter {
     public View getView(int i, View view, ViewGroup viewGroup){
         view =inflator.inflate(R.layout.activity_category_spinner, null);
 
-        // Set the transaction 'what the heck'
         TextView categoryName = (TextView) view.findViewById(R.id.textview_category_name);
         categoryName.setText(categories.get(i).getName());
 

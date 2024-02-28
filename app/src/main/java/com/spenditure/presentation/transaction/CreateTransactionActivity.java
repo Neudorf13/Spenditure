@@ -22,17 +22,22 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.spenditure.logic.TransactionHandler;
+import com.spenditure.logic.CategoryHandler;
 import com.spenditure.object.DateTime;
 import com.spenditure.object.Transaction;
 
 import com.example.spenditure.R;
+import com.spenditure.presentation.category.CustomCategorySpinnerAdapter;
 import com.spenditure.presentation.category.ViewCategoryActivity;
 import com.spenditure.presentation.report.ViewReportActivity;
 
 public class CreateTransactionActivity extends AppCompatActivity {
+
+    private CustomCategorySpinnerAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +60,13 @@ public class CreateTransactionActivity extends AppCompatActivity {
         });
 
         navBarHandling();
+
+        // Populate the Category choices
+        CategoryHandler categoryHandler = new CategoryHandler(true);
+
+        Spinner categories = (Spinner) findViewById(R.id.spinner_categories);
+        adapter = new CustomCategorySpinnerAdapter(categoryHandler.getAllCategory(), this);
+        categories.setAdapter(adapter);
     }
 
     // Handle the bottom navigation bar
