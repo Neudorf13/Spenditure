@@ -19,23 +19,29 @@ public class Services {
     private static CategoryPersistence categoryPersistence = null;
     private static TransactionPersistence transactionPersistence = null;
 
-    public static CategoryPersistence getCategoryPersistence(boolean inDeveloping){
-        if(inDeveloping){
-            categoryPersistence = new CategoryStub();
-        }else {
-            //Hanlde connect to DB
-            categoryPersistence = new CategorySQL(MainActivity.getDBPathName());
+    public static synchronized CategoryPersistence getCategoryPersistence(boolean inDeveloping){
+        if(categoryPersistence == null) {
+            if(inDeveloping){
+                categoryPersistence = new CategoryStub();
+            }else {
+                //Hanlde connect to DB
+                categoryPersistence = new CategorySQL(MainActivity.getDBPathName());
+            }
         }
+
         return categoryPersistence;
     }
 
-    public static TransactionPersistence getTransactionPersistence(boolean inDeveloping){
-        if(inDeveloping){
-            transactionPersistence = new TransactionStub();
-        }else{
-            //Hanlde connect to DB
-            transactionPersistence = new TransactionSQL(MainActivity.getDBPathName());
+    public static synchronized TransactionPersistence getTransactionPersistence(boolean inDeveloping){
+        if(transactionPersistence == null) {
+            if(inDeveloping){
+                transactionPersistence = new TransactionStub();
+            }else{
+                //Hanlde connect to DB
+                transactionPersistence = new TransactionSQL(MainActivity.getDBPathName());
+            }
         }
+
         return transactionPersistence;
     }
 

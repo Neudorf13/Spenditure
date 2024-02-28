@@ -23,26 +23,29 @@ public class TransactionSQL implements TransactionPersistence {
     }
 
     private Connection connection() throws SQLException {
+        System.out.println("jdbc:hsqldb:file:" + dbPath + ";shutdown=true");
         return DriverManager.getConnection("jdbc:hsqldb:file:" + dbPath + ";shutdown=true", "SA", "");
     }
 
 
     private Transaction fromResultSet(final ResultSet rs) throws SQLException {
+        System.out.println("in fromResultSet");
         final int transactionID = rs.getInt("TRANSACTIONID");
-        final int userID = rs.getInt("USERID");
-        final String name = rs.getString("NAME");
-        final String date = rs.getString("DATE");
-        final String place = rs.getString("PLACE");
-        final double amount = rs.getDouble("AMOUNT");
-        final String comments = rs.getString("COMMENTS");
-        final boolean withdrawal = rs.getBoolean("WITHDRAWAL");
-        final byte[] image = rs.getBytes("IMAGE");
-        final int categoryID = rs.getInt("CATEGORYID");
+//        final int userID = rs.getInt("USERID");
+//        final String name = rs.getString("NAME");
+//        final String date = rs.getString("DATE");
+//        final String place = rs.getString("PLACE");
+//        final double amount = rs.getDouble("AMOUNT");
+//        final String comments = rs.getString("COMMENTS");
+//        final boolean withdrawal = rs.getBoolean("WITHDRAWAL");
+//        final byte[] image = rs.getBytes("IMAGE");
+//        final int categoryID = rs.getInt("CATEGORYID");
 
 
-        DateTime dateTime = new DateTime(date);
+        //DateTime dateTime = new DateTime(date);
 
-        return new Transaction(transactionID, userID, name, dateTime, place, amount, comments, withdrawal, image, categoryID);
+        //return new Transaction(transactionID, userID, name, dateTime, place, amount, comments, withdrawal, image, categoryID);
+        return null;
         //return new MainCategory(categoryName, Integer.parseInt(categoryID), Integer.parseInt(userID));
     }
 
@@ -271,10 +274,13 @@ public class TransactionSQL implements TransactionPersistence {
 
     @Override
     public ArrayList<Transaction> getTransactionsByCategoryID(int categoryID) {
+        System.out.println("getTransactionsByCategoryID in TransactionSQL");
         ArrayList<Transaction> transactions = new ArrayList<>();
 
         try(final Connection connection = connection()) {
+            System.out.println("getTransactionsByCategoryID in TransactionSQL");
             final PreparedStatement statement = connection.prepareStatement("SELECT * FROM transactions\nWHERE CATEGORYID=?");
+            System.out.println("getTransactionsByCategoryID in TransactionSQL");
             statement.setInt(1,categoryID);
 
             final ResultSet resultSet = statement.executeQuery();
@@ -365,7 +371,7 @@ public class TransactionSQL implements TransactionPersistence {
             {
 //                final Course course = fromResultSet(rs);
 //                courses.add(course);
-                System.out.println(rs.getString("TABLE_NAME"));
+                //System.out.println(rs.getString("TABLE_NAME"));
                 System.out.println("Maybe Baby");
             }
             rs.close();

@@ -154,6 +154,7 @@ public class ReportManager {
 
     //returns list of categories sorted by average amount
     public ArrayList<MainCategory> sortByAverage(int userID, boolean descending) {
+        System.out.println("what about here");
         ArrayList<ReportManagerNode> categoryList = buildCategoryList(userID);
 
         Collections.sort(categoryList, (node1, node2) -> {

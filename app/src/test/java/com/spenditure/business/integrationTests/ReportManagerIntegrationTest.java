@@ -64,17 +64,20 @@ public class ReportManagerIntegrationTest {
 //    }
 //
 //
-//    @Test
-//    public void testAverageForCategory() {
-//        //tests each categories average value against expected values
-//        double testCategory1 = reportManager.getAverageForCategory(1);
-//        double testCategory2 = reportManager.getAverageForCategory(2);
-//        double testCategory3 = reportManager.getAverageForCategory(3);
-//
-//        assertEquals("Expected transaction average for Category 1 to be approximately 110.19",testCategory1,110.19,0.1);
-//        assertEquals("Expected transaction average for Category 2 to be approximately 104.19",testCategory2,104.19,0.1);
-//        assertEquals("Expected transaction average for Category 3 to be approximately 229.41",testCategory3,229.41,0.1);
-//    }
+    @Test
+    public void testAverageForCategory() {
+        //tests each categories average value against expected values
+        System.out.println("before");
+        double testCategory1 = reportManager.getAverageForCategory(1);
+        System.out.println("after");
+        double testCategory2 = reportManager.getAverageForCategory(2);
+        double testCategory3 = reportManager.getAverageForCategory(3);
+
+
+        assertEquals("Expected transaction average for Category 1 to be approximately 110.19",testCategory1,110.19,0.1);
+        assertEquals("Expected transaction average for Category 2 to be approximately 104.19",testCategory2,104.19,0.1);
+        assertEquals("Expected transaction average for Category 3 to be approximately 229.41",testCategory3,229.41,0.1);
+    }
 //
 //    @Test
 //    public void testSortByTotal() {
@@ -104,22 +107,29 @@ public class ReportManagerIntegrationTest {
 //        assertEquals("Expected Category: 'Hang out'",ascendingCategoryList.get(2).getName(), "Hang out");
 //    }
 //
-//    @Test
-//    public void testSortByAverage() {
-//        //tests categories are sorted properly based on average attribute, both ascending + descending
-//        ArrayList<MainCategory> descendingCategoryList = reportManager.sortByAverage(1,true);
-//        assertEquals("Expected Category: 'Hang out'",descendingCategoryList.get(0).getName(), "Hang out");
-//        assertEquals("Expected Category: 'Grocery'",descendingCategoryList.get(1).getName(), "Grocery");
-//        assertEquals("Expected Category: 'Food'",descendingCategoryList.get(2).getName(), "Food");
-//
-//        ArrayList<MainCategory> ascendingCategoryList = reportManager.sortByAverage(1,false);
-//        assertEquals("Expected Category: 'Food'",ascendingCategoryList.get(0).getName(), "Food");
-//        assertEquals("Expected Category: 'Grocery'",ascendingCategoryList.get(1).getName(), "Grocery");
-//        assertEquals("Expected Category: 'Hang out'",ascendingCategoryList.get(2).getName(), "Hang out");
-//    }
+    @Test
+    public void testSortByAverage() {
+        System.out.println("test?");
+        //tests categories are sorted properly based on average attribute, both ascending + descending
+        ArrayList<MainCategory> descendingCategoryList = reportManager.sortByAverage(1,true);
+        System.out.println("probably not eh");
+        assertEquals("Expected Category: 'Hang out'",descendingCategoryList.get(0).getName(), "Hang out");
+        assertEquals("Expected Category: 'Grocery'",descendingCategoryList.get(1).getName(), "Grocery");
+        assertEquals("Expected Category: 'Food'",descendingCategoryList.get(2).getName(), "Food");
+
+        ArrayList<MainCategory> ascendingCategoryList = reportManager.sortByAverage(1,false);
+        assertEquals("Expected Category: 'Food'",ascendingCategoryList.get(0).getName(), "Food");
+        assertEquals("Expected Category: 'Grocery'",ascendingCategoryList.get(1).getName(), "Grocery");
+        assertEquals("Expected Category: 'Hang out'",ascendingCategoryList.get(2).getName(), "Hang out");
+    }
 
     @Test
-    public void testFakeSQL() {
-        reportManager.callShitMethod();
+    public void dummy() {
+        System.out.println("nothing to see here folks");
     }
+
+//    @Test
+//    public void testFakeSQL() {
+//        reportManager.callShitMethod();
+//    }
 }
