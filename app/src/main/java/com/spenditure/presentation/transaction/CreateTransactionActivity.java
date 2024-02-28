@@ -28,6 +28,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.spenditure.logic.TransactionHandler;
 import com.spenditure.logic.CategoryHandler;
 import com.spenditure.object.DateTime;
+import com.spenditure.object.MainCategory;
 import com.spenditure.object.Transaction;
 
 import com.example.spenditure.R;
@@ -101,9 +102,18 @@ public class CreateTransactionActivity extends AppCompatActivity {
         EditText amount = (EditText) findViewById(R.id.edittext_amount);
         EditText comments = (EditText) findViewById(R.id.edittext_comments);
         AppCompatToggleButton type = (AppCompatToggleButton) findViewById(R.id.togglebutton_type);
+        Spinner category = (Spinner) findViewById(R.id.spinner_categories);
 
         // Create the new transaction object
-        Transaction newTransaction = new Transaction(-1, whatTheHeck.getText().toString(), date, place.getText().toString(), Double.parseDouble(amount.getText().toString()), comments.getText().toString(), type.isChecked());
+        Transaction newTransaction = new Transaction(
+                -1,
+                whatTheHeck.getText().toString(),
+                date,
+                place.getText().toString(),
+                Double.parseDouble(amount.getText().toString()),
+                comments.getText().toString(),
+                type.isChecked(),
+                (MainCategory) category.getSelectedItem());
 
         return newTransaction;
     };

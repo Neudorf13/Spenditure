@@ -126,7 +126,7 @@
         android:textOn="Withdrawal"
         android:textOff="Deposit"
         android:checked="true"
-        app:layout_constraintBottom_toTopOf="@+id/edittext_categories"
+        app:layout_constraintBottom_toTopOf="@+id/spinner_categories"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/textview_type"
         app:layout_constraintTop_toBottomOf="@+id/edittext_amount"/>
@@ -138,7 +138,7 @@
         android:text="@string/field_categories"
         android:textSize="25dp"
         app:layout_constraintBottom_toTopOf="@+id/textview_comments"
-        app:layout_constraintEnd_toStartOf="@+id/edittext_categories"
+        app:layout_constraintEnd_toStartOf="@+id/spinner_categories"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textview_type" />
 
@@ -146,8 +146,8 @@
         android:id="@+id/spinner_categories"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:minWidth="120dp"
-        android:textSize="25dp"
+        android:minWidth="200dp"
+        android:minHeight="30dp"
         app:layout_constraintBottom_toTopOf="@+id/edittext_comments"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/textview_categories"
@@ -173,7 +173,7 @@
         app:layout_constraintBottom_toTopOf="@+id/button_create_transaction"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/textview_comments"
-        app:layout_constraintTop_toBottomOf="@+id/edittext_categories"/>
+        app:layout_constraintTop_toBottomOf="@+id/spinner_categories"/>
 
     <Button
         android:id="@+id/button_create_transaction"
@@ -184,7 +184,7 @@
         app:layout_constraintBottom_toTopOf="@+id/nav_view"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edittext_categories"/>/>
+        app:layout_constraintTop_toBottomOf="@+id/textview_comments"/>/>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/nav_view"
