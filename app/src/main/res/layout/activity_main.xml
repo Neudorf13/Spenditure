@@ -338,7 +338,7 @@
                     android:textAlignment="center"
                     android:paddingHorizontal="@dimen/space_2"
                     android:layout_marginHorizontal="@dimen/space_6"
-                    android:textColor="@color/dark_blue"
+                    android:textColor="@color/white"
                     android:textSize="@dimen/normal_size"
                     android:textStyle="bold"
                     />
@@ -379,7 +379,7 @@
                                 android:src="@drawable/symbol_doc" />
 
                             <TextView
-                                android:id="@+id/textview_catReport_transactionsCount"
+                                android:id="@+id/textview_lastYear_transactionsCount"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="20 transactions"
@@ -406,7 +406,7 @@
                                 android:layout_gravity="center"/>
 
                             <TextView
-                                android:id="@+id/textview_catReport_total"
+                                android:id="@+id/textview_lastYear_total"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="$1000 CAD"
@@ -433,7 +433,7 @@
                                 android:layout_gravity="center"/>
 
                             <TextView
-                                android:id="@+id/textview_catReport_average"
+                                android:id="@+id/textview_lastYear_average"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="100 CAD"
@@ -461,7 +461,7 @@
                                 android:layout_gravity="center"/>
 
                             <TextView
-                                android:id="@+id/textview_catReport_percentage"
+                                android:id="@+id/textview_lastYear_percentage"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="20 %"
@@ -725,6 +725,7 @@
                             android:orientation="horizontal"
                             android:layout_weight="1">
                             <Button
+                                android:id="@+id/button_get_report"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:text="Get report"

@@ -9,7 +9,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
-import android.widget.GridLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -24,6 +23,9 @@ import androidx.viewpager.widget.ViewPager;
 import com.example.spenditure.databinding.ActivityMainBinding;
 import com.spenditure.logic.CategoryHandler;
 import com.spenditure.logic.ReportManager;
+import com.spenditure.object.DateTime;
+import com.spenditure.object.IDateTime;
+import com.spenditure.object.IReport;
 import com.spenditure.object.MainCategory;
 import com.spenditure.presentation.BottomNavigationHandler;
 
@@ -34,7 +36,7 @@ public class ViewReportActivity extends AppCompatActivity {
 
     private ActivityMainBinding binding;
     private ViewPager viewPagerCategory;
-    private SliderAdapter adapter;
+    private SliderAdapterCatGeneral adapter;
     private ReportManager reportManager;
     private final String[] custom_option = {"Report by average","Report by total","Report by percentage"};
     private final String[] time_base_option = {"Report by year breaking into month","Report by month breaking into weeks"};
@@ -55,24 +57,56 @@ public class ViewReportActivity extends AppCompatActivity {
         handleTimebaseReport();
         handleCustomDateReport();
         navBarHandling();
+        handleLastYearReport();
+    }
+
+    private void handleLastYearReport(){
+        IReport lastYearReport = reportManager.reportOnLastYear();
+        TextView numTransactions = findViewById(R.id.textview_lastYear_transactionsCount);
+        TextView totalTransactions = findViewById(R.id.textview_lastYear_total);
+        TextView average = findViewById(R.id.textview_lastYear_average);
+        TextView percentage = findViewById(R.id.textview_lastYear_percentage);
+
+        String numTransactionsString = lastYearReport.getNumTrans() + " transactions";
+        String totalTransactionsString = "$"+lastYearReport.getTotal() + " CAD";
+        String averageTransactionsString = "$"+handle_decimal(lastYearReport.getAvgTransSize()) + " CAD";
+        String percentageString = lastYearReport.getPercentage() + " %";
+
+
+        numTransactions.setText(numTransactionsString);
+        totalTransactions.setText(totalTransactionsString);
+        average.setText(averageTransactionsString);
+        percentage.setText(percentageString);
+
     }
 
     private void handleCustomDateReport(){
         Button fromButton = findViewById(R.id.button_report_from);
         Button toButton = findViewById(R.id.button_report_to);
+        Button getReport = findViewById(R.id.button_get_report);
+        final IDateTime[] dateTimes = new IDateTime[2];
         fromButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                openDialog(fromButton);
+                dateTimes[0] = chooseTimeDialog(fromButton);
             }
         });
 
         toButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                openDialog(toButton);
+                dateTimes[1] = chooseTimeDialog(toButton);
             }
         });
+
+        getReport.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                IReport timeCustomReport = reportManager.reportOnUserProvidedDates(dateTimes[0],dateTimes[1]);
+            }
+        });
+
+
     }
 
     private void handleTimebaseReport(){
@@ -81,7 +115,8 @@ public class ViewReportActivity extends AppCompatActivity {
         Spinner spinner = findViewById(R.id.spinner_timebase_report);
 
 
-        SliderAdapter adapterCustom= new SliderAdapter(this,categoryHandler.getAllCategory());
+//        SliderAdapterCatGeneral adapterCustom= new SliderAdapterCatGeneral(this,categoryHandler.getAllCategory());
+        SliderAdapterTimeBase adapterCustom= new SliderAdapterTimeBase(this,reportManager.reportOnLastYearByMonth(),"Month");
         viewPagerCustom.setAdapter(adapterCustom);
 
 
@@ -96,6 +131,14 @@ public class ViewReportActivity extends AppCompatActivity {
                 viewPagerCustom.setVisibility(View.INVISIBLE);
                 shimmerFrameLayout.setVisibility(View.VISIBLE);
                 shimmerFrameLayout.startShimmerAnimation();
+
+                if (position == 0){
+                    SliderAdapterTimeBase adapterCustom= new SliderAdapterTimeBase(getApplicationContext(),reportManager.reportOnLastYearByMonth(),"Month");
+                    viewPagerCustom.setAdapter(adapterCustom);
+                }else {
+                    SliderAdapterTimeBase adapterCustom= new SliderAdapterTimeBase(getApplicationContext(),reportManager.reportOnLastMonthByWeek(),"Week");
+                    viewPagerCustom.setAdapter(adapterCustom);
+                }
 
                 Handler handler = new Handler();
                 handler.postDelayed(()->{
@@ -221,19 +264,26 @@ public class ViewReportActivity extends AppCompatActivity {
 
     private void handleCategoriesReport(){
         viewPagerCategory = findViewById(R.id.viewpager_report);
-        adapter = new SliderAdapter(this,categoryHandler.getAllCategory());
+        adapter = new SliderAdapterCatGeneral(this,categoryHandler.getAllCategory());
         viewPagerCategory.setAdapter(adapter);
     }
 
-    private void openDialog(Button button){
+    private DateTime chooseTimeDialog(Button button){
+        final DateTime[] pickDate = new DateTime[1];
         DatePickerDialog dialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                 String displayDay = String.valueOf(dayOfMonth ) + "/"  + String.valueOf(month+ 1) + "/" + String.valueOf(year);
+                pickDate[0] = new DateTime(year, month,  dayOfMonth);
                 button.setText(displayDay);
             }
         }, 2024, 0, 15);
         dialog.show();
+        return pickDate[0];
+    }
+
+    private double handle_decimal(double number){
+        return Math.ceil(number * 100) / 100;
     }
 
 }
