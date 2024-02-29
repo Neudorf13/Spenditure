@@ -8,6 +8,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.spenditure.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.spenditure.presentation.category.ViewCategoryActivity;
+import com.spenditure.presentation.report.ViewReportActivity;
 import com.spenditure.presentation.transaction.CreateTransactionActivity;
 import com.spenditure.presentation.transaction.ViewTransactionsActivity;
 
@@ -15,24 +17,17 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class BottomNavigationHandler {
-    private final Context context;
+
     private final Map<Integer, Class<? extends AppCompatActivity>> activityMap;
 
-    public BottomNavigationHandler(Context context) {
-        this.context = context;
+    public BottomNavigationHandler() {
         this.activityMap = NavigationConfig.ACTIVITY_MAP;
     }
 
-    public void setupWithNavController(BottomNavigationView navView) {
-        navView.setOnItemSelectedListener(item -> {
-            int itemId = item.getItemId();
-            Class<? extends Activity> activityClass = activityMap.get(itemId);
-            if (activityClass != null) {
-                context.startActivity(new Intent(context, activityClass));
-                return true;
-            }
-            return false;
-        });
+
+    public Class<? extends AppCompatActivity> select(int itemId){
+        Class<? extends AppCompatActivity> activityClass = activityMap.get(itemId);
+        return activityClass;
     }
 }
 
@@ -43,6 +38,7 @@ class NavigationConfig {
         ACTIVITY_MAP.put(R.id.navigation_home, ViewReportActivity.class);
         ACTIVITY_MAP.put(R.id.navigation_create_transaction, CreateTransactionActivity.class);
         ACTIVITY_MAP.put(R.id.navigation_view_transactions, ViewTransactionsActivity.class);
+        ACTIVITY_MAP.put(R.id.navigation_category, ViewCategoryActivity.class);
         // Add other mappings as needed
     }
 }

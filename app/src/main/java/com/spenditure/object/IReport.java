@@ -10,5 +10,8 @@ public interface IReport {
 
     public double getStdDev();
 
+    public double getTotal();
+    public double getPercentage();
+
     public List<CategoryStatistics> getCategoryStatisticsList();
 }

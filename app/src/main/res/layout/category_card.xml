@@ -7,7 +7,7 @@
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:cardCornerRadius="20dp"
+        app:cardCornerRadius="@dimen/radius_2"
         app:cardElevation="0dp"
 
         >
@@ -15,18 +15,23 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:paddingHorizontal="@dimen/space_5"
+            android:background="@color/background_color"
+
 
             >
 
             <TextView
+
+                android:textAlignment="center"
                 android:id="@+id/category_card_name"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:padding="10dp"
+                android:background="@drawable/background_light_blue"
+                android:padding="@dimen/space_2"
                 android:text="Category 1"
-                android:textSize="32dp"
                 android:textColor="@color/white"
-                android:background="#c8c8fe"
+                android:textSize="@dimen/normal_size"
                 android:textStyle="bold"
 
                 app:layout_constraintBottom_toBottomOf="parent"

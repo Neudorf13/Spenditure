@@ -5,6 +5,8 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
@@ -14,13 +16,15 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.spenditure.logic.CategoryHandler;
 import com.spenditure.presentation.BottomNavigationHandler;
 import com.spenditure.presentation.TouchHelper;
+import com.spenditure.presentation.transaction.CreateTransactionActivity;
+import com.spenditure.presentation.transaction.ViewTransactionsActivity;
 
 public class ViewCategoryActivity extends AppCompatActivity {
 
     private CategoryHandler categoryHandler = null;
     private RecyclerView recyclerView;
     private FloatingActionButton mFab;
-    private CategotyAdapter adapter;
+    private CategoryAdapter adapter;
 
 
     @Override
@@ -42,7 +46,7 @@ public class ViewCategoryActivity extends AppCompatActivity {
             }
         });
 
-        adapter = new CategotyAdapter(ViewCategoryActivity.this, categoryHandler.getAllCategory());
+        adapter = new CategoryAdapter(ViewCategoryActivity.this, categoryHandler.getAllCategory());
         recyclerView.setAdapter(adapter);
 
 
@@ -58,8 +62,19 @@ public class ViewCategoryActivity extends AppCompatActivity {
     private void navBarHandling(){
         BottomNavigationView navView = findViewById(R.id.nav_view);
 
-        BottomNavigationHandler navigationHandler = new BottomNavigationHandler(this);
-        navigationHandler.setupWithNavController(navView);
+        BottomNavigationHandler navigationHandler = new BottomNavigationHandler();
+
+        navView.setOnItemSelectedListener((item -> {
+            if (item.getItemId() == R.id.navigation_category){
+                return false;
+            }
+            Class<? extends AppCompatActivity> newActivity = navigationHandler.select(item.getItemId());
+            if(newActivity != null){
+                startActivity(new Intent(getApplicationContext(), newActivity));
+                return true;
+            }
+            return false;
+        }));
 
         // Set the selected item if needed
         navView.setSelectedItemId(R.id.navigation_category);
