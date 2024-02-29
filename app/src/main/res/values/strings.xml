@@ -9,7 +9,7 @@
     <string name="title_create_transaction">Create Transaction</string>
     <string name="title_edit_transaction">Edit Transaction</string>
     <string name="title_activity_home">Home Activity</string>
-    <string name="title_profile">Profile</string>
+    <string name="title_profile">Your Profile</string>
     <string name="title_stats">Stats</string>
 
     // Transaction Activities

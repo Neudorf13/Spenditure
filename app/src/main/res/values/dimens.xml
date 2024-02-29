@@ -4,6 +4,7 @@
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="app_tittle">30sp</dimen>
     <dimen name="app_tittle_bar_height">90dp</dimen>
+    <dimen name="app_title_login">50dp</dimen>
 
     <dimen name="small_size">24sp</dimen>
     <dimen name="normal_size">28sp</dimen>
