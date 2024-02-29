@@ -9,17 +9,25 @@
     <string name="title_create_transaction">Create Transaction</string>
     <string name="title_edit_transaction">Edit Transaction</string>
     <string name="title_activity_home">Home Activity</string>
-    <string name="title_stats">Stats</string>
     <string name="title_profile">Profile</string>
+    <string name="title_stats">Stats</string>
 
+    // Transaction Activities
     <string name="field_what_the_heck">What the heck?</string>
     <string name="field_date">Date</string>
     <string name="field_place">Place</string>
     <string name="field_amount">Amount</string>
     <string name="field_type">Type</string>
     <string name="field_comments">Comments</string>
-    <string name="field_categories">Categories</string>
+    <string name="field_categories">Category</string>
 
+    // View Transaction Activity
     <string name="label_edit">Edit</string>
     <string name="label_delete">Delete</string>
+
+    // User Profile/Login Activity
+    <string name="label_username">Username</string>
+    <string name="label_password">Password</string>
+    <string name="label_logout">Logout</string>
+    <string name="label_login">Login</string>
 </resources>
