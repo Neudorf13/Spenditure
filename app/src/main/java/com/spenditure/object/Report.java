@@ -11,6 +11,7 @@ public class Report implements IReport{
 
     private double stdDev;
 
+
     private ArrayList<CategoryStatistics> categoryStatisticsList;
 
     public Report(double avgTransSize, int numTrans, double stdDev, ArrayList<CategoryStatistics> categoryStatisticsList)
@@ -39,5 +40,22 @@ public class Report implements IReport{
     public List<CategoryStatistics> getCategoryStatisticsList()
     {
         return categoryStatisticsList;
+    }
+
+    public double getTotal(){
+        double total = 0;
+        for(CategoryStatistics categoryStatistics: this.categoryStatisticsList){
+            total += categoryStatistics.getTotal();
+        }
+        return total;
+    }
+
+    public double getPercentage(){
+        double perCentage = 0;
+        for(CategoryStatistics categoryStatistics: this.categoryStatisticsList){
+            perCentage += categoryStatistics.getPercent();
+        }
+        return perCentage;
+
     }
 }

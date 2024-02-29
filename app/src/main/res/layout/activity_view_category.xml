@@ -6,13 +6,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
 
-    tools:context="com.spenditure.presentation.ViewReportActivity">
+    tools:context="com.spenditure.presentation.report.ViewReportActivity">
 
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:background="@color/background_color">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -25,7 +26,7 @@
                 android:layout_width="0dp"
                 android:layout_height="0dp"
 
-                android:src="@drawable/top_background"
+                android:src="@drawable/background_top"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -48,7 +49,7 @@
 
             <LinearLayout
                 android:layout_width="200dp"
-                android:layout_height="30dp"
+                android:layout_height="40dp"
                 android:orientation="horizontal"
                 app:layout_constraintBottom_toBottomOf="@+id/imageView2"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -57,22 +58,26 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="@drawable/section_holder"
+
                     android:orientation="vertical">
 
                     <TextView
                         android:id="@+id/textView2"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:gravity="center"
                         android:text="Category"
                         android:textColor="@color/white"
-                        android:textStyle="bold"
-                        android:gravity="center"
-                        android:textSize="20sp"/>
+                        android:textSize="@dimen/normal_size"
+                        android:textStyle="bold" />
                 </LinearLayout>
             </LinearLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="24dp" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -91,11 +96,13 @@
         android:id="@+id/nav_view"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:background="?android:attr/windowBackground"
+        android:background="@color/nav_color"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:menu="@menu/bottom_nav_menu" />
+        app:menu="@menu/bottom_nav_menu"
+
+        />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/floatingActionButton_category"
@@ -103,12 +110,12 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="24dp"
         android:layout_marginBottom="24dp"
-        android:backgroundTint="@color/teal_200"
+        android:backgroundTint="@color/light_blue"
         android:clickable="true"
         android:tint="@color/white"
         app:layout_constraintBottom_toTopOf="@+id/nav_view"
         app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@drawable/baseline_add_24" />
+        app:srcCompat="@drawable/symbol_add" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

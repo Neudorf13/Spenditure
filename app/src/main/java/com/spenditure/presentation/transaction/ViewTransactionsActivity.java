@@ -29,7 +29,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.spenditure.logic.TransactionHandler;
 import com.spenditure.object.Transaction;
 import com.spenditure.presentation.category.ViewCategoryActivity;
-import com.spenditure.presentation.ViewReportActivity;
+import com.spenditure.presentation.report.ViewReportActivity;
 
 import java.util.ArrayList;
 import java.util.List;
