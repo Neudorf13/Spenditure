@@ -115,6 +115,10 @@ public class TransactionStub implements TransactionPersistence {
 
     }
 
+    public int countTransactions() {
+        return 0;
+    }
+
     public ArrayList<Transaction> getAllTransactions()
     {
         return transactionList;

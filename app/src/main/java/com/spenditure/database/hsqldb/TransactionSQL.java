@@ -23,7 +23,7 @@ public class TransactionSQL implements TransactionPersistence {
     }
 
     private Connection connection() throws SQLException {
-        System.out.println("jdbc:hsqldb:file:" + dbPath + ";shutdown=true");
+        //System.out.println("jdbc:hsqldb:file:" + dbPath + ";shutdown=true");
         return DriverManager.getConnection("jdbc:hsqldb:file:" + dbPath + ";shutdown=true", "SA", "");
     }
 
@@ -31,28 +31,69 @@ public class TransactionSQL implements TransactionPersistence {
     private Transaction fromResultSet(final ResultSet rs) throws SQLException {
         System.out.println("in fromResultSet");
         final int transactionID = rs.getInt("TRANSACTIONID");
-//        final int userID = rs.getInt("USERID");
-//        final String name = rs.getString("NAME");
-//        final String date = rs.getString("DATE");
-//        final String place = rs.getString("PLACE");
-//        final double amount = rs.getDouble("AMOUNT");
-//        final String comments = rs.getString("COMMENTS");
-//        final boolean withdrawal = rs.getBoolean("WITHDRAWAL");
-//        final byte[] image = rs.getBytes("IMAGE");
-//        final int categoryID = rs.getInt("CATEGORYID");
+        final int userID = rs.getInt("USERID");
+        final String name = rs.getString("NAME");
+        final String date = rs.getString("DATE");
+        final String place = rs.getString("PLACE");
+        final double amount = rs.getDouble("AMOUNT");
+        final String comments = rs.getString("COMMENTS");
+        final boolean withdrawal = rs.getBoolean("WITHDRAWAL");
+        final byte[] image = rs.getBytes("IMAGE");
+        final int categoryID = rs.getInt("CATEGORYID");
 
 
-        //DateTime dateTime = new DateTime(date);
+        DateTime dateTime = new DateTime(date);
 
-        //return new Transaction(transactionID, userID, name, dateTime, place, amount, comments, withdrawal, image, categoryID);
-        return null;
+        return new Transaction(transactionID, userID, name, dateTime, place, amount, comments, withdrawal, image, categoryID);
+        //return null;
         //return new MainCategory(categoryName, Integer.parseInt(categoryID), Integer.parseInt(userID));
+    }
+
+    public int countTransactions() {
+        int count = 0;
+        try(final Connection connection = connection()) {
+            final Statement st = connection.createStatement();
+            final ResultSet rs = st.executeQuery("SELECT * FROM transactions");
+            while (rs.next())
+            {
+                count++;
+            }
+            rs.close();
+            st.close();
+
+            return count;
+
+        }
+        catch (final SQLException e) {
+            throw new RuntimeException("An error occurred while processing the SQL operation", e);  //temp exception
+        }
     }
 
     @Override
     public List<Transaction> getAllTransactions() {
-        return null;
+        List<Transaction> transactions = new ArrayList<>();
+
+        try(final Connection connection = connection()) {
+            final Statement st = connection.createStatement();
+            final ResultSet rs = st.executeQuery("SELECT * FROM transactions");
+            while (rs.next())
+            {
+                final Transaction transaction = fromResultSet(rs);
+                transactions.add(transaction);
+            }
+            rs.close();
+            st.close();
+
+            return transactions;
+
+        }
+        catch (final SQLException e) {
+            throw new RuntimeException("An error occurred while processing the SQL operation", e);  //temp exception
+        }
+
     }
+
+
 
     public List<Transaction> getAllTransactionsForUser(int userID) {
         List<Transaction> transactions = new ArrayList<>();

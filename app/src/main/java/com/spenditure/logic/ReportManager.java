@@ -27,6 +27,11 @@ public class ReportManager {
         return transactions.size();
     }
 
+    public int getCount() {
+        int count = dataAccessTransaction.countTransactions();
+        return count;
+    }
+
     //return count of total categories
     public int countAllCategories(int userID) {
         List<MainCategory> categories = dataAccessCategory.getAllCategory(userID);

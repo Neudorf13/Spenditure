@@ -9,6 +9,8 @@ import java.util.List;
 public interface TransactionPersistence {
 
     // query database
+
+    int countTransactions();
     List<Transaction> getAllTransactions();
     List<Transaction> getAllTransactionsForUser(int userID);
     boolean addTransaction(Transaction newTransaction);
