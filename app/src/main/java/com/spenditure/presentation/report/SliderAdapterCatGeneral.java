@@ -18,8 +18,8 @@ import java.util.List;
 
 
 public class SliderAdapterCatGeneral extends PagerAdapter {
-    Context context;
-    LayoutInflater inflater;
+    private Context context;
+    private LayoutInflater inflater;
     private ReportManager reportManager;
     private List<MainCategory> categoryList;
     private int[] list_bg_color = {

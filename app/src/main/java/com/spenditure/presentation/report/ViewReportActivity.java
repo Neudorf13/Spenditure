@@ -20,7 +20,6 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
 
-import com.example.spenditure.databinding.ActivityMainBinding;
 import com.spenditure.logic.CategoryHandler;
 import com.spenditure.logic.ReportManager;
 import com.spenditure.object.DateTime;
@@ -28,20 +27,24 @@ import com.spenditure.object.IDateTime;
 import com.spenditure.object.IReport;
 import com.spenditure.object.MainCategory;
 import com.spenditure.presentation.BottomNavigationHandler;
+import com.spenditure.presentation.UIUtility;
 
 import java.util.List;
+import java.time.LocalDate;
 
 
 public class ViewReportActivity extends AppCompatActivity {
 
-    private ActivityMainBinding binding;
-    private ViewPager viewPagerCategory;
-    private SliderAdapterCatGeneral adapter;
+//    private ViewPager viewPagerCategory;
+//    private SliderAdapterCatGeneral adapter;
     private ReportManager reportManager;
     private final String[] custom_option = {"Report by average","Report by total","Report by percentage"};
     private final String[] time_base_option = {"Report by year breaking into month","Report by month breaking into weeks"};
     private CategoryHandler categoryHandler;
-    private ViewPager viewPagerCustom;
+//    private ViewPager viewPagerCustom;
+    private IDateTime fromDate;
+    private IDateTime toDate;
+    private LocalDate currTime =  LocalDate.now();
 
 
     @Override
@@ -67,16 +70,10 @@ public class ViewReportActivity extends AppCompatActivity {
         TextView average = findViewById(R.id.textview_lastYear_average);
         TextView percentage = findViewById(R.id.textview_lastYear_percentage);
 
-        String numTransactionsString = lastYearReport.getNumTrans() + " transactions";
-        String totalTransactionsString = "$"+lastYearReport.getTotal() + " CAD";
-        String averageTransactionsString = "$"+handle_decimal(lastYearReport.getAvgTransSize()) + " CAD";
-        String percentageString = lastYearReport.getPercentage() + " %";
-
-
-        numTransactions.setText(numTransactionsString);
-        totalTransactions.setText(totalTransactionsString);
-        average.setText(averageTransactionsString);
-        percentage.setText(percentageString);
+        numTransactions.setText(UIUtility.cleanTransactionNumberString(lastYearReport.getNumTrans()));
+        totalTransactions.setText(UIUtility.cleanTotalString(lastYearReport.getTotal()));
+        average.setText(UIUtility.cleanAverageString(lastYearReport.getAvgTransSize()));
+        percentage.setText(UIUtility.cleanPercentageString(lastYearReport.getPercentage()));
 
     }
 
@@ -84,25 +81,45 @@ public class ViewReportActivity extends AppCompatActivity {
         Button fromButton = findViewById(R.id.button_report_from);
         Button toButton = findViewById(R.id.button_report_to);
         Button getReport = findViewById(R.id.button_get_report);
-        final IDateTime[] dateTimes = new IDateTime[2];
+        fromDate = new DateTime(currTime.getYear(),currTime.getMonthValue()  , currTime.getDayOfMonth());
+        toDate = new DateTime(currTime.getYear(),currTime.getMonthValue()  , currTime.getDayOfMonth());
+        String currTimeString = currTime.getDayOfMonth() + "/" + currTime.getMonthValue() + "/" +  currTime.getYear() ;
+        fromButton.setText(currTimeString);
+        toButton.setText(currTimeString);
         fromButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dateTimes[0] = chooseTimeDialog(fromButton);
+                chooseTimeDialog(fromButton,true);
             }
         });
 
         toButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dateTimes[1] = chooseTimeDialog(toButton);
+                chooseTimeDialog(toButton,false);
             }
         });
 
         getReport.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                IReport timeCustomReport = reportManager.reportOnUserProvidedDates(dateTimes[0],dateTimes[1]);
+                if (fromDate == null || toDate == null){
+                    Toast.makeText(ViewReportActivity.this,"Please choose 2 dates",Toast.LENGTH_SHORT).show();
+                }else {
+                    IReport timeCustomReport = reportManager.reportOnUserProvidedDates(fromDate, toDate);
+
+                    TextView transactionNum = findViewById(R.id.textview_customTime_totalTrans);
+                    TextView  total = findViewById(R.id.textview_customTime_totalAmount);
+                    TextView average = findViewById(R.id.textview_customTime_average);
+                    TextView percentage = findViewById(R.id.textview_customTime_percentage);
+
+
+                    transactionNum.setText(UIUtility.cleanTransactionNumberString(timeCustomReport.getNumTrans()));
+                    total.setText(UIUtility.cleanTotalString(timeCustomReport.getTotal()));
+                    average.setText(UIUtility.cleanAverageString(timeCustomReport.getAvgTransSize()));
+                    percentage.setText(UIUtility.cleanPercentageString(timeCustomReport.getPercentage()));
+
+                }
             }
         });
 
@@ -111,7 +128,7 @@ public class ViewReportActivity extends AppCompatActivity {
 
     private void handleTimebaseReport(){
         ShimmerFrameLayout shimmerFrameLayout = findViewById(R.id.shimmer_timebase_report);
-        viewPagerCustom = findViewById(R.id.gridlayout_timebase_report);
+        ViewPager viewPagerCustom = findViewById(R.id.gridlayout_timebase_report);
         Spinner spinner = findViewById(R.id.spinner_timebase_report);
 
 
@@ -197,8 +214,8 @@ public class ViewReportActivity extends AppCompatActivity {
     }
 
     private void handleGeneralReport(){
-        String spendString = "You've spent $ " + reportManager.getTotalForAllTransactions();
-        String makeTransactions = "You've made " + reportManager.countAllTransactions() + " transactions";
+        String spendString = "You've spent " + UIUtility.cleanTotalString(reportManager.getTotalForAllTransactions());
+        String makeTransactions = "You've made " + UIUtility.cleanTransactionNumberString(reportManager.countAllTransactions());
         TextView short_text = findViewById(R.id.textview_summary_report_short);
         TextView long_text = findViewById(R.id.textview_summary_report_long);
 
@@ -263,27 +280,34 @@ public class ViewReportActivity extends AppCompatActivity {
     }
 
     private void handleCategoriesReport(){
-        viewPagerCategory = findViewById(R.id.viewpager_report);
-        adapter = new SliderAdapterCatGeneral(this,categoryHandler.getAllCategory());
+        ViewPager viewPagerCategory = findViewById(R.id.viewpager_report);
+        SliderAdapterCatGeneral adapter = new SliderAdapterCatGeneral(this,categoryHandler.getAllCategory());
         viewPagerCategory.setAdapter(adapter);
     }
 
-    private DateTime chooseTimeDialog(Button button){
-        final DateTime[] pickDate = new DateTime[1];
+    private void chooseTimeDialog(Button button,boolean from){
+
         DatePickerDialog dialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                 String displayDay = String.valueOf(dayOfMonth ) + "/"  + String.valueOf(month+ 1) + "/" + String.valueOf(year);
-                pickDate[0] = new DateTime(year, month,  dayOfMonth);
+                DateTime newDate = new DateTime(year, month,  dayOfMonth);
+                if(from){
+                    ViewReportActivity.this.fromDate = newDate;
+//                    displayDay = newDate.toString();
+                }else {
+                    ViewReportActivity.this.toDate = newDate;
+//                    displayDay = newDate.toString();
+                }
+
                 button.setText(displayDay);
+
             }
-        }, 2024, 0, 15);
+        }, currTime.getYear(), currTime.getMonthValue() -1, currTime.getDayOfMonth());
         dialog.show();
-        return pickDate[0];
+
     }
 
-    private double handle_decimal(double number){
-        return Math.ceil(number * 100) / 100;
-    }
+
 
 }

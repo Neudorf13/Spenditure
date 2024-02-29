@@ -15,6 +15,7 @@ import com.spenditure.logic.ReportManager;
 import com.spenditure.object.ICategory;
 import com.spenditure.object.IReport;
 import com.spenditure.object.MainCategory;
+import com.spenditure.presentation.UIUtility;
 
 import java.util.List;
 
@@ -54,10 +55,6 @@ public class SliderAdapterTimeBase extends PagerAdapter {
         IReport currReport = reportList.get(position);
 
         //Get data from report manager
-        String countTransactionsString = currReport.getNumTrans()+ " transactions";
-        String totalTransactionsString= "$"+ handle_decimal(currReport.getTotal());
-        String averageString= "$"+ handle_decimal(currReport.getAvgTransSize());
-        String percentageString = handle_decimal(currReport.getPercentage()) + "%";
         String title = mode + " " + (position+1);
 //
         //query UI components
@@ -69,10 +66,10 @@ public class SliderAdapterTimeBase extends PagerAdapter {
 //
 //        //Fill UI component with information
         tittle.setText(title );
-        countTransactions.setText(countTransactionsString);
-        totalTransactions.setText(totalTransactionsString);
-        average.setText(averageString);
-        percentage.setText(percentageString);
+        countTransactions.setText(UIUtility.cleanTransactionNumberString( currReport.getNumTrans()));
+        totalTransactions.setText(UIUtility.cleanTotalString(currReport.getTotal()));
+        average.setText(UIUtility.cleanAverageString(currReport.getAvgTransSize()));
+        percentage.setText(UIUtility.cleanAverageString(currReport.getPercentage()));
 
         linearLayout.setBackgroundResource(list_bg_color[position % list_bg_color.length]);
         container.addView(view);
