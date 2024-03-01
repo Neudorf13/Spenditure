@@ -8,6 +8,7 @@ import com.spenditure.logic.exceptions.InvalidUserInformationException;
 public class AccountManager {
 
     private AccountPersistence accountPersistence;
+    private static int userID = -1; //Store ID of user that are currently using the app
 
     //Constructor
     public AccountManager(boolean getStubDB){
@@ -18,7 +19,9 @@ public class AccountManager {
         if(username == null || password == null || username == "" || password == ""){
             throw new InvalidUserInformationException("Please provide username and password");
         }else{
-            return accountPersistence.login(username,password);
+            int userIDReturn = accountPersistence.login(username,password);
+            userID = userIDReturn;
+            return userIDReturn;
         }
     }; //Return user id
     public String getUserName(int userID){
@@ -45,4 +48,20 @@ public class AccountManager {
             return accountPersistence.register(username,password);
         }
     };
+
+    public void logout() throws InvalidUserInformationException{
+        if (userID >= 0){
+            userID = -1;
+        }else{
+            throw  new InvalidUserInformationException("Please login before logout");
+        }
+    }
+
+    public static int getUserID() throws InvalidUserInformationException{
+        if(userID >= 0) {
+            return userID;
+        }else {
+            throw  new InvalidUserInformationException("Please login before logout");
+        }
+    }
 }
