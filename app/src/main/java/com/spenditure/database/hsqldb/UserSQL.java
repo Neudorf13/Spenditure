@@ -78,5 +78,25 @@ public class UserSQL implements UserPersistence {
         }
     }
 
+    @Override
+    public int login(String username, String password) {
+        return 0;
+    }
+
+    @Override
+    public boolean changePassword(int userID, String oldPassword, String newPassword) {
+        return false;
+    }
+
+    @Override
+    public boolean changeUsername(int userID, String newUsername) {
+        return false;
+    }
+
+    @Override
+    public int register(String username, String password) {
+        return 0;
+    }
+
 
 }
