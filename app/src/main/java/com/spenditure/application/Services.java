@@ -1,7 +1,9 @@
 package com.spenditure.application;
 
+import com.spenditure.database.AccountPersistence;
 import com.spenditure.database.CategoryPersistence;
 import com.spenditure.database.TransactionPersistence;
+import com.spenditure.database.stub.AccountStub;
 import com.spenditure.database.stub.CategoryStub;
 import com.spenditure.database.stub.TransactionStub;
 
@@ -16,6 +18,18 @@ import com.spenditure.database.stub.TransactionStub;
 public class Services {
     private static CategoryPersistence categoryPersistence = null;
     private static TransactionPersistence transactionPersistence = null;
+    private static AccountPersistence accountPersistence = null;
+    public static AccountPersistence getAccountPersistence(boolean getStubDB){
+        if(getStubDB){
+            if (accountPersistence == null){   //Apply Singleton
+                accountPersistence = new AccountStub();
+            }
+        }else {
+            //Hanlde connect to DB
+
+        }
+        return accountPersistence;
+    }
 
     public static CategoryPersistence getCategoryPersistence(boolean getStubDB){
         if(getStubDB){
