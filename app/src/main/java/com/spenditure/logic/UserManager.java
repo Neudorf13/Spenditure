@@ -1,17 +1,16 @@
 package com.spenditure.logic;
 
 import com.spenditure.application.Services;
-import com.spenditure.database.AccountPersistence;
-import com.spenditure.database.CategoryPersistence;
+import com.spenditure.database.UserPersistence;
 import com.spenditure.logic.exceptions.InvalidUserInformationException;
 
-public class AccountManager {
+public class UserManager {
 
-    private AccountPersistence accountPersistence;
+    private UserPersistence accountPersistence;
     private static int userID = -1; //Store ID of user that are currently using the app
 
     //Constructor
-    public AccountManager(boolean getStubDB){
+    public UserManager(boolean getStubDB){
         accountPersistence = Services.getAccountPersistence(getStubDB);
 
     }
@@ -21,7 +20,7 @@ public class AccountManager {
         }else{
             if(userID <0){
                 int userIDReturn = accountPersistence.login(username,password);
-                AccountManager.userID = userIDReturn;
+                UserManager.userID = userIDReturn;
                 return userIDReturn;
             }else{
                 throw new InvalidUserInformationException("Please logout before login");
@@ -51,7 +50,7 @@ public class AccountManager {
             throw new InvalidUserInformationException("Please provide username and password");
         }else{
             int newUserID = accountPersistence.register(username,password);
-            AccountManager.userID = newUserID;
+            UserManager.userID = newUserID;
             return newUserID;
         }
     };
@@ -75,6 +74,6 @@ public class AccountManager {
     //For testing purpose
     public static void cleanup(){
         Services.restartAccountDB(true);
-        AccountManager.userID = -1;
+        UserManager.userID = -1;
     }
 }

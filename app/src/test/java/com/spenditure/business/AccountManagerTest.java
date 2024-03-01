@@ -5,8 +5,7 @@ import org.junit.Test;
 import org.junit.After;
 import static org.junit.Assert.*;
 
-import com.spenditure.logic.AccountManager;
-import com.spenditure.logic.CategoryHandler;
+import com.spenditure.logic.UserManager;
 import com.spenditure.logic.exceptions.InvalidUserInformationException;
 
 /**
@@ -16,14 +15,14 @@ import com.spenditure.logic.exceptions.InvalidUserInformationException;
  */
 public class AccountManagerTest {
 
-    private AccountManager accountManager;
+    private UserManager accountManager;
     @Before
     public void setup(){
-        this.accountManager = new AccountManager(true);
+        this.accountManager = new UserManager(true);
     }
     @After
     public void tearDown(){
-        AccountManager.cleanup();
+        UserManager.cleanup();
         this.accountManager = null;
     }
 
@@ -40,7 +39,7 @@ public class AccountManagerTest {
     @Test
     public void testGetUserID(){
         accountManager.login("Me","123");
-        int userID = AccountManager.getUserID();
+        int userID = UserManager.getUserID();
         assertEquals(1,userID);
 
     }
@@ -78,7 +77,7 @@ public class AccountManagerTest {
         accountManager.logout();
         boolean isLogout = false;
         try{
-            AccountManager.getUserID();
+            UserManager.getUserID();
         }catch (InvalidUserInformationException e){
             isLogout= true;
         }

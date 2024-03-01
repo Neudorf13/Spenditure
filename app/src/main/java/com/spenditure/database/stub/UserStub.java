@@ -1,18 +1,16 @@
 package com.spenditure.database.stub;
 
-import com.spenditure.database.AccountPersistence;
+import com.spenditure.database.UserPersistence;
 import com.spenditure.logic.exceptions.InvalidUserInformationException;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
 
-public class AccountStub implements AccountPersistence {
+public class UserStub implements UserPersistence {
     private List<UserRow> userTable;
     private int autoIncrementID = 1;
 
-    public AccountStub(){
+    public UserStub(){
         this.userTable = new ArrayList<>();
         userTable.add(new UserRow("Me","123",autoIncrementID++));
         userTable.add(new UserRow("You","1234",autoIncrementID++));

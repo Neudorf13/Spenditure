@@ -1,9 +1,9 @@
 package com.spenditure.application;
 
-import com.spenditure.database.AccountPersistence;
+import com.spenditure.database.UserPersistence;
 import com.spenditure.database.CategoryPersistence;
 import com.spenditure.database.TransactionPersistence;
-import com.spenditure.database.stub.AccountStub;
+import com.spenditure.database.stub.UserStub;
 import com.spenditure.database.stub.CategoryStub;
 import com.spenditure.database.stub.TransactionStub;
 
@@ -18,11 +18,11 @@ import com.spenditure.database.stub.TransactionStub;
 public class Services {
     private static CategoryPersistence categoryPersistence = null;
     private static TransactionPersistence transactionPersistence = null;
-    private static AccountPersistence accountPersistence = null;
-    public static AccountPersistence getAccountPersistence(boolean getStubDB){
+    private static UserPersistence accountPersistence = null;
+    public static UserPersistence getAccountPersistence(boolean getStubDB){
         if(getStubDB){
             if (accountPersistence == null){   //Apply Singleton
-                accountPersistence = new AccountStub();
+                accountPersistence = new UserStub();
             }
         }else {
             //Hanlde connect to DB
@@ -75,7 +75,7 @@ public class Services {
     // This method is for the shake of testing with stub database
     public static void restartAccountDB(boolean getStubDB){
         if(getStubDB){
-            accountPersistence = new AccountStub();
+            accountPersistence = new UserStub();
         }else{
             //Hanlde re-connect to DB
         }
