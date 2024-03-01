@@ -72,5 +72,14 @@ public class Services {
         }
     }
 
+    // This method is for the shake of testing with stub database
+    public static void restartAccountDB(boolean getStubDB){
+        if(getStubDB){
+            accountPersistence = new AccountStub();
+        }else{
+            //Hanlde re-connect to DB
+        }
+    }
+
 
 }

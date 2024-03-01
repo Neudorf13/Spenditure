@@ -48,7 +48,7 @@ public class AccountStub implements AccountPersistence {
     public boolean changePassword(int userID, String oldPassword, String newPassword) throws InvalidUserInformationException{
         for (UserRow user : userTable) {
             if(user.getUserID() == userID){
-                if(user.getPassword().equals(oldPassword)){
+                if(user.getPassword() == oldPassword){
                     user.updatePassword(newPassword);
                     return true;
                 }else {
@@ -65,9 +65,10 @@ public class AccountStub implements AccountPersistence {
         for (UserRow user : userTable) {
             if(user.getUserID() == userID){
                 user.updateUserName(newUsername);
+                return true;
             }
         }
-        throw new InvalidUserInformationException("User ID not exist.");
+        throw new InvalidUserInformationException("User ID not exist");
     }
 
     @Override
@@ -94,7 +95,7 @@ public class AccountStub implements AccountPersistence {
         }
 
         private void updateUserName(String newUsername){
-            this.username= username;
+            this.username= newUsername;
         }
 
         private void updatePassword (String newPassword){

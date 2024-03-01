@@ -19,9 +19,14 @@ public class AccountManager {
         if(username == null || password == null || username == "" || password == ""){
             throw new InvalidUserInformationException("Please provide username and password");
         }else{
-            int userIDReturn = accountPersistence.login(username,password);
-            userID = userIDReturn;
-            return userIDReturn;
+            if(userID <0){
+                int userIDReturn = accountPersistence.login(username,password);
+                AccountManager.userID = userIDReturn;
+                return userIDReturn;
+            }else{
+                throw new InvalidUserInformationException("Please logout before login");
+            }
+
         }
     }; //Return user id
     public String getUserName(int userID){
@@ -34,18 +39,20 @@ public class AccountManager {
             return accountPersistence.changePassword(userID,oldPassword,newPassword);
         }
     };
-    public boolean changeUsername(int userID, String newUsername){
+    public boolean changeUsername(int providedUserID, String newUsername){
         if(newUsername == null || newUsername == "" ){
             throw new InvalidUserInformationException("Please provide new username");
         }else{
-            return accountPersistence.changeUsername(userID,newUsername);
+            return accountPersistence.changeUsername(providedUserID,newUsername);
         }
     };
     public int register(String username, String password){
         if(username == null || password == null || username == "" || password == ""){
             throw new InvalidUserInformationException("Please provide username and password");
         }else{
-            return accountPersistence.register(username,password);
+            int newUserID = accountPersistence.register(username,password);
+            AccountManager.userID = newUserID;
+            return newUserID;
         }
     };
 
@@ -61,7 +68,13 @@ public class AccountManager {
         if(userID >= 0) {
             return userID;
         }else {
-            throw  new InvalidUserInformationException("Please login before logout");
+            throw  new InvalidUserInformationException("Please login before get user id");
         }
+    }
+
+    //For testing purpose
+    public static void cleanup(){
+        Services.restartAccountDB(true);
+        AccountManager.userID = -1;
     }
 }
