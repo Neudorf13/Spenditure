@@ -23,6 +23,8 @@ public class DateTimeValidator {
     public static final int MAX_HOURS = 24;
     //Number of minutes in an hour
     public static final int MAX_MINUTES = 60;
+    //Number of seconds in a minute
+    public static final int MAX_SECONDS = 60;
     //Months with 30 days rather than 31
     private static final int[] THIRTY_DAY_MONTHS = { 4, 6, 9, 11 };
     //February, which has 28 or 29 days

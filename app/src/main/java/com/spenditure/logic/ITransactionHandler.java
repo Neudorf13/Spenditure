@@ -30,9 +30,9 @@ public interface ITransactionHandler {
 
     List<Transaction> getAllTransactions();
 
-    ArrayList<Transaction> getAllByNewestFirst();
+    ArrayList<Transaction> getAllByNewestFirst(int userID);
 
-    ArrayList<Transaction> getAllByOldestFirst();
+    ArrayList<Transaction> getAllByOldestFirst(int userID);
 
     ArrayList<Transaction> getTransactionByCategoryID(int categoryID);
 

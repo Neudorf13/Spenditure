@@ -22,10 +22,13 @@ import java.util.List;
 public interface TransactionPersistence {
 
     // query database
+
+    int countTransactions();
     List<Transaction> getAllTransactions();
+    List<Transaction> getAllTransactionsForUser(int userID);
     boolean addTransaction(Transaction newTransaction);
     boolean modifyTransaction(Transaction targetTransaction);
-    boolean deleteTransaction(Transaction targetTransaction);
+    boolean deleteTransaction(int transactionID);
     Transaction getTransactionByID(int id);
     ArrayList<Transaction> getTransactionByName(String name);
     ArrayList<Transaction> getTransactionsByPlace(String place);
@@ -33,10 +36,12 @@ public interface TransactionPersistence {
     ArrayList<Transaction> getTransactionsByDateTime(IDateTime lower, IDateTime upper);
 
 
-    ArrayList<Transaction> getTransactionByCategoryID(int categoryID);
+    ArrayList<Transaction> getTransactionsByCategoryID(int categoryID);
 
     // sorting
-    ArrayList<Transaction> sortByDateNewestFirst();
-    ArrayList<Transaction> sortByDateOldestFirst();
+    ArrayList<Transaction> getNewestTransactionsForUser(int userID);
+    ArrayList<Transaction> getOldestTransactionsForUser(int userID);
+
+    public void getCourseSequential();
 
 }

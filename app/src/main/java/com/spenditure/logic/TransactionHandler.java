@@ -108,7 +108,7 @@ public class TransactionHandler implements ITransactionHandler, Serializable {
             throw new InvalidTransactionException("Transaction I.D. of new transaction (I.D.: "
                     + t.getTransactionID() +") is invalid; the transaction may not exist.");
 
-        return dataAccessTransaction.deleteTransaction(t);
+        return dataAccessTransaction.deleteTransaction(t.getTransactionID());
 
     }
 
@@ -143,9 +143,9 @@ public class TransactionHandler implements ITransactionHandler, Serializable {
         Returns all transactions, sorted by newest first
      */
     @Override
-    public ArrayList<Transaction> getAllByNewestFirst() {
+    public ArrayList<Transaction> getAllByNewestFirst(int userID) {
 
-        return dataAccessTransaction.sortByDateNewestFirst();
+        return dataAccessTransaction.getNewestTransactionsForUser(userID);
 
     }
 
@@ -155,9 +155,9 @@ public class TransactionHandler implements ITransactionHandler, Serializable {
         Returns all transactions, sorted by oldest first
      */
     @Override
-    public ArrayList<Transaction> getAllByOldestFirst() {
+    public ArrayList<Transaction> getAllByOldestFirst(int userID) {
 
-        return dataAccessTransaction.sortByDateOldestFirst();
+        return dataAccessTransaction.getOldestTransactionsForUser(userID);
 
     }
 
@@ -172,7 +172,7 @@ public class TransactionHandler implements ITransactionHandler, Serializable {
     @Override
     public ArrayList<Transaction> getTransactionByCategoryID(int categoryID) {
 
-        return dataAccessTransaction.getTransactionByCategoryID(categoryID);
+        return dataAccessTransaction.getTransactionsByCategoryID(categoryID);
 
     }
 
@@ -279,9 +279,9 @@ public class TransactionHandler implements ITransactionHandler, Serializable {
     public ArrayList<Transaction> getTransactionByDate(DateTime target) {
 
         DateTime lower = new DateTime(target.getYear(), target.getMonth(), target.getDay(),
-                00, 00);
+                00, 00, 00);
         DateTime upper = new DateTime(target.getYear(), target.getMonth(), target.getDay(),
-                DateTimeValidator.MAX_HOURS, DateTimeValidator.MAX_MINUTES);
+                DateTimeValidator.MAX_HOURS, DateTimeValidator.MAX_MINUTES, DateTimeValidator.MAX_SECONDS);
 
         return dataAccessTransaction.getTransactionsByDateTime(lower, upper);
 
@@ -312,7 +312,7 @@ public class TransactionHandler implements ITransactionHandler, Serializable {
     public ArrayList<Transaction> getTransactionByDateTimeBefore(DateTime date) {
 
         return dataAccessTransaction.getTransactionsByDateTime(
-                new DateTime(0, 0, 0, 0, 0), date);
+                new DateTime(0, 0, 0, 0, 0, 0), date);
 
     }
 
@@ -327,7 +327,7 @@ public class TransactionHandler implements ITransactionHandler, Serializable {
     public ArrayList<Transaction> getTransactionByDateTimeAfter(DateTime lower) {
 
         return dataAccessTransaction.getTransactionsByDateTime(lower,
-                new DateTime(9999, 99, 99, 99, 99));
+                new DateTime(9999, 99, 99, 99, 99, 99));
 
     }
 
