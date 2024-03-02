@@ -444,9 +444,9 @@ public class ReportManager implements IReportManager {
 
     }
 
-    public ArrayList<ReportManagerNode> buildCategoryList() {
+    public ArrayList<ReportManagerNode> buildCategoryList(int userID) {
         ArrayList<ReportManagerNode> categoryList = new ArrayList<>();
-        int numCategories = countAllCategories();
+        int numCategories = countAllCategories(userID);
 
         for(int i = 1; i < numCategories+1; i++) {
             //for each Category calculate -> total, average, %
