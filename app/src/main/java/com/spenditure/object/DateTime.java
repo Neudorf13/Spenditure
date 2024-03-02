@@ -184,7 +184,7 @@ public class DateTime implements IDateTime{
 
     public DateTime copy() {
 
-        return new DateTime(year, month, day, hour, minute);
+        return new DateTime(year, month, day, hour, minute,seconds);
 
     }
 

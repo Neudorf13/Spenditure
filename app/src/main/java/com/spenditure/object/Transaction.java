@@ -84,6 +84,29 @@ public class Transaction implements ITransaction{
         this.categoryID = 0;    //represents not having an associated category
     }
 
+    public Transaction(int transactionID, String name, DateTime dateTime,
+                       String place, double amount, String comments,
+                       boolean withdrawal) {
+        this.transactionID = transactionID;
+
+        this.name = name;
+
+        this.dateTime = dateTime;
+
+        this.place = place;
+
+        this.amount = amount;
+
+        this.comments = comments;
+
+        this.withdrawal = withdrawal;
+
+        this.image = null;
+
+        //this.category = null;
+        this.categoryID = 0;    //represents not having an associated category
+    }
+
     //getters
     public int getTransactionID()
     {

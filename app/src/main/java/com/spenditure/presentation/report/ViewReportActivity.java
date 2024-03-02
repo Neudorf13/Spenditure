@@ -22,6 +22,7 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.spenditure.logic.CategoryHandler;
 import com.spenditure.logic.ReportManager;
+import com.spenditure.logic.UserManager;
 import com.spenditure.object.DateTime;
 import com.spenditure.object.IDateTime;
 import com.spenditure.object.IReport;
@@ -34,6 +35,8 @@ import java.time.LocalDate;
 
 
 public class ViewReportActivity extends AppCompatActivity {
+
+    private static String dbName="SC";
 
 //    private ViewPager viewPagerCategory;
 //    private SliderAdapterCatGeneral adapter;
@@ -281,7 +284,7 @@ public class ViewReportActivity extends AppCompatActivity {
 
     private void handleCategoriesReport(){
         ViewPager viewPagerCategory = findViewById(R.id.viewpager_report);
-        SliderAdapterCatGeneral adapter = new SliderAdapterCatGeneral(this,categoryHandler.getAllCategory());
+        SliderAdapterCatGeneral adapter = new SliderAdapterCatGeneral(this,categoryHandler.getAllCategory(UserManager.getUserID()));
         viewPagerCategory.setAdapter(adapter);
     }
 
@@ -310,4 +313,20 @@ public class ViewReportActivity extends AppCompatActivity {
 
 
 
+    public static void setDBPathName(final String name) {
+        try {
+            Class.forName("org.hsqldb.jdbcDriver").newInstance();
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        dbName = name;
+    }
+
+    public static String getDBPathName() {
+        return dbName;
+    }
 }

@@ -34,8 +34,8 @@ public class CategoryHandler {
         Services.restartCategoryDB(getSubDB);
         dataAccessCategory = Services.getCategoryPersistence(getSubDB);
     }
-    public List<MainCategory> getAllCategory(){
-        return this.dataAccessCategory.getAllCategory();
+    public List<MainCategory> getAllCategory(int userID){
+        return this.dataAccessCategory.getAllCategory(userID);//FIX THIS
     }
 
     public MainCategory getCategoryByID(int id) throws InvalidCategoryException{
@@ -48,13 +48,13 @@ public class CategoryHandler {
        Checks the name of category to make sure it's valid,
        then sends it to the data layer to be added.
     */
-    public MainCategory addCategory(String newCategoryName) throws InvalidCategoryException {
+    public MainCategory addCategory(String newCategoryName,int userID) throws InvalidCategoryException {
         if (newCategoryName == null){
             throw new InvalidCategoryException("Null pointer");
         }else if(newCategoryName.equals("")){
             throw new InvalidCategoryException("Name of category must not be blank");
         }
-        return this.dataAccessCategory.addCategory(newCategoryName.trim());
+        return this.dataAccessCategory.addCategory(new MainCategory(newCategoryName,99,userID));//FIX THIS
     }
 
     public void deleteCategory(int id) throws InvalidCategoryException{

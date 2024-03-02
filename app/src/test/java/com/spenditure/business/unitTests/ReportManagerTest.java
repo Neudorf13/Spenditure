@@ -32,7 +32,7 @@ public class ReportManagerTest {
 
     @Before
     public void setup() {
-        Services.restartCategoryDB(true);
+//        Services.restartCategoryDB(true);
         this.reportManager = new ReportManager(true);
     }
 

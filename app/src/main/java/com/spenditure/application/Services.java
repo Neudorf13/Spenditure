@@ -8,6 +8,8 @@ import com.spenditure.database.hsqldb.TransactionSQL;
 import com.spenditure.database.hsqldb.UserSQL;
 import com.spenditure.database.stub.CategoryStub;
 import com.spenditure.database.stub.TransactionStub;
+import com.spenditure.database.stub.UserStub;
+import com.spenditure.presentation.report.ViewReportActivity;
 
 
 /**
@@ -28,7 +30,7 @@ public class Services {
                 categoryPersistence = new CategoryStub();
             }else {
                 //Hanlde connect to DB
-                categoryPersistence = new CategorySQL(MainActivity.getDBPathName());
+                categoryPersistence = new CategorySQL(ViewReportActivity.getDBPathName());
             }
         }
 
@@ -41,7 +43,7 @@ public class Services {
                 transactionPersistence = new TransactionStub();
             }else{
                 //Hanlde connect to DB
-                transactionPersistence = new TransactionSQL(MainActivity.getDBPathName());
+                transactionPersistence = new TransactionSQL(ViewReportActivity.getDBPathName());
             }
         }
 
@@ -54,11 +56,38 @@ public class Services {
                 //userPersistence = new TransactionStub();
             }else{
                 //Hanlde connect to DB
-                userPersistence = new UserSQL(MainActivity.getDBPathName());
+                userPersistence = new UserSQL(ViewReportActivity.getDBPathName());
             }
         }
 
         return userPersistence;
+    }
+
+    // This method is for the shake of testing with stub database
+    public static void restartCategoryDB(boolean getStubDB){
+        if(getStubDB){
+            categoryPersistence = new CategoryStub();
+        }else{
+            //Hanlde re-connect to DB
+        }
+    }
+
+    // This method is for the shake of testing with stub database
+    public static void restartTransactionDB(boolean getStubDB){
+        if(getStubDB){
+            transactionPersistence = new TransactionStub();
+        }else{
+            //Hanlde re-connect to DB
+        }
+    }
+
+    // This method is for the shake of testing with stub database
+    public static void restartAccountDB(boolean getStubDB){
+        if(getStubDB){
+            userPersistence = new UserStub();
+        }else{
+            //Hanlde re-connect to DB
+        }
     }
 
 

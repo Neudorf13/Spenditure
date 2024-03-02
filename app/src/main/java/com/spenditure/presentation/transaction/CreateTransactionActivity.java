@@ -84,14 +84,14 @@ public class CreateTransactionActivity extends AppCompatActivity {
     private Transaction createTransaction() {
         // Parse all the user fields
         EditText whatTheHeck = (EditText) findViewById(R.id.edittext_what_the_heck);
-        DateTime date = new DateTime(2023,1,1,1,1); // Set default date for now
+        DateTime date = new DateTime(2023,1,1,1,1,0); // Set default date for now
         EditText place = (EditText) findViewById(R.id.edittext_place);
         EditText amount = (EditText) findViewById(R.id.edittext_amount);
         EditText comments = (EditText) findViewById(R.id.edittext_comments);
         AppCompatToggleButton type = (AppCompatToggleButton) findViewById(R.id.togglebutton_type);
 
         // Create the new transaction object
-        Transaction newTransaction = new Transaction(-1, whatTheHeck.getText().toString(), date, place.getText().toString(), Double.parseDouble(amount.getText().toString()), comments.getText().toString(), type.isChecked());
+        Transaction newTransaction = new Transaction(-1, whatTheHeck.getText().toString(), date, place.getText().toString(), Double.parseDouble(amount.getText().toString()), comments.getText().toString(), type.isChecked(),null);
 
         return newTransaction;
     };

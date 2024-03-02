@@ -78,26 +78,26 @@ public class TransactionHandlerTest {
         Transaction[] invalid = new Transaction[numInvalidTests];
 
         //invalid ID
-        invalid[0] = new Transaction(0, "2024 BMW M4 Competition Cabriolet", new DateTime(2024, 3, 3, 12, 00), "BMW Dealership", 110200, "", true);
+        invalid[0] = new Transaction(0, "2024 BMW M4 Competition Cabriolet", new DateTime(2024, 3, 3, 12, 00,0), "BMW Dealership", 110200, "", true);
         //ID already exists
-        invalid[1] = new Transaction(1, "2024 Ford Raptor R", new DateTime(2024, 2, 28, 12, 00), "Ford Dealership", 118954, "Includes optional Raptor 37 Performance Package", true);
+        invalid[1] = new Transaction(1, "2024 Ford Raptor R", new DateTime(2024, 2, 28, 12, 00,0), "Ford Dealership", 118954, "Includes optional Raptor 37 Performance Package", true);
         //invalid name
-        invalid[2] = new Transaction(-1, "", new DateTime(2024, 10, 10, 12, 00), "???", 9000000, "???", true);
+        invalid[2] = new Transaction(-1, "", new DateTime(2024, 10, 10, 12, 00,0), "???", 9000000, "???", true);
         //invalid date
-        invalid[3] = new Transaction(-1, "Louisiana", new DateTime(1803, 7, 4, 12, 00), "New Orleans", 358000000, "", true);
+        invalid[3] = new Transaction(-1, "Louisiana", new DateTime(1803, 7, 4, 12, 00,0), "New Orleans", 358000000, "", true);
         //invalid leap year
-        invalid[4] = new Transaction(-1, "2024 Land Rover Range Rover SV P615 Long Wheelbase", new DateTime(2023, 2, 29, 10, 00), "Jaguar Land Rover Dealership", 397224, "Maxed out options and accessories", true);
+        invalid[4] = new Transaction(-1, "2024 Land Rover Range Rover SV P615 Long Wheelbase", new DateTime(2023, 2, 29, 10, 00,0), "Jaguar Land Rover Dealership", 397224, "Maxed out options and accessories", true);
         //invalid place
-        invalid[5] = new Transaction(-1, "2024 Acura TLX Type S", new DateTime(2024, 1, 31, 20, 00), "", 66478.50, "", true);
+        invalid[5] = new Transaction(-1, "2024 Acura TLX Type S", new DateTime(2024, 1, 31, 20, 00,0), "", 66478.50, "", true);
         //invalid amount
-        invalid[6] = new Transaction(-1, "The Moon", new DateTime(2020, 12, 25, 16, 20), "Space", -1398140054810.5082150, "Illegally acquired", true);
+        invalid[6] = new Transaction(-1, "The Moon", new DateTime(2020, 12, 25, 16, 20,0), "Space", -1398140054810.5082150, "Illegally acquired", true);
 
         //Invalid comment over character limit
         String invalidComment = "CANTWAIT!!";
         for( int i = 0; i < 350; i++ )
             invalidComment += "!";
 
-        invalid[7] = new Transaction(-1, "2024 Porsche 911 GT3 RS", new DateTime(2024, 5, 8, 12, 12), "Porsche Dealership", 301439, invalidComment, true);
+        invalid[7] = new Transaction(-1, "2024 Porsche 911 GT3 RS", new DateTime(2024, 5, 8, 12, 12,0), "Porsche Dealership", 301439, invalidComment, true);
 
         //Try inserting all invalid tests, all should return false
         for( int i = 0; i < numInvalidTests; i ++ ) {
@@ -110,7 +110,7 @@ public class TransactionHandlerTest {
         assertEquals(transactionHandler.getAllTransactions().size(), EXPECTED_SIZE);
 
         //Test valid insertion
-        Transaction newTransaction = new Transaction(-1, "Tow Truck Fee", new DateTime(2024, 2, 29, 18, 31), "Pembina Highway", 143.59, "Damn BMW", true);
+        Transaction newTransaction = new Transaction(-1, "Tow Truck Fee", new DateTime(2024, 2, 29, 18, 31,0), "Pembina Highway", 143.59, "Damn BMW", true);
         transactionHandler.addTransaction(newTransaction);
 
         assertEquals(transactionHandler.getAllTransactions().size(), EXPECTED_SIZE + 1);
@@ -144,13 +144,13 @@ public class TransactionHandlerTest {
         assertEquals("Online course enrollment fee", transactionHandler.getTransactionByID(14).getName());
 
         //Ensure requests to delete invalid IDs return false
-        Transaction test = new Transaction(-1, "", new DateTime(0, 0, 0, 0, 0), "", 0, "", false);
+        Transaction test = new Transaction(-1, "", new DateTime(0, 0, 0, 0, 0,0), "", 0, "", false);
 
         try {
             assertFalse(transactionHandler.deleteTransaction(test));
         } catch(InvalidTransactionException ignored) {}
 
-        test = new Transaction(1000, "Quarter Pounder With Cheese", new DateTime(2024, 12, 25, 23, 13), "McDonald's", 11.75, "I'm lovin' it", true);
+        test = new Transaction(1000, "Quarter Pounder With Cheese", new DateTime(2024, 12, 25, 23, 13,0), "McDonald's", 11.75, "I'm lovin' it", true);
 
         assertFalse(transactionHandler.deleteTransaction(test));
 
@@ -204,14 +204,14 @@ public class TransactionHandlerTest {
         assertEquals(transactionHandler.getTransactionByID(2).getName(), "Paycheck");
 
         //Modifying date/time to invalid value, should return false
-        toModify.setDateTime(new DateTime(159025, 1048, 1058, 159810, 15970135));
+        toModify.setDateTime(new DateTime(159025, 1048, 1058, 159810, 15970135,0));
 
         //Modifying date/time to valid value, should return true
         try {
             assertFalse(transactionHandler.modifyTransaction(toModify));
         } catch(InvalidDateTimeException ignored) {}
 
-        toModify.setDateTime(new DateTime(2024, 4, 15, 00, 00));
+        toModify.setDateTime(new DateTime(2024, 4, 15, 00, 00,0));
         assertTrue(transactionHandler.modifyTransaction(toModify));
 
         //Modifying place to invalid value, should return false
@@ -243,9 +243,9 @@ public class TransactionHandlerTest {
         assertTrue(transactionHandler.modifyTransaction(toModify));
 
         //Modifying type
-        toModify.setType(false);
+        toModify.setWithdrawal(false);
         assertTrue(transactionHandler.modifyTransaction(toModify));
-        assertFalse(transactionHandler.getTransactionByID(2).getType());
+        assertFalse(transactionHandler.getTransactionByID(2).getWithdrawal());
 
         assertEquals(transactionHandler.getAllTransactions().size(), EXPECTED_SIZE);
     }
@@ -253,7 +253,7 @@ public class TransactionHandlerTest {
     @Test
     public void testGetOldestFirst() {
 
-        ArrayList<Transaction> list = transactionHandler.getAllByOldestFirst();
+        ArrayList<Transaction> list = transactionHandler.getAllByOldestFirst(1);
 
         //Test specific names that should have gone to the front/back; should return true
         assertEquals(list.get(0).getName(), transactionHandler.getTransactionByID(2).getName());
@@ -264,7 +264,7 @@ public class TransactionHandlerTest {
     @Test
     public void testGetNewestFirst() {
 
-        ArrayList<Transaction> list = transactionHandler.getAllByNewestFirst();
+        ArrayList<Transaction> list = transactionHandler.getAllByNewestFirst(1);
 
         //Test specific names that should have gone to the front/back; should return true
         assertEquals(list.get(0).getName(), transactionHandler.getTransactionByID(1).getName());
@@ -304,7 +304,7 @@ public class TransactionHandlerTest {
         //Get multiple transactions with the same name
         for(int i = 0; i < numInserts; i ++) {
 
-            transactionHandler.addTransaction(new Transaction(-1,  "2024 Honda Civic Type R", new DateTime(2024, 2, 29, 16, 20), "Winnipeg Honda", 53280.00, "MSRP", true));
+            transactionHandler.addTransaction(new Transaction(-1,  "2024 Honda Civic Type R", new DateTime(2024, 2, 29, 16, 20,0), "Winnipeg Honda", 53280.00, "MSRP", true));
 
         }
 
@@ -352,7 +352,7 @@ public class TransactionHandlerTest {
         int numInsertions = 3;
 
         //Test retrieval of specific item by date
-        DateTime testTime = new DateTime(2023, 9, 15, 16, 0);
+        DateTime testTime = new DateTime(2023, 9, 15, 16, 0,0);
         ArrayList<Transaction> list = transactionHandler.getTransactionByDateTime(testTime, testTime);
 
         //Both should be true
@@ -369,14 +369,14 @@ public class TransactionHandlerTest {
 
         //Test retrieval of items between specified dates
         list = transactionHandler.getTransactionByDateTimeBetween(
-                new DateTime(2023, 9, 1, 00, 00),
-                new DateTime(2023, 9, 31, 23, 59));
+                new DateTime(2023, 9, 1, 00, 00,0),
+                new DateTime(2023, 9, 31, 23, 59,0));
         assertEquals(list.size(), 6);
 
         //Test retrieval of all transactions from a specific date
         for(int i = 0; i < numInsertions; i ++)
 
-            transactionHandler.addTransaction(new Transaction(-1,  "2024 Honda Civic Type R", new DateTime(2024, 2, 29, 16 + i, 20 + i), "Winnipeg Honda", 53280.00, "MSRP", true));
+            transactionHandler.addTransaction(new Transaction(-1,  "2024 Honda Civic Type R", new DateTime(2024, 2, 29, 16 + i, 20 + i,0), "Winnipeg Honda", 53280.00, "MSRP", true));
 
         list = transactionHandler.getTransactionByDate(new DateTime(2024, 2, 29));
 

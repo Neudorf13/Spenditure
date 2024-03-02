@@ -14,6 +14,7 @@ import com.example.spenditure.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.spenditure.logic.CategoryHandler;
+import com.spenditure.logic.UserManager;
 import com.spenditure.presentation.BottomNavigationHandler;
 import com.spenditure.presentation.TouchHelper;
 import com.spenditure.presentation.transaction.CreateTransactionActivity;
@@ -46,7 +47,7 @@ public class ViewCategoryActivity extends AppCompatActivity {
             }
         });
 
-        adapter = new CategoryAdapter(ViewCategoryActivity.this, categoryHandler.getAllCategory());
+        adapter = new CategoryAdapter(ViewCategoryActivity.this, categoryHandler.getAllCategory(UserManager.getUserID()));
         recyclerView.setAdapter(adapter);
 
 
