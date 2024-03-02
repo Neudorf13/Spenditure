@@ -28,7 +28,7 @@ public class DateTime implements IDateTime{
 
     private int minute;
 
-    private int seconds;
+    private int second;
 
     //Relates month names to month value; names correlate to month-1
     private static final String[] MONTHS = {
@@ -46,14 +46,14 @@ public class DateTime implements IDateTime{
             "December"
     };
 
-    public DateTime(int year, int month, int day, int hour, int minute, int seconds)
+    public DateTime(int year, int month, int day, int hour, int minute, int second)
     {
         this.year = year;
         this.month = month;
         this.day = day;
         this.hour = hour;
         this.minute = minute;
-        this.seconds = seconds;
+        this.second = second;
     }
 
     public DateTime(int year) {
@@ -63,6 +63,7 @@ public class DateTime implements IDateTime{
         this.day = -1;
         hour = 0;
         minute = 0;
+        second = 0;
     }
 
     public DateTime(int year, int month) {
@@ -72,6 +73,7 @@ public class DateTime implements IDateTime{
         this.day = -1; // -1 signifies that it was not given
         hour = 0;
         minute = 0;
+        second = 0;
     }
 
     public DateTime(int year, int month, int day) {
@@ -81,7 +83,16 @@ public class DateTime implements IDateTime{
         this.day = day;
         hour = 0;
         minute = 0;
-        seconds = 0;
+        second = 0;
+    }
+
+    public DateTime(int year, int month, int day, int hour, int minute) {
+
+        this(year, month, day);
+
+        this.hour = hour;
+        this.minute = minute;
+
     }
 
     public DateTime(String dateString) {
@@ -96,10 +107,10 @@ public class DateTime implements IDateTime{
         this.day = dateTime.getDayOfMonth();
         this.hour = dateTime.getHour();
         this.minute = dateTime.getMinute();
-        this.seconds = dateTime.getSecond();
+        this.second = dateTime.getSecond();
     }
 
-    public String toString() {
+    public String printWrittenDate() {
 
         String adjustMinutesPrefix = "";
         String adjustMinutesSuffix = "";
@@ -114,6 +125,22 @@ public class DateTime implements IDateTime{
 
     }
 
+    public String toString() {
+
+        String separator = "-";
+
+        return year + separator + month + separator + day + separator
+                + hour + separator + minute + separator + second;
+
+    }
+
+    public String printDate() {
+
+        String separator = "/";
+
+        return month + separator + day + separator + year;
+
+    }
 
 
 //    public static DateTime FromTimestamp(Timestamp timestamp)
@@ -161,8 +188,8 @@ public class DateTime implements IDateTime{
         } else if( minute - other.getMinute() != 0 ) {
             return minute - other.getMinute();
 
-        } else if(seconds - other.getSeconds() != 0) {
-            return seconds - other.getSeconds();
+        } else if(second - other.getSeconds() != 0) {
+            return second - other.getSeconds();
         } else
             return 0;
 
@@ -184,7 +211,7 @@ public class DateTime implements IDateTime{
 
     public DateTime copy() {
 
-        return new DateTime(year, month, day, hour, minute);
+        return new DateTime(year, month, day, hour, minute, second);
 
     }
 
@@ -213,5 +240,5 @@ public class DateTime implements IDateTime{
         return minute;
     }
 
-    public int getSeconds() {return seconds; }
+    public int getSeconds() { return second; }
 }

@@ -127,7 +127,10 @@ public class ReportManager implements IReportManager {
 
         }
 
-        return total / transactions.size();
+        if(transactions.size() > 0)
+            return total / transactions.size();
+        else
+            return 0;
 
     }
 
@@ -154,7 +157,10 @@ public class ReportManager implements IReportManager {
 
         standardDeviation = sqrt(variance);
 
-        return standardDeviation;
+        if(transactions.size() > 0)
+            return standardDeviation;
+        else
+            return 0;
 
     }
 
@@ -165,8 +171,8 @@ public class ReportManager implements IReportManager {
     }
 
     //return count of total categories
-    public int countAllCategories() {
-        List<MainCategory> categories = dataAccessCategory.getAllCategory();
+    public int countAllCategories(int userID) {
+        List<MainCategory> categories = dataAccessCategory.getAllCategory(userID);
         return categories.size();
     }
 
@@ -177,7 +183,7 @@ public class ReportManager implements IReportManager {
 
         for(int i = 0; i < transactionsInTimeframe.size(); i ++) {
 
-            if( transactionsInTimeframe.get(i).getCategory().getID() == categoryID )
+            if( transactionsInTimeframe.get(i).getCategoryID() == categoryID )
                 categoryTransactions.add(transactionsInTimeframe.get(i));
 
         }
@@ -206,7 +212,7 @@ public class ReportManager implements IReportManager {
 
             Transaction element = transactionsInTimeframe.get(i);
 
-            if(element.getCategory().getID() == categoryID)
+            if(element.getCategoryID() == categoryID)
                 //for each CT, access its transaction, add the transaction value to total
                 total += element.getAmount();
 
@@ -255,13 +261,13 @@ public class ReportManager implements IReportManager {
 
     //return count of transactions with specific category
     public int countTransactionsByCategory(int categoryID) {
-        ArrayList<Transaction> categoryTransactions = dataAccessTransaction.getTransactionByCategoryID(categoryID);
+        ArrayList<Transaction> categoryTransactions = dataAccessTransaction.getTransactionsByCategoryID(categoryID);
         return categoryTransactions.size();
     }
 
     //return sum of total amount for specified category
     public double getTotalForCategory(int categoryID) {
-        ArrayList<Transaction> categoryTransactions =  dataAccessTransaction.getTransactionByCategoryID(categoryID);
+        ArrayList<Transaction> categoryTransactions =  dataAccessTransaction.getTransactionsByCategoryID(categoryID);
         double total = 0.0;
 
         for(Transaction element : categoryTransactions) {

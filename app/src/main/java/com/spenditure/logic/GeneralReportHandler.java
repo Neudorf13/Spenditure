@@ -32,7 +32,7 @@ public class GeneralReportHandler {
         }
         else
         {
-            return dataAccessTransaction.getTransactionByCategoryID(categoryID).size();
+            return dataAccessTransaction.getTransactionsByCategoryID(categoryID).size();
         }
 
     }
@@ -49,7 +49,7 @@ public class GeneralReportHandler {
         }
         else
         {
-            allTransactions = dataAccessTransaction.getTransactionByCategoryID(categoryID);
+            allTransactions = dataAccessTransaction.getTransactionsByCategoryID(categoryID);
         }
 
 
