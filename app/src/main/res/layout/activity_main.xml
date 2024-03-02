@@ -338,7 +338,7 @@
                     android:textAlignment="center"
                     android:paddingHorizontal="@dimen/space_2"
                     android:layout_marginHorizontal="@dimen/space_6"
-                    android:textColor="@color/dark_blue"
+                    android:textColor="@color/white"
                     android:textSize="@dimen/normal_size"
                     android:textStyle="bold"
                     />
@@ -379,7 +379,7 @@
                                 android:src="@drawable/symbol_doc" />
 
                             <TextView
-                                android:id="@+id/textview_catReport_transactionsCount"
+                                android:id="@+id/textview_lastYear_transactionsCount"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="20 transactions"
@@ -406,7 +406,7 @@
                                 android:layout_gravity="center"/>
 
                             <TextView
-                                android:id="@+id/textview_catReport_total"
+                                android:id="@+id/textview_lastYear_total"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="$1000 CAD"
@@ -433,7 +433,7 @@
                                 android:layout_gravity="center"/>
 
                             <TextView
-                                android:id="@+id/textview_catReport_average"
+                                android:id="@+id/textview_lastYear_average"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="100 CAD"
@@ -461,7 +461,7 @@
                                 android:layout_gravity="center"/>
 
                             <TextView
-                                android:id="@+id/textview_catReport_percentage"
+                                android:id="@+id/textview_lastYear_percentage"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="20 %"
@@ -485,7 +485,7 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="400dp"
+                    android:layout_height="500dp"
                     android:layout_marginHorizontal="50dp"
 
                     android:orientation="vertical">
@@ -496,132 +496,381 @@
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="24dp"
                         android:pointerIcon="grabbing"
+                        android:id="@+id/spinner_timebase_report"
                        />
 
-                    <GridLayout
+                    <RelativeLayout
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:rowCount="2"
-                        android:columnCount="2"
-                        android:background="@drawable/background_light_blue"
-                        >
+                        android:layout_height="400dp">
+                        <com.facebook.shimmer.ShimmerFrameLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:id="@+id/shimmer_timebase_report"
 
-                        <!-- First quarter -->
-                        <LinearLayout
-                            android:layout_width="0dp"
-                            android:layout_height="0dp"
-                            android:layout_rowWeight="1"
-                            android:layout_columnWeight="1"
-                            android:orientation="vertical"
-                            android:gravity="center">
+                           >
 
-                            <ImageView
-                                android:layout_width="100dp"
-                                android:layout_height="100dp"
-                                android:layout_gravity="center"
-                                android:src="@drawable/symbol_doc" />
+                            <GridLayout
 
-                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:rowCount="2"
+                                android:columnCount="2"
+                                android:background="@drawable/background_grey"
+                                >
 
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="20 transactions"
-                                android:textSize="@dimen/normal_size"
-                                android:textColor="@color/white"
-                                android:textStyle="bold"/>
+                                <!-- First quarter -->
+                                <LinearLayout
+                                    android:layout_width="0dp"
+                                    android:layout_height="0dp"
+                                    android:layout_rowWeight="1"
+                                    android:layout_columnWeight="1"
+                                    android:orientation="vertical"
+                                    android:gravity="center">
 
-                        </LinearLayout>
+                                    <ImageView
+                                        android:layout_width="100dp"
+                                        android:layout_height="100dp"
+                                        android:layout_gravity="center"
+                                        android:src="@drawable/symbol_doc" />
 
-                        <!-- Second quarter -->
-                        <LinearLayout
-                            android:layout_width="0dp"
-                            android:layout_height="0dp"
-                            android:layout_rowWeight="1"
-                            android:layout_columnWeight="1"
-                            android:orientation="vertical"
-                            android:gravity="center">
+                                    <TextView
 
-                            <ImageView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="20 transactions"
+                                        android:textSize="@dimen/normal_size"
+                                        android:textColor="@color/grey_silver"
+                                        android:textStyle="bold"/>
 
-                                android:layout_width="100dp"
-                                android:layout_height="100dp"
-                                android:src="@drawable/symbol_addchart"
-                                android:layout_gravity="center"/>
+                                </LinearLayout>
 
-                            <TextView
+                                <!-- Second quarter -->
+                                <LinearLayout
+                                    android:layout_width="0dp"
+                                    android:layout_height="0dp"
+                                    android:layout_rowWeight="1"
+                                    android:layout_columnWeight="1"
+                                    android:orientation="vertical"
+                                    android:gravity="center">
 
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="$1000 CAD"
-                                android:textSize="@dimen/normal_size"
-                                android:textColor="@color/white"
-                                android:textStyle="bold"/>
+                                    <ImageView
 
-                        </LinearLayout>
+                                        android:layout_width="100dp"
+                                        android:layout_height="100dp"
+                                        android:src="@drawable/symbol_addchart"
+                                        android:layout_gravity="center"/>
 
-                        <!-- Third quarter -->
-                        <LinearLayout
-                            android:layout_width="0dp"
-                            android:layout_height="0dp"
-                            android:layout_rowWeight="1"
-                            android:layout_columnWeight="1"
-                            android:orientation="vertical"
-                            android:gravity="center">
+                                    <TextView
 
-                            <ImageView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="$1000 CAD"
+                                        android:textSize="@dimen/normal_size"
+                                        android:textColor="@color/grey_silver"
+                                        android:textStyle="bold"/>
 
-                                android:layout_width="100dp"
-                                android:layout_height="100dp"
-                                android:src="@drawable/symbol_calculate"
-                                android:layout_gravity="center"/>
+                                </LinearLayout>
 
-                            <TextView
+                                <!-- Third quarter -->
+                                <LinearLayout
+                                    android:layout_width="0dp"
+                                    android:layout_height="0dp"
+                                    android:layout_rowWeight="1"
+                                    android:layout_columnWeight="1"
+                                    android:orientation="vertical"
+                                    android:gravity="center">
 
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="100 CAD"
-                                android:textSize="@dimen/normal_size"
-                                android:textColor="@color/white"
-                                android:textStyle="bold"/>
+                                    <ImageView
 
+                                        android:layout_width="100dp"
+                                        android:layout_height="100dp"
+                                        android:src="@drawable/symbol_calculate"
+                                        android:layout_gravity="center"/>
 
-                        </LinearLayout>
+                                    <TextView
 
-                        <!-- Fourth quarter -->
-                        <LinearLayout
-                            android:layout_width="0dp"
-                            android:layout_height="0dp"
-                            android:layout_rowWeight="1"
-                            android:layout_columnWeight="1"
-                            android:orientation="vertical"
-                            android:gravity="center">
-
-                            <ImageView
-
-                                android:layout_width="100dp"
-                                android:layout_height="100dp"
-                                android:src="@drawable/symbol_pie_chart"
-                                android:layout_gravity="center"/>
-
-                            <TextView
-
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="20 %"
-                                android:textSize="@dimen/normal_size"
-                                android:textColor="@color/white"
-                                android:textStyle="bold"/>
-
-                        </LinearLayout>
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="100 CAD"
+                                        android:textSize="@dimen/normal_size"
+                                        android:textColor="@color/grey_silver"
+                                        android:textStyle="bold"/>
 
 
+                                </LinearLayout>
 
-                    </GridLayout>
+                                <!-- Fourth quarter -->
+                                <LinearLayout
+                                    android:layout_width="0dp"
+                                    android:layout_height="0dp"
+                                    android:layout_rowWeight="1"
+                                    android:layout_columnWeight="1"
+                                    android:orientation="vertical"
+                                    android:gravity="center">
+
+                                    <ImageView
+
+                                        android:layout_width="100dp"
+                                        android:layout_height="100dp"
+                                        android:src="@drawable/symbol_pie_chart"
+                                        android:layout_gravity="center"/>
+
+                                    <TextView
+
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="20 %"
+                                        android:textSize="@dimen/normal_size"
+                                        android:textColor="@color/grey_silver"
+                                        android:textStyle="bold"/>
+
+                                </LinearLayout>
+
+
+
+                            </GridLayout>
+                        </com.facebook.shimmer.ShimmerFrameLayout>
+
+                        <androidx.viewpager.widget.ViewPager
+                            android:id="@+id/gridlayout_timebase_report"
+                            android:layout_width="match_parent"
+                            android:layout_height="400dp"
+                            android:layout_marginHorizontal="0dp" />
+
+
+                    </RelativeLayout>
+
+
 
                 </LinearLayout>
 
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="20dp" />
 
 
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="450dp"
+                    android:orientation="vertical"
+
+                    >
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginHorizontal="30dp"
+                       >
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="horizontal"
+                            android:layout_weight="1">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="From"
+                                android:textSize="@dimen/small_size"
+                                android:textStyle="bold"
+                                android:layout_marginEnd="@dimen/space_1"
+                                android:textColor="@color/white"
+                                />
+                            <Button
+                                android:id="@+id/button_report_from"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="20/10/2023"
+                                android:textColor="@color/white"
+                                android:textSize="@dimen/small_size"
+                                android:textStyle="bold"
+
+                                />
+
+                        </LinearLayout>
+
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="horizontal"
+                            android:layout_weight="1">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="To"
+                                android:textSize="@dimen/small_size"
+                                android:textStyle="bold"
+                                android:layout_marginEnd="@dimen/space_1"
+                                android:textColor="@color/white"
+                                />
+                            <Button
+                                android:id="@+id/button_report_to"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="20/10/2023"
+                                android:textColor="@color/white"
+                                android:textSize="@dimen/small_size"
+                                android:textStyle="bold"
+                                />
+
+                        </LinearLayout>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="horizontal"
+                            android:layout_weight="1">
+                            <Button
+                                android:id="@+id/button_get_report"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:text="Get report"
+                                android:textStyle="bold"
+                                android:textSize="@dimen/small_size"/>
+                        </LinearLayout>
+
+
+
+
+
+
+
+
+
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="400dp"
+                        android:layout_marginHorizontal="50dp"
+
+                        android:orientation="vertical"
+                        android:background="@drawable/background_dark_blue">
+                        <GridLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="400dp"
+                            android:rowCount="2"
+                            android:columnCount="2"
+
+                            >
+
+                            <!-- First quarter -->
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="0dp"
+                                android:layout_rowWeight="1"
+                                android:layout_columnWeight="1"
+                                android:orientation="vertical"
+                                android:gravity="center">
+
+                                <ImageView
+                                    android:layout_width="100dp"
+                                    android:layout_height="100dp"
+                                    android:layout_gravity="center"
+                                    android:src="@drawable/symbol_doc" />
+
+                                <TextView
+                                    android:id="@+id/textview_customTime_totalTrans"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="20 transactions"
+                                    android:textSize="@dimen/normal_size"
+                                    android:textColor="@color/white"
+                                    android:textStyle="bold"/>
+
+                            </LinearLayout>
+
+                            <!-- Second quarter -->
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="0dp"
+                                android:layout_rowWeight="1"
+                                android:layout_columnWeight="1"
+                                android:orientation="vertical"
+                                android:gravity="center">
+
+                                <ImageView
+
+                                    android:layout_width="100dp"
+                                    android:layout_height="100dp"
+                                    android:src="@drawable/symbol_addchart"
+                                    android:layout_gravity="center"/>
+
+                                <TextView
+                                    android:id="@+id/textview_customTime_totalAmount"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="$1000 CAD"
+                                    android:textSize="@dimen/normal_size"
+                                    android:textColor="@color/white"
+                                    android:textStyle="bold"/>
+
+                            </LinearLayout>
+
+                            <!-- Third quarter -->
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="0dp"
+                                android:layout_rowWeight="1"
+                                android:layout_columnWeight="1"
+                                android:orientation="vertical"
+                                android:gravity="center">
+
+                                <ImageView
+
+                                    android:layout_width="100dp"
+                                    android:layout_height="100dp"
+                                    android:src="@drawable/symbol_calculate"
+                                    android:layout_gravity="center"/>
+
+                                <TextView
+                                    android:id="@+id/textview_customTime_average"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="100 CAD"
+                                    android:textSize="@dimen/normal_size"
+                                    android:textColor="@color/white"
+                                    android:textStyle="bold"/>
+
+
+                            </LinearLayout>
+
+                            <!-- Fourth quarter -->
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="0dp"
+                                android:layout_rowWeight="1"
+                                android:layout_columnWeight="1"
+                                android:orientation="vertical"
+                                android:gravity="center">
+
+                                <ImageView
+
+                                    android:layout_width="100dp"
+                                    android:layout_height="100dp"
+                                    android:src="@drawable/symbol_pie_chart"
+                                    android:layout_gravity="center"/>
+
+                                <TextView
+                                    android:id="@+id/textview_customTime_percentage"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="20 %"
+                                    android:textSize="@dimen/normal_size"
+                                    android:textColor="@color/white"
+                                    android:textStyle="bold"/>
+
+                            </LinearLayout>
+
+
+
+                        </GridLayout>
+                    </LinearLayout>
+
+                </LinearLayout>
 
                 <!-- This is a holder -->
                 <View

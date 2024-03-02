@@ -15,5 +15,6 @@
     <color name="background_color">#01013F</color>
     <color name="nav_color">#CFD3F0</color>
     <color name="light_blue">#06c1f0</color>
+    <color name="grey_silver">#DDDDDD</color>
 
 </resources>

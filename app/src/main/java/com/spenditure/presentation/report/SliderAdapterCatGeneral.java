@@ -17,9 +17,9 @@ import com.spenditure.object.MainCategory;
 import java.util.List;
 
 
-public class SliderAdapter extends PagerAdapter {
-    Context context;
-    LayoutInflater inflater;
+public class SliderAdapterCatGeneral extends PagerAdapter {
+    private Context context;
+    private LayoutInflater inflater;
     private ReportManager reportManager;
     private List<MainCategory> categoryList;
     private int[] list_bg_color = {
@@ -27,7 +27,7 @@ public class SliderAdapter extends PagerAdapter {
       R.drawable.background_dark_blue
     };
 
-    public SliderAdapter(Context context, List<MainCategory> categoryList){
+    public SliderAdapterCatGeneral(Context context, List<MainCategory> categoryList){
         this.context = context;
         this.reportManager = new ReportManager(true);
         this.categoryList = categoryList;

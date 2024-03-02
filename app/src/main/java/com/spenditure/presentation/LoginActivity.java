@@ -32,5 +32,6 @@ public class LoginActivity extends AppCompatActivity {
 
                 // TODO: call validation method in the logic layer
             }
-        });    }
+        });
+    }
 }

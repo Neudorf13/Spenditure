@@ -101,7 +101,7 @@ public class DateTime implements IDateTime{
         - NEGATIVE if this DateTime is older than the other DateTime;
         - ZERO if the DateTimes are the same.
      */
-    public int compare(DateTime other) {
+    public int compare(IDateTime other) {
 
         if( year - other.getYear() != 0 ) {
             return year - other.getYear();
@@ -120,6 +120,26 @@ public class DateTime implements IDateTime{
 
         } else
             return 0;
+
+    }
+
+    public void adjust( int changeYear, int changeMonth, int changeDay, int changeHour, int changeMinute ) {
+
+        year += changeYear;
+
+        month += changeMonth;
+
+        day += changeDay;
+
+        hour += changeHour;
+
+        minute += changeMinute;
+
+    }
+
+    public DateTime copy() {
+
+        return new DateTime(year, month, day, hour, minute);
 
     }
 
