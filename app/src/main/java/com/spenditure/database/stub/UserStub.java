@@ -27,7 +27,7 @@ public class UserStub implements UserPersistence {
                 if(password.equals(user.getPassword())){
                     return user.getUserID();
                 }else{
-                    throw new InvalidUserInformationException("Wrong password or username");
+                    throw new InvalidUserInformationException("Wrong username or password");
                 }
             }
         }
@@ -77,7 +77,7 @@ public class UserStub implements UserPersistence {
     }
 
     @Override
-    public int register(String username, String password) throws InvalidUserInformationException {
+    public int register(int userID_need_to_fix, String username, String password, String email) throws InvalidUserInformationException {
 
         for (UserRow user : userTable) {
             if(user.getUsername().equals(username)){

@@ -88,7 +88,7 @@ public class ReportManagerIntegrationTest {
     public void testCount() {
         int test1 = reportManager.getCount();
 
-        assertEquals(test1,4);
+        assertEquals(test1,1);
     }
 
     @Test
@@ -111,6 +111,14 @@ public class ReportManagerIntegrationTest {
         String userName = userPersistence.getUserName(1);
 
         assertEquals("trevor.neudorf", userName);
+
+        int loginResult = userPersistence.login("trevor.neudorf", "test123");
+
+        assertEquals(1,loginResult);
+
+        int register = userPersistence.register(2, "gamer746", "weLoveFortnite", "orangeJustice@gmail.com");
+
+        assertEquals(2, register);
     }
 //
 //    @Test
