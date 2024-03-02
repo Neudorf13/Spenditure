@@ -52,9 +52,9 @@ public class ReportManager implements IReportManager {
         IDateTime yearStart = new DateTime(yearEnd.getYear()-1, yearEnd.getMonth());
 
 
-        double avgTransSize = getAverageTransactionSize(yearStart, yearEnd);
-        int numTrans = countAllTransactions(yearStart, yearEnd);
-        double stdDev = getStandardDeviation(yearStart, yearEnd);
+        double avgTransSize = getAverageTransactionSizeByDate(yearStart, yearEnd);
+        int numTrans = countAllTransactionsByDate(yearStart, yearEnd);
+        double stdDev = getStandardDeviationByDate(yearStart, yearEnd);
 
         ArrayList<CategoryStatistics> listOfCategoryStatistics = buildCategoryList(yearStart, yearEnd);
 
@@ -100,9 +100,9 @@ public class ReportManager implements IReportManager {
 
     public IReport reportOnUserProvidedDates(IDateTime start, IDateTime end) {
 
-        double averageTransactionSize = getAverageTransactionSize(start, end);
-        int numTransactions = countAllTransactions(start, end);
-        double standardDeviation = getStandardDeviation(start, end);
+        double averageTransactionSize = getAverageTransactionSizeByDate(start, end);
+        int numTransactions = countAllTransactionsByDate(start, end);
+        double standardDeviation = getStandardDeviationByDate(start, end);
 
         ArrayList<CategoryStatistics> categoryStatistics = buildCategoryList(start, end);
 
@@ -115,7 +115,7 @@ public class ReportManager implements IReportManager {
         return new DateTime(javaDateObject.getYear(), javaDateObject.getMonthValue());
     }
 
-    private double getAverageTransactionSize(IDateTime startDate, IDateTime endDate) {
+    private double getAverageTransactionSizeByDate(IDateTime startDate, IDateTime endDate) {
 
         List<Transaction> transactions = dataAccessTransaction.getTransactionsByDateTime(startDate, endDate);
 
@@ -131,11 +131,11 @@ public class ReportManager implements IReportManager {
 
     }
 
-    private double getStandardDeviation(IDateTime startDate, IDateTime endDate) {
+    private double getStandardDeviationByDate(IDateTime startDate, IDateTime endDate) {
 
         List<Transaction> transactions = dataAccessTransaction.getTransactionsByDateTime(startDate, endDate);
 
-        double mean = getAverageTransactionSize(startDate, endDate);
+        double mean = getAverageTransactionSizeByDate(startDate, endDate);
         double sum = 0.00;
         double variance = 0.00;
         double standardDeviation = 0.00;
@@ -159,19 +159,19 @@ public class ReportManager implements IReportManager {
     }
 
     //return count of total transactions
-    private int countAllTransactions(IDateTime startDate, IDateTime endDate) {
+    private int countAllTransactionsByDate(IDateTime startDate, IDateTime endDate) {
         List<Transaction> transactions = dataAccessTransaction.getTransactionsByDateTime(startDate, endDate);
         return transactions.size();
     }
 
     //return count of total categories
-    private int countAllCategories() {
+    public int countAllCategories() {
         List<MainCategory> categories = dataAccessCategory.getAllCategory();
         return categories.size();
     }
 
     //return count of transactions with specific category
-    private int countTransactionsByCategory(int categoryID, IDateTime startDate, IDateTime endDate) {
+    private int countTransactionsByCategoryByDate(int categoryID, IDateTime startDate, IDateTime endDate) {
         ArrayList<Transaction> categoryTransactions = new ArrayList<Transaction>();// = dataAccessTransaction.getTransactionByCategoryID(categoryID);
         ArrayList<Transaction> transactionsInTimeframe = dataAccessTransaction.getTransactionsByDateTime(startDate, endDate);
 
@@ -186,7 +186,7 @@ public class ReportManager implements IReportManager {
     }
 
     //return sum of total amount for all transactions
-    private double getTotalForAllTransactions(IDateTime startDate, IDateTime endDate) {
+    private double getTotalForAllTransactionsByDate(IDateTime startDate, IDateTime endDate) {
         List<Transaction> transactions = dataAccessTransaction.getTransactionsByDateTime(startDate, endDate);
         double total = 0.0;
 
@@ -198,7 +198,7 @@ public class ReportManager implements IReportManager {
     }
 
     //return sum of total amount for specified category
-    private double getTotalForCategory(int categoryID, IDateTime startDate, IDateTime endDate) {
+    private double getTotalForCategoryByDate(int categoryID, IDateTime startDate, IDateTime endDate) {
         ArrayList<Transaction> transactionsInTimeframe = dataAccessTransaction.getTransactionsByDateTime(startDate, endDate);
         double total = 0.0;
 
@@ -216,18 +216,18 @@ public class ReportManager implements IReportManager {
     }
 
     //return average transaction amount for a given category
-    private double getAverageForCategory(int categoryID, IDateTime startDate, IDateTime endDate) {
-        double total = getTotalForCategory(categoryID, startDate, endDate);
-        int count = countTransactionsByCategory(categoryID, startDate, endDate);
+    private double getAverageForCategoryByDate(int categoryID, IDateTime startDate, IDateTime endDate) {
+        double total = getTotalForCategoryByDate(categoryID, startDate, endDate);
+        int count = countTransactionsByCategoryByDate(categoryID, startDate, endDate);
 
         return (total / count);
     }
 
     //return % of total transaction sum for given category
-    private double getPercentForCategory(int categoryID, IDateTime startDate, IDateTime endDate) {
+    private double getPercentForCategoryByDate(int categoryID, IDateTime startDate, IDateTime endDate) {
 
-        double totalAllTransactions = getTotalForAllTransactions(startDate, endDate);
-        double totalForCategory = getTotalForCategory(categoryID, startDate, endDate);
+        double totalAllTransactions = getTotalForAllTransactionsByDate(startDate, endDate);
+        double totalForCategory = getTotalForCategoryByDate(categoryID, startDate, endDate);
 
         return ((totalForCategory / totalAllTransactions) * 100);
     }
@@ -242,9 +242,9 @@ public class ReportManager implements IReportManager {
         for(int i = 1; i < numCategories+1; i++) {
             //for each Category calculate -> total, average, %
             MainCategory category = dataAccessCategory.getCategoryByID(i);
-            double total = getTotalForCategory(i, startDate, endDate);
-            double average = getAverageForCategory(i, startDate, endDate);
-            double percent = getPercentForCategory(i, startDate, endDate);
+            double total = getTotalForCategoryByDate(i, startDate, endDate);
+            double average = getAverageForCategoryByDate(i, startDate, endDate);
+            double percent = getPercentForCategoryByDate(i, startDate, endDate);
 
             CategoryStatistics node = new CategoryStatistics(category,total,average,percent);
             categoryList.add(node);
@@ -252,6 +252,209 @@ public class ReportManager implements IReportManager {
 
         return categoryList;
     }
+
+    //return count of transactions with specific category
+    public int countTransactionsByCategory(int categoryID) {
+        ArrayList<Transaction> categoryTransactions = dataAccessTransaction.getTransactionByCategoryID(categoryID);
+        return categoryTransactions.size();
+    }
+
+    //return sum of total amount for specified category
+    public double getTotalForCategory(int categoryID) {
+        ArrayList<Transaction> categoryTransactions =  dataAccessTransaction.getTransactionByCategoryID(categoryID);
+        double total = 0.0;
+
+        for(Transaction element : categoryTransactions) {
+            //for each CT, access its transaction, add the transaction value to total
+            total += element.getAmount();
+        }
+
+        return total;
+    }
+
+    //return average transaction amount for a given category
+    public double getAverageForCategory(int categoryID) {
+        double total = getTotalForCategory(categoryID);
+        int count = countTransactionsByCategory(categoryID);
+
+        return (total / count);
+    }
+
+    //return % of total transaction sum for given category
+    public double getPercentForCategory(int categoryID) {
+
+        double totalAllTransactions = getTotalForAllTransactions();
+        double totalForCategory = getTotalForCategory(categoryID);
+
+        return ((totalForCategory / totalAllTransactions) * 100);
+    }
+
+    //return sum of total amount for all transactions
+    public double getTotalForAllTransactions() {
+        List<Transaction> transactions = dataAccessTransaction.getAllTransactions();
+        double total = 0.0;
+
+        for(Transaction element : transactions) {
+            total += element.getAmount();
+        }
+
+        return total;
+    }
+
+    //return count of total transactions
+    public int countAllTransactions() {
+        List<Transaction> transactions = dataAccessTransaction.getAllTransactions();
+        return transactions.size();
+    }
+
+    //returns list of categories sorted by total amount
+    public ArrayList<MainCategory> sortByTotal(boolean descending) {
+        ArrayList<ReportManagerNode> categoryList = buildCategoryList();
+
+        Collections.sort(categoryList, (node1, node2) -> {
+            // Compare based on the 'total' attribute
+            if(descending) {
+                return Double.compare(node2.getTotal(), node1.getTotal());
+            }
+            else {
+                return Double.compare(node1.getTotal(), node2.getTotal());
+            }
+
+        });
+
+        // Create a new ArrayList to store sorted categories
+        ArrayList<MainCategory> sortedCategories = new ArrayList<>();
+
+        for (ReportManagerNode node : categoryList) {
+            sortedCategories.add(node.getCategory());
+        }
+
+        return sortedCategories;
+    }
+
+    //returns list of categories sorted by percent
+    public ArrayList<MainCategory> sortByPercent(boolean descending) {
+        ArrayList<ReportManagerNode> categoryList = buildCategoryList();
+
+        Collections.sort(categoryList, (node1, node2) -> {
+            // Compare based on the 'percent' attribute
+            if(descending) {
+                return Double.compare(node2.getPercent(), node1.getPercent());
+            }
+            else {
+                return Double.compare(node1.getPercent(), node2.getPercent());
+            }
+
+        });
+
+        // Create a new ArrayList to store sorted categories
+        ArrayList<MainCategory> sortedCategories = new ArrayList<>();
+
+        for (ReportManagerNode node : categoryList) {
+            sortedCategories.add(node.getCategory());
+        }
+
+        return sortedCategories;
+    }
+
+    //returns list of categories sorted by average amount
+    public ArrayList<MainCategory> sortByAverage(boolean descending) {
+        ArrayList<ReportManagerNode> categoryList = buildCategoryList();
+
+        Collections.sort(categoryList, (node1, node2) -> {
+            // Compare based on the 'average' attribute
+            if(descending) {
+                return Double.compare(node2.getAverage(), node1.getAverage());
+            }
+            else {
+                return Double.compare(node1.getAverage(), node2.getAverage());
+            }
+
+        });
+
+        // Create a new ArrayList to store sorted categories
+        ArrayList<MainCategory> sortedCategories = new ArrayList<>();
+
+        for (ReportManagerNode node : categoryList) {
+            sortedCategories.add(node.getCategory());
+        }
+
+        return sortedCategories;
+    }
+
+    //ReportManagerNode class used for internal ReportManager purposes
+    //Stores each Category with associated total, average and percent values
+    private class ReportManagerNode {
+        //instance vars
+        private MainCategory category;
+        private double total;
+        private double average;
+        private double percent;
+
+        public ReportManagerNode(MainCategory category, double total, double average, double percent) {
+            this.category = category;
+            this.total = total;
+            this.average = average;
+            this.percent = percent;
+        }
+
+        public MainCategory getCategory() {
+            return category;
+        }
+
+        public double getTotal() {
+            return total;
+        }
+
+        public double getAverage() {
+            return average;
+        }
+
+        public double getPercent() {
+            return percent;
+        }
+
+        //returns list of ReportManagerNodes (one for each category)
+
+
+
+
+
+    }
+
+    public ArrayList<ReportManagerNode> buildCategoryList() {
+        ArrayList<ReportManagerNode> categoryList = new ArrayList<>();
+        int numCategories = countAllCategories();
+
+        for(int i = 1; i < numCategories+1; i++) {
+            //for each Category calculate -> total, average, %
+            MainCategory category = dataAccessCategory.getCategoryByID(i);
+            double total = getTotalForCategory(i);
+            double average = getAverageForCategory(i);
+            double percent = getPercentForCategory(i);
+
+            ReportManagerNode node = new ReportManagerNode(category,total,average,percent);
+            categoryList.add(node);
+        }
+
+        return categoryList;
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

@@ -71,9 +71,10 @@ public class UserStub implements UserPersistence {
         for (UserRow user : userTable) {
             if(user.getUserID() == userID){
                 user.updateUserName(newUsername);
+                return true;
             }
         }
-        throw new InvalidUserInformationException("User ID not exist.");
+        throw new InvalidUserInformationException("User ID not exist");
     }
 
     @Override
@@ -100,7 +101,7 @@ public class UserStub implements UserPersistence {
         }
 
         private void updateUserName(String newUsername){
-            this.username= username;
+            this.username= newUsername;
         }
 
         private void updatePassword (String newPassword){
@@ -121,5 +122,4 @@ public class UserStub implements UserPersistence {
 
 
     }
-
 }
