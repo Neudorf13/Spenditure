@@ -28,6 +28,9 @@
     // User Profile/Login Activity
     <string name="label_username">Username</string>
     <string name="label_password">Password</string>
+    <string name="label_current_password">Current Password</string>
+    <string name="label_new_password">New Password</string>
     <string name="label_logout">Logout</string>
     <string name="label_login">Login</string>
+    <string name="label_save_changes">Save Changes</string>
 </resources>
