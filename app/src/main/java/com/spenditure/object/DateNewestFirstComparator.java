@@ -1,3 +1,17 @@
+/**
+ * DateNewestFirstComparator.java
+ *
+ * COMP3350 SECTION A02
+ *
+ * @author Jared Rost,
+ * @date Feb 7, 2024
+ *
+ * PURPOSE:
+ *  Compare two DateTime objects and decide which is smaller with newer dates being smaller
+ *
+ **/
+
+
 package com.spenditure.object;
 
 import java.util.Comparator;

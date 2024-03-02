@@ -1,3 +1,15 @@
+/**
+ * TransactionsListViewActivity.java
+ *
+ * COMP3350 SECTION A02
+ *
+ * @author Bao
+ * @date Tuesday, February 7, 2024
+ *
+ * PURPOSE:
+ *  Tests related to main category object
+ **/
+
 package com.spenditure.objects;
 
 import org.junit.Before;

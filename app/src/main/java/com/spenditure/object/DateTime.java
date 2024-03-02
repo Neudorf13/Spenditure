@@ -1,3 +1,16 @@
+/**
+ * DateTime.java
+ *
+ * COMP3350 SECTION A02
+ *
+ * @author Jared Rost,
+ * @date Feb 7, 2024
+ *
+ * PURPOSE:
+ *  Store all info related to datetime object
+ *
+ **/
+
 package com.spenditure.object;
 
 import java.time.LocalDateTime;
@@ -41,6 +54,24 @@ public class DateTime implements IDateTime{
         this.hour = hour;
         this.minute = minute;
         this.seconds = seconds;
+    }
+
+    public DateTime(int year) {
+
+        this.year = year;
+        this.month = -1; // -1 signifies it was not given
+        this.day = -1;
+        hour = 0;
+        minute = 0;
+    }
+
+    public DateTime(int year, int month) {
+
+        this.year = year;
+        this.month = month;
+        this.day = -1; // -1 signifies that it was not given
+        hour = 0;
+        minute = 0;
     }
 
     public DateTime(int year, int month, int day) {
@@ -113,7 +144,7 @@ public class DateTime implements IDateTime{
         - NEGATIVE if this DateTime is older than the other DateTime;
         - ZERO if the DateTimes are the same.
      */
-    public int compare(DateTime other) {
+    public int compare(IDateTime other) {
 
         if( year - other.getYear() != 0 ) {
             return year - other.getYear();
@@ -134,6 +165,26 @@ public class DateTime implements IDateTime{
             return seconds - other.getSeconds();
         } else
             return 0;
+
+    }
+
+    public void adjust( int changeYear, int changeMonth, int changeDay, int changeHour, int changeMinute ) {
+
+        year += changeYear;
+
+        month += changeMonth;
+
+        day += changeDay;
+
+        hour += changeHour;
+
+        minute += changeMinute;
+
+    }
+
+    public DateTime copy() {
+
+        return new DateTime(year, month, day, hour, minute);
 
     }
 

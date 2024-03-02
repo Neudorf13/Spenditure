@@ -5,12 +5,28 @@ import com.spenditure.logic.CategoryHandler;
 import com.spenditure.object.DateNewestFirstComparator;
 import com.spenditure.object.DateOldestFirstComparator;
 import com.spenditure.object.DateTime;
+import com.spenditure.object.IDateTime;
 import com.spenditure.object.Transaction;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+
+/**
+ * TransactionStub.java
+ *
+ * COMP3350 SECTION A02
+ *
+ * @author Jared Rost,
+ * @date Feb 7, 2024
+ *
+ * PURPOSE:
+ *  This file stores information using array lists and has some default transactions for testing purposes
+ *  It sorts data and returns an array list for use in the logic layer.
+ *  It is in the database layer because it is the stub database, where else would it go?
+ *
+ **/
 
 public class TransactionStub implements TransactionPersistence {
 
@@ -257,7 +273,7 @@ public class TransactionStub implements TransactionPersistence {
 
     }
 
-    public ArrayList<Transaction> getTransactionsByDateTime(DateTime lower, DateTime upper) {
+    public ArrayList<Transaction> getTransactionsByDateTime(IDateTime lower, IDateTime upper) {
 
         ArrayList<Transaction> allTransactionsInBounds = new ArrayList<>();
 

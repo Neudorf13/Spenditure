@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.spenditure.presentation.transaction.CreateTransactionActivity">
+
+    <TextView
+        android:id="@+id/textview_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/title_create_transaction"
+        android:textSize="40dp"
+        app:layout_constraintBottom_toTopOf="@+id/textview_what_the_heck"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textview_what_the_heck"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/field_what_the_heck"
+        android:textSize="25dp"
+        app:layout_constraintBottom_toTopOf="@+id/textview_date"
+        app:layout_constraintEnd_toStartOf="@+id/edittext_what_the_heck"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textview_title" />
+
+    <EditText
+        android:id="@+id/edittext_what_the_heck"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:minWidth="120dp"
+        android:textSize="25dp"
+        app:layout_constraintBottom_toTopOf="@+id/edittext_date"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/textview_what_the_heck"
+        app:layout_constraintTop_toBottomOf="@+id/textview_title"/>
+
+    <TextView
+        android:id="@+id/textview_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/field_date"
+        android:textSize="25dp"
+        app:layout_constraintBottom_toTopOf="@+id/textview_place"
+        app:layout_constraintEnd_toStartOf="@+id/edittext_date"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textview_what_the_heck" />
+
+    <EditText
+        android:id="@+id/edittext_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:minWidth="120dp"
+        android:textSize="25dp"
+        app:layout_constraintBottom_toTopOf="@+id/textview_place"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/textview_date"
+        app:layout_constraintTop_toBottomOf="@+id/edittext_what_the_heck"/>
+
+    <TextView
+        android:id="@+id/textview_place"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/field_place"
+        android:textSize="25dp"
+        app:layout_constraintBottom_toTopOf="@+id/textview_amount"
+        app:layout_constraintEnd_toStartOf="@+id/edittext_place"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textview_date" />
+
+    <EditText
+        android:id="@+id/edittext_place"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:minWidth="120dp"
+        android:textSize="25dp"
+        app:layout_constraintBottom_toTopOf="@+id/edittext_amount"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/textview_place"
+        app:layout_constraintTop_toBottomOf="@+id/edittext_date"/>
+
+    <TextView
+        android:id="@+id/textview_amount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/field_amount"
+        android:textSize="25dp"
+        app:layout_constraintBottom_toTopOf="@+id/textview_type"
+        app:layout_constraintEnd_toStartOf="@+id/edittext_amount"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textview_place" />
+
+    <EditText
+        android:id="@+id/edittext_amount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:minWidth="120dp"
+        android:inputType="number"
+        android:textSize="25dp"
+        app:layout_constraintBottom_toTopOf="@+id/togglebutton_type"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/textview_amount"
+        app:layout_constraintTop_toBottomOf="@+id/edittext_place"/>
+
+    <TextView
+        android:id="@+id/textview_type"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/field_type"
+        android:textSize="25dp"
+        app:layout_constraintBottom_toTopOf="@+id/textview_comments"
+        app:layout_constraintEnd_toStartOf="@+id/togglebutton_type"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textview_amount" />
+
+    <androidx.appcompat.widget.AppCompatToggleButton
+        android:id="@+id/togglebutton_type"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Deposit"
+        android:textSize="25dp"
+        android:textOn="Withdrawal"
+        android:textOff="Deposit"
+        android:checked="true"
+        app:layout_constraintBottom_toTopOf="@+id/edittext_comments"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/textview_type"
+        app:layout_constraintTop_toBottomOf="@+id/edittext_amount"/>
+
+    <TextView
+        android:id="@+id/textview_comments"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/field_comments"
+        android:textSize="25dp"
+        app:layout_constraintBottom_toTopOf="@+id/textview_categories"
+        app:layout_constraintEnd_toStartOf="@+id/edittext_comments"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textview_type" />
+
+    <EditText
+        android:id="@+id/edittext_comments"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:minWidth="120dp"
+        android:textSize="25dp"
+        app:layout_constraintBottom_toTopOf="@+id/edittext_categories"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/textview_comments"
+        app:layout_constraintTop_toBottomOf="@+id/togglebutton_type"/>
+
+    <TextView
+        android:id="@+id/textview_categories"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/field_categories"
+        android:textSize="25dp"
+        app:layout_constraintBottom_toTopOf="@+id/button_create_transaction"
+        app:layout_constraintEnd_toStartOf="@+id/edittext_categories"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textview_comments" />
+
+    <EditText
+        android:id="@+id/edittext_categories"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:minWidth="120dp"
+        android:textSize="25dp"
+        app:layout_constraintBottom_toTopOf="@+id/button_create_transaction"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/textview_categories"
+        app:layout_constraintTop_toBottomOf="@+id/edittext_comments"/>
+
+    <Button
+        android:id="@+id/button_create_transaction"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/title_create_transaction"
+        android:textSize="25dp"
+        app:layout_constraintBottom_toTopOf="@+id/nav_view"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edittext_categories"/>/>
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/nav_view"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="0dp"
+        android:layout_marginEnd="0dp"
+        android:background="?android:attr/windowBackground"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:menu="@menu/bottom_nav_menu" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
