@@ -10,11 +10,9 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.spenditure.R;
-import com.spenditure.logic.CategoryHandler;
 import com.spenditure.logic.UserManager;
 import com.spenditure.logic.exceptions.InvalidUserInformationException;
 import com.spenditure.presentation.report.ViewReportActivity;
-import com.spenditure.presentation.transaction.EditTransactionActivity;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -38,7 +36,7 @@ public class LoginActivity extends AppCompatActivity {
                 EditText user = (EditText) findViewById(R.id.edittext_username);
                 username = user.getText().toString();
 
-                EditText pass = (EditText) findViewById(R.id.edittext_password);
+                EditText pass = (EditText) findViewById(R.id.edittext_current_password);
                 password = pass.getText().toString();
 
                 try {

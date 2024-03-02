@@ -46,7 +46,7 @@ public class UserStub implements UserPersistence {
     public boolean changePassword(int userID, String oldPassword, String newPassword) throws InvalidUserInformationException{
         for (UserRow user : userTable) {
             if(user.getUserID() == userID){
-                if(user.getPassword() == oldPassword){
+                if(user.getPassword().equals(oldPassword)){
                     user.updatePassword(newPassword);
                     return true;
                 }else {
