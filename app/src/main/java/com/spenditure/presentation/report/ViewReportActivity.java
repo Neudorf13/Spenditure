@@ -174,26 +174,6 @@ public class ViewReportActivity extends AppCompatActivity {
 
     // Handle the bottom navigation bar
     private void navBarHandling(){
-//        BottomNavigationView navView = findViewById(R.id.nav_view);
-//        navView.setSelectedItemId(R.id.navigation_home);
-//
-//        navView.setOnItemSelectedListener((item -> {
-//            if (item.getItemId() == R.id.navigation_home) {
-//                return true;
-//            } else if (item.getItemId() == R.id.navigation_create_transaction) {
-//                startActivity(new Intent(getApplicationContext(), CreateTransactionActivity.class));
-//                return true;
-//            } else if (item.getItemId() == R.id.navigation_view_transactions) {
-//                startActivity(new Intent(getApplicationContext(), ViewTransactionsActivity.class));
-//                return true;
-//            }else if(item.getItemId() == R.id.navigation_category){
-//                startActivity(new Intent(getApplicationContext(), ViewCategoryActivity.class));
-//                return true;
-//            }else {
-//                return false;
-//            }
-//        }));
-
         BottomNavigationView navView = findViewById(R.id.nav_view);
         navView.setSelectedItemId(R.id.navigation_home);
         BottomNavigationHandler navigationHandler = new BottomNavigationHandler();
@@ -209,8 +189,6 @@ public class ViewReportActivity extends AppCompatActivity {
             }
             return false;
         }));
-
-
     }
 
     private void handleGeneralReport(){

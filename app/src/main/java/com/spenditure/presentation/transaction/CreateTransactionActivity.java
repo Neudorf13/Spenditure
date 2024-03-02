@@ -34,6 +34,7 @@ import com.spenditure.object.MainCategory;
 import com.spenditure.object.Transaction;
 
 import com.example.spenditure.R;
+import com.spenditure.presentation.BottomNavigationHandler;
 import com.spenditure.presentation.category.CustomCategorySpinnerAdapter;
 import com.spenditure.presentation.category.ViewCategoryActivity;
 import com.spenditure.presentation.report.ViewReportActivity;
@@ -119,27 +120,25 @@ public class CreateTransactionActivity extends AppCompatActivity {
         });
     }
 
-    // Handle the bottom navigation bar
     private void navBarHandling(){
         BottomNavigationView navView = findViewById(R.id.nav_view);
-        navView.setSelectedItemId(R.id.navigation_create_transaction);
+
+        BottomNavigationHandler navigationHandler = new BottomNavigationHandler();
 
         navView.setOnItemSelectedListener((item -> {
-            if (item.getItemId() == R.id.navigation_home) {
-                startActivity(new Intent(getApplicationContext(), ViewReportActivity.class));
-                return true;
-            } else if (item.getItemId() == R.id.navigation_create_transaction) {
-                return true;
-            } else if (item.getItemId() == R.id.navigation_view_transactions) {
-                startActivity(new Intent(getApplicationContext(), ViewTransactionsActivity.class));
-                return true;
-            }else if(item.getItemId() == R.id.navigation_category){
-                startActivity(new Intent(getApplicationContext(), ViewCategoryActivity.class));
-                return true;
-            } else {
+            if (item.getItemId() == R.id.navigation_create_transaction){
                 return false;
             }
+            Class<? extends AppCompatActivity> newActivity = navigationHandler.select(item.getItemId());
+            if(newActivity != null){
+                startActivity(new Intent(getApplicationContext(), newActivity));
+                return true;
+            }
+            return false;
         }));
+
+        // Set the selected item if needed
+        navView.setSelectedItemId(R.id.navigation_create_transaction);
     }
 
     // Helper method: create and return new Transaction object made from user-entered info

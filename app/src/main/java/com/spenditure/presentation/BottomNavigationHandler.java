@@ -39,6 +39,7 @@ class NavigationConfig {
         ACTIVITY_MAP.put(R.id.navigation_create_transaction, CreateTransactionActivity.class);
         ACTIVITY_MAP.put(R.id.navigation_view_transactions, ViewTransactionsActivity.class);
         ACTIVITY_MAP.put(R.id.navigation_category, ViewCategoryActivity.class);
+        ACTIVITY_MAP.put(R.id.navigation_user, ViewProfileActivity.class);
         // Add other mappings as needed
     }
 }

@@ -32,6 +32,7 @@ import com.spenditure.logic.TransactionHandler;
 import com.spenditure.object.DateTime;
 import com.spenditure.object.MainCategory;
 import com.spenditure.object.Transaction;
+import com.spenditure.presentation.BottomNavigationHandler;
 import com.spenditure.presentation.category.CustomCategorySpinnerAdapter;
 import com.spenditure.presentation.report.ViewReportActivity;
 
@@ -136,21 +137,16 @@ public class EditTransactionActivity extends AppCompatActivity {
     // Handle the bottom navigation bar
     private void navBarHandling(){
         BottomNavigationView navView = findViewById(R.id.nav_view);
-        navView.setSelectedItemId(R.id.navigation_home);
+
+        BottomNavigationHandler navigationHandler = new BottomNavigationHandler();
 
         navView.setOnItemSelectedListener((item -> {
-            if (item.getItemId() == R.id.navigation_home) {
-                startActivity(new Intent(getApplicationContext(), ViewReportActivity.class));
+            Class<? extends AppCompatActivity> newActivity = navigationHandler.select(item.getItemId());
+            if(newActivity != null){
+                startActivity(new Intent(getApplicationContext(), newActivity));
                 return true;
-            } else if (item.getItemId() == R.id.navigation_create_transaction) {
-                startActivity(new Intent(getApplicationContext(), CreateTransactionActivity.class));
-                return true;
-            } else if (item.getItemId() == R.id.navigation_view_transactions) {
-                startActivity(new Intent(getApplicationContext(), ViewTransactionsActivity.class));
-                return true;
-            } else {
-                return false;
             }
+            return false;
         }));
     }
 
