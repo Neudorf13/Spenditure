@@ -91,6 +91,82 @@ public class GeneralReportHandler {
 
 
 
+    private ArrayList<MainCategory> sortByTotal(boolean descending, IDateTime startDate, IDateTime endDate) {
+        ArrayList<CategoryStatistics> categoryList = buildCategoryList(startDate, endDate);
+
+        Collections.sort(categoryList, (node1, node2) -> {
+            // Compare based on the 'total' attribute
+            if(descending) {
+                return Double.compare(node2.getTotal(), node1.getTotal());
+            }
+            else {
+                return Double.compare(node1.getTotal(), node2.getTotal());
+            }
+
+        });
+
+        // Create a new ArrayList to store sorted categories
+        ArrayList<MainCategory> sortedCategories = new ArrayList<>();
+
+        for (CategoryStatistics node : categoryList) {
+            sortedCategories.add(node.getCategory());
+        }
+
+        return sortedCategories;
+    }
+
+    //returns list of categories sorted by percent
+    private ArrayList<MainCategory> sortByPercent(boolean descending, IDateTime startDate, IDateTime endDate) {
+        ArrayList<CategoryStatistics> categoryList = buildCategoryList(startDate, endDate);
+
+        Collections.sort(categoryList, (node1, node2) -> {
+            // Compare based on the 'percent' attribute
+            if(descending) {
+                return Double.compare(node2.getPercent(), node1.getPercent());
+            }
+            else {
+                return Double.compare(node1.getPercent(), node2.getPercent());
+            }
+
+        });
+
+        // Create a new ArrayList to store sorted categories
+        ArrayList<MainCategory> sortedCategories = new ArrayList<>();
+
+        for (CategoryStatistics node : categoryList) {
+            sortedCategories.add(node.getCategory());
+        }
+
+        return sortedCategories;
+    }
+
+    //returns list of categories sorted by average amount
+    private ArrayList<MainCategory> sortByAverage(boolean descending, IDateTime startDate, IDateTime endDate) {
+        ArrayList<CategoryStatistics> categoryList = buildCategoryList(startDate, endDate);
+
+        Collections.sort(categoryList, (node1, node2) -> {
+            // Compare based on the 'average' attribute
+            if(descending) {
+                return Double.compare(node2.getAverage(), node1.getAverage());
+            }
+            else {
+                return Double.compare(node1.getAverage(), node2.getAverage());
+            }
+
+        });
+
+        // Create a new ArrayList to store sorted categories
+        ArrayList<MainCategory> sortedCategories = new ArrayList<>();
+
+        for (CategoryStatistics node : categoryList) {
+            sortedCategories.add(node.getCategory());
+        }
+
+        return sortedCategories;
+    }
+
+
+
 
 
 }
