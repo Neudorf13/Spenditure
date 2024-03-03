@@ -89,7 +89,7 @@ public class ReportManager implements IReportManager {
         for( int i = 1; i < weekDates.length; i ++ ) {
 
             DateTime week = weekDates[i - 1].copy();
-            week.adjust(0, 0, -i * weeks, 0, 0);
+            week.adjust(0, 0, -i * weeks, 0, 0, 0);
 
             weekDates[i] = week;
 
