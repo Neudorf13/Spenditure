@@ -15,9 +15,9 @@ public class UserStub implements UserPersistence {
 
     public UserStub(){
         this.userTable = new ArrayList<>();
-        userTable.add(new UserRow("Me","123",autoIncrementID++));
-        userTable.add(new UserRow("You","1234",autoIncrementID++));
-        userTable.add(new UserRow("He","12345",autoIncrementID++));
+        userTable.add(new UserRow("Me","123",autoIncrementID++,"aaa@gmail.com"));
+        userTable.add(new UserRow("You","1234",autoIncrementID++,"bbb@gmail.com"));
+        userTable.add(new UserRow("He","12345",autoIncrementID++,"ccc@gmail.com"));
     }
 
     @Override
@@ -85,7 +85,7 @@ public class UserStub implements UserPersistence {
             }
         }
         int userID = autoIncrementID++;
-        userTable.add(new UserRow(username,password,userID));
+        userTable.add(new UserRow(username,password,userID, email));
         return userID;
     }
 
@@ -93,10 +93,12 @@ public class UserStub implements UserPersistence {
         private String username;
         private String password;
         private int userID;
-        public UserRow(String username,String password,int userID){
+        private String email;
+        public UserRow(String username,String password,int userID, String email){
             this.username = username;
             this.password = password;
             this.userID = userID;
+            this.email = email;
         }
 
         private void updateUserName(String newUsername){
@@ -113,6 +115,10 @@ public class UserStub implements UserPersistence {
 
         private String getUsername (){
             return this.username;
+        }
+
+        public String getEmail() {
+            return email;
         }
 
         int getUserID(){
