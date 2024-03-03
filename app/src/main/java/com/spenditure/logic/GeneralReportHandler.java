@@ -4,18 +4,21 @@ import com.spenditure.application.Services;
 import com.spenditure.database.CategoryPersistence;
 import com.spenditure.database.TransactionPersistence;
 import com.spenditure.database.stub.TransactionStub;
+import com.spenditure.logic.exceptions.InvalidTransactionException;
 import com.spenditure.object.CategoryReport;
 import com.spenditure.object.CategoryStatistics;
 import com.spenditure.object.ICategoryReport;
 import com.spenditure.object.IDateTime;
+import com.spenditure.object.IMainCategory;
 import com.spenditure.object.MainCategory;
 import com.spenditure.object.Transaction;
+import com.spenditure.logic.exceptions.*;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class GeneralReportHandler {
+public class GeneralReportHandler implements IGeneralReportHandler{
     private TransactionPersistence dataAccessTransaction;
     private CategoryPersistence dataAccessCategory;
 
@@ -28,28 +31,36 @@ public class GeneralReportHandler {
     {
         if(categoryID < 0)
         {
-            return dataAccessTransaction.getAllTransactions().size();
+            // make some sort of exception for this case
+            return dataAccessTransaction.getAllTransactionsForUser(UserManager.getUserID()).size();
         }
         else
         {
-            return dataAccessTransaction.getTransactionByCategoryID(categoryID).size();
+            return dataAccessTransaction.getTransactionsByCategoryID(categoryID).size();
         }
 
     }
 
-    public double totalSpending(int categoryID)
+    public double totalSpending(int categoryID) throws InvalidLogInException
     {
         List<Transaction> allTransactions;
+        int userID;
+
+
+        userID = UserManager.getUserID();
+
+        if(userID == -1 )
+            throw new InvalidLogInException("No user is logged in");
 
         double total = 0;
 
         if(categoryID < 0)
         {
-            allTransactions = dataAccessTransaction.getAllTransactions();
+            allTransactions = dataAccessTransaction.getAllTransactionsForUser(userID);
         }
         else
         {
-            allTransactions = dataAccessTransaction.getTransactionByCategoryID(categoryID);
+            allTransactions = dataAccessTransaction.getTransactionsByCategoryID(categoryID);
         }
 
 
@@ -65,9 +76,16 @@ public class GeneralReportHandler {
     public double averageSpending(int categoryID)
     {
 
-        double average = 0;
+        double average;
 
-        average = totalSpending(categoryID) / numTransactions(categoryID);
+        if(numTransactions(categoryID) == 0)
+        {
+            average = 0;
+        }
+        else
+        {
+            average = totalSpending(categoryID) / numTransactions(categoryID);
+        }
 
         return average;
 
@@ -80,35 +98,55 @@ public class GeneralReportHandler {
         double average;
         double percentage;
 
-
         totalSpending = totalSpending(categoryID);
         numTransactions = numTransactions(categoryID);
         average = averageSpending(categoryID);
         percentage = (totalSpending(categoryID)/totalSpending(-1)) * 100;
 
-        return new CategoryReport(totalSpending, numTransactions, average, percentage);
+        return new CategoryReport(dataAccessCategory.getCategoryByID(categoryID), totalSpending, numTransactions, average, percentage);
     }
 
 
 
-    private ArrayList<MainCategory> sortByTotal(boolean descending, IDateTime startDate, IDateTime endDate) {
-        ArrayList<CategoryStatistics> categoryList = buildCategoryList(startDate, endDate);
+    public ArrayList<IMainCategory> sortByTotal(boolean descending) throws InvalidLogInException
+    {
+        ArrayList<ICategoryReport> categoryReportList = new ArrayList<ICategoryReport>();
+        List<MainCategory> mainCategoryList;
+        ArrayList<IMainCategory> sortedCategories = new ArrayList<IMainCategory>();
+        int userID;
 
-        Collections.sort(categoryList, (node1, node2) -> {
+
+        // do something with exception
+        userID = UserManager.getUserID();
+
+        if(userID == -1 )
+            throw new InvalidLogInException("No user is logged in");
+
+        // get all categories for a user
+        mainCategoryList = dataAccessCategory.getAllCategory(userID);
+
+
+        // generate report for each category user has
+        for(MainCategory node : mainCategoryList)
+        {
+            categoryReportList.add(getCategoryReport(node.getCategoryID()));
+        }
+
+        // sort categories by total
+        Collections.sort(categoryReportList, (node1, node2) -> {
             // Compare based on the 'total' attribute
             if(descending) {
-                return Double.compare(node2.getTotal(), node1.getTotal());
+                return Double.compare(node2.getTotalSpending(), node1.getTotalSpending());
             }
             else {
-                return Double.compare(node1.getTotal(), node2.getTotal());
+                return Double.compare(node1.getTotalSpending(), node2.getTotalSpending());
             }
 
         });
 
-        // Create a new ArrayList to store sorted categories
-        ArrayList<MainCategory> sortedCategories = new ArrayList<>();
 
-        for (CategoryStatistics node : categoryList) {
+        // take out category objects from sorted list of category reports
+        for (ICategoryReport node : categoryReportList) {
             sortedCategories.add(node.getCategory());
         }
 
@@ -116,24 +154,45 @@ public class GeneralReportHandler {
     }
 
     //returns list of categories sorted by percent
-    private ArrayList<MainCategory> sortByPercent(boolean descending, IDateTime startDate, IDateTime endDate) {
-        ArrayList<CategoryStatistics> categoryList = buildCategoryList(startDate, endDate);
+    public ArrayList<IMainCategory> sortByPercent(boolean descending) throws InvalidLogInException
+    {
+        ArrayList<ICategoryReport> categoryReportList = new ArrayList<ICategoryReport>();
+        List<MainCategory> mainCategoryList;
+        ArrayList<IMainCategory> sortedCategories = new ArrayList<IMainCategory>();
+        int userID;
 
-        Collections.sort(categoryList, (node1, node2) -> {
-            // Compare based on the 'percent' attribute
+
+        // do something with exception
+        userID = UserManager.getUserID();
+
+        if(userID == -1 )
+            throw new InvalidLogInException("No user is logged in");
+
+        // get all categories for a user
+        mainCategoryList = dataAccessCategory.getAllCategory(userID);
+
+
+        // generate report for each category user has
+        for(MainCategory node : mainCategoryList)
+        {
+            categoryReportList.add(getCategoryReport(node.getCategoryID()));
+        }
+
+        // sort categories by total
+        Collections.sort(categoryReportList, (node1, node2) -> {
+            // Compare based on the 'total' attribute
             if(descending) {
-                return Double.compare(node2.getPercent(), node1.getPercent());
+                return Double.compare(node2.getPercentage(), node1.getPercentage());
             }
             else {
-                return Double.compare(node1.getPercent(), node2.getPercent());
+                return Double.compare(node1.getPercentage(), node2.getPercentage());
             }
 
         });
 
-        // Create a new ArrayList to store sorted categories
-        ArrayList<MainCategory> sortedCategories = new ArrayList<>();
 
-        for (CategoryStatistics node : categoryList) {
+        // take out category objects from sorted list of category reports
+        for (ICategoryReport node : categoryReportList) {
             sortedCategories.add(node.getCategory());
         }
 
@@ -141,24 +200,45 @@ public class GeneralReportHandler {
     }
 
     //returns list of categories sorted by average amount
-    private ArrayList<MainCategory> sortByAverage(boolean descending, IDateTime startDate, IDateTime endDate) {
-        ArrayList<CategoryStatistics> categoryList = buildCategoryList(startDate, endDate);
+    public ArrayList<IMainCategory> sortByAverage(boolean descending) throws InvalidLogInException
+    {
+        ArrayList<ICategoryReport> categoryReportList = new ArrayList<ICategoryReport>();
+        List<MainCategory> mainCategoryList;
+        ArrayList<IMainCategory> sortedCategories = new ArrayList<IMainCategory>();
+        int userID;
 
-        Collections.sort(categoryList, (node1, node2) -> {
-            // Compare based on the 'average' attribute
+
+        // do something with exception
+        userID = UserManager.getUserID();
+
+        if(userID == -1 )
+            throw new InvalidLogInException("No user is logged in");
+
+        // get all categories for a user
+        mainCategoryList = dataAccessCategory.getAllCategory(userID);
+
+
+        // generate report for each category user has
+        for(MainCategory node : mainCategoryList)
+        {
+            categoryReportList.add(getCategoryReport(node.getCategoryID()));
+        }
+
+        // sort categories by total
+        Collections.sort(categoryReportList, (node1, node2) -> {
+            // Compare based on the 'total' attribute
             if(descending) {
-                return Double.compare(node2.getAverage(), node1.getAverage());
+                return Double.compare(node2.getAverageTransactions(), node1.getAverageTransactions());
             }
             else {
-                return Double.compare(node1.getAverage(), node2.getAverage());
+                return Double.compare(node1.getTotalSpending(), node2.getTotalSpending());
             }
 
         });
 
-        // Create a new ArrayList to store sorted categories
-        ArrayList<MainCategory> sortedCategories = new ArrayList<>();
 
-        for (CategoryStatistics node : categoryList) {
+        // take out category objects from sorted list of category reports
+        for (ICategoryReport node : categoryReportList) {
             sortedCategories.add(node.getCategory());
         }
 

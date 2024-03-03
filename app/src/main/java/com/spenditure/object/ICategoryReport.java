@@ -4,6 +4,8 @@ import java.util.List;
 
 public interface ICategoryReport {
 
+    public IMainCategory getCategory();
+
     public double getTotalSpending();
 
     public int getNumTransactions();

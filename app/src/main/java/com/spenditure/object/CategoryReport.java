@@ -2,6 +2,8 @@ package com.spenditure.object;
 
 public class CategoryReport implements ICategoryReport{
 
+    MainCategory category;
+
     double totalSpending;
 
     int numTransactions;
@@ -11,13 +13,20 @@ public class CategoryReport implements ICategoryReport{
     double percentage;
 
 
-    public CategoryReport(double totalSpending, int numTransactions, double averageTransaction, double percentage)
+    public CategoryReport(MainCategory category, double totalSpending, int numTransactions, double averageTransaction, double percentage)
     {
+        this.category = category;
         this.totalSpending = totalSpending;
         this.numTransactions = numTransactions;
         this.averageTransaction = averageTransaction;
         this.percentage = percentage;
     }
+
+    public IMainCategory getCategory()
+    {
+        return category;
+    }
+
     public double getTotalSpending()
     {
         return totalSpending;

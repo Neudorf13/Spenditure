@@ -29,6 +29,7 @@ import com.example.spenditure.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.spenditure.logic.CategoryHandler;
 import com.spenditure.logic.TransactionHandler;
+import com.spenditure.logic.UserManager;
 import com.spenditure.object.DateTime;
 import com.spenditure.object.MainCategory;
 import com.spenditure.object.Transaction;
@@ -78,7 +79,7 @@ public class EditTransactionActivity extends AppCompatActivity {
         Spinner categories = (Spinner) findViewById(R.id.spinner_categories);
 
         // Create adapter to display the categories
-        adapter = new CustomCategorySpinnerAdapter(categoryHandler.getAllCategory(), this);
+        adapter = new CustomCategorySpinnerAdapter(categoryHandler.getAllCategory(UserManager.getUserID()), this);
         categories.setAdapter(adapter);
     }
 
