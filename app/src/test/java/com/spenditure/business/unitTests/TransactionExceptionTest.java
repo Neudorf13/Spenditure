@@ -31,304 +31,304 @@ public class TransactionExceptionTest {
     Transaction test;
     boolean caught;
 
-//    @Before
-//    public void setup() {
-//
-//        transactionHandler = new TransactionHandler(true);
-//
-//        test = new Transaction(-1, "2024 Honda Civic Type R", new DateTime(2024, 2, 29, 16, 20, 0), "Winnipeg Honda", 53280.00, "MSRP", true);
-//
-//        caught = false;
-//
-//    }
-//
-//    @After
-//    public void teardown() {
-//
-//        transactionHandler = null;
-//        test = null;
-//
-//    }
+    @Before
+    public void setup() {
 
-//    @Test
-//    public void testInvalidModification() {
-//
-//        try {
-//
-//            transactionHandler.modifyTransaction(null);
-//
-//        } catch(InvalidTransactionException e) {
-//
-//            caught = true;
-//
-//        }
-//
-//        assertTrue(caught);
-//        caught = false;
-//
-//        try {
-//
-//            transactionHandler.modifyTransaction(test);
-//
-//        } catch(InvalidTransactionException e) {
-//
-//            caught = true;
-//
-//        }
-//
-//        assertTrue(caught);
-//
-//    }
-//
-//    @Test
-//    public void testInvalidDeletion() {
-//
-//        try {
-//
-//            transactionHandler.deleteTransaction(null);
-//
-//        } catch(InvalidTransactionException e) {
-//
-//            caught = true;
-//
-//        }
-//
-//        assertTrue(caught);
-//        caught = false;
-//
-//        try {
-//
-//            transactionHandler.deleteTransaction(test);
-//
-//        } catch(InvalidTransactionException e) {
-//
-//            caught = true;
-//
-//        }
-//
-//        assertTrue(caught);
-//    }
-//
-//    @Test
-//    public void testInvalidAddition() {
-//
-//        try {
-//
-//            transactionHandler.addTransaction(null);
-//
-//        } catch(InvalidTransactionException e) {
-//
-//            caught = true;
-//
-//        }
-//
-//        assertTrue(caught);
-//        caught = false;
-//
-//        test.setTransactionID(1);
-//
-//        try {
-//
-//            transactionHandler.addTransaction(test);
-//
-//        } catch(InvalidTransactionException e) {
-//
-//            caught = true;
-//
-//        }
-//
-//        assertTrue(caught);
-//
-//    }
-//
-//    @Test
-//    public void testInvalidName() {
-//
-//        test.setName("");
-//
-//        //Ensure appropriate exception thrown for blank name
-//        try {
-//
-//            transactionHandler.addTransaction(test);
-//
-//        } catch (InvalidTransactionNameException e) {
-//
-//            caught = true;
-//
-//        }
-//
-//        assertTrue(caught);
-//
-//    }
-//
-//    @Test
-//    public void testInvalidDate() {
-//
-//        //Test invalid year
-//        test.setDateTime(new DateTime(1776, 6, 4, 12, 00));
-//
-//        //Ensure exception is thrown for invalid year
-//        try {
-//
-//            transactionHandler.addTransaction(test);
-//
-//        } catch (InvalidDateException e) {
-//
-//            caught = true;
-//
-//        }
-//
-//        assertTrue(caught);
-//
-//        //Test invalid month
-//        test.setDateTime(new DateTime(2024, 13, 13, 13, 13));
-//
-//        //Ensure exception is thrown for invalid month
-//        try {
-//
-//            transactionHandler.addTransaction(test);
-//
-//        } catch(InvalidDateException e) {
-//
-//            caught = true;
-//
-//        }
-//
-//        assertTrue(caught);
-//
-//        //Test invalid day (non-leap year specifically)
-//        test.setDateTime(new DateTime(2023, 2, 29, 12, 12));
-//
-//        //Ensure exception is thrown for invalid day
-//        try {
-//
-//            transactionHandler.addTransaction(test);
-//
-//        } catch(InvalidDateException e) {
-//
-//            caught = true;
-//
-//        }
-//
-//        assertTrue(caught);
-//
-//        //Test invalid day (standard month)
-//        test.setDateTime(new DateTime(2024, 3, 33, 12, 12));
-//
-//        //Ensure exception is thrown for invalid day
-//        try {
-//
-//            transactionHandler.addTransaction(test);
-//
-//        } catch(InvalidDateException e) {
-//
-//            caught = true;
-//
-//        }
-//
-//        assertTrue(caught);
-//    }
-//
-//    @Test
-//    public void testInvalidTime() {
-//
-//        //Test invalid hour
-//        test.setDateTime(new DateTime(2024, 12, 31, 99, 00));
-//
-//        //Ensure exception is thrown for invalid hour
-//        try {
-//
-//            transactionHandler.addTransaction(test);
-//
-//        } catch(InvalidTimeException e) {
-//
-//            caught = true;
-//
-//        }
-//
-//        assertTrue(caught);
-//
-//        //Test invalid minute
-//        test.setDateTime(new DateTime(2024, 12, 31, 01, 99));
-//
-//        //Ensure exception is thrown for invalid minute
-//        try {
-//
-//            transactionHandler.addTransaction(test);
-//
-//        } catch(InvalidTimeException e) {
-//
-//            caught = true;
-//
-//        }
-//
-//        assertTrue(caught);
-//
-//    }
-//
-//    @Test
-//    public void testInvalidPlace() {
-//
-//        test.setPlace("");
-//
-//        //Ensure appropriate exception is thrown for blank place
-//        try {
-//
-//            transactionHandler.addTransaction(test);
-//
-//        } catch(InvalidTransactionPlaceException e) {
-//
-//            caught = true;
-//
-//        }
-//
-//        assertTrue(caught);
-//
-//    }
-//
-//    @Test
-//    public void testInvalidAmount() {
-//
-//        test.setAmount(-25957.48);
-//
-//        //Ensure appropriate exception is thrown for invalid amount
-//        try {
-//
-//            transactionHandler.addTransaction(test);
-//
-//        } catch(InvalidTransactionAmountException e) {
-//
-//            caught = true;
-//
-//        }
-//
-//        assertTrue(caught);
-//
-//    }
-//
-//    @Test
-//    public void testInvalidComment() {
-//
-//        String comment = "So excited";
-//
-//        for(int i = 0; i < 2*TransactionValidator.COMMENT_CHAR_LIMIT; i ++)
-//            comment += "!";
-//
-//        test.setComments(comment);
-//
-//        //Ensure appropriate exception is thrown for a comment out of bounds
-//        try {
-//
-//            transactionHandler.addTransaction(test);
-//
-//        } catch(InvalidTransactionCommentException e) {
-//
-//            caught = true;
-//
-//        }
-//
-//        assertTrue(caught);
-//
-//    }
+        transactionHandler = new TransactionHandler(true);
+
+        test = new Transaction(-1, "2024 Honda Civic Type R", new DateTime(2024, 2, 29, 16, 20, 0), "Winnipeg Honda", 53280.00, "MSRP", true,null);
+
+        caught = false;
+
+    }
+
+    @After
+    public void teardown() {
+
+        transactionHandler = null;
+        test = null;
+
+    }
+
+    @Test
+    public void testInvalidModification() {
+
+        try {
+
+            transactionHandler.modifyTransaction(null);
+
+        } catch(InvalidTransactionException e) {
+
+            caught = true;
+
+        }
+
+        assertTrue(caught);
+        caught = false;
+
+        try {
+
+            transactionHandler.modifyTransaction(test);
+
+        } catch(InvalidTransactionException e) {
+
+            caught = true;
+
+        }
+
+        assertTrue(caught);
+
+    }
+
+    @Test
+    public void testInvalidDeletion() {
+
+        try {
+
+            transactionHandler.deleteTransaction(null);
+
+        } catch(InvalidTransactionException e) {
+
+            caught = true;
+
+        }
+
+        assertTrue(caught);
+        caught = false;
+
+        try {
+
+            transactionHandler.deleteTransaction(test);
+
+        } catch(InvalidTransactionException e) {
+
+            caught = true;
+
+        }
+
+        assertTrue(caught);
+    }
+
+    @Test
+    public void testInvalidAddition() {
+
+        try {
+
+            transactionHandler.addTransaction(null);
+
+        } catch(InvalidTransactionException e) {
+
+            caught = true;
+
+        }
+
+        assertTrue(caught);
+        caught = false;
+
+        test.setTransactionID(1);
+
+        try {
+
+            transactionHandler.addTransaction(test);
+
+        } catch(InvalidTransactionException e) {
+
+            caught = true;
+
+        }
+
+        assertTrue(caught);
+
+    }
+
+    @Test
+    public void testInvalidName() {
+
+        test.setName("");
+
+        //Ensure appropriate exception thrown for blank name
+        try {
+
+            transactionHandler.addTransaction(test);
+
+        } catch (InvalidTransactionNameException e) {
+
+            caught = true;
+
+        }
+
+        assertTrue(caught);
+
+    }
+
+    @Test
+    public void testInvalidDate() {
+
+        //Test invalid year
+        test.setDateTime(new DateTime(1776, 6, 4, 12, 00,0));
+
+        //Ensure exception is thrown for invalid year
+        try {
+
+            transactionHandler.addTransaction(test);
+
+        } catch (InvalidDateException e) {
+
+            caught = true;
+
+        }
+
+        assertTrue(caught);
+
+        //Test invalid month
+        test.setDateTime(new DateTime(2024, 13, 13, 13, 13,0));
+
+        //Ensure exception is thrown for invalid month
+        try {
+
+            transactionHandler.addTransaction(test);
+
+        } catch(InvalidDateException e) {
+
+            caught = true;
+
+        }
+
+        assertTrue(caught);
+
+        //Test invalid day (non-leap year specifically)
+        test.setDateTime(new DateTime(2023, 2, 29, 12, 12,0));
+
+        //Ensure exception is thrown for invalid day
+        try {
+
+            transactionHandler.addTransaction(test);
+
+        } catch(InvalidDateException e) {
+
+            caught = true;
+
+        }
+
+        assertTrue(caught);
+
+        //Test invalid day (standard month)
+        test.setDateTime(new DateTime(2024, 3, 33, 12, 12,0));
+
+        //Ensure exception is thrown for invalid day
+        try {
+
+            transactionHandler.addTransaction(test);
+
+        } catch(InvalidDateException e) {
+
+            caught = true;
+
+        }
+
+        assertTrue(caught);
+    }
+
+    @Test
+    public void testInvalidTime() {
+
+        //Test invalid hour
+        test.setDateTime(new DateTime(2024, 12, 31, 99, 00,0));
+
+        //Ensure exception is thrown for invalid hour
+        try {
+
+            transactionHandler.addTransaction(test);
+
+        } catch(InvalidTimeException e) {
+
+            caught = true;
+
+        }
+
+        assertTrue(caught);
+
+        //Test invalid minute
+        test.setDateTime(new DateTime(2024, 12, 31, 01, 99,0));
+
+        //Ensure exception is thrown for invalid minute
+        try {
+
+            transactionHandler.addTransaction(test);
+
+        } catch(InvalidTimeException e) {
+
+            caught = true;
+
+        }
+
+        assertTrue(caught);
+
+    }
+
+    @Test
+    public void testInvalidPlace() {
+
+        test.setPlace("");
+
+        //Ensure appropriate exception is thrown for blank place
+        try {
+
+            transactionHandler.addTransaction(test);
+
+        } catch(InvalidTransactionPlaceException e) {
+
+            caught = true;
+
+        }
+
+        assertTrue(caught);
+
+    }
+
+    @Test
+    public void testInvalidAmount() {
+
+        test.setAmount(-25957.48);
+
+        //Ensure appropriate exception is thrown for invalid amount
+        try {
+
+            transactionHandler.addTransaction(test);
+
+        } catch(InvalidTransactionAmountException e) {
+
+            caught = true;
+
+        }
+
+        assertTrue(caught);
+
+    }
+
+    @Test
+    public void testInvalidComment() {
+
+        String comment = "So excited";
+
+        for(int i = 0; i < 2*TransactionValidator.COMMENT_CHAR_LIMIT; i ++)
+            comment += "!";
+
+        test.setComments(comment);
+
+        //Ensure appropriate exception is thrown for a comment out of bounds
+        try {
+
+            transactionHandler.addTransaction(test);
+
+        } catch(InvalidTransactionCommentException e) {
+
+            caught = true;
+
+        }
+
+        assertTrue(caught);
+
+    }
 
 }

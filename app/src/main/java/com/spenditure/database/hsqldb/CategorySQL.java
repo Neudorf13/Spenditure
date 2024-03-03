@@ -1,7 +1,10 @@
 package com.spenditure.database.hsqldb;
 
+import android.annotation.SuppressLint;
+
 import com.spenditure.database.CategoryPersistence;
 import com.spenditure.logic.exceptions.InvalidCategoryException;
+import com.spenditure.logic.exceptions.InvalidUserInformationException;
 import com.spenditure.object.MainCategory;
 
 import java.sql.Connection;
@@ -60,16 +63,19 @@ public class CategorySQL implements CategoryPersistence {
 
     //int userID, String newCategory
     @Override
-    public MainCategory addCategory(MainCategory category) {
+    public MainCategory addCategory(String categoryName, int userID) {
 
+        MainCategory newCategoty = new MainCategory(categoryName,1,userID);//Replace this with static variable
         try(final Connection connection = connection()) {
-            final PreparedStatement statement = connection.prepareStatement("INSERT INTO CATEGORIES VALUES(?, ?)");
-            statement.setString(1, category.getName());
-            statement.setInt(2, category.getUserID());
+            final PreparedStatement statement = connection.prepareStatement("INSERT INTO CATEGORIES VALUES(?, ?, ?)");
+//            statement.setInt(1, categoryID);//FIX this
+            statement.setInt(1, 1);//FIX this
+            statement.setString(2, categoryName);
+            statement.setInt(3, userID);
 
             statement.executeUpdate();
 
-            return category;
+            return newCategoty;
         }
         catch (final SQLException e) {
             throw new RuntimeException("An error occurred while processing the SQL operation", e);  //temp exception
@@ -99,12 +105,48 @@ public class CategorySQL implements CategoryPersistence {
             statement.setInt(1,categoryID);
 
             final ResultSet resultSet = statement.executeQuery();
-            final MainCategory category = fromResultSet(resultSet);
 
-            resultSet.close();
-            statement.close();
+            if(resultSet.next()) {
+                return fromResultSet(resultSet);
+            }
+            else {
+                throw new InvalidUserInformationException("No category with id: " + categoryID);
+            }
 
-            return category;
+
+
+
+
+//            resultSet.close();
+//            statement.close();
+
+
+
+        }
+        catch (final SQLException e) {
+            throw new RuntimeException("An error occurred while processing the SQL operation", e);  //temp exception
+        }
+
+    }
+
+
+    @Override
+    public void printCategoryTable() {
+        try(final Connection connection = connection()) {
+            final Statement st = connection.createStatement();
+            final ResultSet rs = st.executeQuery("SELECT * FROM categories");
+            while (rs.next())
+            {
+                int userID = rs.getInt("USERID");
+                String categoryName = rs.getString("CATEGORYNAME");
+                int categoryID = rs.getInt("CATEGORYID");
+
+
+                @SuppressLint("DefaultLocale") String printUser = String.format("UserID: %d, CategoryID: %d, Category Name: %s", userID, categoryID, categoryName);
+                System.out.println(printUser);
+            }
+            rs.close();
+            st.close();
 
         }
         catch (final SQLException e) {

@@ -1,3 +1,17 @@
+/**
+ * TransactionsListViewActivity.java
+ *
+ * COMP3350 SECTION A02
+ *
+ * @author Trevor
+ * @date Tuesday, February 7, 2024
+ *
+ * PURPOSE:
+ *  Tests Report Manager class in logic layer
+ **/
+
+
+
 package com.spenditure.business.unitTests;
 
 //import static org.junit.Assert.assertEquals;
@@ -16,21 +30,22 @@ import org.junit.Test;
 
 public class ReportManagerTest {
 
+    /*
     private ReportManager reportManager;
 
     @Before
     public void setup() {
+//        Services.restartCategoryDB(true);
         this.reportManager = new ReportManager(true);
     }
 
-    /*
     @Test
     public void testPercentSum() {
         //get a percent for each category and make sure it sums to 100
         //check individual %'s against expected values
-        double category1 = reportManager.getPercentForCategory(UserManager.getUserID(), 1);
-        double category2 = reportManager.getPercentForCategory(UserManager.getUserID(), 2);
-        double category3 = reportManager.getPercentForCategory(UserManager.getUserID(), 3);
+        double category1 = reportManager.getPercentForCategory(1);
+        double category2 = reportManager.getPercentForCategory(2);
+        double category3 = reportManager.getPercentForCategory(3);
         double sum = category1 + category2 + category3;
 
         assertEquals("Expected category 1 to take up approximately 19.72% of total transaction cost", category1,19.72,0.1);
@@ -73,18 +88,15 @@ public class ReportManagerTest {
         assertEquals("Expected transaction average for Category 3 to be approximately 229.41",testCategory3,229.41,0.1);
     }
 
-
-
-
     @Test
     public void testSortByTotal() {
         //tests categories are sorted properly based on total attribute, both ascending + descending
-        ArrayList<MainCategory> descendingCategoryList = reportManager.sortByTotal(true);
+        ArrayList<MainCategory> descendingCategoryList = reportManager.sortByTotal(1,true);
         assertEquals("Expected Category: 'Hang out'",descendingCategoryList.get(0).getName(), "Hang out");
         assertEquals("Expected Category: 'Grocery'",descendingCategoryList.get(1).getName(), "Grocery");
         assertEquals("Expected Category: 'Food'",descendingCategoryList.get(2).getName(), "Food");
 
-        ArrayList<MainCategory> ascendingCategoryList = reportManager.sortByTotal(false);
+        ArrayList<MainCategory> ascendingCategoryList = reportManager.sortByTotal(1,false);
         assertEquals("Expected Category: 'Food'",ascendingCategoryList.get(0).getName(), "Food");
         assertEquals("Expected Category: 'Grocery'",ascendingCategoryList.get(1).getName(), "Grocery");
         assertEquals("Expected Category: 'Hang out'",ascendingCategoryList.get(2).getName(), "Hang out");
@@ -93,12 +105,12 @@ public class ReportManagerTest {
     @Test
     public void testSortByPercent() {
         //tests categories are sorted properly based on percent attribute, both ascending + descending
-        ArrayList<MainCategory> descendingCategoryList = reportManager.sortByPercent(true);
+        ArrayList<MainCategory> descendingCategoryList = reportManager.sortByPercent(1,true);
         assertEquals("Expected Category: 'Hang out'",descendingCategoryList.get(0).getName(), "Hang out");
         assertEquals("Expected Category: 'Grocery'",descendingCategoryList.get(1).getName(), "Grocery");
         assertEquals("Expected Category: 'Food'",descendingCategoryList.get(2).getName(), "Food");
 
-        ArrayList<MainCategory> ascendingCategoryList = reportManager.sortByPercent(false);
+        ArrayList<MainCategory> ascendingCategoryList = reportManager.sortByPercent(1,false);
         assertEquals("Expected Category: 'Food'",ascendingCategoryList.get(0).getName(), "Food");
         assertEquals("Expected Category: 'Grocery'",ascendingCategoryList.get(1).getName(), "Grocery");
         assertEquals("Expected Category: 'Hang out'",ascendingCategoryList.get(2).getName(), "Hang out");
@@ -118,7 +130,6 @@ public class ReportManagerTest {
         assertEquals("Expected Category: 'Hang out'",ascendingCategoryList.get(2).getName(), "Hang out");
     }
 
-    */
-
+     */
 
 }

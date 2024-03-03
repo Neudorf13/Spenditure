@@ -39,11 +39,26 @@ public class Transaction implements ITransaction{
     public Transaction(int transactionID, int userID, String name, DateTime dateTime,
                        String place, double amount, String comments,
                        boolean withdrawal, byte[] image, int categoryID) {
+        this.transactionID = transactionID;
 
-        this(transactionID, userID, name, dateTime, place, amount, comments, withdrawal, image);
+        this.userID = userID;
+
+        this.name = name;
+
+        this.dateTime = dateTime;
+
+        this.place = place;
+
+        this.amount = amount;
+
+        this.comments = comments;
+
+        this.withdrawal = withdrawal;
+
+        this.image = image;
 
         this.categoryID = categoryID;   //should a Transaction really store a Category?? Shouldn't it just be a category ID?
-                                        //makes sense
+
     }
 
     public Transaction(int transactionID, int userID, String name, DateTime dateTime,
@@ -63,16 +78,44 @@ public class Transaction implements ITransaction{
 
         this.transactionID = transactionID;
         this.userID = userID;
+        this.name = name;
         this.dateTime = dateTime;
+
         this.place = place;
+
         this.amount = amount;
+
         this.comments = comments;
+
         this.withdrawal = withdrawal;
 
         this.image = null; //no image
         this.categoryID = 0; //no associated category
 
 
+    }
+
+    public Transaction(int transactionID, String name, DateTime dateTime,
+                       String place, double amount, String comments,
+                       boolean withdrawal) {
+        this.transactionID = transactionID;
+
+        this.name = name;
+
+        this.dateTime = dateTime;
+
+        this.place = place;
+
+        this.amount = amount;
+
+        this.comments = comments;
+
+        this.withdrawal = withdrawal;
+
+        this.image = null;
+
+        //this.category = null;
+        this.categoryID = 0;    //represents not having an associated category
     }
 
     //getters

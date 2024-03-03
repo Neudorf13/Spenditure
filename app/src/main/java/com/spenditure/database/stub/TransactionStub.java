@@ -327,7 +327,7 @@ public class TransactionStub implements TransactionPersistence {
     }
 
     @Override
-    public void getCourseSequential() {
+    public void printTransactionTable() {
 
     }
 

@@ -13,6 +13,8 @@
 
 package com.spenditure.object;
 
+import android.annotation.SuppressLint;
+
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -46,6 +48,15 @@ public class DateTime implements IDateTime{
             "December"
     };
 
+    public DateTime(int year, int month, int day, int hour, int minute, int seconds)
+    {
+        this.year = year;
+        this.month = month;
+        this.day = day;
+        this.hour = hour;
+        this.minute = minute;
+        this.second = seconds;
+    }
 
     public DateTime(int year) {
 
@@ -54,22 +65,21 @@ public class DateTime implements IDateTime{
         this.day = -1;
         hour = 0;
         minute = 0;
-        second = 0;
     }
 
     public DateTime(int year, int month) {
 
-        this(year);
+        this.year = year;
         this.month = month;
         this.day = -1; // -1 signifies that it was not given
         hour = 0;
         minute = 0;
-        second = 0;
     }
 
     public DateTime(int year, int month, int day) {
 
-        this(year, month);
+        this.year = year;
+        this.month = month;
         this.day = day;
         hour = 0;
         minute = 0;
@@ -85,12 +95,7 @@ public class DateTime implements IDateTime{
 
     }
 
-    public DateTime(int year, int month, int day, int hour, int minute, int second)
-    {
-        this(year, month, day, hour, minute);
 
-        this.second = second;
-    }
 
     public DateTime(String dateString) {
 
@@ -107,7 +112,7 @@ public class DateTime implements IDateTime{
         this.second = dateTime.getSecond();
     }
 
-    public String printWrittenDate() {
+    public String toString() {
 
         String adjustMinutesPrefix = "";
         String adjustMinutesSuffix = "";
@@ -122,7 +127,7 @@ public class DateTime implements IDateTime{
 
     }
 
-    public String toString() {
+    public String toString2() {
 
         String separator = "-";
 
@@ -146,6 +151,12 @@ public class DateTime implements IDateTime{
         return month + separator + day + separator + year;
 
     }
+
+    public String getYearMonthDay() {
+        @SuppressLint("DefaultLocale") String result = String.format("%d-%d-%d", this.year, this.month, this.day);
+        return result;
+    }
+
 
 
 //    public static DateTime FromTimestamp(Timestamp timestamp)
@@ -247,5 +258,5 @@ public class DateTime implements IDateTime{
         return minute;
     }
 
-    public int getSeconds() { return second; }
+    public int getSeconds() {return second; }
 }
