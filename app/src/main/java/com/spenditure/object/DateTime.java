@@ -126,8 +126,16 @@ public class DateTime implements IDateTime{
 
         String separator = "-";
 
+        String adjustMinutesPrefix = "";
+        String adjustMinutesSuffix = "";
+
+        //Correct minute to write "??:00" instead of "??:0"
+        if(minute == 0) adjustMinutesSuffix = "0";
+        //Correct minute to write ??:0X" instead of "??:X"
+        if(minute < 10) adjustMinutesPrefix = "0";
+
         return year + separator + month + separator + day + separator
-                + hour + separator + minute + separator + second;
+                + hour + separator + adjustMinutesPrefix + minute + adjustMinutesSuffix + separator + second;
 
     }
 
