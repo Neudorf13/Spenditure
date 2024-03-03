@@ -1,3 +1,17 @@
+/**
+ * IGeneralReportHandler
+ *
+ * COMP3350 SECTION A02
+ *
+ * @author JR,
+ * @date Mar 2
+ *
+ * PURPOSE:
+ *  Interface detailing what functions GeneralReportHandler should have
+ *
+ **/
+
+
 package com.spenditure.logic;
 
 import com.spenditure.object.ICategoryReport;
@@ -8,17 +22,17 @@ import java.util.ArrayList;
 
 public interface IGeneralReportHandler {
 
-    public int numTransactions(int categoryID);
+    public int numTransactions(int userID, int categoryID);
 
-    public double totalSpending(int categoryID);
+    public double totalSpending(int userID, int categoryID);
 
-    public double averageSpending(int categoryID);
+    public double averageSpending(int userID, int categoryID);
 
-    public ICategoryReport getCategoryReport(int categoryID);
+    public ICategoryReport getCategoryReport(int userID, int categoryID);
 
-    public ArrayList<IMainCategory> sortByTotal(boolean descending);
+    public ArrayList<IMainCategory> sortByTotal(int userID, boolean descending);
 
-    public ArrayList<IMainCategory> sortByPercent(boolean descending);
+    public ArrayList<IMainCategory> sortByPercent(int userID, boolean descending);
 
-    public ArrayList<IMainCategory> sortByAverage(boolean descending);
+    public ArrayList<IMainCategory> sortByAverage(int userID, boolean descending);
 }

@@ -100,6 +100,10 @@ public class TransactionStub implements TransactionPersistence {
 //                "Fine Dining Restaurant", 200.0, "Celebrated friend's birthday with a fancy dinner", true, food));
 //        transactionList.add(new Transaction(generateUniqueID(), 1, "Online course enrollment fee", new DateTime(2023, 10, 5, 11, 0),
 //                "Online Education Platform", 150.0, "Enrolled in a programming course", true, grocery));
+
+
+        // everything under userID 1
+
         transactionList.add(new Transaction(generateUniqueID(), 1, "Morning Dons", new DateTime(1,1,1,1,1, 1),
                 "Mcdonalds",5.99, "was luke warm today, 2/10", true, null, 2));
         transactionList.add(new Transaction(generateUniqueID(), 1, "Star Wars Rebels merch", new DateTime(2024,2,1,16,59, 59),
