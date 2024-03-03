@@ -54,7 +54,7 @@ public class CategoryHandler {
         }else if(newCategoryName.equals("")){
             throw new InvalidCategoryException("Name of category must not be blank");
         }
-        return this.dataAccessCategory.addCategory(new MainCategory(newCategoryName,99,userID));//FIX THIS
+        return this.dataAccessCategory.addCategory(newCategoryName,userID);//FIX THIS
     }
 
     public void deleteCategory(int id) throws InvalidCategoryException{

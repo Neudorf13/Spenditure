@@ -23,12 +23,9 @@ public class CategoryStub implements CategoryPersistence {
     //Constructors
     public CategoryStub(){
         this.categoryList = new ArrayList<>();
-        //this.categoryList.add(new MainCategory("Grocery",generateUniqueID()));
-        //this.categoryList.add(new MainCategory("Food",generateUniqueID()));
-        //this.categoryList.add(new MainCategory("Hang out",generateUniqueID()));
-        this.categoryList.add(new MainCategory("Grocery",1,1));
-        this.categoryList.add(new MainCategory("Food",2,1));
-        this.categoryList.add(new MainCategory("Hang out",3,1));
+        this.categoryList.add(new MainCategory("Grocery",generateUniqueCategoryID(),1));
+        this.categoryList.add(new MainCategory("Food",generateUniqueCategoryID(),1));
+        this.categoryList.add(new MainCategory("Hang out",generateUniqueCategoryID(),1));
     }
 
     //Business methods
@@ -44,11 +41,11 @@ public class CategoryStub implements CategoryPersistence {
     }
 
     @Override
-    public MainCategory addCategory(MainCategory category) throws InvalidCategoryException{
-        if (validateUnique(category.getName())){
-            //MainCategory newCategory = new MainCategory(newCategoryName,generateUniqueCategoryID(),userID);
-            this.categoryList.add(category);
-            return category;
+    public MainCategory addCategory(String newCategoryName,int userID) throws InvalidCategoryException{
+        if (validateUnique(newCategoryName)){
+            MainCategory newCategory = new MainCategory(newCategoryName,generateUniqueCategoryID(),userID);
+            this.categoryList.add(newCategory);
+            return newCategory;
         }else{
             throw new InvalidCategoryException("Category's ID not exist");
         }
@@ -77,7 +74,7 @@ public class CategoryStub implements CategoryPersistence {
                 return  category;
             }
         }
-        throw new InvalidCategoryException("Category ID: "+ categoryID + "does not exist.");
+        throw new InvalidCategoryException("Category ID: "+ categoryID + " does not exist.");
     }
 
     //Support methods

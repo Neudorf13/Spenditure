@@ -60,16 +60,17 @@ public class CategorySQL implements CategoryPersistence {
 
     //int userID, String newCategory
     @Override
-    public MainCategory addCategory(MainCategory category) {
+    public MainCategory addCategory(String categoryName, int userID) {
 
+        MainCategory newCategoty = new MainCategory(categoryName,1,userID);//Replace this with static variable
         try(final Connection connection = connection()) {
             final PreparedStatement statement = connection.prepareStatement("INSERT INTO CATEGORIES VALUES(?, ?)");
-            statement.setString(1, category.getName());
-            statement.setInt(2, category.getUserID());
+            statement.setString(1, newCategoty.getName());
+            statement.setInt(2, newCategoty.getUserID());
 
             statement.executeUpdate();
 
-            return category;
+            return newCategoty;
         }
         catch (final SQLException e) {
             throw new RuntimeException("An error occurred while processing the SQL operation", e);  //temp exception

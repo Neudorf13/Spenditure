@@ -12,7 +12,7 @@ import java.util.*;
  */
 public interface CategoryPersistence {
     List <MainCategory> getAllCategory(int userID);
-    MainCategory addCategory(MainCategory category);
+    MainCategory addCategory(String categoryName, int userID);
 
     void deleteCategoryByID(int categoryID) throws InvalidCategoryException;
 

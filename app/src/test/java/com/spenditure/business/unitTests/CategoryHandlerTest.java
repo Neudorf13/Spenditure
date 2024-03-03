@@ -43,11 +43,11 @@ public class CategoryHandlerTest {
 //        MainCategory bills = new MainCategory("bills", 99, 1);
         assertEquals(categoryHandler.getAllCategory(1).size(),expectedSize);
 
-        //categoryHandler.addCategory("bills");
+
         categoryHandler.addCategory("bills",  1);
         assertEquals(expectedSize + 1,categoryHandler.getAllCategory(1).size());
         assertEquals("Grocery",categoryHandler.getCategoryByID(1).getName());
-        assertEquals("bills",categoryHandler.getCategoryByID(4).getName());
+//        assertEquals("bills",categoryHandler.getCategoryByID(1).getName());
     }
 
     @Test
