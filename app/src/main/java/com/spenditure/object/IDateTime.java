@@ -30,4 +30,6 @@ public interface IDateTime {
     int getMinute();
 
     int getSeconds();
+
+    String getYearMonthDay();
 }

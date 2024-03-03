@@ -1,5 +1,7 @@
 package com.spenditure.database.hsqldb;
 
+import android.annotation.SuppressLint;
+
 import com.spenditure.database.UserPersistence;
 import com.spenditure.logic.exceptions.InvalidUserInformationException;
 import com.spenditure.object.MainCategory;
@@ -191,6 +193,29 @@ public class UserSQL implements UserPersistence {
                     throw new RuntimeException("Register failed.");
                 }
             }
+        }
+        catch (final SQLException e) {
+            throw new RuntimeException("An error occurred while processing the SQL operation", e);  //temp exception
+        }
+
+    }
+
+    public void printUserTable() {
+        try(final Connection connection = connection()) {
+            final Statement st = connection.createStatement();
+            final ResultSet rs = st.executeQuery("SELECT * FROM users");
+            while (rs.next())
+            {
+                int userID = rs.getInt("USERID");
+                String username = rs.getString("USERNAME");
+                String password = rs.getString("PASSWORD");
+
+                @SuppressLint("DefaultLocale") String printUser = String.format("UserID: %d, Username: %s, Password: %s", userID, username, password);
+                System.out.println(printUser);
+            }
+            rs.close();
+            st.close();
+
         }
         catch (final SQLException e) {
             throw new RuntimeException("An error occurred while processing the SQL operation", e);  //temp exception

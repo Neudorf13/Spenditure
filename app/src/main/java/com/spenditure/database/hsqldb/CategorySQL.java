@@ -1,5 +1,7 @@
 package com.spenditure.database.hsqldb;
 
+import android.annotation.SuppressLint;
+
 import com.spenditure.database.CategoryPersistence;
 import com.spenditure.logic.exceptions.InvalidCategoryException;
 import com.spenditure.object.MainCategory;
@@ -60,13 +62,14 @@ public class CategorySQL implements CategoryPersistence {
 
     //int userID, String newCategory
     @Override
-    public MainCategory addCategory(String categoryName, int userID) {
+    public MainCategory addCategory(String categoryName, int userID, int categoryID) {
 
         MainCategory newCategoty = new MainCategory(categoryName,1,userID);//Replace this with static variable
         try(final Connection connection = connection()) {
-            final PreparedStatement statement = connection.prepareStatement("INSERT INTO CATEGORIES VALUES(?, ?)");
-            statement.setString(1, newCategoty.getName());
-            statement.setInt(2, newCategoty.getUserID());
+            final PreparedStatement statement = connection.prepareStatement("INSERT INTO CATEGORIES VALUES(?, ?, ?)");
+            statement.setInt(1, categoryID);
+            statement.setString(2, categoryName);
+            statement.setInt(3, userID);
 
             statement.executeUpdate();
 
@@ -106,6 +109,32 @@ public class CategorySQL implements CategoryPersistence {
             statement.close();
 
             return category;
+
+        }
+        catch (final SQLException e) {
+            throw new RuntimeException("An error occurred while processing the SQL operation", e);  //temp exception
+        }
+
+    }
+
+
+    @Override
+    public void printCategoryTable() {
+        try(final Connection connection = connection()) {
+            final Statement st = connection.createStatement();
+            final ResultSet rs = st.executeQuery("SELECT * FROM categories");
+            while (rs.next())
+            {
+                int userID = rs.getInt("USERID");
+                String categoryName = rs.getString("CATEGORYNAME");
+                int categoryID = rs.getInt("CATEGORYID");
+
+
+                @SuppressLint("DefaultLocale") String printUser = String.format("UserID: %d, CategoryID: %d, Category Name: %s", userID, categoryID, categoryName);
+                System.out.println(printUser);
+            }
+            rs.close();
+            st.close();
 
         }
         catch (final SQLException e) {

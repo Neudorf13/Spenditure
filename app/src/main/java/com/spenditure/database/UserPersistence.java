@@ -8,5 +8,5 @@ public interface UserPersistence {
     boolean changePassword(int userID, String oldPassword, String newPassword);
     boolean changeUsername(int userID, String newUsername);
     int register(int userID, String username, String password, String email);
-
+    void printUserTable();
 }

@@ -13,6 +13,8 @@
 
 package com.spenditure.object;
 
+import android.annotation.SuppressLint;
+
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -112,6 +114,12 @@ public class DateTime implements IDateTime{
         return MONTHS[month - 1] + " " + day + " " + year + ", "
                 + hour + ":" + adjustMinutesPrefix + minute + adjustMinutesSuffix;
 
+    }
+
+
+    public String getYearMonthDay() {
+        @SuppressLint("DefaultLocale") String result = String.format("%d-%d-%d", this.year, this.month, this.day);
+        return result;
     }
 
 

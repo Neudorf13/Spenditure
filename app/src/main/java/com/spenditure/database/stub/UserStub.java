@@ -89,6 +89,11 @@ public class UserStub implements UserPersistence {
         return userID;
     }
 
+    @Override
+    public void printUserTable() {
+
+    }
+
     private class UserRow{
         private String username;
         private String password;

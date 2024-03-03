@@ -12,10 +12,12 @@ import java.util.*;
  */
 public interface CategoryPersistence {
     List <MainCategory> getAllCategory(int userID);
-    MainCategory addCategory(String categoryName, int userID);
+    MainCategory addCategory(String categoryName, int userID, int categoryID);
 
     void deleteCategoryByID(int categoryID) throws InvalidCategoryException;
 
     MainCategory getCategoryByID(int categoryID) throws InvalidCategoryException;
+
+    void printCategoryTable();
 
 }

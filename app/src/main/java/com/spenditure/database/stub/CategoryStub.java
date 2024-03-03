@@ -41,7 +41,7 @@ public class CategoryStub implements CategoryPersistence {
     }
 
     @Override
-    public MainCategory addCategory(String newCategoryName,int userID) throws InvalidCategoryException{
+    public MainCategory addCategory(String newCategoryName,int userID, int categoryID) throws InvalidCategoryException{
         if (validateUnique(newCategoryName)){
             MainCategory newCategory = new MainCategory(newCategoryName,generateUniqueCategoryID(),userID);
             this.categoryList.add(newCategory);
@@ -75,6 +75,11 @@ public class CategoryStub implements CategoryPersistence {
             }
         }
         throw new InvalidCategoryException("Category ID: "+ categoryID + " does not exist.");
+    }
+
+    @Override
+    public void printCategoryTable() {
+
     }
 
     //Support methods

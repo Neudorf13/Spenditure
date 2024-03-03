@@ -1,5 +1,7 @@
 package com.spenditure.database.hsqldb;
 
+import android.annotation.SuppressLint;
+
 import com.spenditure.database.TransactionPersistence;
 import com.spenditure.object.DateTime;
 import com.spenditure.object.IDateTime;
@@ -123,19 +125,20 @@ public class TransactionSQL implements TransactionPersistence {
 
 
     @Override
-    public boolean addTransaction(Transaction newTransaction) {
+    public boolean addTransaction(Transaction transaction) {
 
         try(final Connection connection = connection()) {
-            final PreparedStatement statement = connection.prepareStatement("INSERT INTO TRANSACTIONS VALUES(?,?,?,?,?,?,?,?,?)");
-            statement.setInt(1,newTransaction.getUserID());
-            statement.setString(2,newTransaction.getName());
-            statement.setString(3,newTransaction.getDateTime().toString());
-            statement.setString(4,newTransaction.getPlace());
-            statement.setDouble(5,newTransaction.getAmount());
-            statement.setString(6,newTransaction.getComments());
-            statement.setBoolean(7,newTransaction.getWithdrawal());
-            statement.setBytes(8, newTransaction.getImage());
-            statement.setInt(9,newTransaction.getCategoryID());
+            final PreparedStatement statement = connection.prepareStatement("INSERT INTO TRANSACTIONS VALUES(?,?,?,?,?,?,?,?,?,?)");
+            statement.setInt(1, transaction.getTransactionID());
+            statement.setInt(2,transaction.getUserID());
+            statement.setString(3,transaction.getName());
+            statement.setString(4,transaction.getDateTime().getYearMonthDay());
+            statement.setString(5,transaction.getPlace());
+            statement.setDouble(6,transaction.getAmount());
+            statement.setString(7,transaction.getComments());
+            statement.setBoolean(8,transaction.getWithdrawal());
+            statement.setBytes(9, transaction.getImage());
+            statement.setInt(10,transaction.getCategoryID());
 
             statement.executeUpdate();
 
@@ -425,6 +428,36 @@ public class TransactionSQL implements TransactionPersistence {
         catch (final SQLException e)
         {
             //throw new PersistenceException(e);
+            throw new RuntimeException("An error occurred while processing the SQL operation", e);  //temp exception
+        }
+    }
+
+    @Override
+    public void printTransactionTable() {
+        try(final Connection connection = connection()) {
+            final Statement st = connection.createStatement();
+            final ResultSet rs = st.executeQuery("SELECT * FROM transactions");
+            while (rs.next())
+            {
+                final int transactionID = rs.getInt("TRANSACTIONID");
+                final int userID = rs.getInt("USERID");
+                final String name = rs.getString("NAME");
+                final String date = rs.getString("DATE");
+                final String place = rs.getString("PLACE");
+                final double amount = rs.getDouble("AMOUNT");
+                final String comments = rs.getString("COMMENTS");
+                final boolean withdrawal = rs.getBoolean("WITHDRAWAL");
+                final byte[] image = rs.getBytes("IMAGE");
+                final int categoryID = rs.getInt("CATEGORYID");
+
+                @SuppressLint("DefaultLocale") String printUser = String.format("TransactionID: %d, UserID: %d, Name: %s, Date: %s, Place: %s, Amount: %f, CategoryID: %d", transactionID, userID, name, date, place, amount, categoryID);
+                System.out.println(printUser);
+            }
+            rs.close();
+            st.close();
+
+        }
+        catch (final SQLException e) {
             throw new RuntimeException("An error occurred while processing the SQL operation", e);  //temp exception
         }
     }
