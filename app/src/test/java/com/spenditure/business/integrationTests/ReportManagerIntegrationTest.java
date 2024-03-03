@@ -120,7 +120,6 @@ public class ReportManagerIntegrationTest {
 
         assertEquals(2, register);
     }
-//
 //    @Test
 //    public void testSortByTotal() {
 //        //tests categories are sorted properly based on total attribute, both ascending + descending

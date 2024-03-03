@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 
 import com.spenditure.database.CategoryPersistence;
 import com.spenditure.logic.exceptions.InvalidCategoryException;
+import com.spenditure.logic.exceptions.InvalidUserInformationException;
 import com.spenditure.object.MainCategory;
 
 import java.sql.Connection;
@@ -103,12 +104,22 @@ public class CategorySQL implements CategoryPersistence {
             statement.setInt(1,categoryID);
 
             final ResultSet resultSet = statement.executeQuery();
-            final MainCategory category = fromResultSet(resultSet);
 
-            resultSet.close();
-            statement.close();
+            if(resultSet.next()) {
+                return fromResultSet(resultSet);
+            }
+            else {
+                throw new InvalidUserInformationException("No category with id: " + categoryID);
+            }
 
-            return category;
+
+
+
+
+//            resultSet.close();
+//            statement.close();
+
+
 
         }
         catch (final SQLException e) {
