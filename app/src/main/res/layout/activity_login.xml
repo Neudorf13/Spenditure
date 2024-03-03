@@ -14,7 +14,7 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/app_tittle_bar_height">
+            android:layout_height="@dimen/app_title_bar_height">
 
             <ImageView
                 android:id="@+id/imageView2"

@@ -4,7 +4,7 @@
     <string name="title_home">Home</string>
     <string name="title_reports">Reports</string>
     <string name="title_dashboard">Dashboard</string>
-    <string name="tittle_category">Category</string>
+    <string name="title_category">Category</string>
     <string name="title_view_transactions">View Transactions</string>
     <string name="title_create_transaction">Create Transaction</string>
     <string name="title_edit_transaction">Edit Transaction</string>

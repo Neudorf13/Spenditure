@@ -25,16 +25,19 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.spenditure.logic.TransactionHandler;
 import com.spenditure.logic.CategoryHandler;
+import com.spenditure.logic.exceptions.InvalidTransactionException;
 import com.spenditure.object.DateTime;
 import com.spenditure.object.MainCategory;
 import com.spenditure.object.Transaction;
 
 import com.example.spenditure.R;
 import com.spenditure.presentation.BottomNavigationHandler;
+import com.spenditure.presentation.LoginActivity;
 import com.spenditure.presentation.category.CustomCategorySpinnerAdapter;
 import com.spenditure.presentation.category.ViewCategoryActivity;
 import com.spenditure.presentation.report.ViewReportActivity;
@@ -111,11 +114,15 @@ public class CreateTransactionActivity extends AppCompatActivity {
                 // Call helper method
                 Transaction newTransaction = createTransaction();
 
-                TransactionHandler handler = new TransactionHandler(true);
-                handler.addTransaction(newTransaction);
+                try {
+                    TransactionHandler handler = new TransactionHandler(true);
+                    handler.addTransaction(newTransaction);
 
-                // Return to the main window
-                startActivity(new Intent(getApplicationContext(), ViewReportActivity.class));
+                    // Return to the main window
+                    startActivity(new Intent(getApplicationContext(), ViewReportActivity.class));
+                } catch (InvalidTransactionException e) {
+                    Toast.makeText(CreateTransactionActivity.this, e.getMessage(),Toast.LENGTH_LONG).show();
+                }
             }
         });
     }
@@ -150,6 +157,8 @@ public class CreateTransactionActivity extends AppCompatActivity {
         EditText comments = (EditText) findViewById(R.id.edittext_comments);
         AppCompatToggleButton type = (AppCompatToggleButton) findViewById(R.id.togglebutton_type);
         Spinner category = (Spinner) findViewById(R.id.spinner_categories);
+
+        String whatTheHeckf = whatTheHeck.getText().toString();
 
         // Create the new transaction object
         Transaction newTransaction = new Transaction(
