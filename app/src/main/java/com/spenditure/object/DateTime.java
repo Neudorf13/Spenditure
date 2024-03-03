@@ -46,15 +46,6 @@ public class DateTime implements IDateTime{
             "December"
     };
 
-    public DateTime(int year, int month, int day, int hour, int minute, int second)
-    {
-        this.year = year;
-        this.month = month;
-        this.day = day;
-        this.hour = hour;
-        this.minute = minute;
-        this.second = second;
-    }
 
     public DateTime(int year) {
 
@@ -68,7 +59,7 @@ public class DateTime implements IDateTime{
 
     public DateTime(int year, int month) {
 
-        this.year = year;
+        this(year);
         this.month = month;
         this.day = -1; // -1 signifies that it was not given
         hour = 0;
@@ -78,8 +69,7 @@ public class DateTime implements IDateTime{
 
     public DateTime(int year, int month, int day) {
 
-        this.year = year;
-        this.month = month;
+        this(year, month);
         this.day = day;
         hour = 0;
         minute = 0;
@@ -93,6 +83,13 @@ public class DateTime implements IDateTime{
         this.hour = hour;
         this.minute = minute;
 
+    }
+
+    public DateTime(int year, int month, int day, int hour, int minute, int second)
+    {
+        this(year, month, day, hour, minute);
+
+        this.second = second;
     }
 
     public DateTime(String dateString) {
@@ -195,7 +192,7 @@ public class DateTime implements IDateTime{
 
     }
 
-    public void adjust( int changeYear, int changeMonth, int changeDay, int changeHour, int changeMinute ) {
+    public void adjust( int changeYear, int changeMonth, int changeDay, int changeHour, int changeMinute, int changeSecond ) {
 
         year += changeYear;
 
@@ -206,6 +203,8 @@ public class DateTime implements IDateTime{
         hour += changeHour;
 
         minute += changeMinute;
+
+        second += changeSecond;
 
     }
 
