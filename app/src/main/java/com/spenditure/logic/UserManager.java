@@ -1,8 +1,11 @@
 package com.spenditure.logic;
 
+
 import com.spenditure.application.Services;
 import com.spenditure.database.UserPersistence;
 import com.spenditure.logic.exceptions.InvalidUserInformationException;
+
+import static com.spenditure.logic.UserValidator.*;
 
 public class UserManager {
 
@@ -15,15 +18,15 @@ public class UserManager {
 
     }
     public int login(String username, String password) throws InvalidUserInformationException {
-        if(username == null || password == null || username == "" || password == ""){
-            throw new InvalidUserInformationException("Please provide username and password");
+        if(username == null || password == null || username.equals("") || password.equals("")){
+            throw new InvalidUserInformationException("Username and password fields may not be left empty.");
         }else{
             if(userID <0){
                 int userIDReturn = accountPersistence.login(username,password);
                 UserManager.userID = userIDReturn;
                 return userIDReturn;
             }else{
-                throw new InvalidUserInformationException("Please logout before login");
+                throw new InvalidUserInformationException("User must be logged out before logging in.");
             }
 
         }
@@ -32,23 +35,31 @@ public class UserManager {
         return accountPersistence.getUserName(userID);
     };
     public boolean changePassword(int userID, String oldPassword, String newPassword){
-        if(oldPassword == null || newPassword == null || oldPassword == "" || newPassword == ""){
-            throw new InvalidUserInformationException("Please provide current and new password");
-        }else{
+        if(oldPassword == null || newPassword == null || oldPassword.equals("") || newPassword.equals("")){
+            throw new InvalidUserInformationException("Current password and previous password fields may not be left blank.");
+        } else if(oldPassword.equals(newPassword)) {
+            throw new InvalidUserInformationException("New password cannot be the same as the previous password.");
+        } else {
+            validatePassword(newPassword);
             return accountPersistence.changePassword(userID,oldPassword,newPassword);
         }
     };
     public boolean changeUsername(int providedUserID, String newUsername){
-        if(newUsername == null || newUsername == "" ){
-            throw new InvalidUserInformationException("Please provide new username");
-        }else{
-            return accountPersistence.changeUsername(providedUserID,newUsername);
+        if(newUsername == null || newUsername.equals("")){
+            throw new InvalidUserInformationException("New username field must not be blank.");
+        } else if (newUsername.equals(getUserName(providedUserID))) {
+            throw new InvalidUserInformationException("New username cannot be the same as the previous username.");
+        } else {
+            validateUsername(newUsername);
+            return accountPersistence.changeUsername(providedUserID, newUsername);
         }
     };
     public int register(String username, String password){
-        if(username == null || password == null || username == "" || password == ""){
-            throw new InvalidUserInformationException("Please provide username and password");
+        if(username == null || password == null || username.equals("") || password.equals("")){
+            throw new InvalidUserInformationException("Username and password fields may not be left empty.");
         }else{
+            validateUsername(username);
+            validatePassword(password);
             int newUserID = accountPersistence.register(username,password);
             UserManager.userID = newUserID;
             return newUserID;
@@ -59,7 +70,7 @@ public class UserManager {
         if (userID >= 0){
             userID = -1;
         }else{
-            throw  new InvalidUserInformationException("Please login before logout");
+            throw new InvalidUserInformationException("User must be logged in before being able to log out.");
         }
     }
 
@@ -67,7 +78,7 @@ public class UserManager {
         if(userID >= 0) {
             return userID;
         }else {
-            throw  new InvalidUserInformationException("Please login before get user id");
+            throw  new InvalidUserInformationException("User must be logged in before getting a User ID.");
         }
     }
 

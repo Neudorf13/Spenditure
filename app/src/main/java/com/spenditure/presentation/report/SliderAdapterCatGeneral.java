@@ -53,10 +53,10 @@ public class SliderAdapterCatGeneral extends PagerAdapter {
         MainCategory currCategory = categoryList.get(position);
 
         //Get data from report manager
-        String countTransactionsString = reportManager.countTransactionsByCategory(currCategory.getID())+ " transactions";
-        String totalTransactionsString= "$"+ handle_decimal(reportManager.getTotalForCategory(currCategory.getID()));
-        String averageString= "$"+ handle_decimal(reportManager.getAverageForCategory(currCategory.getID()));
-        String percentageString = handle_decimal(reportManager.getPercentForCategory(currCategory.getID())) + "%";
+        String countTransactionsString = reportManager.countTransactionsByCategory(currCategory.getCategoryID())+ " transactions";
+        String totalTransactionsString= "$"+ handle_decimal(reportManager.getTotalForCategory(currCategory.getCategoryID()));
+        String averageString= "$"+ handle_decimal(reportManager.getAverageForCategory(currCategory.getCategoryID()));
+        String percentageString = handle_decimal(reportManager.getPercentForCategory(currCategory.getCategoryID())) + "%";
 
         //query UI components
         TextView tittle = view.findViewById(R.id.slide_tittle);

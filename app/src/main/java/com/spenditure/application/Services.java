@@ -46,7 +46,7 @@ public class Services {
             }
         }
 
-        }
+
         return categoryPersistence;
     }
 
@@ -80,6 +80,14 @@ public class Services {
     public static void restartAccountDB(boolean getStubDB){
         if(getStubDB){
             accountPersistence = new UserStub();
+        }else{
+            //Hanlde re-connect to DB
+        }
+    }
+
+    public static void restartTransactionDB(boolean getStubDB){
+        if(getStubDB){
+            transactionPersistence = new TransactionStub();
         }else{
             //Hanlde re-connect to DB
         }
