@@ -63,12 +63,13 @@ public class CategorySQL implements CategoryPersistence {
 
     //int userID, String newCategory
     @Override
-    public MainCategory addCategory(String categoryName, int userID, int categoryID) {
+    public MainCategory addCategory(String categoryName, int userID) {
 
         MainCategory newCategoty = new MainCategory(categoryName,1,userID);//Replace this with static variable
         try(final Connection connection = connection()) {
             final PreparedStatement statement = connection.prepareStatement("INSERT INTO CATEGORIES VALUES(?, ?, ?)");
-            statement.setInt(1, categoryID);
+//            statement.setInt(1, categoryID);//FIX this
+            statement.setInt(1, 1);//FIX this
             statement.setString(2, categoryName);
             statement.setInt(3, userID);
 

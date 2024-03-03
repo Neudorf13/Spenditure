@@ -55,7 +55,7 @@ public class SQLCrossTableTests {
 
         categoryPersistence.printCategoryTable();
 
-        MainCategory category = categoryPersistence.addCategory("test",77,4);
+        MainCategory category = categoryPersistence.addCategory("test",77);
 
         categoryPersistence.printCategoryTable();
 
