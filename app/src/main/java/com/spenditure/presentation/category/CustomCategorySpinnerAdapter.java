@@ -41,7 +41,7 @@ public class CustomCategorySpinnerAdapter extends BaseAdapter {
 
     @Override
     public long getItemId(int i) {
-        return categories.get(i).getID();
+        return categories.get(i).getCategoryID();
     }
 
     public int getPosition(MainCategory category) {

@@ -2,6 +2,7 @@ package com.spenditure.database.hsqldb;
 
 import com.spenditure.database.TransactionPersistence;
 import com.spenditure.object.DateTime;
+import com.spenditure.object.IDateTime;
 import com.spenditure.object.Transaction;
 
 import java.sql.Connection;
@@ -286,6 +287,17 @@ public class TransactionSQL implements TransactionPersistence {
         }
     }
 
+
+    @Override
+    public ArrayList<Transaction> getTransactionsByDateTime(IDateTime lower, IDateTime upper)
+    {
+        // do nothing
+        return null;
+    }
+
+
+
+    /*
     @Override
     public ArrayList<Transaction> getTransactionsByDateTime(DateTime lower, DateTime upper) {
         final ArrayList<Transaction> transactions = new ArrayList<>();
@@ -311,7 +323,11 @@ public class TransactionSQL implements TransactionPersistence {
         catch (final SQLException e) {
             throw new RuntimeException("An error occurred while processing the SQL operation", e);  //temp exception
         }
+
+        return null;
     }
+
+     */
 
     @Override
     public ArrayList<Transaction> getTransactionsByCategoryID(int categoryID) {
@@ -426,5 +442,7 @@ public class TransactionSQL implements TransactionPersistence {
             throw new RuntimeException("An error occurred while processing the SQL operation", e);  //temp exception
         }
     }
+
+
 
 }

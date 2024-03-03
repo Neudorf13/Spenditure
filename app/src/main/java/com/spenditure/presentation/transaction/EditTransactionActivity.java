@@ -165,11 +165,11 @@ public class EditTransactionActivity extends AppCompatActivity {
         EditText comments = (EditText) findViewById(R.id.edittext_comments);
         comments.setText(transaction.getComments());
 
-        Spinner category = (Spinner) findViewById(R.id.spinner_categories);
-        category.setSelection(adapter.getPosition(transaction.getCategory()));
+       // Spinner category = (Spinner) findViewById(R.id.spinner_categories);
+      //  category.setSelection(adapter.getPosition(transaction.getCategory()));
 
-        AppCompatToggleButton type = (AppCompatToggleButton) findViewById(R.id.togglebutton_type);
-        type.setChecked(transaction.getType());
+      //  AppCompatToggleButton type = (AppCompatToggleButton) findViewById(R.id.togglebutton_type);
+      //  type.setChecked(transaction.getType());
     }
 
     // Helper method: return the updated Transaction object made from user-entered info
@@ -184,6 +184,7 @@ public class EditTransactionActivity extends AppCompatActivity {
         Spinner category = (Spinner) findViewById(R.id.spinner_categories);
 
         // Create the new transaction object
+        /*
         Transaction updatedTransaction = new Transaction(
                 givenTransaction.getTransactionID(),
                 whatTheHeck.getText().toString(),
@@ -195,6 +196,9 @@ public class EditTransactionActivity extends AppCompatActivity {
                 (MainCategory) category.getSelectedItem()
         );
 
-        return updatedTransaction;
+         */
+
+      //  return updatedTransaction;
+        return null;
     };
 }

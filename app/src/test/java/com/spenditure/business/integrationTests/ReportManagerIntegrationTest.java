@@ -86,7 +86,7 @@ public class ReportManagerIntegrationTest {
 
     @Test
     public void testCount() {
-        int test1 = reportManager.getCount();
+        int test1 = reportManager.countAllCategories(1);
 
         assertEquals(test1,4);
     }

@@ -63,7 +63,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.MyView
     public void deleteTask(int position){
         MainCategory category = categories.get(position);
         CategoryHandler categoryHandler = new CategoryHandler(true);
-        categoryHandler.deleteCategory(category.getID());
+        categoryHandler.deleteCategory(category.getCategoryID());
         notifyItemRemoved(position);
     }
 

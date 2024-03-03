@@ -21,9 +21,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
 
 import com.spenditure.logic.CategoryHandler;
+import com.spenditure.logic.GeneralReportHandler;
 import com.spenditure.logic.ReportManager;
+import com.spenditure.logic.UserManager;
 import com.spenditure.object.DateTime;
 import com.spenditure.object.IDateTime;
+import com.spenditure.object.IMainCategory;
 import com.spenditure.object.IReport;
 import com.spenditure.object.MainCategory;
 import com.spenditure.presentation.BottomNavigationHandler;
@@ -38,6 +41,7 @@ public class ViewReportActivity extends AppCompatActivity {
 //    private ViewPager viewPagerCategory;
 //    private SliderAdapterCatGeneral adapter;
     private ReportManager reportManager;
+    private GeneralReportHandler generalReportHandler;
     private final String[] custom_option = {"Report by average","Report by total","Report by percentage"};
     private final String[] time_base_option = {"Report by year breaking into month","Report by month breaking into weeks"};
     private CategoryHandler categoryHandler;
@@ -53,6 +57,7 @@ public class ViewReportActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         reportManager = new ReportManager(true);
         categoryHandler = new CategoryHandler(true);
+        generalReportHandler = new GeneralReportHandler(true);
 
         handleGeneralReport();
         handleCustomCategoryReport();
@@ -64,7 +69,7 @@ public class ViewReportActivity extends AppCompatActivity {
     }
 
     private void handleLastYearReport(){
-        IReport lastYearReport = reportManager.reportOnLastYear();
+        IReport lastYearReport = reportManager.reportOnLastYear(UserManager.getUserID());
         TextView numTransactions = findViewById(R.id.textview_lastYear_transactionsCount);
         TextView totalTransactions = findViewById(R.id.textview_lastYear_total);
         TextView average = findViewById(R.id.textview_lastYear_average);
@@ -106,7 +111,7 @@ public class ViewReportActivity extends AppCompatActivity {
                 if (fromDate == null || toDate == null){
                     Toast.makeText(ViewReportActivity.this,"Please choose 2 dates",Toast.LENGTH_SHORT).show();
                 }else {
-                    IReport timeCustomReport = reportManager.reportOnUserProvidedDates(fromDate, toDate);
+                    IReport timeCustomReport = reportManager.reportOnUserProvidedDates(fromDate, toDate, UserManager.getUserID());
 
                     TextView transactionNum = findViewById(R.id.textview_customTime_totalTrans);
                     TextView  total = findViewById(R.id.textview_customTime_totalAmount);
@@ -133,7 +138,7 @@ public class ViewReportActivity extends AppCompatActivity {
 
 
 //        SliderAdapterCatGeneral adapterCustom= new SliderAdapterCatGeneral(this,categoryHandler.getAllCategory());
-        SliderAdapterTimeBase adapterCustom= new SliderAdapterTimeBase(this,reportManager.reportOnLastYearByMonth(),"Month");
+        SliderAdapterTimeBase adapterCustom= new SliderAdapterTimeBase(this,reportManager.reportOnLastYearByMonth(UserManager.getUserID()),"Month");
         viewPagerCustom.setAdapter(adapterCustom);
 
 
@@ -150,10 +155,10 @@ public class ViewReportActivity extends AppCompatActivity {
                 shimmerFrameLayout.startShimmerAnimation();
 
                 if (position == 0){
-                    SliderAdapterTimeBase adapterCustom= new SliderAdapterTimeBase(getApplicationContext(),reportManager.reportOnLastYearByMonth(),"Month");
+                    SliderAdapterTimeBase adapterCustom= new SliderAdapterTimeBase(getApplicationContext(),reportManager.reportOnLastYearByMonth(UserManager.getUserID()),"Month");
                     viewPagerCustom.setAdapter(adapterCustom);
                 }else {
-                    SliderAdapterTimeBase adapterCustom= new SliderAdapterTimeBase(getApplicationContext(),reportManager.reportOnLastMonthByWeek(),"Week");
+                    SliderAdapterTimeBase adapterCustom= new SliderAdapterTimeBase(getApplicationContext(),reportManager.reportOnLastMonthByWeek(UserManager.getUserID()),"Week");
                     viewPagerCustom.setAdapter(adapterCustom);
                 }
 
@@ -192,8 +197,8 @@ public class ViewReportActivity extends AppCompatActivity {
     }
 
     private void handleGeneralReport(){
-        String spendString = "You've spent " + UIUtility.cleanTotalString(reportManager.getTotalForAllTransactions());
-        String makeTransactions = "You've made " + UIUtility.cleanTransactionNumberString(reportManager.countAllTransactions());
+        String spendString = "You've spent " + UIUtility.cleanTotalString(generalReportHandler.totalSpending(UserManager.getUserID(), -1));
+        String makeTransactions = "You've made " + UIUtility.cleanTransactionNumberString(generalReportHandler.numTransactions(UserManager.getUserID(), -1));
         TextView short_text = findViewById(R.id.textview_summary_report_short);
         TextView long_text = findViewById(R.id.textview_summary_report_long);
 
@@ -217,17 +222,17 @@ public class ViewReportActivity extends AppCompatActivity {
 
                 String spendMostString = "Mostly spending on ";
                 String spendLeastString = "Least spending on ";
-                List<MainCategory>categories;
+                List<IMainCategory>categories;
 
                 switch (position){
                     case 2:
-                        categories = reportManager.sortByPercent(true);
+                        categories = generalReportHandler.sortByPercent(UserManager.getUserID(),true);
                         break;
                     case 1:
-                        categories = reportManager.sortByTotal(true);
+                        categories = generalReportHandler.sortByTotal(UserManager.getUserID(),true);
                         break;
                     default:
-                        categories = reportManager.sortByAverage(true);
+                        categories = generalReportHandler.sortByAverage(UserManager.getUserID(),true);
                 }
 
                 if(categories.size() == 0){
@@ -259,7 +264,7 @@ public class ViewReportActivity extends AppCompatActivity {
 
     private void handleCategoriesReport(){
         ViewPager viewPagerCategory = findViewById(R.id.viewpager_report);
-        SliderAdapterCatGeneral adapter = new SliderAdapterCatGeneral(this,categoryHandler.getAllCategory());
+        SliderAdapterCatGeneral adapter = new SliderAdapterCatGeneral(this,categoryHandler.getAllCategory(UserManager.getUserID()));
         viewPagerCategory.setAdapter(adapter);
     }
 

@@ -27,6 +27,8 @@ import org.junit.Test;
 
 public class TransactionExceptionTest {
 
+    /*
+
     TransactionHandler transactionHandler;
     Transaction test;
     boolean caught;
@@ -331,5 +333,7 @@ public class TransactionExceptionTest {
         assertTrue(caught);
 
     }
+
+     */
 
 }

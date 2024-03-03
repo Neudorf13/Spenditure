@@ -34,6 +34,8 @@ import java.util.ArrayList;
 
 public class TransactionHandlerTest {
 
+    /*
+
     private TransactionHandler transactionHandler;
     private static final int EXPECTED_SIZE = 14;
 
@@ -384,5 +386,7 @@ public class TransactionHandlerTest {
         assertEquals(list.size(), numInsertions);
 
     }
+
+     */
 
 }

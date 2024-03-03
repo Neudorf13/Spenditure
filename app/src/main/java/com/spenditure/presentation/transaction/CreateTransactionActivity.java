@@ -29,6 +29,7 @@ import android.widget.Spinner;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.spenditure.logic.TransactionHandler;
 import com.spenditure.logic.CategoryHandler;
+import com.spenditure.logic.UserManager;
 import com.spenditure.object.DateTime;
 import com.spenditure.object.MainCategory;
 import com.spenditure.object.Transaction;
@@ -64,7 +65,7 @@ public class CreateTransactionActivity extends AppCompatActivity {
         Spinner categories = (Spinner) findViewById(R.id.spinner_categories);
 
         // Create adapter to display the categories
-        adapter = new CustomCategorySpinnerAdapter(categoryHandler.getAllCategory(), this);
+        adapter = new CustomCategorySpinnerAdapter(categoryHandler.getAllCategory(UserManager.getUserID()), this);
         categories.setAdapter(adapter);
     }
 
@@ -151,7 +152,10 @@ public class CreateTransactionActivity extends AppCompatActivity {
         AppCompatToggleButton type = (AppCompatToggleButton) findViewById(R.id.togglebutton_type);
         Spinner category = (Spinner) findViewById(R.id.spinner_categories);
 
-        // Create the new transaction object
+        // Create the new transaction object\
+        /*
+
+
         Transaction newTransaction = new Transaction(
                 -1,
                 whatTheHeck.getText().toString(),
@@ -162,7 +166,10 @@ public class CreateTransactionActivity extends AppCompatActivity {
                 type.isChecked(),
                 (MainCategory) category.getSelectedItem()
         );
+        */
 
-        return newTransaction;
+
+       // return newTransaction;
+        return null;
     };
 }

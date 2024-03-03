@@ -143,6 +143,36 @@ public class GeneralReportHandler implements IGeneralReportHandler{
     }
 
     /**
+     * percentage
+     *
+     * Returns the percentage of all spending made up by that category
+     * @param int userID - userID of person logged in
+     * @param int categoryID - categoryID of category to be accessed, if negative then it returns percentage of all categories (always 100)
+     * @returns double - percentage
+     */
+    public double percentage(int userID, int categoryID) throws InvalidLogInException
+    {
+
+        double percentage;
+
+        if(userID == -1 )
+            throw new InvalidLogInException();
+
+        // to avoid dividing by 0 check if there are no transactions
+        if(numTransactions(userID, categoryID) == 0)
+        {
+            percentage = 0;
+        }
+        else
+        {
+            percentage = (totalSpending(userID, categoryID)/totalSpending(userID, -1)) * 100;
+        }
+
+        return percentage;
+
+    }
+
+    /**
      * getCategoryReport
      *
      * Returns a category report object with statistics about the selected category
@@ -166,7 +196,7 @@ public class GeneralReportHandler implements IGeneralReportHandler{
         totalSpending = totalSpending(userID, categoryID);
         numTransactions = numTransactions(userID, categoryID);
         average = averageSpending(userID, categoryID);
-        percentage = (totalSpending(userID, categoryID)/totalSpending(userID, -1)) * 100;
+        percentage = percentage(userID, categoryID);
 
         return new CategoryReport(dataAccessCategory.getCategoryByID(categoryID), totalSpending, numTransactions, average, percentage);
     }
