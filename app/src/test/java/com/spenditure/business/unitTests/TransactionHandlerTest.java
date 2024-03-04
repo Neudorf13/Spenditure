@@ -40,10 +40,14 @@ public class TransactionHandlerTest {
     @Before
     public void setup() {
         this.transactionHandler = new TransactionHandler(true);
+        this.transactionHandler.cleanup(true);
     }
 
     @After
-    public void tearDown() { this.transactionHandler = null; }
+    public void tearDown() {
+        this.transactionHandler = null;
+
+    }
 
     @Test
     public void testTransactionSet() {
@@ -65,6 +69,8 @@ public class TransactionHandlerTest {
         assertEquals("Gym membership subscription", transactionHandler.getTransactionByID(12).getName());
         assertEquals("Restaurant bill for friend's birthday dinner", transactionHandler.getTransactionByID(13).getName());
         assertEquals("Online course enrollment fee", transactionHandler.getTransactionByID(14).getName());
+
+
 
     }
 
@@ -117,6 +123,8 @@ public class TransactionHandlerTest {
         //Should return true
         assertEquals("Morning Dons", transactionHandler.getTransactionByID(1).getName());
         assertEquals("Tow Truck Fee", transactionHandler.getTransactionByID(EXPECTED_SIZE + 1).getName());
+
+
 
 
     }
@@ -180,6 +188,7 @@ public class TransactionHandlerTest {
         assertEquals("Gym membership subscription", transactionHandler.getTransactionByID(12).getName());
         assertNull(transactionHandler.getTransactionByID(13));
         assertEquals("Online course enrollment fee", transactionHandler.getTransactionByID(14).getName());
+
 
     }
 
@@ -247,6 +256,7 @@ public class TransactionHandlerTest {
         assertFalse(transactionHandler.getTransactionByID(2).getWithdrawal());
 
         assertEquals(transactionHandler.getAllTransactions(1).size(), EXPECTED_SIZE);
+
     }
 
     @Test
@@ -328,16 +338,16 @@ public class TransactionHandlerTest {
         //Check amountLessThan
         list = transactionHandler.getTransactionByAmountBetween(1, -1,200);
 
-        //Only 9 elements are strictly less than 200
-        assertEquals(list.size(), 9);
+        //Only 11 elements are less than 200
+        assertEquals(list.size(), 11);
 
         //Check amountGreaterThan
         list = transactionHandler.getTransactionByAmountBetween(1, 250.50, Integer.MAX_VALUE);
 
-        //Only 2 elements are strictly greater than 2
-        assertEquals(list.size(), 2);
+        //Only 3 elements are greater than 250
+        assertEquals(list.size(), 3);
 
-        //Check amountBetween, which is inclusive unlike the others
+        //Check amountBetween, which is inclusive
         list = transactionHandler.getTransactionByAmountBetween(1,80.25, 200.00);
 
         //7 elements are between 80.25 and 200 (inclusive)
