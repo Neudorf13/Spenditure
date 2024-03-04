@@ -29,7 +29,7 @@ public class Services {
             if(inDeveloping){
                 categoryPersistence = new CategoryStub();
             }else {
-                //Hanlde connect to DB
+                //Handle connect to DB
                 categoryPersistence = new CategorySQL(ViewReportActivity.getDBPathName());
             }
         }
@@ -42,7 +42,7 @@ public class Services {
             if(inDeveloping){
                 transactionPersistence = new TransactionStub();
             }else{
-                //Hanlde connect to DB
+                //Handle connect to DB
                 transactionPersistence = new TransactionSQL(ViewReportActivity.getDBPathName());
             }
         }
@@ -55,7 +55,7 @@ public class Services {
             if(inDeveloping){
                 userPersistence = new UserStub();
             }else{
-                //Hanlde connect to DB
+                //Handle connect to DB
                 userPersistence = new UserSQL(ViewReportActivity.getDBPathName());
             }
         }
@@ -68,7 +68,7 @@ public class Services {
         if(getStubDB){
             categoryPersistence = new CategoryStub();
         }else{
-            //Hanlde re-connect to DB
+            //Handle re-connect to DB
             categoryPersistence = new CategorySQL(ViewReportActivity.getDBPathName());
         }
     }

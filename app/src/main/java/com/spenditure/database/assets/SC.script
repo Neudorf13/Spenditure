@@ -27,4 +27,6 @@ INSERT INTO TRANSACTIONS VALUES(14,1,'Online course enrollment fee', '2023-10-05
 INSERT INTO CATEGORIES VALUES(1,'Grocery',1)
 INSERT INTO CATEGORIES VALUES(2,'Food',1)
 INSERT INTO CATEGORIES VALUES(3,'Hang out',1)
-INSERT INTO USERS VALUES(1, 'trevor.neudorf', 'test123', 'trevor.neudorf133@gmail.com')
+INSERT INTO USERS VALUES(1, 'Me', '123', 'aaa@gmail.com')
+INSERT INTO USERS VALUES(2, 'You', '1234', 'bbb@gmail.com')
+INSERT INTO USERS VALUES(3, 'He', '12345', 'ccc@gmail.com')
