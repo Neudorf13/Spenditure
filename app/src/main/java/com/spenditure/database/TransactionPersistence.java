@@ -39,8 +39,8 @@ public interface TransactionPersistence {
     ArrayList<Transaction> getTransactionsByCategoryID(int categoryID);
 
     // sorting
-    ArrayList<Transaction> getNewestTransactionsForUser(int userID);
-    ArrayList<Transaction> getOldestTransactionsForUser(int userID);
+    //ArrayList<Transaction> getNewestTransactionsForUser(int userID);
+    //ArrayList<Transaction> getOldestTransactionsForUser(int userID);
 
     public void printTransactionTable();
 

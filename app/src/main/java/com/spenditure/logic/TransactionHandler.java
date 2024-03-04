@@ -145,7 +145,8 @@ public class TransactionHandler implements ITransactionHandler, Serializable {
     @Override
     public ArrayList<Transaction> getAllByNewestFirst(int userID) {
 
-        return dataAccessTransaction.getNewestTransactionsForUser(userID);
+        return null;
+       // return dataAccessTransaction.getNewestTransactionsForUser(userID);
 
     }
 
@@ -157,7 +158,9 @@ public class TransactionHandler implements ITransactionHandler, Serializable {
     @Override
     public ArrayList<Transaction> getAllByOldestFirst(int userID) {
 
-        return dataAccessTransaction.getOldestTransactionsForUser(userID);
+        return null;
+
+        //return dataAccessTransaction.getOldestTransactionsForUser(userID);
 
     }
 

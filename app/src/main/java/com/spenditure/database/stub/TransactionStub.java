@@ -316,7 +316,7 @@ public class TransactionStub implements TransactionPersistence {
         return allTransactionsWithID;
     }
 
-    @Override
+   /* @Override
     public ArrayList<Transaction> getNewestTransactionsForUser(int userID) {
         return null;
     }
@@ -324,7 +324,7 @@ public class TransactionStub implements TransactionPersistence {
     @Override
     public ArrayList<Transaction> getOldestTransactionsForUser(int userID) {
         return null;
-    }
+    }*/
 
     @Override
     public void printTransactionTable() {

@@ -177,7 +177,7 @@ public class GeneralReportHandler implements IGeneralReportHandler{
      *
      * Returns a category report object with statistics about the selected category
      * @param int userID - userID of person logged in
-     * @param int categoryID - categoryID of category to be reprted on
+     * @param int categoryID - categoryID of category to be reported on
      * @returns ICategoryReport - report object
      */
     public ICategoryReport getCategoryReport(int userID, int categoryID) throws InvalidLogInException, InvalidCategoryException
