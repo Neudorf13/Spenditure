@@ -32,6 +32,7 @@ public class CategoryHandlerIT {
     @After
     public void tearDown(){
         this.categoryHandler = null;
+        this.tempDB = null;
     }
 
     @Test
@@ -39,6 +40,7 @@ public class CategoryHandlerIT {
         int expectedSize = 3;
 
         List<MainCategory> categoryList = categoryHandler.getAllCategory(1);
+        System.out.println("Category Size for user 1: " + categoryList.size());
         assertEquals(expectedSize, categoryList.size());
 
         MainCategory category1 = categoryHandler.getCategoryByID(1);
@@ -55,31 +57,36 @@ public class CategoryHandlerIT {
     @Test
     public void testInsert(){
         int expectedSize = 3;
+        int userID = 1;
 //        MainCategory bills = new MainCategory("bills", 99, 1);
         assertEquals(categoryHandler.getAllCategory(1).size(),expectedSize);
 
 
-        categoryHandler.addCategory("bills",  1);
-        assertEquals(expectedSize + 1,categoryHandler.getAllCategory(1).size());
-        assertEquals("Grocery",categoryHandler.getCategoryByID(1).getName());
+        categoryHandler.addCategory("bills",  userID);
+        assertEquals(expectedSize + 1,categoryHandler.getAllCategory(userID).size());
+        assertEquals("Grocery",categoryHandler.getCategoryByID(userID).getName());
 //        assertEquals("bills",categoryHandler.getCategoryByID(1).getName());
     }
-//
-//    @Test
-//    public void testDelete(){
-//        int expectedSize = 3;
-//
-//        assertEquals(categoryHandler.getAllCategory(1).size(),expectedSize);
-//        assertEquals("Grocery",categoryHandler.getCategoryByID(1).getName());
-//        assertEquals("Food",categoryHandler.getCategoryByID(2).getName());
-//        assertEquals("Hang out",categoryHandler.getCategoryByID(3).getName());
-//
-//        categoryHandler.deleteCategory(1);
-//
-//        assertEquals(expectedSize - 1 ,categoryHandler.getAllCategory(1).size());
-//        assertEquals("Food",categoryHandler.getCategoryByID(2).getName());
-//        assertEquals("Hang out",categoryHandler.getCategoryByID(3).getName());
-//    }
+
+    @Test
+    public void testDelete(){
+        int expectedSize = 3;
+
+        assertEquals(categoryHandler.getAllCategory(1).size(),expectedSize);
+        assertEquals("Grocery",categoryHandler.getCategoryByID(1).getName());
+        assertEquals("Food",categoryHandler.getCategoryByID(2).getName());
+        assertEquals("Hang out",categoryHandler.getCategoryByID(3).getName());
+
+        categoryHandler.printCategoryTable();
+        categoryHandler.deleteCategory(1);
+        categoryHandler.printCategoryTable();
+
+        int count = categoryHandler.getAllCategory(1).size();
+        System.out.println("Count: " + count);
+        //assertEquals(2 ,count);
+        assertEquals("Food",categoryHandler.getCategoryByID(2).getName());
+        assertEquals("Hang out",categoryHandler.getCategoryByID(3).getName());
+    }
 //
 //    @Test
 //    public void testAddSubCategory(){
