@@ -200,18 +200,6 @@ public class TransactionHandler implements ITransactionHandler, Serializable {
 
     }
 
-    /*
-
-        getTransactionByAmount
-
-        Returns all transactions with amount values equal to the specified value.
-
-     */
-    public ArrayList<Transaction> getTransactionByAmount(double amount) {
-
-        return dataAccessTransaction.getTransactionsByAmount(amount, amount);
-
-    }
 
     /*
 
