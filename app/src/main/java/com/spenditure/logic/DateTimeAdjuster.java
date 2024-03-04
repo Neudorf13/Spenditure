@@ -1,3 +1,16 @@
+/**
+ * DateTimeAdjuster.java
+ *
+ * COMP3350 SECTION A02
+ *
+ * @author Toran Pillay, 7842389
+ * @date Tuesday, March 4, 2024
+ *
+ * PURPOSE:
+ *  This file contains all of the methods necessary to ensure that adjusted DateTimes
+ * remain valid, guaranteeing that dates always make sense whenever you modify them.
+ **/
+
 package com.spenditure.logic;
 
 import static com.spenditure.logic.DateTimeValidator.*;

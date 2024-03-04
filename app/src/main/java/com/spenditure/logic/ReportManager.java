@@ -72,7 +72,7 @@ public class ReportManager implements IReportManager {
         ArrayList<IReport> monthReports = new ArrayList<IReport>();
         DateTime today = getCurrentDate();
 
-        for(int i = 0; i < 12; i++)
+        for(int i = 1; i <= 12; i++)
         {
             monthReports.add(reportOnUserProvidedDates(userID, new DateTime(today.getYear()-1, i),
                     new DateTime(today.getYear()-1, i)));
@@ -106,6 +106,7 @@ public class ReportManager implements IReportManager {
 
         validateDateTime(start);
         validateDateTime(end);
+        assert(userID >= 0);
 
         double averageTransactionSize = getAverageTransactionSizeByDate(userID, start, end);
         int numTransactions = countAllTransactionsByDate(userID, start, end);
