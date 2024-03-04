@@ -11,7 +11,7 @@ public class UserManager {
 
     //Constructor
     public UserManager(boolean getStubDB){
-        accountPersistence = Services.getAccountPersistence(getStubDB);
+        accountPersistence = Services.getUserPersistence(getStubDB);
 
     }
     public int login(String username, String password) throws InvalidUserInformationException {
@@ -49,7 +49,7 @@ public class UserManager {
         if(username == null || password == null || username == "" || password == ""){
             throw new InvalidUserInformationException("Please provide username and password");
         }else{
-            int newUserID = accountPersistence.register(username,password);
+            int newUserID = accountPersistence.register(username,password,null);
             UserManager.userID = newUserID;
             return newUserID;
         }

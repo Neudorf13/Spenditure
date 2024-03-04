@@ -4,7 +4,10 @@ import com.spenditure.database.UserPersistence;
 import com.spenditure.logic.exceptions.InvalidUserInformationException;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+
 
 public class UserStub implements UserPersistence {
     private List<UserRow> userTable;
@@ -12,9 +15,9 @@ public class UserStub implements UserPersistence {
 
     public UserStub(){
         this.userTable = new ArrayList<>();
-        userTable.add(new UserRow("Me","123",autoIncrementID++));
-        userTable.add(new UserRow("You","1234",autoIncrementID++));
-        userTable.add(new UserRow("He","12345",autoIncrementID++));
+        userTable.add(new UserRow("Me","123",autoIncrementID++,"aaa@gmail.com"));
+        userTable.add(new UserRow("You","1234",autoIncrementID++,"bbb@gmail.com"));
+        userTable.add(new UserRow("He","12345",autoIncrementID++,"ccc@gmail.com"));
     }
 
     @Override
@@ -24,7 +27,7 @@ public class UserStub implements UserPersistence {
                 if(password.equals(user.getPassword())){
                     return user.getUserID();
                 }else{
-                    throw new InvalidUserInformationException("Wrong password or username");
+                    throw new InvalidUserInformationException("Wrong username or password");
                 }
             }
         }
@@ -42,11 +45,13 @@ public class UserStub implements UserPersistence {
         throw new InvalidUserInformationException("User ID not exist.");
     }
 
+
+
     @Override
     public boolean changePassword(int userID, String oldPassword, String newPassword) throws InvalidUserInformationException{
         for (UserRow user : userTable) {
             if(user.getUserID() == userID){
-                if(user.getPassword() == oldPassword){
+                if(user.getPassword().equals(oldPassword)){
                     user.updatePassword(newPassword);
                     return true;
                 }else {
@@ -66,11 +71,11 @@ public class UserStub implements UserPersistence {
                 return true;
             }
         }
-        throw new InvalidUserInformationException("User ID not exist");
+        throw new InvalidUserInformationException("User ID not exist.");
     }
 
     @Override
-    public int register(String username, String password) throws InvalidUserInformationException {
+    public int register(String username, String password, String email) throws InvalidUserInformationException {
 
         for (UserRow user : userTable) {
             if(user.getUsername().equals(username)){
@@ -78,18 +83,22 @@ public class UserStub implements UserPersistence {
             }
         }
         int userID = autoIncrementID++;
-        userTable.add(new UserRow(username,password,userID));
+        userTable.add(new UserRow(username,password,userID, email));
         return userID;
     }
+
+
 
     private class UserRow{
         private String username;
         private String password;
         private int userID;
-        public UserRow(String username,String password,int userID){
+        private String email;
+        public UserRow(String username,String password,int userID, String email){
             this.username = username;
             this.password = password;
             this.userID = userID;
+            this.email = email;
         }
 
         private void updateUserName(String newUsername){
@@ -108,10 +117,15 @@ public class UserStub implements UserPersistence {
             return this.username;
         }
 
-        int getUserID(){
+        public String getEmail() {
+            return email;
+        }
+
+        public int getUserID(){
             return this.userID;
         }
 
 
     }
+
 }

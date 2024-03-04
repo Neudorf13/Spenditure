@@ -19,6 +19,7 @@ public class UserSQL implements UserPersistence {
 
     private final String dbPath;
 
+
     public UserSQL(final String dbPath) {
         this.dbPath = dbPath;
     }
@@ -60,7 +61,7 @@ public class UserSQL implements UserPersistence {
 
     }
 
-    @Override
+
     public int getNumberOfUsers() {
         int count = 0;
         try(final Connection connection = connection()) {
@@ -172,13 +173,14 @@ public class UserSQL implements UserPersistence {
     }
 
     @Override
-    public int register(int userID, String username, String password, String email) {
+    public int register( String username, String password,String email) {
         try(final Connection connection = connection()) {
             String insertQuery = "INSERT INTO users (userid, username, password, email) VALUES (?, ?, ?, ?)";
 
+            int newUserID = getNumberOfUsers() + 1;
             try (PreparedStatement preparedStatement = connection.prepareStatement(insertQuery)) {
                 // Set values for the parameters
-                preparedStatement.setInt(1, userID);
+                preparedStatement.setInt(1, newUserID);
                 preparedStatement.setString(2, username);
                 preparedStatement.setString(3, password);
                 preparedStatement.setString(4, email);
@@ -187,7 +189,7 @@ public class UserSQL implements UserPersistence {
                 int rowsAffected = preparedStatement.executeUpdate();
 
                 if (rowsAffected > 0) {
-                    return userID;
+                    return newUserID;
                 }
                 else {
                     throw new RuntimeException("Register failed.");
