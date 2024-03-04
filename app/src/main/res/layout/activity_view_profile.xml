@@ -15,7 +15,7 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/app_tittle_bar_height"
+            android:layout_height="@dimen/app_title_bar_height"
             >
 
 
@@ -36,7 +36,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/app_name"
                 android:textColor="@color/white"
-                android:textSize="@dimen/app_tittle"
+                android:textSize="@dimen/app_title"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="@+id/imageView2"
                 app:layout_constraintEnd_toEndOf="@+id/imageView2"
@@ -61,7 +61,7 @@
                     android:textColor="@color/white"
                     android:textStyle="bold"
                     android:gravity="center"
-                    android:textSize="20sp"/>
+                    android:textSize="@dimen/small_size"/>
             </LinearLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -98,9 +98,10 @@
                     android:text="@string/label_username"
                     android:textColor="@color/white"
                     android:textSize="@dimen/small_size"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/editview_username"
-                    app:layout_constraintHorizontal_bias="0.13"
+                    android:layout_marginStart="15dp"
+                    app:layout_constraintBottom_toTopOf="@+id/textview_current_password"
+                    app:layout_constraintEnd_toStartOf="@+id/edittext_username"
+                    app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="@+id/imageview_edit_credentials"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintVertical_bias="0.243" />
@@ -112,46 +113,99 @@
                     android:textColor="@color/white"
                     android:textSize="@dimen/small_size"
                     android:width="150dp"
-                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintBottom_toTopOf="@+id/edittext_current_password"
                     app:layout_constraintEnd_toEndOf="@+id/imageview_edit_credentials"
                     app:layout_constraintStart_toEndOf="@+id/textview_username"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.243"
                     />
 
                 <TextView
-                    android:id="@+id/textview_password"
+                    android:id="@+id/textview_current_password"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/label_password"
+                    android:text="@string/label_current_password"
                     android:textColor="@color/white"
                     android:textSize="@dimen/small_size"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="@+id/imageview_edit_credentials"
-                    app:layout_constraintHorizontal_bias="0.13"
+                    android:layout_marginStart="15dp"
+                    app:layout_constraintBottom_toTopOf="@+id/textview_new_password"
+                    app:layout_constraintEnd_toStartOf="@+id/edittext_current_password"
+                    app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="@+id/imageview_edit_credentials"
                     app:layout_constraintTop_toBottomOf="@+id/textview_username"
                     app:layout_constraintVertical_bias="0.63" />
 
                 <EditText
-                    android:id="@+id/edittext_password"
+                    android:id="@+id/edittext_current_password"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/white"
                     android:textSize="@dimen/small_size"
+                    android:inputType="textPassword"
+                    android:width="150dp"
+                    app:layout_constraintBottom_toTopOf="@+id/edittext_new_password"
+                    app:layout_constraintEnd_toEndOf="@+id/imageview_edit_credentials"
+                    app:layout_constraintStart_toEndOf="@+id/textview_current_password"
+                    app:layout_constraintTop_toBottomOf="@+id/edittext_username"
+                    />
+
+                <TextView
+                    android:id="@+id/textview_new_password"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/label_new_password"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/small_size"
+                    android:layout_marginStart="15dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/edittext_new_password"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="@+id/imageview_edit_credentials"
+                    app:layout_constraintTop_toBottomOf="@+id/textview_current_password"
+                    app:layout_constraintVertical_bias="0.63" />
+
+                <EditText
+                    android:id="@+id/edittext_new_password"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/small_size"
+                    android:inputType="textPassword"
                     android:width="150dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="@+id/imageview_edit_credentials"
-                    app:layout_constraintStart_toEndOf="@+id/textview_password"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.85"
+                    app:layout_constraintStart_toEndOf="@+id/textview_new_password"
+                    app:layout_constraintTop_toBottomOf="@+id/edittext_current_password"
                     />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </LinearLayout>
 
+        <Button
+            android:id="@+id/button_save_changes"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/light_blue"
+            android:textSize="@dimen/small_size"
+            android:text="@string/label_save_changes"
+            android:layout_marginTop="100dp"
+            android:layout_gravity="center"/>
+
     </LinearLayout>
+
+    <Button
+        android:id="@+id/button_logout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/light_blue"
+        android:textSize="@dimen/small_size"
+        android:text="@string/label_logout"
+        android:layout_marginTop="100dp"
+        android:layout_marginBottom="60dp"
+        android:layout_gravity="center"
+        app:layout_constraintBottom_toTopOf="@+id/nav_view"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"/>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/nav_view"

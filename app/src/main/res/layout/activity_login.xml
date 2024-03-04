@@ -14,7 +14,7 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/app_tittle_bar_height">
+            android:layout_height="@dimen/app_title_bar_height">
 
             <ImageView
                 android:id="@+id/imageView2"
@@ -74,9 +74,10 @@
                     android:text="@string/label_username"
                     android:textColor="@color/white"
                     android:textSize="@dimen/small_size"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/editview_username"
-                    app:layout_constraintHorizontal_bias="0.13"
+                    android:layout_marginStart="15dp"
+                    app:layout_constraintBottom_toTopOf="@+id/textview_current_password"
+                    app:layout_constraintEnd_toStartOf="@+id/edittext_username"
+                    app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="@+id/imageview_edit_credentials"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintVertical_bias="0.243" />
@@ -96,29 +97,31 @@
                     />
 
                 <TextView
-                    android:id="@+id/textview_password"
+                    android:id="@+id/textview_current_password"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/label_password"
                     android:textColor="@color/white"
                     android:textSize="@dimen/small_size"
+                    android:layout_marginStart="15dp"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="@+id/imageview_edit_credentials"
-                    app:layout_constraintHorizontal_bias="0.13"
+                    app:layout_constraintEnd_toStartOf="@+id/edittext_current_password"
+                    app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="@+id/imageview_edit_credentials"
                     app:layout_constraintTop_toBottomOf="@+id/textview_username"
                     app:layout_constraintVertical_bias="0.63" />
 
                 <EditText
-                    android:id="@+id/edittext_password"
+                    android:id="@+id/edittext_current_password"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/white"
                     android:textSize="@dimen/small_size"
+                    android:inputType="textPassword"
                     android:width="150dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="@+id/imageview_edit_credentials"
-                    app:layout_constraintStart_toEndOf="@+id/textview_password"
+                    app:layout_constraintStart_toEndOf="@+id/textview_current_password"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintVertical_bias="0.85"
                     />

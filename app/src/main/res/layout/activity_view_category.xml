@@ -17,7 +17,7 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/app_tittle_bar_height"
+            android:layout_height="@dimen/app_title_bar_height"
             >
 
 
@@ -38,7 +38,7 @@
                 android:layout_height="wrap_content"
                 android:text="Spenditure"
                 android:textColor="@color/white"
-                android:textSize="@dimen/app_tittle"
+                android:textSize="@dimen/app_title"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="@+id/imageView2"
                 app:layout_constraintEnd_toEndOf="@+id/imageView2"
@@ -68,7 +68,7 @@
                         android:gravity="center"
                         android:text="Category"
                         android:textColor="@color/white"
-                        android:textSize="@dimen/normal_size"
+                        android:textSize="@dimen/small_size"
                         android:textStyle="bold" />
                 </LinearLayout>
             </LinearLayout>
