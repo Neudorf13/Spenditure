@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -63,7 +64,12 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.MyView
     public void deleteTask(int position){
         MainCategory category = categories.get(position);
         CategoryHandler categoryHandler = new CategoryHandler(true);
-        categoryHandler.deleteCategory(category.getCategoryID());
+
+        try{
+            categoryHandler.deleteCategory(category.getCategoryID());
+        }catch (Exception e){
+            Toast.makeText(getContext(),e.getMessage(), Toast.LENGTH_SHORT).show();
+        }
         notifyItemRemoved(position);
     }
 

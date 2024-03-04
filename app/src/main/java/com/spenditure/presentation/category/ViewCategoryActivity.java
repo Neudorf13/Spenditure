@@ -47,7 +47,7 @@ public class ViewCategoryActivity extends AppCompatActivity {
             }
         });
 
-        adapter = new CategoryAdapter(ViewCategoryActivity.this, categoryHandler.getAllCategory(UserManager.getUserID()));
+        adapter = new CategoryAdapter(ViewCategoryActivity.this, categoryHandler.getAllCategory(1));
         recyclerView.setAdapter(adapter);
 
 

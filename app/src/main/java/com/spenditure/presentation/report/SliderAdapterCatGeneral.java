@@ -43,7 +43,7 @@ public class SliderAdapterCatGeneral extends PagerAdapter {
 
     @Override
     public int getCount() {
-        return categoryHandler.getAllCategory(UserManager.getUserID()).size();
+        return categoryHandler.getAllCategory(1).size();
     }
 
     @Override
@@ -60,10 +60,10 @@ public class SliderAdapterCatGeneral extends PagerAdapter {
         MainCategory currCategory = categoryList.get(position);
 
         //Get data from report manager
-        String countTransactionsString = generalReportHandler.numTransactions(UserManager.getUserID(), currCategory.getCategoryID())+ " transactions";
-        String totalTransactionsString= "$"+ handle_decimal(generalReportHandler.totalSpending(UserManager.getUserID(), currCategory.getCategoryID()));
-        String averageString= "$"+ handle_decimal(generalReportHandler.averageSpending(UserManager.getUserID(), currCategory.getCategoryID()));
-        String percentageString = handle_decimal(generalReportHandler.percentage(UserManager.getUserID(), currCategory.getCategoryID())) + "%";
+        String countTransactionsString = generalReportHandler.numTransactions(1, currCategory.getCategoryID())+ " transactions";
+        String totalTransactionsString= "$"+ handle_decimal(generalReportHandler.totalSpending(1, currCategory.getCategoryID()));
+        String averageString= "$"+ handle_decimal(generalReportHandler.averageSpending(1, currCategory.getCategoryID()));
+        String percentageString = handle_decimal(generalReportHandler.percentage(1, currCategory.getCategoryID())) + "%";
 
         //query UI components
         TextView tittle = view.findViewById(R.id.slide_tittle);

@@ -83,7 +83,7 @@ public class AddNewCategory extends BottomSheetDialogFragment {
 
                 }else{
                     try {
-                        categoryHandler.addCategory(newCategory, UserManager.getUserID());
+                        categoryHandler.addCategory(newCategory, 1);
                     }catch (InvalidCategoryException e){
                         Toast.makeText(context,"Category already exists", Toast.LENGTH_SHORT).show();
                     }

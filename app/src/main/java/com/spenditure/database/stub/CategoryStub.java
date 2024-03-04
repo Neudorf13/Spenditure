@@ -87,9 +87,6 @@ public class CategoryStub implements CategoryPersistence {
         return currentCategoryID++;
     }
 
-    private  int generateUniqueUserID(){
-        return currentUserID++;
-    }
 
     private boolean validateUnique(String categoryName){
         for(MainCategory currCategory : this.categoryList){
