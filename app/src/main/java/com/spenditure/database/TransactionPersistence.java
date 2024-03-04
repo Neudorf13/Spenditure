@@ -24,15 +24,15 @@ public interface TransactionPersistence {
     // query database
 
     int countTransactions();
-    List<Transaction> getAllTransactions();
+    List<Transaction> getAllTransactions(int userID);
     List<Transaction> getAllTransactionsForUser(int userID);
     boolean addTransaction(Transaction newTransaction);
     boolean modifyTransaction(Transaction targetTransaction);
     boolean deleteTransaction(int transactionID);
     Transaction getTransactionByID(int id);
-    ArrayList<Transaction> getTransactionByName(String name);
-    ArrayList<Transaction> getTransactionsByPlace(String place);
-    ArrayList<Transaction> getTransactionsByAmount(double lower, double upper);
+    ArrayList<Transaction> getTransactionByName(int userID, String name);
+    ArrayList<Transaction> getTransactionsByPlace(int userID, String place);
+    ArrayList<Transaction> getTransactionsByAmount(int userID, double lower, double upper);
     ArrayList<Transaction> getTransactionsByDateTime(IDateTime lower, IDateTime upper);
 
 

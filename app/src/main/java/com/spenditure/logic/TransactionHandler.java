@@ -133,7 +133,7 @@ public class TransactionHandler implements ITransactionHandler, Serializable {
     @Override
     public List<Transaction> getAllTransactions() {
 
-        return dataAccessTransaction.getAllTransactions();
+        return dataAccessTransaction.getAllTransactions(UserManager.getUserID());
 
     }
 
@@ -186,14 +186,14 @@ public class TransactionHandler implements ITransactionHandler, Serializable {
     @Override
     public ArrayList<Transaction> getTransactionByName(String name) {
 
-        return dataAccessTransaction.getTransactionByName(name);
+        return dataAccessTransaction.getTransactionByName(UserManager.getUserID(),name);
 
     }
 
     @Override
     public ArrayList<Transaction> getTransactionByPlace(String place) {
 
-        return dataAccessTransaction.getTransactionsByPlace(place);
+        return dataAccessTransaction.getTransactionsByPlace(UserManager.getUserID(),place);
 
     }
 
@@ -206,7 +206,7 @@ public class TransactionHandler implements ITransactionHandler, Serializable {
      */
     public ArrayList<Transaction> getTransactionByAmount(double amount) {
 
-        return dataAccessTransaction.getTransactionsByAmount(amount, amount);
+        return dataAccessTransaction.getTransactionsByAmount(UserManager.getUserID(), amount, amount);
 
     }
 
@@ -221,7 +221,7 @@ public class TransactionHandler implements ITransactionHandler, Serializable {
     @Override
     public ArrayList<Transaction> getTransactionByAmountBetween(double lower, double upper) {
 
-        return dataAccessTransaction.getTransactionsByAmount(lower, upper);
+        return dataAccessTransaction.getTransactionsByAmount(UserManager.getUserID(), lower, upper);
 
     }
 
@@ -235,7 +235,7 @@ public class TransactionHandler implements ITransactionHandler, Serializable {
     @Override
     public ArrayList<Transaction> getTransactionByAmountGreaterThan(double amount) {
 
-        return dataAccessTransaction.getTransactionsByAmount(amount + 1, Double.MAX_VALUE);
+        return dataAccessTransaction.getTransactionsByAmount(UserManager.getUserID(), amount + 1, Double.MAX_VALUE);
 
     }
 
@@ -249,7 +249,7 @@ public class TransactionHandler implements ITransactionHandler, Serializable {
     @Override
     public ArrayList<Transaction> getTransactionByAmountLessThan(double amount) {
 
-        return dataAccessTransaction.getTransactionsByAmount(0, amount - 1);
+        return dataAccessTransaction.getTransactionsByAmount(UserManager.getUserID(), 0, amount - 1);
 
     }
 
