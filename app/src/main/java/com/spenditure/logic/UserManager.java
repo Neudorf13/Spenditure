@@ -15,7 +15,7 @@ public class UserManager {
 
     }
     public int login(String username, String password) throws InvalidUserInformationException {
-        if(username == null || password == null || username == "" || password == ""){
+        if(username == null || password == null || username.equals("") || password.equals("")){
             throw new InvalidUserInformationException("Please provide username and password");
         }else{
             if(userID <0){

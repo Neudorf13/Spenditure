@@ -8,6 +8,8 @@ import com.spenditure.object.DateTime;
 import com.spenditure.object.IDateTime;
 import com.spenditure.object.Transaction;
 
+import org.checkerframework.checker.units.qual.A;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
@@ -139,9 +141,15 @@ public class TransactionStub implements TransactionPersistence {
         return 0;
     }
 
-    public ArrayList<Transaction> getAllTransactions()
+    public ArrayList<Transaction> getAllTransactions(int userID)
     {
-        return transactionList;
+        ArrayList<Transaction> transactions = new ArrayList<>();
+        for (int i = 0; i < transactionList.size(); i++) {
+            if(transactionList.get(i).getUserID() == userID) {
+                transactions.add(transactionList.get(i));
+            }
+        }
+        return transactions;
     }
 
     public List<Transaction> getAllTransactionsForUser(int userID) {
@@ -230,13 +238,13 @@ public class TransactionStub implements TransactionPersistence {
         return null;
     }
 
-    public ArrayList<Transaction> getTransactionByName(String name) {
+    public ArrayList<Transaction> getTransactionByName(int userID, String name) {
 
         ArrayList<Transaction> allTransactionsWithName = new ArrayList<>();
 
         for(Transaction transaction : this.transactionList) {
 
-            if(transaction.getName().equalsIgnoreCase(name))
+            if(transaction.getName().equalsIgnoreCase(name) && transaction.getUserID() == userID)
                 allTransactionsWithName.add(transaction);
 
         }
@@ -245,13 +253,13 @@ public class TransactionStub implements TransactionPersistence {
 
     }
 
-    public ArrayList<Transaction> getTransactionsByPlace(String place) {
+    public ArrayList<Transaction> getTransactionsByPlace(int userID, String place) {
 
         ArrayList<Transaction> allTransactionsWithPlace = new ArrayList<>();
 
         for(Transaction transaction : this.transactionList) {
 
-            if(transaction.getPlace().equalsIgnoreCase(place))
+            if(transaction.getPlace().equalsIgnoreCase(place) && transaction.getUserID() == userID)
                 allTransactionsWithPlace.add(transaction);
 
         }
@@ -260,7 +268,7 @@ public class TransactionStub implements TransactionPersistence {
 
     }
 
-    public ArrayList<Transaction> getTransactionsByAmount(double lower, double upper) {
+    public ArrayList<Transaction> getTransactionsByAmount(int userID, double lower, double upper) {
 
         ArrayList<Transaction> allTransactionsInBounds = new ArrayList<>();
 
@@ -268,7 +276,7 @@ public class TransactionStub implements TransactionPersistence {
 
             double amount = transaction.getAmount();
 
-            if( lower <= amount && amount <= upper )
+            if( lower <= amount && amount <= upper && transaction.getUserID() == userID)
                 allTransactionsInBounds.add(transaction);
 
         }

@@ -187,17 +187,29 @@ public class TransactionHandler implements ITransactionHandler, Serializable {
     @Override
     public ArrayList<Transaction> getTransactionByName(int userID, String name) {
 
-        return dataAccessTransaction.getTransactionByName(name);
+        return dataAccessTransaction.getTransactionByName(userID,name);
 
     }
 
     @Override
     public ArrayList<Transaction> getTransactionByPlace(int userID, String place) {
 
-        return dataAccessTransaction.getTransactionsByPlace(place);
+        return dataAccessTransaction.getTransactionsByPlace(userID, place);
 
     }
 
+    /*
+
+        getTransactionByAmount
+
+        Returns all transactions with amount values equal to the specified value.
+
+     */
+    public ArrayList<Transaction> getTransactionByAmount(double amount) {
+
+        return dataAccessTransaction.getTransactionsByAmount(amount, amount);
+
+    }
 
     /*
 
@@ -208,12 +220,39 @@ public class TransactionHandler implements ITransactionHandler, Serializable {
 
      */
     @Override
-    public ArrayList<Transaction> getTransactionByAmountBetween(int userID, double lower, double upper) {
+    public ArrayList<Transaction> getTransactionByAmountBetween(double lower, double upper) {
 
         return dataAccessTransaction.getTransactionsByAmount(lower, upper);
 
     }
 
+    /*
+
+        getTransactionByAmountGreaterThan
+
+        Returns all transactions with amount values greater than the given amount.
+
+     */
+    @Override
+    public ArrayList<Transaction> getTransactionByAmountGreaterThan(double amount) {
+
+        return dataAccessTransaction.getTransactionsByAmount(amount + 1, Double.MAX_VALUE);
+
+    }
+
+    /*
+
+        getTransactionByAmountLessThan
+
+        Returns all transactions with amount values less than the given amount.
+
+     */
+    @Override
+    public ArrayList<Transaction> getTransactionByAmountLessThan(double amount) {
+
+        return dataAccessTransaction.getTransactionsByAmount(0, amount - 1);
+
+    }
 
     /*
 

@@ -73,19 +73,23 @@ public class TransactionSQL implements TransactionPersistence {
     }
 
     @Override
-    public List<Transaction> getAllTransactions() {
+    public List<Transaction> getAllTransactions(int userID) {
         List<Transaction> transactions = new ArrayList<>();
 
         try(final Connection connection = connection()) {
-            final Statement st = connection.createStatement();
-            final ResultSet rs = st.executeQuery("SELECT * FROM transactions");
-            while (rs.next())
+            final PreparedStatement statement = connection.prepareStatement("SELECT * FROM transactions\nWHERE userID=?");
+            statement.setInt(1,userID);
+
+            final ResultSet resultSet = statement.executeQuery();
+//            final Statement st = connection.createStatement();
+//            final ResultSet rs = st.executeQuery("SELECT * FROM transactions\nWHERE USERID=?");
+            while (resultSet.next())
             {
-                final Transaction transaction = fromResultSet(rs);
+                final Transaction transaction = fromResultSet(resultSet);
                 transactions.add(transaction);
             }
-            rs.close();
-            st.close();
+            resultSet.close();
+            statement.close();
 
             return transactions;
 
@@ -219,12 +223,13 @@ public class TransactionSQL implements TransactionPersistence {
     }
 
     @Override
-    public ArrayList<Transaction> getTransactionByName(String name) {
+    public ArrayList<Transaction> getTransactionByName(int userID, String name) {
         final ArrayList<Transaction> transactions = new ArrayList<>();
 
         try(final Connection connection = connection()) {
-            final PreparedStatement statement = connection.prepareStatement("SELECT * FROM transactions\nWHERE NAME=?");
+            final PreparedStatement statement = connection.prepareStatement("SELECT * FROM transactions\nWHERE NAME=? AND USERID=?");
             statement.setString(1,name);
+            statement.setInt(2, userID);
 
             final ResultSet resultSet = statement.executeQuery();
 
@@ -245,12 +250,13 @@ public class TransactionSQL implements TransactionPersistence {
     }
 
     @Override
-    public ArrayList<Transaction> getTransactionsByPlace(String place) {
+    public ArrayList<Transaction> getTransactionsByPlace(int userID, String place) {
         final ArrayList<Transaction> transactions = new ArrayList<>();
 
         try(final Connection connection = connection()) {
-            final PreparedStatement statement = connection.prepareStatement("SELECT * FROM transactions\nWHERE PLACE=?");
+            final PreparedStatement statement = connection.prepareStatement("SELECT * FROM transactions\nWHERE PLACE=? AND USERID=?");
             statement.setString(1,place);
+            statement.setInt(2, userID);
 
             final ResultSet resultSet = statement.executeQuery();
 
@@ -271,13 +277,14 @@ public class TransactionSQL implements TransactionPersistence {
     }
 
     @Override
-    public ArrayList<Transaction> getTransactionsByAmount(double lower, double upper) {
+    public ArrayList<Transaction> getTransactionsByAmount(int userID, double lower, double upper) {
         final ArrayList<Transaction> transactions = new ArrayList<>();
 
         try(final Connection connection = connection()) {
-            final PreparedStatement statement = connection.prepareStatement("SELECT * FROM transactions WHERE amount >= ? AND amount <= ?");
-            statement.setDouble(1,lower);
-            statement.setDouble(2,upper);
+            final PreparedStatement statement = connection.prepareStatement("SELECT * FROM transactions WHERE USERID=? AND amount >= ? AND amount <= ?");
+            statement.setInt(1,userID);
+            statement.setDouble(2,lower);
+            statement.setDouble(3,upper);
 
             final ResultSet resultSet = statement.executeQuery();
 
