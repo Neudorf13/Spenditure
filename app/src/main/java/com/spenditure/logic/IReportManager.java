@@ -14,5 +14,5 @@ public interface IReportManager {
 
     public ArrayList<IReport> reportOnLastMonthByWeek(int userID);
 
-    public IReport reportOnUserProvidedDates(IDateTime start, IDateTime end, int userID);
+    public IReport reportOnUserProvidedDates(int userID, IDateTime start, IDateTime end);
 }

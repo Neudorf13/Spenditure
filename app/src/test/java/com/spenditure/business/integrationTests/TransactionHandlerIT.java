@@ -47,7 +47,7 @@ public class TransactionHandlerIT {
     @Test
     public void testTransactionSet() {
 
-        assertEquals(EXPECTED_SIZE, transactionHandler.getAllTransactions().size());
+        assertEquals(EXPECTED_SIZE, transactionHandler.getAllTransactions(1).size());
 
         //Tests to make sure all transactions are returned. All should return true
         assertEquals("Morning Dons", transactionHandler.getTransactionByID(1).getName());
@@ -70,7 +70,7 @@ public class TransactionHandlerIT {
     @Test
     public void testInsert() {
 
-        assertEquals(transactionHandler.getAllTransactions().size(), EXPECTED_SIZE);
+        assertEquals(transactionHandler.getAllTransactions(1).size(), EXPECTED_SIZE);
 
         int numInvalidTests = 8;
         Transaction[] invalid = new Transaction[numInvalidTests];
@@ -105,13 +105,13 @@ public class TransactionHandlerIT {
         }
 
         //Should return true, none should have been inserted
-        assertEquals(transactionHandler.getAllTransactions().size(), EXPECTED_SIZE);
+        assertEquals(transactionHandler.getAllTransactions(1).size(), EXPECTED_SIZE);
 
         //Test valid insertion
         Transaction newTransaction = new Transaction(-1, "Tow Truck Fee", new DateTime(2024, 2, 29, 18, 31, 0), "Pembina Highway", 143.59, "Damn BMW", true);
         transactionHandler.addTransaction(newTransaction);
 
-        assertEquals(transactionHandler.getAllTransactions().size(), EXPECTED_SIZE + 1);
+        assertEquals(transactionHandler.getAllTransactions(1).size(), EXPECTED_SIZE + 1);
 
         //Should return true
         assertEquals("Morning Dons", transactionHandler.getTransactionByID(1).getName());
@@ -123,7 +123,7 @@ public class TransactionHandlerIT {
     @Test
     public void testDelete() {
 
-        assertEquals(transactionHandler.getAllTransactions().size(), EXPECTED_SIZE);
+        assertEquals(transactionHandler.getAllTransactions(1).size(), EXPECTED_SIZE);
 
         //Make sure all items are in the list
         assertEquals("Morning Dons", transactionHandler.getTransactionByID(1).getName());
@@ -162,7 +162,7 @@ public class TransactionHandlerIT {
         }
 
         //Should return true, list should be half the size
-        assertEquals(EXPECTED_SIZE/2, transactionHandler.getAllTransactions().size());
+        assertEquals(EXPECTED_SIZE/2, transactionHandler.getAllTransactions(1).size());
 
         //Ensure the correct transactions were deleted
         assertNull(transactionHandler.getTransactionByID(1));
@@ -292,8 +292,8 @@ public class TransactionHandlerIT {
         int numInserts = 3;
 
         //Search for existing item
-        ArrayList<Transaction> nameList = transactionHandler.getTransactionByName("Morning Dons");
-        ArrayList<Transaction> placeList = transactionHandler.getTransactionByPlace("Mcdonalds");
+        ArrayList<Transaction> nameList = transactionHandler.getTransactionByName(1, "Morning Dons");
+        ArrayList<Transaction> placeList = transactionHandler.getTransactionByPlace(1, "Mcdonalds");
 
         //Should only be one
         assertEquals(nameList.size(), 1);
@@ -306,8 +306,8 @@ public class TransactionHandlerIT {
 
         }
 
-        nameList = transactionHandler.getTransactionByName("2024 Honda Civic Type R");
-        placeList = transactionHandler.getTransactionByPlace("Winnipeg Honda");
+        nameList = transactionHandler.getTransactionByName(1, "2024 Honda Civic Type R");
+        placeList = transactionHandler.getTransactionByPlace(1, "Winnipeg Honda");
 
         //Should return true, list should have the specified number of inserts
         assertEquals(nameList.size(), numInserts);
@@ -319,25 +319,25 @@ public class TransactionHandlerIT {
     public void testGetByAmount() {
 
         //Check getByAmount
-        ArrayList<Transaction> list = transactionHandler.getTransactionByAmount(200.00);
+        ArrayList<Transaction> list = transactionHandler.getTransactionByAmountBetween(1, 200.00, 200.00);
 
         //There are 2 values that are exactly 200
         assertEquals(list.size(), 2);
 
         //Check amountLessThan
-        list = transactionHandler.getTransactionByAmountLessThan(200);
+        list = transactionHandler.getTransactionByAmountBetween(1, -1,200);
 
         //Only 9 elements are strictly less than 200
         assertEquals(list.size(), 9);
 
         //Check amountGreaterThan
-        list = transactionHandler.getTransactionByAmountGreaterThan(250.50);
+        list = transactionHandler.getTransactionByAmountBetween(1, 250.50, Integer.MAX_VALUE);
 
         //Only 2 elements are strictly greater than 2
         assertEquals(list.size(), 2);
 
         //Check amountBetween, which is inclusive unlike the others
-        list = transactionHandler.getTransactionByAmountBetween(80.25, 200.00);
+        list = transactionHandler.getTransactionByAmountBetween(1, 80.25, 200.00);
 
         //7 elements are between 80.25 and 200 (inclusive)
         assertEquals(list.size(),7);

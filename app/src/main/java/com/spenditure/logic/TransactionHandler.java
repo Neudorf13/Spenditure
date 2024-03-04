@@ -133,7 +133,7 @@ public class TransactionHandler implements ITransactionHandler, Serializable {
     @Override
     public List<Transaction> getAllTransactions(int userID) {
 
-        return dataAccessTransaction.getAllTransactions(int userID);
+        return dataAccessTransaction.getAllTransactions(userID);
 
     }
 
@@ -198,18 +198,7 @@ public class TransactionHandler implements ITransactionHandler, Serializable {
 
     }
 
-    /*
 
-        getTransactionByAmount
-
-        Returns all transactions with amount values equal to the specified value.
-
-     */
-    public ArrayList<Transaction> getTransactionByAmount(double amount) {
-
-        return dataAccessTransaction.getTransactionsByAmount(amount, amount);
-
-    }
 
     /*
 
@@ -220,39 +209,12 @@ public class TransactionHandler implements ITransactionHandler, Serializable {
 
      */
     @Override
-    public ArrayList<Transaction> getTransactionByAmountBetween(double lower, double upper) {
+    public ArrayList<Transaction> getTransactionByAmountBetween(int userID, double lower, double upper) {
 
-        return dataAccessTransaction.getTransactionsByAmount(lower, upper);
-
-    }
-
-    /*
-
-        getTransactionByAmountGreaterThan
-
-        Returns all transactions with amount values greater than the given amount.
-
-     */
-    @Override
-    public ArrayList<Transaction> getTransactionByAmountGreaterThan(double amount) {
-
-        return dataAccessTransaction.getTransactionsByAmount(amount + 1, Double.MAX_VALUE);
+        return dataAccessTransaction.getTransactionsByAmount(userID, lower, upper);
 
     }
 
-    /*
-
-        getTransactionByAmountLessThan
-
-        Returns all transactions with amount values less than the given amount.
-
-     */
-    @Override
-    public ArrayList<Transaction> getTransactionByAmountLessThan(double amount) {
-
-        return dataAccessTransaction.getTransactionsByAmount(0, amount - 1);
-
-    }
 
     /*
 
@@ -261,42 +223,13 @@ public class TransactionHandler implements ITransactionHandler, Serializable {
         Returns all transactions which occur at the specified date and time
 
      */
-    public ArrayList<Transaction> getTransactionByDateTime(DateTime lower, DateTime upper) {
+    public ArrayList<Transaction> getTransactionByDateTime(int userID, DateTime lower, DateTime upper) {
 
-        return dataAccessTransaction.getTransactionsByDateTime(lower, upper);
-
-    }
-
-    /*
-
-        getTransactionByDate
-
-        Returns all transactions which occur at any time on the specified date.
-
-     */
-    public ArrayList<Transaction> getTransactionByDate(DateTime target) {
-
-        DateTime lower = new DateTime(target.getYear(), target.getMonth(), target.getDay(),
-                00, 00, 00);
-        DateTime upper = new DateTime(target.getYear(), target.getMonth(), target.getDay(),
-                DateTimeValidator.MAX_HOURS, DateTimeValidator.MAX_MINUTES, DateTimeValidator.MAX_SECONDS);
-
-        return dataAccessTransaction.getTransactionsByDateTime(lower, upper);
+        return dataAccessTransaction.getTransactionsByDateTime(userID, lower, upper);
 
     }
 
-    /*
 
-        getTransactionByDateTimeBetween
-
-        Returns all transactions which occurred between the specified dates and times.
-
-     */
-    public ArrayList<Transaction> getTransactionByDateTimeBetween(DateTime lower, DateTime upper) {
-
-        return dataAccessTransaction.getTransactionsByDateTime(lower, upper);
-
-    }
 
     /*
         checkNewTransactionID

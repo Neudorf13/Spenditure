@@ -113,7 +113,7 @@ public class ViewReportActivity extends AppCompatActivity {
                 if (fromDate == null || toDate == null){
                     Toast.makeText(ViewReportActivity.this,"Please choose 2 dates",Toast.LENGTH_SHORT).show();
                 }else {
-                    IReport timeCustomReport = reportManager.reportOnUserProvidedDates(fromDate, toDate, UserManager.getUserID());
+                    IReport timeCustomReport = reportManager.reportOnUserProvidedDates(UserManager.getUserID(), fromDate, toDate);
 
                     TextView transactionNum = findViewById(R.id.textview_customTime_totalTrans);
                     TextView  total = findViewById(R.id.textview_customTime_totalAmount);
