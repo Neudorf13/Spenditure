@@ -291,7 +291,7 @@ public class ReportManager implements IReportManager {
 
     //return sum of total amount for all transactions
     public double getTotalForAllTransactions() {
-        List<Transaction> transactions = dataAccessTransaction.getAllTransactions();
+        List<Transaction> transactions = dataAccessTransaction.getAllTransactions(UserManager.getUserID());
         double total = 0.0;
 
         for(Transaction element : transactions) {
@@ -303,7 +303,7 @@ public class ReportManager implements IReportManager {
 
     //return count of total transactions
     public int countAllTransactions() {
-        List<Transaction> transactions = dataAccessTransaction.getAllTransactions();
+        List<Transaction> transactions = dataAccessTransaction.getAllTransactions(UserManager.getUserID());
         return transactions.size();
     }
 
