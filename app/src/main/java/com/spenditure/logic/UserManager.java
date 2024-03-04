@@ -2,7 +2,11 @@ package com.spenditure.logic;
 
 import com.spenditure.application.Services;
 import com.spenditure.database.UserPersistence;
+import com.spenditure.logic.exceptions.InvalidStringFormat;
 import com.spenditure.logic.exceptions.InvalidUserInformationException;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class UserManager {
 
@@ -28,27 +32,32 @@ public class UserManager {
 
         }
     }; //Return user id
-    public String getUserName(int userID){
+    public String getUserName(int userID) throws InvalidUserInformationException{
+        if (userID < 0) throw new InvalidUserInformationException("Please login");
         return accountPersistence.getUserName(userID);
     };
-    public boolean changePassword(int userID, String oldPassword, String newPassword){
+    public boolean changePassword(int userID, String oldPassword, String newPassword) throws InvalidUserInformationException{
         if(oldPassword == null || newPassword == null || oldPassword == "" || newPassword == ""){
             throw new InvalidUserInformationException("Please provide current and new password");
         }else{
+            if(userID < 0) throw new InvalidUserInformationException("Please login");
             return accountPersistence.changePassword(userID,oldPassword,newPassword);
         }
     };
-    public boolean changeUsername(int providedUserID, String newUsername){
+    public boolean changeUsername(int providedUserID, String newUsername)throws InvalidUserInformationException, InvalidStringFormat {
         if(newUsername == null || newUsername == "" ){
             throw new InvalidUserInformationException("Please provide new username");
         }else{
+            if(providedUserID < 0) throw new InvalidUserInformationException("Please login");
+            StringInputValidator.validateInputString(newUsername);
             return accountPersistence.changeUsername(providedUserID,newUsername);
         }
     };
-    public int register(String username, String password){
+    public int register(String username, String password)throws InvalidStringFormat{
         if(username == null || password == null || username == "" || password == ""){
             throw new InvalidUserInformationException("Please provide username and password");
         }else{
+            StringInputValidator.validateInputString(username);
             int newUserID = accountPersistence.register(username,password,null);
             UserManager.userID = newUserID;
             return newUserID;
@@ -76,4 +85,6 @@ public class UserManager {
         Services.restartAccountDB(true);
         UserManager.userID = -1;
     }
+
+
 }
