@@ -24,7 +24,7 @@ public class SubCategory implements ICategory{
     }
 
     @Override
-    public int getID() {
+    public int getCategoryID() {
         return this.categoryID;
     }
 }

@@ -11,12 +11,13 @@
  * of the TransactionHandler, and validating DateTimes.
  **/
 
-package com.spenditure.business;
+package com.spenditure.business.unitTests;
 
 import static org.junit.Assert.assertTrue;
 
 import com.spenditure.logic.TransactionHandler;
 import com.spenditure.logic.TransactionValidator;
+import com.spenditure.logic.UserManager;
 import com.spenditure.logic.exceptions.*;
 import com.spenditure.object.DateTime;
 import com.spenditure.object.Transaction;
@@ -35,9 +36,8 @@ public class TransactionExceptionTest {
     public void setup() {
 
         transactionHandler = new TransactionHandler(true);
-        transactionHandler.cleanup(true);
 
-        test = new Transaction(-1, "2024 Honda Civic Type R", new DateTime(2024, 2, 29, 16, 20), "Winnipeg Honda", 53280.00, "MSRP", true);
+        test = new Transaction(-1, UserManager.getUserID(), "2024 Honda Civic Type R", new DateTime(2024, 2, 29, 16, 20, 0), "Winnipeg Honda", 53280.00, "MSRP", true);
 
         caught = false;
 
@@ -166,7 +166,7 @@ public class TransactionExceptionTest {
     public void testInvalidDate() {
 
         //Test invalid year
-        test.setDateTime(new DateTime(1776, 6, 4, 12, 00));
+        test.setDateTime(new DateTime(1776, 6, 4, 12, 00,0));
 
         //Ensure exception is thrown for invalid year
         try {
@@ -182,7 +182,7 @@ public class TransactionExceptionTest {
         assertTrue(caught);
 
         //Test invalid month
-        test.setDateTime(new DateTime(2024, 13, 13, 13, 13));
+        test.setDateTime(new DateTime(2024, 13, 13, 13, 13,0));
 
         //Ensure exception is thrown for invalid month
         try {
@@ -198,7 +198,7 @@ public class TransactionExceptionTest {
         assertTrue(caught);
 
         //Test invalid day (non-leap year specifically)
-        test.setDateTime(new DateTime(2023, 2, 29, 12, 12));
+        test.setDateTime(new DateTime(2023, 2, 29, 12, 12,0));
 
         //Ensure exception is thrown for invalid day
         try {
@@ -214,7 +214,7 @@ public class TransactionExceptionTest {
         assertTrue(caught);
 
         //Test invalid day (standard month)
-        test.setDateTime(new DateTime(2024, 3, 33, 12, 12));
+        test.setDateTime(new DateTime(2024, 3, 33, 12, 12,0));
 
         //Ensure exception is thrown for invalid day
         try {
@@ -234,7 +234,7 @@ public class TransactionExceptionTest {
     public void testInvalidTime() {
 
         //Test invalid hour
-        test.setDateTime(new DateTime(2024, 12, 31, 99, 00));
+        test.setDateTime(new DateTime(2024, 12, 31, 99, 00,0));
 
         //Ensure exception is thrown for invalid hour
         try {
@@ -250,7 +250,7 @@ public class TransactionExceptionTest {
         assertTrue(caught);
 
         //Test invalid minute
-        test.setDateTime(new DateTime(2024, 12, 31, 01, 99));
+        test.setDateTime(new DateTime(2024, 12, 31, 01, 99,0));
 
         //Ensure exception is thrown for invalid minute
         try {

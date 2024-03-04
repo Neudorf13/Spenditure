@@ -27,6 +27,7 @@ import android.widget.ListView;
 import com.example.spenditure.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.spenditure.logic.TransactionHandler;
+import com.spenditure.logic.UserManager;
 import com.spenditure.object.Transaction;
 import com.spenditure.presentation.BottomNavigationHandler;
 import com.spenditure.presentation.category.ViewCategoryActivity;
@@ -52,7 +53,7 @@ public class ViewTransactionsActivity extends AppCompatActivity {
         if( transactionHandler == null){
             transactionHandler = new TransactionHandler(true);
         }
-        transactions = transactionHandler.getAllByNewestFirst();
+        transactions = transactionHandler.getAllByNewestFirst(UserManager.getUserID());
 
         ListView transactionsListView = (ListView)findViewById(R.id.listview_transactions);
 
@@ -113,10 +114,10 @@ public class ViewTransactionsActivity extends AppCompatActivity {
 
         if (newestFirst){
             // Newest transactions first
-            updatedList = transactionHandler.getAllByNewestFirst();
+            updatedList = transactionHandler.getAllByNewestFirst(UserManager.getUserID());
         } else {
             // Oldest transactions first
-            updatedList = transactionHandler.getAllByOldestFirst();
+            updatedList = transactionHandler.getAllByOldestFirst(UserManager.getUserID());
         }
 
         // Update the list view with the new order

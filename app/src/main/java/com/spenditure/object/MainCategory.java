@@ -1,6 +1,5 @@
 package com.spenditure.object;
 
-import com.spenditure.logic.exceptions.InvalidCategoryException;
 import com.spenditure.logic.exceptions.InvalidSubCategoryException;
 
 import java.util.ArrayList;
@@ -16,14 +15,17 @@ public class MainCategory implements IMainCategory {
     //Attributes
     private String name;
     private int categoryID;
+    private int userID;
     private List<SubCategory> listSubCategories; //For future development
     private final int MAX_SUB_CATEGORIES = 5;
-    private static int currentID = 1;
+    private static int currentCategoryID = 1;
+    private static int currentUserID = 1;
 
     //Constructors
-    public MainCategory(String name, int categoryID){
+    public MainCategory(String name, int categoryID, int userID){
         this.name = name;
         this.categoryID = categoryID;
+        this.userID = userID;
         this.listSubCategories = new ArrayList<>();
     }
 
@@ -33,9 +35,10 @@ public class MainCategory implements IMainCategory {
         return this.name;
     }
     @Override
-    public int getID() {
+    public int getCategoryID() {
         return this.categoryID;
     }
+    public int getUserID() { return this.userID;}
 
     @Override
     public List<SubCategory> getSubCategories() { //For future development
@@ -47,7 +50,7 @@ public class MainCategory implements IMainCategory {
             throw new InvalidSubCategoryException("Only " + this.MAX_SUB_CATEGORIES + " sub-categories are allowed per Category");
         }else{
             if (checkUniqueSub(newSubCategoryName)){
-                SubCategory newSubCategory = new SubCategory(newSubCategoryName,generateUniqueID());
+                SubCategory newSubCategory = new SubCategory(newSubCategoryName, generateUniqueCategoryID());
                 this.listSubCategories.add(newSubCategory);
                 return newSubCategory;
             }else{
@@ -62,7 +65,7 @@ public class MainCategory implements IMainCategory {
         boolean found = false;
         while (iterator.hasNext() && !found) {
             SubCategory curr = iterator.next();
-            if(curr.getID() == id){
+            if(curr.getCategoryID() == id){
                 iterator.remove();
                 found = true;
             }
@@ -73,7 +76,7 @@ public class MainCategory implements IMainCategory {
     @Override
     public SubCategory getSubCategoryByID(int id) throws InvalidSubCategoryException {
         for(SubCategory currSub : this.listSubCategories){
-            if(currSub.getID() == id) return currSub;
+            if(currSub.getCategoryID() == id) return currSub;
         }
         throw new InvalidSubCategoryException("Sub-category ID not exist");
     }
@@ -88,7 +91,9 @@ public class MainCategory implements IMainCategory {
         return true;
     }
 
-    private static int generateUniqueID(){
-        return currentID++;
+    private static int generateUniqueCategoryID(){
+        return currentCategoryID++;
     }
+
+    private static int generateUniqueUserID() { return currentUserID++; }
 }

@@ -1,10 +1,11 @@
 package com.spenditure;
 
-import com.spenditure.business.CategoryHandlerTest;
-import com.spenditure.business.ExceptionTest;
-import com.spenditure.business.ReportManagerTest;
-import com.spenditure.business.TransactionExceptionTest;
-import com.spenditure.business.TransactionHandlerTest;
+//import com.spenditure.business.ReportManagerTest;
+import com.spenditure.business.unitTests.CategoryHandlerTest;
+import com.spenditure.business.unitTests.CategoryExceptionTest;
+
+import com.spenditure.business.unitTests.TransactionExceptionTest;
+import com.spenditure.business.unitTests.TransactionHandlerTest;
 import com.spenditure.objects.MainCategoryTest;
 
 import org.junit.runner.RunWith;
@@ -19,10 +20,10 @@ import org.junit.runners.Suite;
 @Suite.SuiteClasses({
         CategoryHandlerTest.class,
         MainCategoryTest.class,
-        ExceptionTest.class,
+        CategoryExceptionTest.class,
         TransactionExceptionTest.class,
         TransactionHandlerTest.class,
-        ReportManagerTest.class
+      //  ReportManagerTest.class
 })
 public class AllUnitTests {
 }

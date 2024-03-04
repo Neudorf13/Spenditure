@@ -28,24 +28,20 @@ public interface ITransactionHandler {
 
     Transaction getTransactionByID(int id);
 
-    List<Transaction> getAllTransactions();
+    List<Transaction> getAllTransactions(int userID);
 
-    ArrayList<Transaction> getAllByNewestFirst();
+    ArrayList<Transaction> getAllByNewestFirst(int userID);
 
-    ArrayList<Transaction> getAllByOldestFirst();
+    ArrayList<Transaction> getAllByOldestFirst(int userID);
 
     ArrayList<Transaction> getTransactionByCategoryID(int categoryID);
 
-    ArrayList<Transaction> getTransactionByName(String name);
+    ArrayList<Transaction> getTransactionByName(int userID, String name);
 
-    ArrayList<Transaction> getTransactionByPlace(String place);
+    ArrayList<Transaction> getTransactionByPlace(int userID, String place);
 
-    ArrayList<Transaction> getTransactionByAmountBetween(double lower, double upper);
+    ArrayList<Transaction> getTransactionByAmountBetween(int userID, double lower, double upper);
 
-    ArrayList<Transaction> getTransactionByAmountGreaterThan(double amount);
-
-    ArrayList<Transaction> getTransactionByAmountLessThan(double amount);
-
-    ArrayList<Transaction> getTransactionByDateTime(DateTime lower, DateTime upper);
+    ArrayList<Transaction> getTransactionByDateTime(int userID, DateTime lower, DateTime upper);
 
 }

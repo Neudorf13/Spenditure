@@ -21,6 +21,7 @@ import androidx.annotation.Nullable;
 import com.example.spenditure.R;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.spenditure.logic.CategoryHandler;
+import com.spenditure.logic.UserManager;
 import com.spenditure.logic.exceptions.InvalidCategoryException;
 import com.spenditure.presentation.IOnDialogCloseListener;
 
@@ -82,7 +83,7 @@ public class AddNewCategory extends BottomSheetDialogFragment {
 
                 }else{
                     try {
-                        categoryHandler.addCategory(newCategory);
+                        categoryHandler.addCategory(newCategory, UserManager.getUserID());
                     }catch (InvalidCategoryException e){
                         Toast.makeText(context,"Category already exists", Toast.LENGTH_SHORT).show();
                     }

@@ -1,4 +1,4 @@
-package com.spenditure.business;
+package com.spenditure.business.unitTests;
 
 import org.junit.Test;
 import static org.junit.Assert.*;
@@ -6,15 +6,19 @@ import static org.junit.Assert.*;
 import com.spenditure.logic.CategoryHandler;
 import com.spenditure.logic.exceptions.InvalidCategoryException;
 import com.spenditure.logic.exceptions.InvalidSubCategoryException;
+import com.spenditure.object.MainCategory;
+
 /**
  * Exception unit tests
  * @author Bao Ngo
  * @version 06 Feb 2024
  */
-public class ExceptionTest {
+public class CategoryExceptionTest {
     @Test
     public void testInvalidCategory(){
         CategoryHandler categoryHandler = new CategoryHandler(true);
+
+        MainCategory food = new MainCategory("Food", 1, 1);
 
         //Get non-exist ID category
         boolean caught = false;
@@ -28,7 +32,7 @@ public class ExceptionTest {
         //Add category already exists in DB
         caught = false;
         try {
-            categoryHandler.addCategory("Food");
+            categoryHandler.addCategory("Food",1);
         }catch (InvalidCategoryException e){
             caught = true;
         }
@@ -37,7 +41,7 @@ public class ExceptionTest {
         //Add null category already exists in DB
         caught = false;
         try {
-            categoryHandler.addCategory(null);
+            categoryHandler.addCategory(null,1);
         }catch (InvalidCategoryException e){
             caught = true;
         }
@@ -46,7 +50,7 @@ public class ExceptionTest {
         //Add blank category already exists in DB
         caught = false;
         try {
-            categoryHandler.addCategory("");
+            categoryHandler.addCategory("",1);
         }catch (InvalidCategoryException e){
             caught = true;
         }

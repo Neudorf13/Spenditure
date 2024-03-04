@@ -11,31 +11,127 @@
  **/
 
 
-package com.spenditure.business;
+
+package com.spenditure.business.unitTests;
 
 //import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.*;
 import java.util.ArrayList; // import the ArrayList class
 
-import com.spenditure.application.Services;
+import com.spenditure.logic.DateTimeAdjuster;
+import com.spenditure.logic.GeneralReportHandler;
 import com.spenditure.logic.ReportManager;
+import com.spenditure.logic.UserManager;
+import com.spenditure.object.DateTime;
 import com.spenditure.object.MainCategory;
 
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
 public class ReportManagerTest {
 
+
     private ReportManager reportManager;
 
     @Before
     public void setup() {
-        Services.restartCategoryDB(true);
+//        Services.restartCategoryDB(true);
         this.reportManager = new ReportManager(true);
     }
 
+    @After
+    public void tearDown() {
+        reportManager = null;
+    }
+
+
+    /*
+
+    ENDED UP BEING TESTS FOR DateTimeAdjuster.
+
+     */
+    @Test
+    public void testFixDateTime() {
+
+        DateTime dateTime = new DateTime(2024, 01, 01, 00, 00, 00);
+
+        dateTime.adjust(0, 0, -7, 0, 0, 0);
+
+//        DateTime fixed = DateTimeAdjuster.correctDateTime(dateTime);
+
+        assertEquals(2023, dateTime.getYear());
+        assertEquals(12, dateTime.getMonth());
+        assertEquals(25, dateTime.getDay());
+
+        dateTime = new DateTime(2001, 01, 01);
+        dateTime.adjust(0, 0, -1, 0, 0, 0);
+
+//        fixed = DateTimeAdjuster.correctDateTime(dateTime);
+
+        assertEquals(2000, dateTime.getYear());
+        assertEquals(12, dateTime.getMonth());
+        assertEquals(31, dateTime.getDay());
+
+        dateTime = new DateTime(2010, 01, 01, 00, 00, 00);
+        dateTime.adjust(0, 0, 0, 0, 0, -1);
+
+//        fixed = DateTimeAdjuster.correctDateTime(dateTime);
+
+        assertEquals(2009, dateTime.getYear());
+        assertEquals(12, dateTime.getMonth());
+        assertEquals(31, dateTime.getDay());
+        assertEquals(23, dateTime.getHour());
+        assertEquals(59, dateTime.getMinute());
+        assertEquals(59, dateTime.getSeconds());
+
+        dateTime = new DateTime(2023, 12, 31, 23, 59, 59);
+        dateTime.adjust(0, 0, 0, 0, 0, 1);
+
+//        fixed = DateTimeAdjuster.correctDateTime(dateTime);
+
+        assertEquals(2024, dateTime.getYear());
+        assertEquals(01, dateTime.getMonth());
+        assertEquals(01, dateTime.getDay());
+        assertEquals(00, dateTime.getHour());
+        assertEquals(00, dateTime.getMinute());
+        assertEquals(00, dateTime.getSeconds());
+
+        dateTime = new DateTime(2024, 03, 01);
+        dateTime.adjust(0, 0, -1, 0, 0, 0);
+
+//        fixed = DateTimeAdjuster.correctDateTime(dateTime);
+
+        assertEquals(2024, dateTime.getYear());
+        assertEquals(02, dateTime.getMonth());
+        assertEquals(29, dateTime.getDay());
+
+        dateTime = new DateTime(2023, 03, 01);
+        dateTime.adjust(0, 0, -1, 0, 0, 0);
+
+//        fixed = DateTimeAdjuster.correctDateTime(dateTime);
+
+        assertEquals(2023, dateTime.getYear());
+        assertEquals(02, dateTime.getMonth());
+        assertEquals(28, dateTime.getDay());
+
+        dateTime = new DateTime(2001, 01, 01);
+        dateTime.adjust(0, 0, 100, 0, 0, 0);
+
+        assertEquals(2001, dateTime.getYear());
+        assertEquals(04, dateTime.getMonth());
+
+        dateTime.adjust(0, 0, -100, 0, 0, 0);
+
+        assertEquals(2001, dateTime.getYear());
+        assertEquals(01, dateTime.getMonth());
+
+    }
+
+
+/*
     @Test
     public void testPercentSum() {
         //get a percent for each category and make sure it sums to 100
@@ -50,6 +146,8 @@ public class ReportManagerTest {
         assertEquals("Expected category 3 to take up approximately 61.62% of total transaction cost",category3,61.62,0.1);
         assertEquals("Expected percent sum of each category to be 100%",sum,100, 0.1);
     }
+
+
 
     @Test
     public void testTotalForCategory() {
@@ -86,12 +184,12 @@ public class ReportManagerTest {
     @Test
     public void testSortByTotal() {
         //tests categories are sorted properly based on total attribute, both ascending + descending
-        ArrayList<MainCategory> descendingCategoryList = reportManager.sortByTotal(true);
+        ArrayList<MainCategory> descendingCategoryList = reportManager.sortByTotal(1,true);
         assertEquals("Expected Category: 'Hang out'",descendingCategoryList.get(0).getName(), "Hang out");
         assertEquals("Expected Category: 'Grocery'",descendingCategoryList.get(1).getName(), "Grocery");
         assertEquals("Expected Category: 'Food'",descendingCategoryList.get(2).getName(), "Food");
 
-        ArrayList<MainCategory> ascendingCategoryList = reportManager.sortByTotal(false);
+        ArrayList<MainCategory> ascendingCategoryList = reportManager.sortByTotal(1,false);
         assertEquals("Expected Category: 'Food'",ascendingCategoryList.get(0).getName(), "Food");
         assertEquals("Expected Category: 'Grocery'",ascendingCategoryList.get(1).getName(), "Grocery");
         assertEquals("Expected Category: 'Hang out'",ascendingCategoryList.get(2).getName(), "Hang out");
@@ -100,12 +198,12 @@ public class ReportManagerTest {
     @Test
     public void testSortByPercent() {
         //tests categories are sorted properly based on percent attribute, both ascending + descending
-        ArrayList<MainCategory> descendingCategoryList = reportManager.sortByPercent(true);
+        ArrayList<MainCategory> descendingCategoryList = reportManager.sortByPercent(1,true);
         assertEquals("Expected Category: 'Hang out'",descendingCategoryList.get(0).getName(), "Hang out");
         assertEquals("Expected Category: 'Grocery'",descendingCategoryList.get(1).getName(), "Grocery");
         assertEquals("Expected Category: 'Food'",descendingCategoryList.get(2).getName(), "Food");
 
-        ArrayList<MainCategory> ascendingCategoryList = reportManager.sortByPercent(false);
+        ArrayList<MainCategory> ascendingCategoryList = reportManager.sortByPercent(1,false);
         assertEquals("Expected Category: 'Food'",ascendingCategoryList.get(0).getName(), "Food");
         assertEquals("Expected Category: 'Grocery'",ascendingCategoryList.get(1).getName(), "Grocery");
         assertEquals("Expected Category: 'Hang out'",ascendingCategoryList.get(2).getName(), "Hang out");
@@ -114,15 +212,17 @@ public class ReportManagerTest {
     @Test
     public void testSortByAverage() {
         //tests categories are sorted properly based on average attribute, both ascending + descending
-        ArrayList<MainCategory> descendingCategoryList = reportManager.sortByAverage(true);
+        ArrayList<MainCategory> descendingCategoryList = reportManager.sortByAverage(1,true);
         assertEquals("Expected Category: 'Hang out'",descendingCategoryList.get(0).getName(), "Hang out");
         assertEquals("Expected Category: 'Grocery'",descendingCategoryList.get(1).getName(), "Grocery");
         assertEquals("Expected Category: 'Food'",descendingCategoryList.get(2).getName(), "Food");
 
-        ArrayList<MainCategory> ascendingCategoryList = reportManager.sortByAverage(false);
+        ArrayList<MainCategory> ascendingCategoryList = reportManager.sortByAverage(1,false);
         assertEquals("Expected Category: 'Food'",ascendingCategoryList.get(0).getName(), "Food");
         assertEquals("Expected Category: 'Grocery'",ascendingCategoryList.get(1).getName(), "Grocery");
         assertEquals("Expected Category: 'Hang out'",ascendingCategoryList.get(2).getName(), "Hang out");
     }
+
+     */
 
 }

@@ -1,4 +1,4 @@
-package com.spenditure.business;
+package com.spenditure.business.unitTests;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -94,3 +94,4 @@ public class AccountManagerTest {
         assertEquals("newUsername",accountManager.getUserName(userID));
     }
 }
+

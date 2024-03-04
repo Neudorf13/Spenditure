@@ -28,4 +28,8 @@ public interface IDateTime {
     int getHour();
 
     int getMinute();
+
+    int getSeconds();
+
+    String getYearMonthDay();
 }

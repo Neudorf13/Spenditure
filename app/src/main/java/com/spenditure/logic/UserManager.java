@@ -11,11 +11,11 @@ public class UserManager {
 
     //Constructor
     public UserManager(boolean getStubDB){
-        accountPersistence = Services.getAccountPersistence(getStubDB);
+        accountPersistence = Services.getUserPersistence(getStubDB);
 
     }
     public int login(String username, String password) throws InvalidUserInformationException {
-        if(username == null || password == null || username == "" || password == ""){
+        if(username == null || password == null || username.equals("") || password.equals("")){
             throw new InvalidUserInformationException("Please provide username and password");
         }else{
             if(userID <0){
@@ -49,7 +49,7 @@ public class UserManager {
         if(username == null || password == null || username == "" || password == ""){
             throw new InvalidUserInformationException("Please provide username and password");
         }else{
-            int newUserID = accountPersistence.register(username,password);
+            int newUserID = accountPersistence.register(username,password,null);
             UserManager.userID = newUserID;
             return newUserID;
         }
@@ -64,10 +64,10 @@ public class UserManager {
     }
 
     public static int getUserID() throws InvalidUserInformationException{
-        if(userID >= 0) {
+        if(userID < 0) {
             return userID;
         }else {
-            throw  new InvalidUserInformationException("Please login before get user id");
+            throw new InvalidUserInformationException("Please login before get user id " + userID);
         }
     }
 

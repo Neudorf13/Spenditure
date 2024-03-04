@@ -11,7 +11,10 @@ import androidx.annotation.NonNull;
 import androidx.viewpager.widget.PagerAdapter;
 
 import com.example.spenditure.R;
+import com.spenditure.logic.CategoryHandler;
+import com.spenditure.logic.GeneralReportHandler;
 import com.spenditure.logic.ReportManager;
+import com.spenditure.logic.UserManager;
 import com.spenditure.object.MainCategory;
 
 import java.util.List;
@@ -21,6 +24,8 @@ public class SliderAdapterCatGeneral extends PagerAdapter {
     private Context context;
     private LayoutInflater inflater;
     private ReportManager reportManager;
+    private GeneralReportHandler generalReportHandler;
+    private CategoryHandler categoryHandler;
     private List<MainCategory> categoryList;
     private int[] list_bg_color = {
       R.drawable.background_light_green,
@@ -30,13 +35,15 @@ public class SliderAdapterCatGeneral extends PagerAdapter {
     public SliderAdapterCatGeneral(Context context, List<MainCategory> categoryList){
         this.context = context;
         this.reportManager = new ReportManager(true);
+        this.generalReportHandler = new GeneralReportHandler(true);
+        this.categoryHandler = new CategoryHandler(true);
         this.categoryList = categoryList;
     }
 
 
     @Override
     public int getCount() {
-        return reportManager.countAllCategories();
+        return categoryHandler.getAllCategory(UserManager.getUserID()).size();
     }
 
     @Override
@@ -53,10 +60,10 @@ public class SliderAdapterCatGeneral extends PagerAdapter {
         MainCategory currCategory = categoryList.get(position);
 
         //Get data from report manager
-        String countTransactionsString = reportManager.countTransactionsByCategory(currCategory.getID())+ " transactions";
-        String totalTransactionsString= "$"+ handle_decimal(reportManager.getTotalForCategory(currCategory.getID()));
-        String averageString= "$"+ handle_decimal(reportManager.getAverageForCategory(currCategory.getID()));
-        String percentageString = handle_decimal(reportManager.getPercentForCategory(currCategory.getID())) + "%";
+        String countTransactionsString = generalReportHandler.numTransactions(UserManager.getUserID(), currCategory.getCategoryID())+ " transactions";
+        String totalTransactionsString= "$"+ handle_decimal(generalReportHandler.totalSpending(UserManager.getUserID(), currCategory.getCategoryID()));
+        String averageString= "$"+ handle_decimal(generalReportHandler.averageSpending(UserManager.getUserID(), currCategory.getCategoryID()));
+        String percentageString = handle_decimal(generalReportHandler.percentage(UserManager.getUserID(), currCategory.getCategoryID())) + "%";
 
         //query UI components
         TextView tittle = view.findViewById(R.id.slide_tittle);

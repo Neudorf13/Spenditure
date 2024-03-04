@@ -15,6 +15,9 @@ package com.spenditure.logic;
 
 import com.spenditure.object.DateTime;
 import com.spenditure.logic.exceptions.*;
+import com.spenditure.object.IDateTime;
+
+import java.time.LocalDate;
 
 
 public class DateTimeValidator {
@@ -23,14 +26,17 @@ public class DateTimeValidator {
     public static final int MAX_HOURS = 24;
     //Number of minutes in an hour
     public static final int MAX_MINUTES = 60;
+    //Number of seconds in a minute
+    public static final int MAX_SECONDS = 60;
     //Months with 30 days rather than 31
     private static final int[] THIRTY_DAY_MONTHS = { 4, 6, 9, 11 };
     //February, which has 28 or 29 days
     private static final int FEBRUARY = 2;
     //Earliest year allowed to be entered
-    private static final int MIN_YEAR = 2000;
-    //Latest year allowed to be entered
-    private static final int MAX_YEAR = 2024;
+    public static final int MIN_YEAR = 2000;
+
+    //Latest year allowed to be entered (current year)
+    public static final int MAX_YEAR = LocalDate.now().getYear();
 
 
     /*
@@ -38,7 +44,7 @@ public class DateTimeValidator {
 
         returns true if the DateTime has valid values.
      */
-    public static boolean validateDateTime(DateTime dateTime) throws InvalidDateTimeException {
+    public static boolean validateDateTime(IDateTime dateTime) throws InvalidDateTimeException {
 
         return validateDate(dateTime) && validateTime(dateTime);
 
@@ -50,7 +56,7 @@ public class DateTimeValidator {
         returns true if the date values are valid according
         to a standard Gregorian calendar.
      */
-    public static boolean validateDate(DateTime date) throws InvalidDateException {
+    public static boolean validateDate(IDateTime date) throws InvalidDateException {
         boolean valid = false;
 
         int year = date.getYear();
@@ -74,12 +80,13 @@ public class DateTimeValidator {
 
         returns true if the time values are valid.
      */
-    public static boolean validateTime(DateTime time) throws InvalidTimeException {
+    public static boolean validateTime(IDateTime time) throws InvalidTimeException {
 
         int hour = time.getHour();
         int minute = time.getMinute();
+        int second = time.getSeconds();
 
-        return validateHour(hour) && validateMinute(minute);
+        return validateHour(hour) && validateMinute(minute) && validateSecond(second);
 
     }
 
@@ -106,6 +113,19 @@ public class DateTimeValidator {
 
         if( minute >= MAX_MINUTES || minute < 0 )
             throw new InvalidTimeException("Provided minute value (" + minute + ") must be at least 0 and at most 59.");
+
+        return true;
+    }
+
+    /*
+     validateSecond
+
+     ensures second value is less than 60 and at least 0.
+    */
+    private static boolean validateSecond(int second) throws InvalidTimeException {
+
+        if( second >= MAX_SECONDS || second < 0 )
+            throw new InvalidTimeException("Provided second value (" + second + ") must be at least 0 and at most 59.");
 
         return true;
     }
@@ -139,7 +159,7 @@ public class DateTimeValidator {
     /*
         validateDay
 
-        ensures the day valie is between 31 (inclusive) and 0 (exclusive).
+        ensures the day value is between 31 (inclusive) and 0 (exclusive).
      */
     private static boolean validateDay(int day) throws InvalidDateException {
 
@@ -191,7 +211,7 @@ public class DateTimeValidator {
             }
 
 
-            throw new InvalidDateException("Provided day value (" + day + ") must be at least 1 and at most " + numDays + ". " + leapYearMessage);
+            throw new InvalidDateException("Provided day value (" + day + ") must be at least 1 and at most " + numDays + " for the given month. " + leapYearMessage);
 
         }
 

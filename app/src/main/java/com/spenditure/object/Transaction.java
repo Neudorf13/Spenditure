@@ -17,6 +17,8 @@ public class Transaction implements ITransaction{
 
     private int transactionID;
 
+    private int userID;
+
     private String name;
 
     private DateTime dateTime;
@@ -27,14 +29,19 @@ public class Transaction implements ITransaction{
 
     private String comments;
 
-    private boolean type;
+    private boolean withdrawal;
 
-    private MainCategory category;
+    private byte[] image;
 
-    public Transaction(int transactionID, String name, DateTime dateTime,
+    //private MainCategory category;
+    private int categoryID;
+
+    public Transaction(int transactionID, int userID, String name, DateTime dateTime,
                        String place, double amount, String comments,
-                       boolean type, MainCategory category) {
+                       boolean withdrawal, byte[] image, int categoryID) {
         this.transactionID = transactionID;
+
+        this.userID = userID;
 
         this.name = name;
 
@@ -46,15 +53,51 @@ public class Transaction implements ITransaction{
 
         this.comments = comments;
 
-        this.type = type;
+        this.withdrawal = withdrawal;
 
-        this.category = category;
+        this.image = image;
+
+        this.categoryID = categoryID;   //should a Transaction really store a Category?? Shouldn't it just be a category ID?
+
+    }
+
+    public Transaction(int transactionID, int userID, String name, DateTime dateTime,
+                       String place, double amount, String comments,
+                       boolean withdrawal, byte[] image) {
+
+        this(transactionID, userID, name, dateTime, place, amount, comments, withdrawal);
+
+        this.image = image;
+
+        //this.category = null;
+        this.categoryID = 0;    //represents not having an associated category
+    }
+
+    public Transaction(int transactionID, int userID, String name, DateTime dateTime,
+                       String place, double amount, String comments, boolean withdrawal) {
+
+        this.transactionID = transactionID;
+        this.userID = userID;
+        this.name = name;
+        this.dateTime = dateTime;
+
+        this.place = place;
+
+        this.amount = amount;
+
+        this.comments = comments;
+
+        this.withdrawal = withdrawal;
+
+        this.image = null; //no image
+        this.categoryID = 0; //no associated category
+
 
     }
 
     public Transaction(int transactionID, String name, DateTime dateTime,
                        String place, double amount, String comments,
-                       boolean type) {
+                       boolean withdrawal) {
         this.transactionID = transactionID;
 
         this.name = name;
@@ -67,10 +110,12 @@ public class Transaction implements ITransaction{
 
         this.comments = comments;
 
-        this.type = type;
+        this.withdrawal = withdrawal;
 
-        this.category = null;
+        this.image = null;
 
+        //this.category = null;
+        this.categoryID = 0;    //represents not having an associated category
     }
 
     //getters
@@ -78,6 +123,8 @@ public class Transaction implements ITransaction{
     {
         return transactionID;
     }
+
+    public int getUserID() { return userID;}
 
     public String getName()
     {
@@ -104,13 +151,22 @@ public class Transaction implements ITransaction{
         return comments;
     }
 
-    public boolean getType()
+    public boolean getWithdrawal()
     {
-        return type;
+        return withdrawal;
     }
 
-    public MainCategory getCategory() {
-        return category;
+//    public MainCategory getCategory() {
+//        return category;
+//    }
+
+
+    public byte[] getImage() {
+        return image;
+    }
+
+    public int getCategoryID() {
+        return categoryID;
     }
 
 
@@ -146,13 +202,22 @@ public class Transaction implements ITransaction{
         this.comments = comments;
     }
 
-    public void setType(boolean type)
+    public void setWithdrawal(boolean withdrawal)
     {
-        this.type = type;
+        this.withdrawal = withdrawal;
     }
 
-    public void setCategory(MainCategory category) {
-        this.category = category;
+//    public void setCategory(MainCategory category) {
+//        this.category = category;
+//    }
+
+
+    public void setImage(byte[] image) {
+        this.image = image;
+    }
+
+    public void setCategoryID(int categoryID) {
+        this.categoryID = categoryID;
     }
 
 }
