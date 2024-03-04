@@ -86,19 +86,39 @@ public class DateTime implements IDateTime{
         seconds = 0;
     }
 
+//    public DateTime(String dateString) {
+//
+//
+////        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+//        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+//
+//        LocalDateTime dateTime = LocalDateTime.parse(dateString, formatter);
+//
+//        this.year = dateTime.getYear();
+//        this.month = dateTime.getMonthValue();
+//        this.day = dateTime.getDayOfMonth();
+////        this.hour = dateTime.getHour();
+////        this.minute = dateTime.getMinute();
+////        this.seconds = dateTime.getSecond();
+//    }
     public DateTime(String dateString) {
 
+        String[] parts = dateString.split("-");
 
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-
-        LocalDateTime dateTime = LocalDateTime.parse(dateString, formatter);
-
-        this.year = dateTime.getYear();
-        this.month = dateTime.getMonthValue();
-        this.day = dateTime.getDayOfMonth();
-        this.hour = dateTime.getHour();
-        this.minute = dateTime.getMinute();
-        this.seconds = dateTime.getSecond();
+        if (parts.length == 3) {
+            try {
+                // Parse each part to integers and assign them to the attributes
+                this.year = Integer.parseInt(parts[0]);
+                this.month = Integer.parseInt(parts[1]);
+                this.day = Integer.parseInt(parts[2]);
+            } catch (NumberFormatException e) {
+                // Handle if the parsing fails (e.g., invalid format)
+                System.err.println("Invalid date format: " + dateString);
+            }
+        } else {
+            // Handle if the dateString doesn't have three parts
+            System.err.println("Invalid date format: " + dateString);
+        }
     }
 
     public String toString() {

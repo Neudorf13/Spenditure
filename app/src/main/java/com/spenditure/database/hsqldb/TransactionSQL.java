@@ -197,12 +197,20 @@ public class TransactionSQL implements TransactionPersistence {
             statement.setInt(1,transactionID);
 
             final ResultSet resultSet = statement.executeQuery();
-            final Transaction transaction = fromResultSet(resultSet);
 
-            resultSet.close();
-            statement.close();
+            if (resultSet.next()) {
+                // If there are rows, retrieve data and create a Transaction object
+                final Transaction transaction = fromResultSet(resultSet);
 
-            return transaction;
+                // Close ResultSet and PreparedStatement
+                resultSet.close();
+                statement.close();
+
+                return transaction;
+            } else {
+                // If no rows found, return null or throw an exception based on your design
+                return null;
+            }
 
         }
         catch (final SQLException e) {
@@ -267,7 +275,7 @@ public class TransactionSQL implements TransactionPersistence {
         final ArrayList<Transaction> transactions = new ArrayList<>();
 
         try(final Connection connection = connection()) {
-            final PreparedStatement statement = connection.prepareStatement("SELECT * FROM transactions WHERE amount >= ? AND amount <= ?\"");
+            final PreparedStatement statement = connection.prepareStatement("SELECT * FROM transactions WHERE amount >= ? AND amount <= ?");
             statement.setDouble(1,lower);
             statement.setDouble(2,upper);
 
