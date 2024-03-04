@@ -55,24 +55,19 @@ public class GeneralReportHandler implements IGeneralReportHandler{
      *
      * Returns the number of transactions in a particular category
      * @param int userID - userID of person logged in
-     * @param int categoryID - categoryID of category to be accessed, if negative then it returns number of all transactions for this user
+     * @param int categoryID - categoryID of category to be accessed
      * @returns int - number of transactions
      */
-    public int numTransactions(int userID, int categoryID) throws InvalidLogInException
+    public int numTransactions(int userID, int categoryID) throws InvalidLogInException, InvalidCategoryException
     {
         if(userID == -1 )
             throw new InvalidLogInException();
 
-        // if less than 0 then return num of transactions for this user
         if(categoryID < 0)
-        {
-            return dataAccessTransaction.getAllTransactionsForUser(userID).size();
-        }
-        else
-        {
-            return dataAccessTransaction.getTransactionsByCategoryID(categoryID).size();
-        }
+            throw new InvalidCategoryException("That category does not exist");
 
+
+        return dataAccessTransaction.getTransactionsByCategoryID(categoryID).size();
     }
 
     /**
@@ -80,27 +75,24 @@ public class GeneralReportHandler implements IGeneralReportHandler{
      *
      * Returns the total spending in a particular category
      * @param int userID - userID of person logged in
-     * @param int categoryID - categoryID of category to be accessed, if negative then it returns total spending for all transactions for this user
+     * @param int categoryID - categoryID of category to be accessed
      * @returns double - total spending
      */
-    public double totalSpending(int userID, int categoryID) throws InvalidLogInException
+    public double totalSpending(int userID, int categoryID) throws InvalidLogInException, InvalidCategoryException
     {
         List<Transaction> allTransactions;
 
         if(userID == -1 )
             throw new InvalidLogInException();
 
+        if(categoryID < 0)
+            throw new InvalidCategoryException("That category does not exist" + categoryID);
+
         double total = 0;
 
 
-        if(categoryID < 0)
-        {
-            allTransactions = dataAccessTransaction.getAllTransactionsForUser(userID);
-        }
-        else
-        {
-            allTransactions = dataAccessTransaction.getTransactionsByCategoryID(categoryID);
-        }
+
+        allTransactions = dataAccessTransaction.getTransactionsByCategoryID(categoryID);
 
         // calculate total
         for(int i = 0; i < allTransactions.size(); i++)
@@ -117,16 +109,19 @@ public class GeneralReportHandler implements IGeneralReportHandler{
      *
      * Returns the average spending in a particular category
      * @param int userID - userID of person logged in
-     * @param int categoryID - categoryID of category to be accessed, if negative then it returns average spending for all transactions for this user
+     * @param int categoryID - categoryID of category to be accessed
      * @returns double - average spending
      */
-    public double averageSpending(int userID, int categoryID) throws InvalidLogInException
+    public double averageSpending(int userID, int categoryID) throws InvalidLogInException, InvalidCategoryException
     {
 
         double average;
 
         if(userID == -1 )
             throw new InvalidLogInException();
+
+        if(categoryID < 0)
+            throw new InvalidCategoryException("That category does not exist");
 
         // to avoid dividing by 0 check if there are no transactions
         if(numTransactions(userID, categoryID) == 0)
@@ -147,16 +142,19 @@ public class GeneralReportHandler implements IGeneralReportHandler{
      *
      * Returns the percentage of all spending made up by that category
      * @param int userID - userID of person logged in
-     * @param int categoryID - categoryID of category to be accessed, if negative then it returns percentage of all categories (always 100)
+     * @param int categoryID - categoryID of category to be accessed
      * @returns double - percentage
      */
-    public double percentage(int userID, int categoryID) throws InvalidLogInException
+    public double percentage(int userID, int categoryID) throws InvalidLogInException, InvalidCategoryException
     {
 
         double percentage;
 
         if(userID == -1 )
             throw new InvalidLogInException();
+
+        if(categoryID < 0)
+            throw new InvalidCategoryException("That category does not exist");
 
         // to avoid dividing by 0 check if there are no transactions
         if(numTransactions(userID, categoryID) == 0)
@@ -165,12 +163,87 @@ public class GeneralReportHandler implements IGeneralReportHandler{
         }
         else
         {
-            percentage = (totalSpending(userID, categoryID)/totalSpending(userID, -1)) * 100;
+            percentage = (totalSpending(userID, categoryID)/totalSpending(userID)) * 100;
         }
 
         return percentage;
 
     }
+
+    /**
+     * numTransactions
+     *
+     * Returns the number of transactions in fpr a user
+     * @param int userID - userID of person logged in
+     * @returns int - number of transactions
+     */
+    public int numTransactions(int userID) throws InvalidLogInException
+    {
+        if(userID < 0 )
+            throw new InvalidLogInException();
+
+
+        return dataAccessTransaction.getAllTransactionsForUser(userID).size();
+    }
+
+    /**
+     * totalSpending
+     *
+     * Returns the total spending in for person logged in
+     * @param int userID - userID of person logged in
+     * @returns double - total spending
+     */
+    public double totalSpending(int userID) throws InvalidLogInException
+    {
+        List<Transaction> allTransactions;
+        double total = 0;
+
+        if(userID == -1 )
+            throw new InvalidLogInException();
+
+
+        allTransactions = dataAccessTransaction.getAllTransactionsForUser(userID);
+
+
+        // calculate total
+        for(int i = 0; i < allTransactions.size(); i++)
+        {
+            total += allTransactions.get(i).getAmount();
+        }
+
+        return total;
+
+    }
+
+    /**
+     * averageSpending
+     *
+     * Returns the average spending in for a user
+     * @param int userID - userID of person logged in
+     * @returns double - average spending
+     */
+    public double averageSpending(int userID) throws InvalidLogInException
+    {
+
+        double average;
+
+        if(userID == -1 )
+            throw new InvalidLogInException();
+
+        // to avoid dividing by 0 check if there are no transactions
+        if(numTransactions(userID) == 0)
+        {
+            average = 0;
+        }
+        else
+        {
+            average = totalSpending(userID) / numTransactions(userID);
+        }
+
+        return average;
+
+    }
+
 
     /**
      * getCategoryReport

@@ -57,7 +57,7 @@ public class GeneralReportHandlerTest {
         double category1 = generalReportHandler.numTransactions(1, 1);
         double category2 = generalReportHandler.numTransactions(1, 2);
         double category3 = generalReportHandler.numTransactions(1, 5000);
-        double allCategories = generalReportHandler.numTransactions(1, -1);
+        double allCategories = generalReportHandler.numTransactions(1);
 
         assertEquals("Expected category 1 to have 4 transactions", category1,4,0.1);
         assertEquals("Expected category 2 to have 4 transactions",category2,4,0.1);
@@ -72,7 +72,7 @@ public class GeneralReportHandlerTest {
         double category1 = generalReportHandler.totalSpending(1, 1);
         double category2 = generalReportHandler.totalSpending(1, 2);
         double category3 = generalReportHandler.totalSpending(1, 5000);
-        double allCategories = generalReportHandler.totalSpending(1, -1);
+        double allCategories = generalReportHandler.totalSpending(1);
 
         assertEquals("Expected category 1 to have a total spending of 440.75", category1,440.75,0.1);
         assertEquals("Expected category 2 to have a total spending of 416.74",category2,416.74,0.1);
@@ -87,7 +87,7 @@ public class GeneralReportHandlerTest {
         double category1 = generalReportHandler.averageSpending(1, 1);
         double category2 = generalReportHandler.averageSpending(1, 2);
         double category3 = generalReportHandler.averageSpending(1, 5000);
-        double allCategories = generalReportHandler.averageSpending(1, -1);
+        double allCategories = generalReportHandler.averageSpending(1);
 
         assertEquals("Expected category 1 to have a average spending of 110.1875", category1,110.1875,0.1);
         assertEquals("Expected category 2 to have a average spending of 104.185",category2,104.185,0.1);
@@ -101,12 +101,10 @@ public class GeneralReportHandlerTest {
         double category1 = generalReportHandler.percentage(1, 1);
         double category2 = generalReportHandler.percentage(1, 2);
         double category3 = generalReportHandler.percentage(1, 5000);
-        double allCategories = generalReportHandler.percentage(1, -1);
 
         assertEquals("Expected category 1 to have a percentage of 19.73", category1,19.73,0.1);
         assertEquals("Expected category 2 to have a percentage of 18.65",category2,18.65,0.1);
         assertEquals("Expected category 3 to have a percentage of 0",category3,0,0.1);
-        assertEquals("Expected there to be percentage of 100 for this user",allCategories,100,0.1);
     }
 
 

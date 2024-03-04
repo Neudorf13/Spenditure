@@ -30,6 +30,12 @@ public interface IGeneralReportHandler {
 
     public double percentage(int userID, int categoryID);
 
+    public int numTransactions(int userID);
+
+    public double totalSpending(int userID);
+
+    public double averageSpending(int userID);
+
     public ICategoryReport getCategoryReport(int userID, int categoryID);
 
     public ArrayList<IMainCategory> sortByTotal(int userID, boolean descending);

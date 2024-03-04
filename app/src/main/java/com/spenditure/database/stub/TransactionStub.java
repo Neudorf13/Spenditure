@@ -309,14 +309,12 @@ public class TransactionStub implements TransactionPersistence {
         for(Transaction t : this.transactionList){
             if(t.getCategoryID() == categoryID){
                 allTransactionsWithID.add(t);
-                //return t;
             }
         }
-        //return null;
         return allTransactionsWithID;
     }
 
-   /* @Override
+    @Override
     public ArrayList<Transaction> getNewestTransactionsForUser(int userID) {
         return null;
     }
@@ -324,7 +322,7 @@ public class TransactionStub implements TransactionPersistence {
     @Override
     public ArrayList<Transaction> getOldestTransactionsForUser(int userID) {
         return null;
-    }*/
+    }
 
     @Override
     public void printTransactionTable() {
