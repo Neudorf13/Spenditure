@@ -53,7 +53,7 @@ public class Services {
     public static synchronized UserPersistence getUserPersistence(boolean inDeveloping){
         if(userPersistence == null) {
             if(inDeveloping){
-                //userPersistence = new TransactionStub();
+                userPersistence = new UserStub();
             }else{
                 //Hanlde connect to DB
                 userPersistence = new UserSQL(ViewReportActivity.getDBPathName());
@@ -69,6 +69,7 @@ public class Services {
             categoryPersistence = new CategoryStub();
         }else{
             //Hanlde re-connect to DB
+            categoryPersistence = new CategorySQL(ViewReportActivity.getDBPathName());
         }
     }
 
@@ -78,6 +79,7 @@ public class Services {
             transactionPersistence = new TransactionStub();
         }else{
             //Hanlde re-connect to DB
+            transactionPersistence = new TransactionSQL(ViewReportActivity.getDBPathName());
         }
     }
 
@@ -87,6 +89,7 @@ public class Services {
             userPersistence = new UserStub();
         }else{
             //Hanlde re-connect to DB
+            userPersistence = new UserSQL(ViewReportActivity.getDBPathName());
         }
     }
 

@@ -59,7 +59,7 @@ public class CategoryHandlerIT {
         int expectedSize = 3;
         int userID = 1;
 //        MainCategory bills = new MainCategory("bills", 99, 1);
-        assertEquals(categoryHandler.getAllCategory(1).size(),expectedSize);
+        assertEquals(expectedSize, categoryHandler.getAllCategory(1).size());
 
 
         categoryHandler.addCategory("bills",  userID);
