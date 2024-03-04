@@ -64,7 +64,7 @@ public class CustomTransactionAdapter extends BaseAdapter {
 
         // Set the transaction amount
         TextView amount = (TextView) view.findViewById(R.id.textview_list_amount);
-        amount.setText(String.format("$%s", Double.toString(transactions.get(i).getAmount())));
+        amount.setText(String.format("$%.2f", transactions.get(i).getAmount()));
 
         return view;
     }
