@@ -158,8 +158,6 @@ public class CreateTransactionActivity extends AppCompatActivity {
         AppCompatToggleButton type = (AppCompatToggleButton) findViewById(R.id.togglebutton_type);
         Spinner category = (Spinner) findViewById(R.id.spinner_categories);
 
-        String whatTheHeckf = whatTheHeck.getText().toString();
-
         // Create the new transaction object
         Transaction newTransaction = new Transaction(
                 -1,
