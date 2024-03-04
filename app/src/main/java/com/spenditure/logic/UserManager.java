@@ -64,7 +64,7 @@ public class UserManager {
     }
 
     public static int getUserID() throws InvalidUserInformationException{
-        if(userID >= 0) {
+        if(userID < 0) {
             return userID;
         }else {
             throw new InvalidUserInformationException("Please login before get user id " + userID);
