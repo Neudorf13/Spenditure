@@ -1,12 +1,16 @@
 package com.spenditure.logic;
 
+import static com.spenditure.logic.DateTimeAdjuster.correctDateTime;
 import static com.spenditure.logic.DateTimeValidator.validateDateTime;
 import static java.lang.Math.abs;
 import static java.lang.Math.sqrt;
 
+import androidx.annotation.NonNull;
+
 import com.spenditure.application.Services;
 import com.spenditure.database.CategoryPersistence;
 import com.spenditure.database.TransactionPersistence;
+import com.spenditure.logic.exceptions.InvalidDateException;
 import com.spenditure.object.DateTime;
 import com.spenditure.object.IDateTime;
 import com.spenditure.object.IReport;
@@ -81,15 +85,14 @@ public class ReportManager implements IReportManager {
 
         DateTime[] weekDates = new DateTime[5];
         ArrayList<IReport> result = new ArrayList<IReport>();
+        int daysInWeek = 7;
 
         weekDates[0] = getCurrentDate(); //current day
-
-        int weeks = 7;
 
         for( int i = 1; i < weekDates.length; i ++ ) {
 
             DateTime week = weekDates[i - 1].copy();
-            week.adjust(0, 0, -i * weeks, 0, 0, 0);
+            week.adjust(0, 0, -i * daysInWeek, 0, 0, 0);
 
             weekDates[i] = week;
 

@@ -17,6 +17,8 @@ import com.spenditure.object.DateTime;
 import com.spenditure.logic.exceptions.*;
 import com.spenditure.object.IDateTime;
 
+import java.time.LocalDate;
+
 
 public class DateTimeValidator {
 
@@ -31,9 +33,10 @@ public class DateTimeValidator {
     //February, which has 28 or 29 days
     private static final int FEBRUARY = 2;
     //Earliest year allowed to be entered
-    private static final int MIN_YEAR = 2000;
-    //Latest year allowed to be entered
-    private static final int MAX_YEAR = 2024;
+    public static final int MIN_YEAR = 2000;
+
+    //Latest year allowed to be entered (current year)
+    public static final int MAX_YEAR = LocalDate.now().getYear();
 
 
     /*
@@ -117,7 +120,7 @@ public class DateTimeValidator {
     /*
      validateSecond
 
-     ensures minute value is less than 60 and at least 0.
+     ensures second value is less than 60 and at least 0.
     */
     private static boolean validateSecond(int second) throws InvalidTimeException {
 
@@ -156,7 +159,7 @@ public class DateTimeValidator {
     /*
         validateDay
 
-        ensures the day valie is between 31 (inclusive) and 0 (exclusive).
+        ensures the day value is between 31 (inclusive) and 0 (exclusive).
      */
     private static boolean validateDay(int day) throws InvalidDateException {
 
@@ -208,7 +211,7 @@ public class DateTimeValidator {
             }
 
 
-            throw new InvalidDateException("Provided day value (" + day + ") must be at least 1 and at most " + numDays + ". " + leapYearMessage);
+            throw new InvalidDateException("Provided day value (" + day + ") must be at least 1 and at most " + numDays + " for the given month. " + leapYearMessage);
 
         }
 

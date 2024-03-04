@@ -19,18 +19,21 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.*;
 import java.util.ArrayList; // import the ArrayList class
 
+import com.spenditure.logic.DateTimeAdjuster;
 import com.spenditure.logic.GeneralReportHandler;
 import com.spenditure.logic.ReportManager;
 import com.spenditure.logic.UserManager;
+import com.spenditure.object.DateTime;
 import com.spenditure.object.MainCategory;
 
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
 public class ReportManagerTest {
 
-    /*
+
     private ReportManager reportManager;
 
     @Before
@@ -39,6 +42,84 @@ public class ReportManagerTest {
         this.reportManager = new ReportManager(true);
     }
 
+    @After
+    public void tearDown() {
+        reportManager = null;
+    }
+
+
+    /*
+
+    ENDED UP BEING TESTS FOR DateTimeAdjuster.
+
+     */
+    @Test
+    public void testFixDateTime() {
+
+        DateTime dateTime = new DateTime(2024, 01, 01, 00, 00, 00);
+
+        dateTime.adjust(0, 0, -7, 0, 0, 0);
+
+        DateTime fixed = DateTimeAdjuster.correctDateTime(dateTime);
+
+        assertEquals(2023, fixed.getYear());
+        assertEquals(12, fixed.getMonth());
+        assertEquals(25, fixed.getDay());
+
+        dateTime = new DateTime(2001, 01, 01);
+        dateTime.adjust(0, 0, -1, 0, 0, 0);
+
+        fixed = DateTimeAdjuster.correctDateTime(dateTime);
+
+        assertEquals(2000, fixed.getYear());
+        assertEquals(12, fixed.getMonth());
+        assertEquals(31, fixed.getDay());
+
+        dateTime = new DateTime(2010, 01, 01, 00, 00, 00);
+        dateTime.adjust(0, 0, 0, 0, 0, -1);
+
+        fixed = DateTimeAdjuster.correctDateTime(dateTime);
+
+        assertEquals(2009, fixed.getYear());
+        assertEquals(12, fixed.getMonth());
+        assertEquals(31, fixed.getDay());
+        assertEquals(23, fixed.getHour());
+        assertEquals(59, fixed.getMinute());
+        assertEquals(59, fixed.getSeconds());
+
+        dateTime = new DateTime(2023, 12, 31, 23, 59, 59);
+        dateTime.adjust(0, 0, 0, 0, 0, 1);
+
+        fixed = DateTimeAdjuster.correctDateTime(dateTime);
+
+        assertEquals(2024, fixed.getYear());
+        assertEquals(01, fixed.getMonth());
+        assertEquals(01, fixed.getDay());
+        assertEquals(00, fixed.getHour());
+        assertEquals(00, fixed.getMinute());
+        assertEquals(00, fixed.getSeconds());
+
+        dateTime = new DateTime(2024, 03, 01);
+        dateTime.adjust(0, 0, -1, 0, 0, 0);
+
+        fixed = DateTimeAdjuster.correctDateTime(dateTime);
+
+        assertEquals(2024, fixed.getYear());
+        assertEquals(02, fixed.getMonth());
+        assertEquals(29, fixed.getDay());
+
+        dateTime = new DateTime(2023, 03, 01);
+        dateTime.adjust(0, 0, -1, 0, 0, 0);
+
+        fixed = DateTimeAdjuster.correctDateTime(dateTime);
+
+        assertEquals(2023, fixed.getYear());
+        assertEquals(02, fixed.getMonth());
+        assertEquals(28, fixed.getDay());
+    }
+
+
+/*
     @Test
     public void testPercentSum() {
         //get a percent for each category and make sure it sums to 100

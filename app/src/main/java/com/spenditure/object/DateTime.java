@@ -13,6 +13,8 @@
 
 package com.spenditure.object;
 
+import static com.spenditure.logic.DateTimeAdjuster.correctDateTime;
+
 import android.annotation.SuppressLint;
 
 import java.time.LocalDateTime;
@@ -198,17 +200,27 @@ public class DateTime implements IDateTime{
 
     public void adjust( int changeYear, int changeMonth, int changeDay, int changeHour, int changeMinute, int changeSecond ) {
 
-        year += changeYear;
+        DateTime temp = new DateTime(
+        year + changeYear,
+        month + changeMonth,
+        day + changeDay,
+        hour + changeHour,
+        minute + changeMinute,
+        seconds + changeSecond );
 
-        month += changeMonth;
+        correctDateTime(temp);
 
-        day += changeDay;
+        year = temp.getYear();
 
-        hour += changeHour;
+        month = temp.getMonth();
 
-        minute += changeMinute;
+        day = temp.getDay();
 
-        seconds += changeSecond;
+        hour = temp.getHour();
+
+        minute = temp.getMinute();
+
+        seconds = temp.getSeconds();
 
     }
 
