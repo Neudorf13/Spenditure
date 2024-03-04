@@ -277,7 +277,7 @@ public class TransactionStub implements TransactionPersistence {
             int lowerBound = transaction.getDateTime().compare(lower);
             int upperBound = transaction.getDateTime().compare(upper);
 
-            if( 0 <= lowerBound && upperBound <= 0 ) {
+            if( 0 <= lowerBound && upperBound <= 0 && transaction.getUserID() == userID) {
 
                 allTransactionsInBounds.add(transaction);
 

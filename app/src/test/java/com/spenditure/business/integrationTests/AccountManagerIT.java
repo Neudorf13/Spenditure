@@ -27,7 +27,7 @@ public class AccountManagerIT {
     }
     @After
     public void tearDown(){
-        accountManager.logout();
+        UserManager.cleanup();
         this.accountManager = null;
         this.tempDB = null;
     }
@@ -41,12 +41,13 @@ public class AccountManagerIT {
         userID = accountManager.login("He","12345");
         assertEquals(3,userID);
     }
-
+//
     @Test
     public void testGetUserID(){
         accountManager.login("Me","123");
         int userID = UserManager.getUserID();
         assertEquals(1,userID);
+
 
     }
 
@@ -60,12 +61,12 @@ public class AccountManagerIT {
 
     @Test
     public void testChangePassword(){
-        int userID = accountManager.login("Me","123");
-        boolean success = accountManager.changePassword(userID,"123","ok");
+        int userID = accountManager.login("You","1234");
+        boolean success = accountManager.changePassword(userID,"1234","ok");
         assertTrue(success);
         accountManager.logout();
-        userID = accountManager.login("Me","ok");
-        assertEquals(1,userID);
+        userID = accountManager.login("You","ok");
+        assertEquals(2,userID);
     }
 
     @Test
@@ -76,7 +77,7 @@ public class AccountManagerIT {
         userID = accountManager.login("new user","testpassword");
         assertEquals(4,userID);
     }
-
+//
     @Test
     public void testLogOut(){
         accountManager.login("Me","123");
@@ -93,8 +94,8 @@ public class AccountManagerIT {
 
     @Test
     public void testChangeUsername(){
-        int userID = accountManager.login("Me","123");
-        assertEquals(1,userID);
+        int userID = accountManager.login("TestingUser1","12345");
+        assertEquals(4,userID);
         boolean success = accountManager.changeUsername(userID,"newUsername");
         assertTrue(success);
         assertEquals("newUsername",accountManager.getUserName(userID));

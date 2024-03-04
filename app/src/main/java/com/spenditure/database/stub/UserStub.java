@@ -45,10 +45,7 @@ public class UserStub implements UserPersistence {
         throw new InvalidUserInformationException("User ID not exist.");
     }
 
-    @Override
-    public int getNumberOfUsers() {
-        return userTable.size();
-    }
+
 
     @Override
     public boolean changePassword(int userID, String oldPassword, String newPassword) throws InvalidUserInformationException{
@@ -74,11 +71,11 @@ public class UserStub implements UserPersistence {
                 return true;
             }
         }
-        throw new InvalidUserInformationException("User ID not exist");
+        throw new InvalidUserInformationException("User ID not exist.");
     }
 
     @Override
-    public int register(int userID_need_to_fix, String username, String password, String email) throws InvalidUserInformationException {
+    public int register(String username, String password, String email) throws InvalidUserInformationException {
 
         for (UserRow user : userTable) {
             if(user.getUsername().equals(username)){
@@ -90,10 +87,7 @@ public class UserStub implements UserPersistence {
         return userID;
     }
 
-    @Override
-    public void printUserTable() {
 
-    }
 
     private class UserRow{
         private String username;
@@ -127,10 +121,11 @@ public class UserStub implements UserPersistence {
             return email;
         }
 
-        int getUserID(){
+        public int getUserID(){
             return this.userID;
         }
 
 
     }
+
 }

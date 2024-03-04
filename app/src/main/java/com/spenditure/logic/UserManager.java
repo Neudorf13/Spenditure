@@ -49,7 +49,7 @@ public class UserManager {
         if(username == null || password == null || username == "" || password == ""){
             throw new InvalidUserInformationException("Please provide username and password");
         }else{
-            int newUserID = accountPersistence.register(1,username,password,"ngo");
+            int newUserID = accountPersistence.register(username,password,null);
             UserManager.userID = newUserID;
             return newUserID;
         }
