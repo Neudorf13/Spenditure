@@ -208,19 +208,35 @@ public class DateTime implements IDateTime{
         minute + changeMinute,
         seconds + changeSecond );
 
-        correctDateTime(temp);
+        DateTime adjusted = correctDateTime(temp);
 
-        year = temp.getYear();
+        year = adjusted.getYear();
 
-        month = temp.getMonth();
+        month = adjusted.getMonth();
 
-        day = temp.getDay();
+        day = adjusted.getDay();
 
-        hour = temp.getHour();
+        hour = adjusted.getHour();
 
-        minute = temp.getMinute();
+        minute = adjusted.getMinute();
 
-        seconds = temp.getSeconds();
+        seconds = adjusted.getSeconds();
+
+    }
+
+    public void absoluteAdjust(int changeYear, int changeMonth, int changeDay, int changeHour, int changeMinute, int changeSecond ) {
+
+        year += changeYear;
+
+        month += changeMonth;
+
+        day += changeDay;
+
+        hour += changeHour;
+
+        minute += changeMinute;
+
+        seconds += changeSecond;
 
     }
 

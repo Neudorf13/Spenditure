@@ -50,10 +50,10 @@ public class DateTimeAdjuster {
         while(seconds < 0 || seconds >= MAX_SECONDS) {
 
             if (seconds < 0) {
-                dateTime.adjust(0, 0, 0, 0, -1, MAX_SECONDS);
+                dateTime.absoluteAdjust(0, 0, 0, 0, -1, MAX_SECONDS);
 
             } else {
-                dateTime.adjust(0, 0, 0, 0, 1, -MAX_SECONDS);
+                dateTime.absoluteAdjust(0, 0, 0, 0, 1, -MAX_SECONDS);
             }
 
             seconds = dateTime.getSeconds();
@@ -67,10 +67,10 @@ public class DateTimeAdjuster {
        while(minutes < 0 || minutes >= MAX_MINUTES) {
 
            if (minutes < 0) {
-               dateTime.adjust(0, 0, 0, -1, MAX_MINUTES, 0);
+               dateTime.absoluteAdjust(0, 0, 0, -1, MAX_MINUTES, 0);
 
            } else {
-               dateTime.adjust(0, 0, 0, 1, -MAX_MINUTES, 0);
+               dateTime.absoluteAdjust(0, 0, 0, 1, -MAX_MINUTES, 0);
            }
            minutes = dateTime.getMinute();
 
@@ -84,10 +84,10 @@ public class DateTimeAdjuster {
         while(hours < 0 || hours >= MAX_HOURS) {
 
             if (hours < 0) {
-                dateTime.adjust(0, 0, -1, MAX_HOURS, 0, 0);
+                dateTime.absoluteAdjust(0, 0, -1, MAX_HOURS, 0, 0);
 
             } else {
-                dateTime.adjust(0, 0, 1, -MAX_HOURS, 0, 0);
+                dateTime.absoluteAdjust(0, 0, 1, -MAX_HOURS, 0, 0);
             }
 
             hours = dateTime.getHour();
@@ -111,7 +111,7 @@ public class DateTimeAdjuster {
                 else
                     monthLimit = getMonthLimit(month, year);
 
-                dateTime.adjust(0, -1, monthLimit, 0, 0, 0);
+                dateTime.absoluteAdjust(0, -1, monthLimit, 0, 0, 0);
 
             } else {
                 month = month + 1;
@@ -121,7 +121,7 @@ public class DateTimeAdjuster {
                 else
                     monthLimit = getMonthLimit(month, year);
 
-                dateTime.adjust(0, 1, -monthLimit, 0, 0, 0);
+                dateTime.absoluteAdjust(0, 1, -monthLimit, 0, 0, 0);
             }
 
             days = dateTime.getDay();
@@ -135,10 +135,10 @@ public class DateTimeAdjuster {
         while(months <= 0 || months > 12) {
 
             if(months <= 0) {
-                dateTime.adjust(-1, 12, 0, 0, 0, 0);
+                dateTime.absoluteAdjust(-1, 12, 0, 0, 0, 0);
 
             } else {
-                dateTime.adjust(1, -12, 0, 0, 0, 0);
+                dateTime.absoluteAdjust(1, -12, 0, 0, 0, 0);
             }
 
             months = dateTime.getMonth();
@@ -170,7 +170,7 @@ public class DateTimeAdjuster {
                 validateDateTime(test);
 
                 result ++;
-                test.adjust(0, 0, 1, 0, 0, 0);
+                test = new DateTime(year, month, result);
 
             } catch(InvalidDateException ignore) {
                 hitLimit = true;

@@ -60,62 +60,74 @@ public class ReportManagerTest {
 
         dateTime.adjust(0, 0, -7, 0, 0, 0);
 
-        DateTime fixed = DateTimeAdjuster.correctDateTime(dateTime);
+//        DateTime fixed = DateTimeAdjuster.correctDateTime(dateTime);
 
-        assertEquals(2023, fixed.getYear());
-        assertEquals(12, fixed.getMonth());
-        assertEquals(25, fixed.getDay());
+        assertEquals(2023, dateTime.getYear());
+        assertEquals(12, dateTime.getMonth());
+        assertEquals(25, dateTime.getDay());
 
         dateTime = new DateTime(2001, 01, 01);
         dateTime.adjust(0, 0, -1, 0, 0, 0);
 
-        fixed = DateTimeAdjuster.correctDateTime(dateTime);
+//        fixed = DateTimeAdjuster.correctDateTime(dateTime);
 
-        assertEquals(2000, fixed.getYear());
-        assertEquals(12, fixed.getMonth());
-        assertEquals(31, fixed.getDay());
+        assertEquals(2000, dateTime.getYear());
+        assertEquals(12, dateTime.getMonth());
+        assertEquals(31, dateTime.getDay());
 
         dateTime = new DateTime(2010, 01, 01, 00, 00, 00);
         dateTime.adjust(0, 0, 0, 0, 0, -1);
 
-        fixed = DateTimeAdjuster.correctDateTime(dateTime);
+//        fixed = DateTimeAdjuster.correctDateTime(dateTime);
 
-        assertEquals(2009, fixed.getYear());
-        assertEquals(12, fixed.getMonth());
-        assertEquals(31, fixed.getDay());
-        assertEquals(23, fixed.getHour());
-        assertEquals(59, fixed.getMinute());
-        assertEquals(59, fixed.getSeconds());
+        assertEquals(2009, dateTime.getYear());
+        assertEquals(12, dateTime.getMonth());
+        assertEquals(31, dateTime.getDay());
+        assertEquals(23, dateTime.getHour());
+        assertEquals(59, dateTime.getMinute());
+        assertEquals(59, dateTime.getSeconds());
 
         dateTime = new DateTime(2023, 12, 31, 23, 59, 59);
         dateTime.adjust(0, 0, 0, 0, 0, 1);
 
-        fixed = DateTimeAdjuster.correctDateTime(dateTime);
+//        fixed = DateTimeAdjuster.correctDateTime(dateTime);
 
-        assertEquals(2024, fixed.getYear());
-        assertEquals(01, fixed.getMonth());
-        assertEquals(01, fixed.getDay());
-        assertEquals(00, fixed.getHour());
-        assertEquals(00, fixed.getMinute());
-        assertEquals(00, fixed.getSeconds());
+        assertEquals(2024, dateTime.getYear());
+        assertEquals(01, dateTime.getMonth());
+        assertEquals(01, dateTime.getDay());
+        assertEquals(00, dateTime.getHour());
+        assertEquals(00, dateTime.getMinute());
+        assertEquals(00, dateTime.getSeconds());
 
         dateTime = new DateTime(2024, 03, 01);
         dateTime.adjust(0, 0, -1, 0, 0, 0);
 
-        fixed = DateTimeAdjuster.correctDateTime(dateTime);
+//        fixed = DateTimeAdjuster.correctDateTime(dateTime);
 
-        assertEquals(2024, fixed.getYear());
-        assertEquals(02, fixed.getMonth());
-        assertEquals(29, fixed.getDay());
+        assertEquals(2024, dateTime.getYear());
+        assertEquals(02, dateTime.getMonth());
+        assertEquals(29, dateTime.getDay());
 
         dateTime = new DateTime(2023, 03, 01);
         dateTime.adjust(0, 0, -1, 0, 0, 0);
 
-        fixed = DateTimeAdjuster.correctDateTime(dateTime);
+//        fixed = DateTimeAdjuster.correctDateTime(dateTime);
 
-        assertEquals(2023, fixed.getYear());
-        assertEquals(02, fixed.getMonth());
-        assertEquals(28, fixed.getDay());
+        assertEquals(2023, dateTime.getYear());
+        assertEquals(02, dateTime.getMonth());
+        assertEquals(28, dateTime.getDay());
+
+        dateTime = new DateTime(2001, 01, 01);
+        dateTime.adjust(0, 0, 100, 0, 0, 0);
+
+        assertEquals(2001, dateTime.getYear());
+        assertEquals(04, dateTime.getMonth());
+
+        dateTime.adjust(0, 0, -100, 0, 0, 0);
+
+        assertEquals(2001, dateTime.getYear());
+        assertEquals(01, dateTime.getMonth());
+
     }
 
 
