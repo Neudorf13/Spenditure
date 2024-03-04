@@ -315,13 +315,17 @@ public class TransactionStub implements TransactionPersistence {
     }
 
     @Override
-    public ArrayList<Transaction> getNewestTransactionsForUser(int userID) {
-        return null;
+    public ArrayList<Transaction> getNewestTransactionsForUser(int userID)
+    {
+        Collections.sort(transactionList, new DateNewestFirstComparator());
+        return transactionList;
     }
 
     @Override
-    public ArrayList<Transaction> getOldestTransactionsForUser(int userID) {
-        return null;
+    public ArrayList<Transaction> getOldestTransactionsForUser(int userID)
+    {
+        Collections.sort(transactionList, new DateOldestFirstComparator());
+        return transactionList;
     }
 
     @Override
@@ -329,18 +333,7 @@ public class TransactionStub implements TransactionPersistence {
 
     }
 
-    // sorting
-    public ArrayList<Transaction> getNewestTransactionsForUser()
-    {
-        Collections.sort(transactionList, new DateNewestFirstComparator());
-        return transactionList;
-    }
 
-    public ArrayList<Transaction> getOldestTransactionsForUser()
-    {
-        Collections.sort(transactionList, new DateOldestFirstComparator());
-        return transactionList;
-    }
 
 //    public static void cleanup() { currentID = 1; }
 

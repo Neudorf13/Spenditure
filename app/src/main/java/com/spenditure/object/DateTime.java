@@ -196,7 +196,7 @@ public class DateTime implements IDateTime{
 
     }
 
-    public void adjust( int changeYear, int changeMonth, int changeDay, int changeHour, int changeMinute ) {
+    public void adjust( int changeYear, int changeMonth, int changeDay, int changeHour, int changeMinute, int changeSecond ) {
 
         year += changeYear;
 
@@ -207,6 +207,8 @@ public class DateTime implements IDateTime{
         hour += changeHour;
 
         minute += changeMinute;
+
+        seconds += changeSecond;
 
     }
 

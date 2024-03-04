@@ -131,9 +131,9 @@ public class TransactionHandler implements ITransactionHandler, Serializable {
         Returns all transactions given by the data layer.
      */
     @Override
-    public List<Transaction> getAllTransactions() {
+    public List<Transaction> getAllTransactions(int userID) {
 
-        return dataAccessTransaction.getAllTransactions();
+        return dataAccessTransaction.getAllTransactions(int userID);
 
     }
 
@@ -145,8 +145,7 @@ public class TransactionHandler implements ITransactionHandler, Serializable {
     @Override
     public ArrayList<Transaction> getAllByNewestFirst(int userID) {
 
-        return null;
-       // return dataAccessTransaction.getNewestTransactionsForUser(userID);
+       return dataAccessTransaction.getNewestTransactionsForUser(userID);
 
     }
 
@@ -158,9 +157,8 @@ public class TransactionHandler implements ITransactionHandler, Serializable {
     @Override
     public ArrayList<Transaction> getAllByOldestFirst(int userID) {
 
-        return null;
 
-        //return dataAccessTransaction.getOldestTransactionsForUser(userID);
+        return dataAccessTransaction.getOldestTransactionsForUser(userID);
 
     }
 
@@ -187,14 +185,14 @@ public class TransactionHandler implements ITransactionHandler, Serializable {
 
      */
     @Override
-    public ArrayList<Transaction> getTransactionByName(String name) {
+    public ArrayList<Transaction> getTransactionByName(int userID, String name) {
 
         return dataAccessTransaction.getTransactionByName(name);
 
     }
 
     @Override
-    public ArrayList<Transaction> getTransactionByPlace(String place) {
+    public ArrayList<Transaction> getTransactionByPlace(int userID, String place) {
 
         return dataAccessTransaction.getTransactionsByPlace(place);
 
@@ -210,39 +208,12 @@ public class TransactionHandler implements ITransactionHandler, Serializable {
 
      */
     @Override
-    public ArrayList<Transaction> getTransactionByAmountBetween(double lower, double upper) {
+    public ArrayList<Transaction> getTransactionByAmountBetween(int userID, double lower, double upper) {
 
         return dataAccessTransaction.getTransactionsByAmount(lower, upper);
 
     }
 
-    /*
-
-        getTransactionByAmountGreaterThan
-
-        Returns all transactions with amount values greater than the given amount.
-
-     */
-    @Override
-    public ArrayList<Transaction> getTransactionByAmountGreaterThan(double amount) {
-
-        return dataAccessTransaction.getTransactionsByAmount(amount + 1, Double.MAX_VALUE);
-
-    }
-
-    /*
-
-        getTransactionByAmountLessThan
-
-        Returns all transactions with amount values less than the given amount.
-
-     */
-    @Override
-    public ArrayList<Transaction> getTransactionByAmountLessThan(double amount) {
-
-        return dataAccessTransaction.getTransactionsByAmount(0, amount - 1);
-
-    }
 
     /*
 
@@ -285,34 +256,6 @@ public class TransactionHandler implements ITransactionHandler, Serializable {
     public ArrayList<Transaction> getTransactionByDateTimeBetween(DateTime lower, DateTime upper) {
 
         return dataAccessTransaction.getTransactionsByDateTime(lower, upper);
-
-    }
-
-    /*
-
-        getTransactionByDateTimeBefore
-
-        Returns all transactions which occurred before the specified date and time.
-
-     */
-    public ArrayList<Transaction> getTransactionByDateTimeBefore(DateTime date) {
-
-        return dataAccessTransaction.getTransactionsByDateTime(
-                new DateTime(0, 0, 0, 0, 0, 0), date);
-
-    }
-
-    /*
-
-        getTransactionByDateTimeAfter
-
-        Returns all transactions which occurred after the specified date and time.
-
-     */
-    public ArrayList<Transaction> getTransactionByDateTimeAfter(DateTime lower) {
-
-        return dataAccessTransaction.getTransactionsByDateTime(lower,
-                new DateTime(9999, 99, 99, 99, 99, 99));
 
     }
 

@@ -319,7 +319,7 @@ public class TransactionHandlerIT {
     public void testGetByAmount() {
 
         //Check getByAmount
-        ArrayList<Transaction> list = transactionHandler.getTransactionByAmount(200.00);
+        ArrayList<Transaction> list = transactionHandler.getTransactionByAmountBetween(200.00, 200.00);
 
         //There are 2 values that are exactly 200
         assertEquals(list.size(), 2);
@@ -350,7 +350,7 @@ public class TransactionHandlerIT {
         int numInsertions = 3;
 
         //Test retrieval of specific item by date
-        ArrayList<Transaction> list = transactionHandler.getTransactionByDateTime(new DateTime(2023, 9, 15, 16, 0, 0));
+        ArrayList<Transaction> list = transactionHandler.getTransactionByDateTime(new DateTime(2023, 9, 15, 16, 0, 0), new DateTime(2023, 9, 15, 16, 0, 0));
 
         //Both should be true
         assertEquals(list.size(), 1);
