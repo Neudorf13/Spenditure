@@ -17,6 +17,7 @@ import static org.junit.Assert.assertTrue;
 
 import com.spenditure.logic.TransactionHandler;
 import com.spenditure.logic.TransactionValidator;
+import com.spenditure.logic.UserManager;
 import com.spenditure.logic.exceptions.*;
 import com.spenditure.object.DateTime;
 import com.spenditure.object.Transaction;
@@ -36,7 +37,7 @@ public class TransactionExceptionTest {
 
         transactionHandler = new TransactionHandler(true);
 
-        test = new Transaction(-1, "2024 Honda Civic Type R", new DateTime(2024, 2, 29, 16, 20, 0), "Winnipeg Honda", 53280.00, "MSRP", true,null);
+        test = new Transaction(UserManager.getUserID(), "2024 Honda Civic Type R", new DateTime(2024, 2, 29, 16, 20, 0), "Winnipeg Honda", 53280.00, "MSRP", true);
 
         caught = false;
 

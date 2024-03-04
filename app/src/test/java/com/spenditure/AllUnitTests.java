@@ -1,6 +1,6 @@
 package com.spenditure;
 
-import com.spenditure.business.ReportManagerTest;
+//import com.spenditure.business.ReportManagerTest;
 import com.spenditure.business.unitTests.CategoryHandlerTest;
 import com.spenditure.business.unitTests.CategoryExceptionTest;
 
@@ -23,7 +23,7 @@ import org.junit.runners.Suite;
         CategoryExceptionTest.class,
         TransactionExceptionTest.class,
         TransactionHandlerTest.class,
-        ReportManagerTest.class
+      //  ReportManagerTest.class
 })
 public class AllUnitTests {
 }

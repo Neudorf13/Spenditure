@@ -25,6 +25,7 @@ import android.widget.EditText;
 import com.example.spenditure.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.spenditure.logic.TransactionHandler;
+import com.spenditure.logic.UserManager;
 import com.spenditure.object.DateTime;
 import com.spenditure.object.Transaction;
 import com.spenditure.presentation.report.ViewReportActivity;
@@ -124,7 +125,7 @@ public class EditTransactionActivity extends AppCompatActivity {
         AppCompatToggleButton type = (AppCompatToggleButton) findViewById(R.id.togglebutton_type);
 
         // Create the new transaction object
-        Transaction updatedTransaction = new Transaction(givenTransaction.getTransactionID(), whatTheHeck.getText().toString(), date, place.getText().toString(), Double.parseDouble(amount.getText().toString()), comments.getText().toString(), type.isChecked(),null);
+        Transaction updatedTransaction = new Transaction(UserManager.getUserID(), givenTransaction.getTransactionID(), whatTheHeck.getText().toString(), date, place.getText().toString(), Double.parseDouble(amount.getText().toString()), comments.getText().toString(), type.isChecked(),null);
 
         return updatedTransaction;
     };
