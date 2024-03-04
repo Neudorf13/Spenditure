@@ -42,6 +42,9 @@ public class CategoryHandler {
         return this.dataAccessCategory.getCategoryByID(id);
     }
 
+    public void printCategoryTable() {
+        dataAccessCategory.printCategoryTable();
+    }
     /*
        addCategory
 
