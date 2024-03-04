@@ -307,13 +307,14 @@ public class TransactionSQL implements TransactionPersistence {
 
 
     @Override
-    public ArrayList<Transaction> getTransactionsByDateTime(IDateTime lower, IDateTime upper) {
+    public ArrayList<Transaction> getTransactionsByDateTime(int userID, IDateTime lower, IDateTime upper) {
         final ArrayList<Transaction> transactions = new ArrayList<>();
 
         try(final Connection connection = connection()) {
-            final PreparedStatement statement = connection.prepareStatement("SELECT * FROM transactions WHERE date >= ? AND date <= ?\"");
-            statement.setString(1,lower.toString());
-            statement.setString(2,upper.toString());
+            final PreparedStatement statement = connection.prepareStatement("SELECT * FROM transactions WHERE userID =? AND date >= ? AND date <= ?\"");
+            statement.setInt(1, userID);
+            statement.setString(1,lower.getYearMonthDay());
+            statement.setString(2,upper.getYearMonthDay());
 
             final ResultSet resultSet = statement.executeQuery();
 

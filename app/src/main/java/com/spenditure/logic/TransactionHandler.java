@@ -262,7 +262,7 @@ public class TransactionHandler implements ITransactionHandler, Serializable {
      */
     public ArrayList<Transaction> getTransactionByDateTime(DateTime lower, DateTime upper) {
 
-        return dataAccessTransaction.getTransactionsByDateTime(lower, upper);
+        return dataAccessTransaction.getTransactionsByDateTime(UserManager.getUserID(), lower, upper);
 
     }
 
@@ -280,7 +280,7 @@ public class TransactionHandler implements ITransactionHandler, Serializable {
         DateTime upper = new DateTime(target.getYear(), target.getMonth(), target.getDay(),
                 DateTimeValidator.MAX_HOURS, DateTimeValidator.MAX_MINUTES, DateTimeValidator.MAX_SECONDS);
 
-        return dataAccessTransaction.getTransactionsByDateTime(lower, upper);
+        return dataAccessTransaction.getTransactionsByDateTime(UserManager.getUserID(), lower, upper);
 
     }
 
@@ -293,7 +293,7 @@ public class TransactionHandler implements ITransactionHandler, Serializable {
      */
     public ArrayList<Transaction> getTransactionByDateTimeBetween(DateTime lower, DateTime upper) {
 
-        return dataAccessTransaction.getTransactionsByDateTime(lower, upper);
+        return dataAccessTransaction.getTransactionsByDateTime(UserManager.getUserID(), lower, upper);
 
     }
 
@@ -307,7 +307,7 @@ public class TransactionHandler implements ITransactionHandler, Serializable {
     public ArrayList<Transaction> getTransactionByDateTimeBefore(DateTime date) {
 
         return dataAccessTransaction.getTransactionsByDateTime(
-                new DateTime(0, 0, 0, 0, 0, 0), date);
+                UserManager.getUserID(), new DateTime(0, 0, 0, 0, 0, 0), date);
 
     }
 
@@ -320,7 +320,7 @@ public class TransactionHandler implements ITransactionHandler, Serializable {
      */
     public ArrayList<Transaction> getTransactionByDateTimeAfter(DateTime lower) {
 
-        return dataAccessTransaction.getTransactionsByDateTime(lower,
+        return dataAccessTransaction.getTransactionsByDateTime(UserManager.getUserID(), lower,
                 new DateTime(9999, 99, 99, 99, 99, 99));
 
     }

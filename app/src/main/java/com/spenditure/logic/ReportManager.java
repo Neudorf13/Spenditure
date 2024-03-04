@@ -117,7 +117,7 @@ public class ReportManager implements IReportManager {
 
     private double getAverageTransactionSizeByDate(IDateTime startDate, IDateTime endDate) {
 
-        List<Transaction> transactions = dataAccessTransaction.getTransactionsByDateTime(startDate, endDate);
+        List<Transaction> transactions = dataAccessTransaction.getTransactionsByDateTime(UserManager.getUserID(), startDate, endDate);
 
         double total = 0.00;
 
@@ -133,7 +133,7 @@ public class ReportManager implements IReportManager {
 
     private double getStandardDeviationByDate(IDateTime startDate, IDateTime endDate) {
 
-        List<Transaction> transactions = dataAccessTransaction.getTransactionsByDateTime(startDate, endDate);
+        List<Transaction> transactions = dataAccessTransaction.getTransactionsByDateTime(UserManager.getUserID(), startDate, endDate);
 
         double mean = getAverageTransactionSizeByDate(startDate, endDate);
         double sum = 0.00;
@@ -160,7 +160,7 @@ public class ReportManager implements IReportManager {
 
     //return count of total transactions
     private int countAllTransactionsByDate(IDateTime startDate, IDateTime endDate) {
-        List<Transaction> transactions = dataAccessTransaction.getTransactionsByDateTime(startDate, endDate);
+        List<Transaction> transactions = dataAccessTransaction.getTransactionsByDateTime(UserManager.getUserID(), startDate, endDate);
         return transactions.size();
     }
 
@@ -173,7 +173,7 @@ public class ReportManager implements IReportManager {
     //return count of transactions with specific category
     private int countTransactionsByCategoryByDate(int categoryID, IDateTime startDate, IDateTime endDate) {
         ArrayList<Transaction> categoryTransactions = new ArrayList<Transaction>();// = dataAccessTransaction.getTransactionByCategoryID(categoryID);
-        ArrayList<Transaction> transactionsInTimeframe = dataAccessTransaction.getTransactionsByDateTime(startDate, endDate);
+        ArrayList<Transaction> transactionsInTimeframe = dataAccessTransaction.getTransactionsByDateTime(UserManager.getUserID(), startDate, endDate);
 
         for(int i = 0; i < transactionsInTimeframe.size(); i ++) {
 
@@ -187,7 +187,7 @@ public class ReportManager implements IReportManager {
 
     //return sum of total amount for all transactions
     private double getTotalForAllTransactionsByDate(IDateTime startDate, IDateTime endDate) {
-        List<Transaction> transactions = dataAccessTransaction.getTransactionsByDateTime(startDate, endDate);
+        List<Transaction> transactions = dataAccessTransaction.getTransactionsByDateTime(UserManager.getUserID(), startDate, endDate);
         double total = 0.0;
 
         for(Transaction element : transactions) {
@@ -199,7 +199,7 @@ public class ReportManager implements IReportManager {
 
     //return sum of total amount for specified category
     private double getTotalForCategoryByDate(int categoryID, IDateTime startDate, IDateTime endDate) {
-        ArrayList<Transaction> transactionsInTimeframe = dataAccessTransaction.getTransactionsByDateTime(startDate, endDate);
+        ArrayList<Transaction> transactionsInTimeframe = dataAccessTransaction.getTransactionsByDateTime(UserManager.getUserID(), startDate, endDate);
         double total = 0.0;
 
         for( int i = 0; i < transactionsInTimeframe.size(); i++ ) {
