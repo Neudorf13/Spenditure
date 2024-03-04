@@ -9,14 +9,14 @@ public class User implements IUser{
     //Attributes
     private String fullName;
     private String username;
-    private String phoneNumber;
+
     private String email;
 
+
     //Constructors
-    public User(String username,String fullName, String phoneNumber, String email){
+    public User(String username,String fullName, String email){
         this.username = username;
         this.fullName = fullName;
-        this.phoneNumber = phoneNumber;
         this.email = email;
     }
 
@@ -26,10 +26,7 @@ public class User implements IUser{
         return this.fullName;
     }
 
-    @Override
-    public String getPhone() {
-        return this.phoneNumber;
-    }
+
 
     @Override
     public String getEmail() {
@@ -56,8 +53,5 @@ public class User implements IUser{
         this.email = newEmail;
     }
 
-    @Override
-    public void updatePhone(String newPhone) {
-        this.phoneNumber = newPhone;
-    }
+
 }
