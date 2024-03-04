@@ -81,8 +81,9 @@ public class DateTimeValidator {
 
         int hour = time.getHour();
         int minute = time.getMinute();
+        int second = time.getSeconds();
 
-        return validateHour(hour) && validateMinute(minute);
+        return validateHour(hour) && validateMinute(minute) && validateSecond(second);
 
     }
 
@@ -109,6 +110,19 @@ public class DateTimeValidator {
 
         if( minute >= MAX_MINUTES || minute < 0 )
             throw new InvalidTimeException("Provided minute value (" + minute + ") must be at least 0 and at most 59.");
+
+        return true;
+    }
+
+    /*
+     validateSecond
+
+     ensures minute value is less than 60 and at least 0.
+    */
+    private static boolean validateSecond(int second) throws InvalidTimeException {
+
+        if( second >= MAX_SECONDS || second < 0 )
+            throw new InvalidTimeException("Provided second value (" + second + ") must be at least 0 and at most 59.");
 
         return true;
     }
