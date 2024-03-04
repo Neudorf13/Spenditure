@@ -7,6 +7,7 @@ import static org.junit.Assert.assertTrue;
 
 import com.spenditure.logic.CategoryHandler;
 import com.spenditure.logic.TransactionHandler;
+import com.spenditure.logic.UserManager;
 import com.spenditure.logic.exceptions.InvalidDateTimeException;
 import com.spenditure.logic.exceptions.InvalidTransactionAmountException;
 import com.spenditure.logic.exceptions.InvalidTransactionException;
@@ -27,6 +28,7 @@ import java.util.ArrayList;
 public class TransactionHandlerIT {
 
     private TransactionHandler transactionHandler;
+    private UserManager userManager;
 
     private File tempDB;
 
@@ -36,10 +38,13 @@ public class TransactionHandlerIT {
     public void setup() throws IOException {
         this.tempDB = TestUtils.copyDB();
         this.transactionHandler = new TransactionHandler(false);
+        userManager = new UserManager(false);
+        userManager.login("Me", "123");
         transactionHandler.cleanup(false);
     }
     @After
     public void tearDown(){
+        userManager.logout();
         this.transactionHandler = null;
         this.tempDB = null;
     }
