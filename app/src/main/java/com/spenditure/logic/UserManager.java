@@ -15,7 +15,7 @@ public class UserManager {
 
     }
     public int login(String username, String password) throws InvalidUserInformationException {
-        if(username == null || password == null || username.equals("") || password.equals("")){
+        if(username == null || password == null || username == "" || password == ""){
             throw new InvalidUserInformationException("Please provide username and password");
         }else{
             if(userID <0){
@@ -49,7 +49,7 @@ public class UserManager {
         if(username == null || password == null || username == "" || password == ""){
             throw new InvalidUserInformationException("Please provide username and password");
         }else{
-            int newUserID = accountPersistence.register(1,username,password,"ngo");
+            int newUserID = accountPersistence.register(username,password,null);
             UserManager.userID = newUserID;
             return newUserID;
         }
@@ -67,7 +67,7 @@ public class UserManager {
         if(userID >= 0) {
             return userID;
         }else {
-            throw new InvalidUserInformationException("Please login before get user id " + userID);
+            throw  new InvalidUserInformationException("Please login before get user id");
         }
     }
 

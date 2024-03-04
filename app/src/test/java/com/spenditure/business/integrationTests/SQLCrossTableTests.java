@@ -45,13 +45,13 @@ public class SQLCrossTableTests {
     @Test
     public void addCategoryAndTransaction() {
 
-        userPersistence.printUserTable();
+//        userPersistence.printUserTable();
 
-        int register = userPersistence.register(77,"testDummy","123abc","ddd@gmail.com");
+//        int register = userPersistence.register(77,"testDummy","123abc","ddd@gmail.com");
 
-        userPersistence.printUserTable();
+//        userPersistence.printUserTable();
 
-        assertEquals(77, register);
+//        assertEquals(77, register);
 
         categoryPersistence.printCategoryTable();
 
