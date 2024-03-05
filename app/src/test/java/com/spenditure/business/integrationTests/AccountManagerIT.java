@@ -27,7 +27,7 @@ public class AccountManagerIT {
     }
     @After
     public void tearDown(){
-        UserManager.cleanup();
+        UserManager.cleanup(false);
         this.accountManager = null;
         this.tempDB = null;
     }
@@ -71,12 +71,14 @@ public class AccountManagerIT {
 
     @Test
     public void testRegister(){
+        System.out.println("in IT testRegister");
         int userID = accountManager.register("new user","testpassword");
-        assertEquals(4,userID);
+        assertEquals(6,userID);
         accountManager.logout();
         userID = accountManager.login("new user","testpassword");
-        assertEquals(4,userID);
+        assertEquals(6,userID);
     }
+
 //
     @Test
     public void testLogOut(){

@@ -29,12 +29,12 @@ public class UserSQL implements UserPersistence {
         return DriverManager.getConnection("jdbc:hsqldb:file:" + dbPath + ";shutdown=true", "SA", "");
     }
 
-    private User fromResultSet(final ResultSet rs) throws SQLException {
+//    private User fromResultSet(final ResultSet rs) throws SQLException {
+//
+//        return null;
+//    }
 
-        return null;
-    }
-
-
+    //tested
     @Override
     public String getUserName(int userID) {
         String userName = "";
@@ -62,7 +62,7 @@ public class UserSQL implements UserPersistence {
     }
 
 
-    public int getNumberOfUsers() {
+    private int getNumberOfUsers() {
         int count = 0;
         try(final Connection connection = connection()) {
             final Statement st = connection.createStatement();
@@ -174,7 +174,9 @@ public class UserSQL implements UserPersistence {
 
     @Override
     public int register( String username, String password,String email) {
+        System.out.println("We have tested...");
         try(final Connection connection = connection()) {
+
             String insertQuery = "INSERT INTO users (userid, username, password, email) VALUES (?, ?, ?, ?)";
 
             int newUserID = getNumberOfUsers() + 1;
@@ -202,28 +204,28 @@ public class UserSQL implements UserPersistence {
 
     }
 
-    public void printUserTable() {
-        try(final Connection connection = connection()) {
-            final Statement st = connection.createStatement();
-            final ResultSet rs = st.executeQuery("SELECT * FROM users");
-            while (rs.next())
-            {
-                int userID = rs.getInt("USERID");
-                String username = rs.getString("USERNAME");
-                String password = rs.getString("PASSWORD");
-
-                @SuppressLint("DefaultLocale") String printUser = String.format("UserID: %d, Username: %s, Password: %s", userID, username, password);
-                System.out.println(printUser);
-            }
-            rs.close();
-            st.close();
-
-        }
-        catch (final SQLException e) {
-            throw new RuntimeException("An error occurred while processing the SQL operation", e);  //temp exception
-        }
-
-    }
+//    public void printUserTable() {
+//        try(final Connection connection = connection()) {
+//            final Statement st = connection.createStatement();
+//            final ResultSet rs = st.executeQuery("SELECT * FROM users");
+//            while (rs.next())
+//            {
+//                int userID = rs.getInt("USERID");
+//                String username = rs.getString("USERNAME");
+//                String password = rs.getString("PASSWORD");
+//
+//                @SuppressLint("DefaultLocale") String printUser = String.format("UserID: %d, Username: %s, Password: %s", userID, username, password);
+//                System.out.println(printUser);
+//            }
+//            rs.close();
+//            st.close();
+//
+//        }
+//        catch (final SQLException e) {
+//            throw new RuntimeException("An error occurred while processing the SQL operation", e);  //temp exception
+//        }
+//
+//    }
 
 
 }

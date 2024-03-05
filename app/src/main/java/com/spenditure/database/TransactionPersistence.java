@@ -23,7 +23,7 @@ public interface TransactionPersistence {
 
     // query database
 
-    int countTransactions();
+    //int countTransactions();
     List<Transaction> getAllTransactions(int userID);
     List<Transaction> getAllTransactionsForUser(int userID);
     boolean addTransaction(Transaction newTransaction);
@@ -42,6 +42,6 @@ public interface TransactionPersistence {
     ArrayList<Transaction> getNewestTransactionsForUser(int userID);
     ArrayList<Transaction> getOldestTransactionsForUser(int userID);
 
-    public void printTransactionTable();
+    //public void printTransactionTable();
 
 }

@@ -22,7 +22,7 @@ public class AccountManagerTest {
     }
     @After
     public void tearDown(){
-        UserManager.cleanup();
+        UserManager.cleanup(true);
         this.accountManager = null;
     }
 

@@ -76,7 +76,7 @@ public class UserStub implements UserPersistence {
 
     @Override
     public int register(String username, String password, String email) throws InvalidUserInformationException {
-
+        System.out.println("test in register");
         for (UserRow user : userTable) {
             if(user.getUsername().equals(username)){
                 throw new InvalidUserInformationException("Username already exist");

@@ -57,8 +57,9 @@ public class UserManager {
         if(username == null || password == null || username == "" || password == ""){
             throw new InvalidUserInformationException("Please provide username and password");
         }else{
+            System.out.println(username);
             StringInputValidator.validateInputString(username);
-            int newUserID = accountPersistence.register(username,password,null);
+            int newUserID = accountPersistence.register(username,password,"testEmail");
             UserManager.userID = newUserID;
             return newUserID;
         }
@@ -81,8 +82,8 @@ public class UserManager {
     }
 
     //For testing purpose
-    public static void cleanup(){
-        Services.restartAccountDB(true);
+    public static void cleanup(boolean stub){
+        Services.restartAccountDB(stub);
         UserManager.userID = -1;
     }
 

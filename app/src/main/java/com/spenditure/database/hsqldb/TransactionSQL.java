@@ -76,25 +76,25 @@ public class TransactionSQL implements TransactionPersistence {
         }
     }
 
-    public int countTransactions() {
-        int count = 0;
-        try(final Connection connection = connection()) {
-            final Statement st = connection.createStatement();
-            final ResultSet rs = st.executeQuery("SELECT * FROM transactions");
-            while (rs.next())
-            {
-                count++;
-            }
-            rs.close();
-            st.close();
-
-            return count;
-
-        }
-        catch (final SQLException e) {
-            throw new RuntimeException("An error occurred while processing the SQL operation", e);  //temp exception
-        }
-    }
+//    public int countTransactions() {
+//        int count = 0;
+//        try(final Connection connection = connection()) {
+//            final Statement st = connection.createStatement();
+//            final ResultSet rs = st.executeQuery("SELECT * FROM transactions");
+//            while (rs.next())
+//            {
+//                count++;
+//            }
+//            rs.close();
+//            st.close();
+//
+//            return count;
+//
+//        }
+//        catch (final SQLException e) {
+//            throw new RuntimeException("An error occurred while processing the SQL operation", e);  //temp exception
+//        }
+//    }
 
     @Override
     public List<Transaction> getAllTransactions(int userID) {
@@ -466,67 +466,36 @@ public class TransactionSQL implements TransactionPersistence {
         }
     }
 
-    public void getCourseSequential() {
-        //final List<Course> courses = new ArrayList<>();
 
-        try (final Connection c = connection()) {
-            final Statement st = c.createStatement();
-            final ResultSet rs = st.executeQuery("SELECT TABLE_NAME\n" +
-                    "FROM INFORMATION_SCHEMA.TABLES\n" +
-                    "WHERE TABLE_SCHEMA = 'PUBLIC';\n");
 
-            System.out.println("LOOK HERE!!!!!!!!!!!!!");
-            if(!rs.next()) {
-                System.out.println("F's in chat gentlemen");
-            }
-
-            while (rs.next())
-            {
-//                final Course course = fromResultSet(rs);
-//                courses.add(course);
-                //System.out.println(rs.getString("TABLE_NAME"));
-                System.out.println("Maybe Baby");
-            }
-            rs.close();
-            st.close();
-
-            //return courses;
-        }
-        catch (final SQLException e)
-        {
-            //throw new PersistenceException(e);
-            throw new RuntimeException("An error occurred while processing the SQL operation", e);  //temp exception
-        }
-    }
-
-    @Override
-    public void printTransactionTable() {
-        try(final Connection connection = connection()) {
-            final Statement st = connection.createStatement();
-            final ResultSet rs = st.executeQuery("SELECT * FROM transactions");
-            while (rs.next())
-            {
-                final int transactionID = rs.getInt("TRANSACTIONID");
-                final int userID = rs.getInt("USERID");
-                final String name = rs.getString("NAME");
-                final String date = rs.getString("DATE");
-                final String place = rs.getString("PLACE");
-                final double amount = rs.getDouble("AMOUNT");
-                final String comments = rs.getString("COMMENTS");
-                final boolean withdrawal = rs.getBoolean("WITHDRAWAL");
-                final byte[] image = rs.getBytes("IMAGE");
-                final int categoryID = rs.getInt("CATEGORYID");
-
-                @SuppressLint("DefaultLocale") String printUser = String.format("TransactionID: %d, UserID: %d, Name: %s, Date: %s, Place: %s, Amount: %f, CategoryID: %d", transactionID, userID, name, date, place, amount, categoryID);
-                System.out.println(printUser);
-            }
-            rs.close();
-            st.close();
-
-        }
-        catch (final SQLException e) {
-            throw new RuntimeException("An error occurred while processing the SQL operation", e);  //temp exception
-        }
-    }
+//    @Override
+//    public void printTransactionTable() {
+//        try(final Connection connection = connection()) {
+//            final Statement st = connection.createStatement();
+//            final ResultSet rs = st.executeQuery("SELECT * FROM transactions");
+//            while (rs.next())
+//            {
+//                final int transactionID = rs.getInt("TRANSACTIONID");
+//                final int userID = rs.getInt("USERID");
+//                final String name = rs.getString("NAME");
+//                final String date = rs.getString("DATE");
+//                final String place = rs.getString("PLACE");
+//                final double amount = rs.getDouble("AMOUNT");
+//                final String comments = rs.getString("COMMENTS");
+//                final boolean withdrawal = rs.getBoolean("WITHDRAWAL");
+//                final byte[] image = rs.getBytes("IMAGE");
+//                final int categoryID = rs.getInt("CATEGORYID");
+//
+//                @SuppressLint("DefaultLocale") String printUser = String.format("TransactionID: %d, UserID: %d, Name: %s, Date: %s, Place: %s, Amount: %f, CategoryID: %d", transactionID, userID, name, date, place, amount, categoryID);
+//                System.out.println(printUser);
+//            }
+//            rs.close();
+//            st.close();
+//
+//        }
+//        catch (final SQLException e) {
+//            throw new RuntimeException("An error occurred while processing the SQL operation", e);  //temp exception
+//        }
+//    }
 
 }

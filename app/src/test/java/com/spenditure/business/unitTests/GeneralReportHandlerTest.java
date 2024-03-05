@@ -42,7 +42,7 @@ public class GeneralReportHandlerTest {
 
     @After
     public void tearDown(){
-        UserManager.cleanup();
+        UserManager.cleanup(true);
         this.generalReportHandler = null;
     }
 

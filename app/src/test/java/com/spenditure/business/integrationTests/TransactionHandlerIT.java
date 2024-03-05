@@ -24,6 +24,7 @@ import org.junit.Test;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 public class TransactionHandlerIT {
 
@@ -409,4 +410,15 @@ public class TransactionHandlerIT {
 
 
     }
+
+//    @Test
+//    public void testGetAllTransactionsForUser() {
+//
+//        int userID = 1;
+//        int expectedSize = 14;
+//
+          //doesnt actually exist as a TransactionHandler method, only exists in TransactionPeristence
+//        List<Transaction> transactions =  transactionHandler.getAllTransactionsForUser(D)
+//
+//    }
 }
