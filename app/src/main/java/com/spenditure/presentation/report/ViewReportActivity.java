@@ -87,7 +87,7 @@ public class ViewReportActivity extends AppCompatActivity {
         numTransactions.setText(UIUtility.cleanTransactionNumberString(lastYearReport.getNumTrans()));
         totalTransactions.setText(UIUtility.cleanTotalString(lastYearReport.getTotal()));
         average.setText(UIUtility.cleanAverageString(lastYearReport.getAvgTransSize()));
-        percentage.setText(UIUtility.cleanPercentageString(lastYearReport.getPercentage()));
+        percentage.setText(UIUtility.cleanPercentageString(lastYearReport.getPercent()));
 
     }
 
@@ -131,7 +131,7 @@ public class ViewReportActivity extends AppCompatActivity {
                     transactionNum.setText(UIUtility.cleanTransactionNumberString(timeCustomReport.getNumTrans()));
                     total.setText(UIUtility.cleanTotalString(timeCustomReport.getTotal()));
                     average.setText(UIUtility.cleanAverageString(timeCustomReport.getAvgTransSize()));
-                    percentage.setText(UIUtility.cleanPercentageString(timeCustomReport.getPercentage()));
+                    percentage.setText(UIUtility.cleanPercentageString(timeCustomReport.getPercent()));
 
                 }
             }

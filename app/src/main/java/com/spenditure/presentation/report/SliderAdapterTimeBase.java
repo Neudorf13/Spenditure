@@ -11,10 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.viewpager.widget.PagerAdapter;
 
 import com.example.spenditure.R;
-import com.spenditure.logic.ReportManager;
-import com.spenditure.object.ICategory;
 import com.spenditure.object.IReport;
-import com.spenditure.object.MainCategory;
 import com.spenditure.presentation.UIUtility;
 
 import java.util.List;
@@ -75,7 +72,7 @@ public class SliderAdapterTimeBase extends PagerAdapter {
         countTransactions.setText(UIUtility.cleanTransactionNumberString( currReport.getNumTrans()));
         totalTransactions.setText(UIUtility.cleanTotalString(currReport.getTotal()));
         average.setText(UIUtility.cleanAverageString(currReport.getAvgTransSize()));
-        percentage.setText(UIUtility.cleanAverageString(currReport.getPercentage()));
+        percentage.setText(UIUtility.cleanAverageString(currReport.getPercent()));
 
         linearLayout.setBackgroundResource(list_bg_color[position % list_bg_color.length]);
         container.addView(view);

@@ -34,7 +34,7 @@ import java.time.*;
  **/
 
 
-public class ReportManager implements IReportManager {
+public class ReportManager {
 
     //instance vars
     private TransactionPersistence dataAccessTransaction;
@@ -58,10 +58,11 @@ public class ReportManager implements IReportManager {
         double avgTransSize = getAverageTransactionSizeByDate(userID, yearStart, yearEnd);
         int numTrans = countAllTransactionsByDate(userID, yearStart, yearEnd);
         double stdDev = getStandardDeviationByDate(userID, yearStart, yearEnd);
+        double percent = getPercentForReport(userID, yearStart, yearEnd);
 
         ArrayList<CategoryStatistics> listOfCategoryStatistics = buildCategoryList(userID, yearStart, yearEnd);
 
-        return new Report(avgTransSize, numTrans, stdDev, listOfCategoryStatistics);
+        return new Report(avgTransSize, numTrans, stdDev, percent, listOfCategoryStatistics);
 
     }
 
@@ -90,11 +91,11 @@ public class ReportManager implements IReportManager {
         for( int i = 1; i < weekDates.length; i ++ ) {
 
             DateTime week = weekDates[i - 1].copy();
-            week.adjust(0, 0, -i * DAYS_IN_WEEK, 0, 0, 0);
+            week.adjust(0, 0, -DAYS_IN_WEEK, 0, 0, 0);
 
             weekDates[i] = week;
 
-            result.add(reportOnUserProvidedDates(userID, weekDates[i - 1], weekDates[i]));
+            result.add(reportOnUserProvidedDates(userID, weekDates[i], weekDates[i - 1]));
         }
 
         return result;
@@ -109,10 +110,11 @@ public class ReportManager implements IReportManager {
         double averageTransactionSize = getAverageTransactionSizeByDate(userID, start, end);
         int numTransactions = countAllTransactionsByDate(userID, start, end);
         double standardDeviation = getStandardDeviationByDate(userID, start, end);
+        double percent = getPercentForReport(userID, start, end);
 
         ArrayList<CategoryStatistics> categoryStatistics = buildCategoryList(userID, start, end);
 
-        return new Report( averageTransactionSize, numTransactions, standardDeviation, categoryStatistics );
+        return new Report( averageTransactionSize, numTransactions, standardDeviation, percent, categoryStatistics );
     }
 
     public static DateTime getCurrentDate()
@@ -248,6 +250,17 @@ public class ReportManager implements IReportManager {
             return ((totalForCategory / totalAllTransactions) * 100);
         else
             return 0;
+    }
+
+    private double getPercentForReport(int userID, IDateTime startDate, IDateTime endDate) {
+
+        DateTime beginningOfTime = new DateTime(DateTimeValidator.MIN_YEAR, 01, 01);
+        DateTime endOfTime = new DateTime(DateTimeValidator.MAX_YEAR, 12, 31, 23, 59, 59);
+
+        double allTotal = getTotalForAllTransactionsByDate(userID, beginningOfTime, endOfTime);
+        double reportTotal = getTotalForAllTransactionsByDate(userID, startDate, endDate);
+
+        return (reportTotal / allTotal) * 100;
     }
 
     //sorting methods

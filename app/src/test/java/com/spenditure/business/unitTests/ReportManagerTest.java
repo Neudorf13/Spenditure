@@ -26,6 +26,7 @@ import com.spenditure.object.DateTime;
 import com.spenditure.object.IReport;
 
 
+import org.checkerframework.checker.units.qual.C;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -109,6 +110,7 @@ public class ReportManagerTest {
         assertEquals("Should only be 8 reports between Sept. 5, 2023 and Mar. 1, 2024", 8, report.getNumTrans());
         assertEquals("Average of all transactions should be 165.8", 165.8, report.getAvgTransSize(), 0.1);
         assertEquals("Standard deviation should be 138.5", 138.5, report.getStdDev(), 0.1);
+        assertEquals("59.5% of all transactions in db", 59.5, report.getPercent(), 0.1);
 
         List<CategoryStatistics> list = report.getCategoryStatisticsList();
 
@@ -134,14 +136,28 @@ public class ReportManagerTest {
     }
 
     //Tests: reportOnLastMonthByWeek
-    /* CANNOT RUN TEST; STUBDB HAS NO TRANSACTIONS WITHIN THE LAST MONTH! */
     @Test
     public void testReportOnLastMonthByWeek() {
 
-        ArrayList<IReport> reports = reportManager.reportBackOneMonthByWeek(1, new DateTime(2024, 03, 04));
+        ArrayList<IReport> reports = reportManager.reportBackOneMonthByWeek(1, new DateTime(2023, 10, 06));
 
         assertEquals("There should be 4 reports, for 4 weeks in a month", 4, reports.size());
 
+        IReport week = reports.get(0);
+        assertEquals("There should only be 2 transactions", 2, week.getNumTrans());
+        assertEquals("The average is 175 for those two", 175, week.getAvgTransSize(), 0.1);
+
+        week = reports.get(1);
+        assertEquals("There is only 1 transaction for this week", 1, week.getNumTrans());
+        assertEquals("It was $75", 75, week.getAvgTransSize(), 0.1);
+
+        week = reports.get(2);
+        assertEquals("There are 2 transactions here", 2, week.getNumTrans());
+        assertEquals("Their average is 75.25", 75.25, week.getAvgTransSize(), 0.1);
+
+        week = reports.get(3);
+        assertEquals("There is only 1 here", 1, week.getNumTrans());
+        assertEquals("It was $200", 200, week.getAvgTransSize(), 0.1);
     }
 
     //Tests: reportOnLastYearByMonth
