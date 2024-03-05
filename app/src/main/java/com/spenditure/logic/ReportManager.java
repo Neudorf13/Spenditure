@@ -211,6 +211,22 @@ public class ReportManager {
         return total;
     }
 
+    private double getTotalForAllTransactions(int userID) {
+
+        List<Transaction> transactions = dataAccessTransaction.getAllTransactionsForUser(userID);
+
+        double result = 0.00;
+
+        for(int i = 0; i < transactions.size(); i ++) {
+
+            result += transactions.get(i).getAmount();
+
+        }
+
+        return result;
+
+    }
+
     //return sum of total amount for specified category
     private double getTotalForCategoryByDate(int userID, int categoryID, IDateTime startDate, IDateTime endDate) {
         ArrayList<Transaction> transactionsInTimeframe = dataAccessTransaction.getTransactionsByDateTime(userID, startDate, endDate);
@@ -254,10 +270,7 @@ public class ReportManager {
 
     private double getPercentForReport(int userID, IDateTime startDate, IDateTime endDate) {
 
-        DateTime beginningOfTime = new DateTime(DateTimeValidator.MIN_YEAR, 01, 01);
-        DateTime endOfTime = new DateTime(DateTimeValidator.MAX_YEAR, 12, 31, 23, 59, 59);
-
-        double allTotal = getTotalForAllTransactionsByDate(userID, beginningOfTime, endOfTime);
+        double allTotal = getTotalForAllTransactions(userID);
         double reportTotal = getTotalForAllTransactionsByDate(userID, startDate, endDate);
 
         return (reportTotal / allTotal) * 100;
