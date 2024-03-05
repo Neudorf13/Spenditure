@@ -36,56 +36,80 @@ import java.time.*;
 
 public class ReportManager {
 
+    //Constants for time-based reporting
+    private static final int DAYS_IN_WEEK = 7;
+    private static final int WEEKS_IN_MONTH = 4;
+
     //instance vars
     private TransactionPersistence dataAccessTransaction;
     private CategoryPersistence dataAccessCategory;
-    private static final int DAYS_IN_WEEK = 7;
-    private static final int WEEKS_IN_MONTH = 4;
 
     public ReportManager(boolean getStubDB) {
         this.dataAccessTransaction = Services.getTransactionPersistence(getStubDB);
         this.dataAccessCategory = Services.getCategoryPersistence(getStubDB);
     }
 
-    public IReport reportBackOneYear(int userID, IDateTime yearEnd)
-    {
-        // manually set to current date (probably an API for getting this info)
-//        IDateTime yearEnd = getCurrentDate();
-        // manually set to 1 year ago from current date
+    /*
+
+    reportBackOneYear
+
+    Creates a Report starting one year before the provided date,
+    ending at the provided date.
+
+     */
+    public IReport reportBackOneYear(int userID, IDateTime yearEnd) {
+
+        validateDateTime(yearEnd);
+        assert(userID >= 0);
+
+        // manually set to 1 year ago from provided date
         IDateTime yearStart = new DateTime(yearEnd.getYear()-1, yearEnd.getMonth(), yearEnd.getDay());
 
-
-        double avgTransSize = getAverageTransactionSizeByDate(userID, yearStart, yearEnd);
-        int numTrans = countAllTransactionsByDate(userID, yearStart, yearEnd);
-        double stdDev = getStandardDeviationByDate(userID, yearStart, yearEnd);
-        double percent = getPercentForReport(userID, yearStart, yearEnd);
-
-        ArrayList<CategoryStatistics> listOfCategoryStatistics = buildCategoryList(userID, yearStart, yearEnd);
-
-        return new Report(avgTransSize, numTrans, stdDev, percent, listOfCategoryStatistics);
+        return reportOnUserProvidedDates(userID, yearStart, yearEnd);
 
     }
 
-    public ArrayList<IReport> reportBackOnLastYearByMonth(int userID, DateTime today)
-    {
-        ArrayList<IReport> monthReports = new ArrayList<IReport>();
-//        DateTime today = getCurrentDate();
+    /*
 
-        for(int i = 1; i <= 12; i++)
-        {
-            monthReports.add(reportOnUserProvidedDates(userID, new DateTime(today.getYear()-1, i, 1),
-                    correctDateTime(new DateTime(today.getYear()-1, i, 31))));
+    reportBackOnLastYearByMonth
+
+    Creates a list of 12 Reports, one for each month of the year before the current year.
+    Reports are ordered from January to December.
+
+     */
+    public ArrayList<IReport> reportBackOnLastYearByMonth(int userID, DateTime today) {
+
+        validateDateTime(today);
+        assert(userID >= 0);
+
+        ArrayList<IReport> monthReports = new ArrayList<IReport>();
+
+        for(int i = 1; i <= 12; i++) {
+            monthReports.add(reportOnUserProvidedDates(
+                    userID, new DateTime(today.getYear()-1, i, 1),
+                    correctDateTime( new DateTime(today.getYear()-1, i, 31)) )
+            );
         }
 
         return monthReports;
     }
 
+    /*
+
+    reportBackOneMonthByWeek
+
+    Creates a report starting 1 month before the provided date,
+    ending at the provided date.
+
+     */
     public ArrayList<IReport> reportBackOneMonthByWeek(int userID, DateTime start) {
+
+        validateDateTime(start);
+        assert(userID >= 0);
 
         DateTime[] weekDates = new DateTime[WEEKS_IN_MONTH + 1];
         ArrayList<IReport> result = new ArrayList<IReport>();
 
-//        weekDates[0] = getCurrentDate(); //current day
         weekDates[0] = start;
 
         for( int i = 1; i < weekDates.length; i ++ ) {
@@ -101,6 +125,13 @@ public class ReportManager {
         return result;
     }
 
+    /*
+
+    reportOnUserProvidedDates
+
+    Creates a report starting and ending at user-specified times.
+
+     */
     public IReport reportOnUserProvidedDates(int userID, IDateTime start, IDateTime end) {
 
         validateDateTime(start);
@@ -117,12 +148,29 @@ public class ReportManager {
         return new Report( averageTransactionSize, numTransactions, standardDeviation, percent, categoryStatistics );
     }
 
-    public static DateTime getCurrentDate()
-    {
+    /*
+
+    getCurrentDate
+
+    Returns a DateTime of the format:
+    (currentYear, currentMonth, currentDay, 00H, 00M, 00S)
+
+    Especially useful with the above functions for making Reports around the current day
+
+     */
+    public static DateTime getCurrentDate() {
         LocalDate javaDateObject = LocalDate.now(); // Create a date object
         return new DateTime(javaDateObject.getYear(), javaDateObject.getMonthValue(), javaDateObject.getDayOfMonth());
     }
 
+    // ### PRIVATE METHODS ###
+    /*
+
+    getAverageTransactionSizeByDate
+
+    Returns the average transaction size between the two provided dates.
+
+     */
     private double getAverageTransactionSizeByDate(int userID, IDateTime startDate, IDateTime endDate) {
 
         List<Transaction> transactions = dataAccessTransaction.getTransactionsByDateTime(userID, startDate, endDate);
@@ -142,6 +190,13 @@ public class ReportManager {
 
     }
 
+    /*
+
+    getStandardDeviationByDate
+
+    Returns the standard deviation value for transactions between the two specified dates.
+
+     */
     private double getStandardDeviationByDate(int userID, IDateTime startDate, IDateTime endDate) {
 
         List<Transaction> transactions = dataAccessTransaction.getTransactionsByDateTime(userID, startDate, endDate);
@@ -172,21 +227,47 @@ public class ReportManager {
 
     }
 
-    //return count of total transactions
+    /*
+
+    countAllTransactionsByDate
+
+    Returns the number of transactions that occured betweent the given dates.
+
+     */
     private int countAllTransactionsByDate(int userID, IDateTime startDate, IDateTime endDate) {
+
         List<Transaction> transactions = dataAccessTransaction.getTransactionsByDateTime(userID, startDate, endDate);
+
         return transactions.size();
+
     }
 
-    //return count of total categories
+    /*
+
+    countAllCategories
+
+    Returns the number of categories present for the given user.
+
+     */
     public int countAllCategories(int userID) {
+
         List<MainCategory> categories = dataAccessCategory.getAllCategory(userID);
+
         return categories.size();
+
     }
 
-    //return count of transactions with specific category
+    /*
+
+    countTransactionsByCategoryByDate
+
+    Returns the number of transactions of a given category that occured between the given dates.
+
+     */
     private int countTransactionsByCategoryByDate(int userID, int categoryID, IDateTime startDate, IDateTime endDate) {
-        ArrayList<Transaction> categoryTransactions = new ArrayList<Transaction>();// = dataAccessTransaction.getTransactionByCategoryID(categoryID);
+
+        ArrayList<Transaction> categoryTransactions = new ArrayList<>();
+
         ArrayList<Transaction> transactionsInTimeframe = dataAccessTransaction.getTransactionsByDateTime(userID, startDate, endDate);
 
         for(int i = 0; i < transactionsInTimeframe.size(); i ++) {
@@ -199,9 +280,17 @@ public class ReportManager {
         return categoryTransactions.size();
     }
 
-    //return sum of total amount for all transactions
+    /*
+
+    getTotalForAllTransactionsByDate
+
+    Returns the total value of all the transactions that occured between the given dates.
+
+     */
     private double getTotalForAllTransactionsByDate(int userID, IDateTime startDate, IDateTime endDate) {
+
         List<Transaction> transactions = dataAccessTransaction.getTransactionsByDateTime(userID, startDate, endDate);
+
         double total = 0.0;
 
         for(Transaction element : transactions) {
@@ -211,6 +300,13 @@ public class ReportManager {
         return total;
     }
 
+    /*
+
+    getTotalForAllTransactions
+
+    Returns the total value of all transactions for a given user ID, irrespective of time.
+
+     */
     private double getTotalForAllTransactions(int userID) {
 
         List<Transaction> transactions = dataAccessTransaction.getAllTransactionsForUser(userID);
@@ -227,9 +323,17 @@ public class ReportManager {
 
     }
 
-    //return sum of total amount for specified category
+    /*
+
+    getTotalForCategoryByDate
+
+    Returns the total value of all transactions in a category over a given time.
+
+     */
     private double getTotalForCategoryByDate(int userID, int categoryID, IDateTime startDate, IDateTime endDate) {
+
         ArrayList<Transaction> transactionsInTimeframe = dataAccessTransaction.getTransactionsByDateTime(userID, startDate, endDate);
+
         double total = 0.0;
 
         for( int i = 0; i < transactionsInTimeframe.size(); i++ ) {
@@ -245,9 +349,17 @@ public class ReportManager {
         return total;
     }
 
-    //return average transaction amount for a given category
+    /*
+
+    getAverageForCategoryByDate
+
+    Returns the average value of each transaction in a given category for given dates.
+
+     */
     private double getAverageForCategoryByDate(int userID, int categoryID, IDateTime startDate, IDateTime endDate) {
+
         double total = getTotalForCategoryByDate(userID, categoryID, startDate, endDate);
+
         int count = countTransactionsByCategoryByDate(userID, categoryID, startDate, endDate);
 
         if(count > 0)
@@ -256,10 +368,17 @@ public class ReportManager {
             return 0;
     }
 
-    //return % of total transaction sum for given category
+    /*
+
+    getPercentForCategoryByDate
+
+    Returns the percentage of transactions in a given category out of all transactions, for given dates
+
+     */
     private double getPercentForCategoryByDate(int userID, int categoryID, IDateTime startDate, IDateTime endDate) {
 
         double totalAllTransactions = getTotalForAllTransactionsByDate(userID, startDate, endDate);
+
         double totalForCategory = getTotalForCategoryByDate(userID, categoryID, startDate, endDate);
 
         if(totalAllTransactions > 0)
@@ -268,17 +387,32 @@ public class ReportManager {
             return 0;
     }
 
+    /*
+
+    getPercentForReport
+
+    Returns the percentage of all transactions in the report out of all transactions in total
+
+     */
     private double getPercentForReport(int userID, IDateTime startDate, IDateTime endDate) {
 
         double allTotal = getTotalForAllTransactions(userID);
+
         double reportTotal = getTotalForAllTransactionsByDate(userID, startDate, endDate);
 
         return (reportTotal / allTotal) * 100;
+
     }
 
-    //sorting methods
+    /*
 
-    //returns list of CategoryStatisticss (one for each category)
+    buildCategoryList
+
+    For each category, gets the statistics and packages them into items in a list. Returns a list
+    of CategoryStatistics items which contain the stats on each category, and a link to the category
+    itself.
+
+     */
     private ArrayList<CategoryStatistics> buildCategoryList(int userID, IDateTime startDate, IDateTime endDate) {
         ArrayList<CategoryStatistics> categoryList = new ArrayList<>();
         int numCategories = countAllCategories(userID);
