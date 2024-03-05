@@ -7,7 +7,7 @@ import com.spenditure.business.unitTests.CategoryExceptionTest;
 
 import com.spenditure.business.unitTests.DateTimeAdjusterTest;
 import com.spenditure.business.unitTests.GeneralReportHandlerTest;
-import com.spenditure.business.unitTests.ReportManagerTest;
+import com.spenditure.business.unitTests.ReportHandlerTest;
 import com.spenditure.business.unitTests.TransactionExceptionTest;
 import com.spenditure.business.unitTests.TransactionHandlerTest;
 import com.spenditure.business.unitTests.UserManagerExceptionTest;
@@ -28,7 +28,7 @@ import org.junit.runners.Suite;
         CategoryExceptionTest.class,
         TransactionExceptionTest.class,
         TransactionHandlerTest.class,
-        ReportManagerTest.class,
+        ReportHandlerTest.class,
         AccountManagerTest.class,
         GeneralReportHandlerTest.class,
         UserManagerExceptionTest.class,
