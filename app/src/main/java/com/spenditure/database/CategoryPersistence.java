@@ -18,6 +18,4 @@ public interface CategoryPersistence {
 
     MainCategory getCategoryByID(int categoryID) throws InvalidCategoryException;
 
-    void printCategoryTable();
-
 }

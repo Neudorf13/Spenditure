@@ -22,8 +22,6 @@ import java.util.List;
 public interface TransactionPersistence {
 
     // query database
-
-    //int countTransactions();
     List<Transaction> getAllTransactions(int userID);
     List<Transaction> getAllTransactionsForUser(int userID);
     boolean addTransaction(Transaction newTransaction);
@@ -34,14 +32,10 @@ public interface TransactionPersistence {
     ArrayList<Transaction> getTransactionsByPlace(int userID, String place);
     ArrayList<Transaction> getTransactionsByAmount(int userID, double lower, double upper);
     ArrayList<Transaction> getTransactionsByDateTime(int userID, IDateTime lower, IDateTime upper);
-
-
     ArrayList<Transaction> getTransactionsByCategoryID(int categoryID);
 
     // sorting
     ArrayList<Transaction> getNewestTransactionsForUser(int userID);
     ArrayList<Transaction> getOldestTransactionsForUser(int userID);
-
-    //public void printTransactionTable();
 
 }

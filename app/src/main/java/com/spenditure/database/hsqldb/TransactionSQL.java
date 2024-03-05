@@ -26,13 +26,10 @@ public class TransactionSQL implements TransactionPersistence {
     }
 
     private Connection connection() throws SQLException {
-        //System.out.println("jdbc:hsqldb:file:" + dbPath + ";shutdown=true");
         return DriverManager.getConnection("jdbc:hsqldb:file:" + dbPath + ";shutdown=true", "SA", "");
     }
 
-
     private Transaction fromResultSet(final ResultSet rs) throws SQLException {
-        //System.out.println("in fromResultSet");
         final int transactionID = rs.getInt("TRANSACTIONID");
         final int userID = rs.getInt("USERID");
         final String name = rs.getString("NAME");
@@ -48,8 +45,6 @@ public class TransactionSQL implements TransactionPersistence {
         DateTime dateTime = new DateTime(date);
 
         return new Transaction(transactionID, userID, name, dateTime, place, amount, comments, withdrawal, image, categoryID);
-        //return null;
-        //return new MainCategory(categoryName, Integer.parseInt(categoryID), Integer.parseInt(userID));
     }
 
     private int getNextTransactionID() {
@@ -76,26 +71,6 @@ public class TransactionSQL implements TransactionPersistence {
         }
     }
 
-//    public int countTransactions() {
-//        int count = 0;
-//        try(final Connection connection = connection()) {
-//            final Statement st = connection.createStatement();
-//            final ResultSet rs = st.executeQuery("SELECT * FROM transactions");
-//            while (rs.next())
-//            {
-//                count++;
-//            }
-//            rs.close();
-//            st.close();
-//
-//            return count;
-//
-//        }
-//        catch (final SQLException e) {
-//            throw new RuntimeException("An error occurred while processing the SQL operation", e);  //temp exception
-//        }
-//    }
-
     @Override
     public List<Transaction> getAllTransactions(int userID) {
         List<Transaction> transactions = new ArrayList<>();
@@ -105,8 +80,7 @@ public class TransactionSQL implements TransactionPersistence {
             statement.setInt(1,userID);
 
             final ResultSet resultSet = statement.executeQuery();
-//            final Statement st = connection.createStatement();
-//            final ResultSet rs = st.executeQuery("SELECT * FROM transactions\nWHERE USERID=?");
+
             while (resultSet.next())
             {
                 final Transaction transaction = fromResultSet(resultSet);
@@ -123,8 +97,6 @@ public class TransactionSQL implements TransactionPersistence {
         }
 
     }
-
-
 
     public List<Transaction> getAllTransactionsForUser(int userID) {
         List<Transaction> transactions = new ArrayList<>();
@@ -188,8 +160,6 @@ public class TransactionSQL implements TransactionPersistence {
         try (Connection connection = connection()) {
 
             PreparedStatement statement = connection.prepareStatement("UPDATE TRANSACTIONS SET NAME=?, DATE=?, PLACE=?, AMOUNT=?, COMMENTS=?, WITHDRAWAL=?, IMAGE=?, CATEGORYID=? WHERE transactionID=?");
-            //statement.setInt(1, transaction.getTransactionID());
-            //statement.setInt(2,transaction.getUserID());
             statement.setString(1,transaction.getName());
             statement.setString(2,transaction.getDateTime().getYearMonthDay());
             statement.setString(3,transaction.getPlace());
@@ -206,27 +176,9 @@ public class TransactionSQL implements TransactionPersistence {
 
             return true;
 
-            // Delete the existing transaction with the given transactionID
-//            try (PreparedStatement deleteStatement = connection.prepareStatement("DELETE FROM transactions WHERE TRANSACTIONID = ?")) {
-//                deleteStatement.setInt(1, transaction.getTransactionID());
-//                deleteStatement.executeUpdate();
-//            }
-//
-//            // Insert the new transaction object
-//            try (PreparedStatement insertStatement = connection.prepareStatement("INSERT INTO transactions (transactionID, amount, image) VALUES (?, ?, ?)")) {
-//                insertStatement.setInt(1, transaction.getTransactionID());
-//                insertStatement.setDouble(2, transaction.getAmount());
-//                insertStatement.setBytes(3, transaction.getImage());
-//                int rowsInserted = insertStatement.executeUpdate();
-//
-//                return rowsInserted > 0; // Return true if row(s) inserted successfully
-//            }
-            //final PreparedStatement statement = connection.prepareStatement("INSERT INTO TRANSACTIONS VALUES(?,?,?,?,?,?,?,?,?,?)");
-
         } catch (SQLException e) {
             throw new RuntimeException("An error occurred while processing the SQL operation", e);
         }
-        //return false;
     }
 
     @Override
@@ -262,8 +214,6 @@ public class TransactionSQL implements TransactionPersistence {
 
                 return transaction;
             } else {
-                // If no rows found, return null or throw an exception based on your design
-                //throw new InvalidTransactionException("Transaction with ID " + transactionID + " not found");
                 return null;
             }
 
@@ -352,7 +302,6 @@ public class TransactionSQL implements TransactionPersistence {
         }
         catch (final SQLException e) {
             throw new RuntimeException("An error occurred while processing the SQL operation", e);  //temp exception
-            //e.printStackTrace();
         }
     }
 
@@ -387,13 +336,10 @@ public class TransactionSQL implements TransactionPersistence {
 
     @Override
     public ArrayList<Transaction> getTransactionsByCategoryID(int categoryID) {
-        System.out.println("getTransactionsByCategoryID in TransactionSQL");
         ArrayList<Transaction> transactions = new ArrayList<>();
 
         try(final Connection connection = connection()) {
-            System.out.println("getTransactionsByCategoryID in TransactionSQL");
             final PreparedStatement statement = connection.prepareStatement("SELECT * FROM transactions\nWHERE CATEGORYID=?");
-            System.out.println("getTransactionsByCategoryID in TransactionSQL");
             statement.setInt(1,categoryID);
 
             final ResultSet resultSet = statement.executeQuery();
@@ -466,36 +412,5 @@ public class TransactionSQL implements TransactionPersistence {
         }
     }
 
-
-
-//    @Override
-//    public void printTransactionTable() {
-//        try(final Connection connection = connection()) {
-//            final Statement st = connection.createStatement();
-//            final ResultSet rs = st.executeQuery("SELECT * FROM transactions");
-//            while (rs.next())
-//            {
-//                final int transactionID = rs.getInt("TRANSACTIONID");
-//                final int userID = rs.getInt("USERID");
-//                final String name = rs.getString("NAME");
-//                final String date = rs.getString("DATE");
-//                final String place = rs.getString("PLACE");
-//                final double amount = rs.getDouble("AMOUNT");
-//                final String comments = rs.getString("COMMENTS");
-//                final boolean withdrawal = rs.getBoolean("WITHDRAWAL");
-//                final byte[] image = rs.getBytes("IMAGE");
-//                final int categoryID = rs.getInt("CATEGORYID");
-//
-//                @SuppressLint("DefaultLocale") String printUser = String.format("TransactionID: %d, UserID: %d, Name: %s, Date: %s, Place: %s, Amount: %f, CategoryID: %d", transactionID, userID, name, date, place, amount, categoryID);
-//                System.out.println(printUser);
-//            }
-//            rs.close();
-//            st.close();
-//
-//        }
-//        catch (final SQLException e) {
-//            throw new RuntimeException("An error occurred while processing the SQL operation", e);  //temp exception
-//        }
-//    }
 
 }
