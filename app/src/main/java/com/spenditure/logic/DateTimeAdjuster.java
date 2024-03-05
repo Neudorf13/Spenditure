@@ -22,20 +22,31 @@ import com.spenditure.object.DateTime;
 
 public class DateTimeAdjuster {
 
+    /*
+
+    correctDateTime
+
+    Given a DateTime, ensures that it's valid. If not, it goes through the DateTime's
+    elements one by one and corrects them until the DateTime is valid.
+
+     */
     public static DateTime correctDateTime(DateTime toFix) {
 
+        //Keeps track of the status of the DateTime
         boolean fixed = false;
+        //Copy the original to operate on
         DateTime result = toFix.copy();
 
         while(!fixed) {
 
             try {
-
+                //Use existing validator in DateTimeValidator to see if any work needs to be done.
                 validateDateTime(result);
+
                 fixed = true;
 
             } catch(InvalidDateTimeException ignore) {
-
+                //Go through and fix each element of the date time, then try again until it's fixed
                 fixSeconds(result);
 
                 fixMinutes(result);
@@ -56,6 +67,14 @@ public class DateTimeAdjuster {
 
     }
 
+    /*
+
+    fixSeconds
+
+    Given a DateTime, ensures its seconds value is between 0 and 59. If not, adjusts the minute value
+    by the appropriate amount.
+
+     */
    private static void fixSeconds(DateTime dateTime) {
 
         int seconds = dateTime.getSeconds();
@@ -73,6 +92,14 @@ public class DateTimeAdjuster {
         }
    }
 
+   /*
+
+   fixMinutes
+
+   Given a DateTime, ensures its minute value is between 0 and 59.
+   If not, adjusts the hour value by the appropriate amount.
+
+    */
    private static void fixMinutes(DateTime dateTime) {
 
        int minutes = dateTime.getMinute();
@@ -90,6 +117,14 @@ public class DateTimeAdjuster {
        }
    }
 
+   /*
+
+   fixHours
+
+   Given a DateTime, ensures the hours value is between 0 and 23.
+   If not, adjusts the days value by the appropriate amount.
+
+    */
    private static void fixHours(DateTime dateTime) {
 
         int hours = dateTime.getHour();
@@ -107,6 +142,14 @@ public class DateTimeAdjuster {
         }
    }
 
+   /*
+
+   fixDays
+
+   Given a DateTime, ensures the day value is between 0 and 28, 29, 30, or 31, depending on the month.
+   If not, adjusts the month value by the appropriate amount.
+
+    */
    private static void fixDays(DateTime dateTime) {
 
         int days = dateTime.getDay();
@@ -141,6 +184,14 @@ public class DateTimeAdjuster {
         }
    }
 
+   /*
+
+   fixMonths
+
+   Given a DateTime, ensures the month value is between 1 and 12.
+   If not, adjusts the year value by the appropriate amount.
+
+    */
    private static void fixMonths(DateTime dateTime) {
 
         int months = dateTime.getMonth();
@@ -158,6 +209,14 @@ public class DateTimeAdjuster {
         }
    }
 
+   /*
+
+   checkYears
+
+   Ensures years is within the bounds defined by DateTimeValidator. If not, throws an exception,
+   as the adjustment is invalid.
+
+    */
    private static void checkYears(DateTime dateTime) throws InvalidDateTimeException {
 
         int years = dateTime.getYear();
@@ -170,6 +229,13 @@ public class DateTimeAdjuster {
 
    }
 
+   /*
+
+   getMonthLimit
+
+   Finds the last day of a given month and year.
+
+    */
     private static int getMonthLimit(int month, int year) {
 
         int result = 28;
@@ -180,12 +246,14 @@ public class DateTimeAdjuster {
         while(!hitLimit && result <= 31) {
 
             try {
+                //Use existing DateTimeValidator to see if the date is valid.
                 validateDateTime(test);
 
                 result ++;
                 test = new DateTime(year, month, result);
 
             } catch(InvalidDateException ignore) {
+                //The date is invalid, meaning the previous value was the last day of the month
                 hitLimit = true;
             }
         }
