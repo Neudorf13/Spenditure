@@ -34,7 +34,7 @@ import java.time.*;
  **/
 
 
-public class ReportManager {
+public class ReportManager implements IReportManager{
 
     //Constants for time-based reporting
     private static final int DAYS_IN_WEEK = 7;

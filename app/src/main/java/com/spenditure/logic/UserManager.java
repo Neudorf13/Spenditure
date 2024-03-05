@@ -8,7 +8,7 @@ import com.spenditure.logic.exceptions.InvalidUserInformationException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class UserManager {
+public class UserManager implements IUserManager{
 
     private UserPersistence accountPersistence;
     private static int userID = -1; //Store ID of user that are currently using the app
