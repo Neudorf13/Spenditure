@@ -185,8 +185,28 @@ public class TransactionSQL implements TransactionPersistence {
 
     @Override
     public boolean modifyTransaction(Transaction transaction) {
-//        try (Connection connection = connection()) {
-//            // Delete the existing transaction with the given transactionID
+        try (Connection connection = connection()) {
+
+            PreparedStatement statement = connection.prepareStatement("UPDATE TRANSACTIONS SET NAME=?, DATE=?, PLACE=?, AMOUNT=?, COMMENTS=?, WITHDRAWAL=?, IMAGE=?, CATEGORYID=? WHERE transactionID=?");
+            //statement.setInt(1, transaction.getTransactionID());
+            //statement.setInt(2,transaction.getUserID());
+            statement.setString(1,transaction.getName());
+            statement.setString(2,transaction.getDateTime().getYearMonthDay());
+            statement.setString(3,transaction.getPlace());
+            statement.setDouble(4,transaction.getAmount());
+            statement.setString(5,transaction.getComments());
+            statement.setBoolean(6,transaction.getWithdrawal());
+            statement.setBytes(7, transaction.getImage());
+            statement.setInt(8,transaction.getCategoryID());
+            statement.setInt(9, transaction.getTransactionID());
+
+            statement.executeUpdate();
+
+            statement.close();
+
+            return true;
+
+            // Delete the existing transaction with the given transactionID
 //            try (PreparedStatement deleteStatement = connection.prepareStatement("DELETE FROM transactions WHERE TRANSACTIONID = ?")) {
 //                deleteStatement.setInt(1, transaction.getTransactionID());
 //                deleteStatement.executeUpdate();
@@ -201,10 +221,12 @@ public class TransactionSQL implements TransactionPersistence {
 //
 //                return rowsInserted > 0; // Return true if row(s) inserted successfully
 //            }
-//        } catch (SQLException e) {
-//            throw new RuntimeException("An error occurred while processing the SQL operation", e);
-//        }
-        return false;
+            //final PreparedStatement statement = connection.prepareStatement("INSERT INTO TRANSACTIONS VALUES(?,?,?,?,?,?,?,?,?,?)");
+
+        } catch (SQLException e) {
+            throw new RuntimeException("An error occurred while processing the SQL operation", e);
+        }
+        //return false;
     }
 
     @Override

@@ -186,71 +186,71 @@ public class TransactionHandlerIT {
         assertEquals("Online course enrollment fee", transactionHandler.getTransactionByID(14).getName());
 
     }
-//    @Test
-//    public void testModify() {
-//
-//        assertEquals(transactionHandler.getAllTransactions().size(), EXPECTED_SIZE);
-//
-//        Transaction toModify = transactionHandler.getTransactionByID(2);
-//
-//        //Modifying name to invalid value, should return false
-//        toModify.setName("");
-//
-//        try {
-//            assertFalse(transactionHandler.modifyTransaction(toModify));
-//        } catch(InvalidTransactionNameException ignored) {}
-//
-//        //Modifying name to valid value, should return true
-//        toModify.setName("Paycheck");
-//        assertTrue(transactionHandler.modifyTransaction(toModify));
-//        assertEquals(transactionHandler.getTransactionByID(2).getName(), "Paycheck");
-//
-//        //Modifying date/time to invalid value, should return false
-//        toModify.setDateTime(new DateTime(159025, 1048, 1058, 159810, 15970135, 0));
-//
-//        //Modifying date/time to valid value, should return true
-//        try {
-//            assertFalse(transactionHandler.modifyTransaction(toModify));
-//        } catch(InvalidDateTimeException ignored) {}
-//
-//        toModify.setDateTime(new DateTime(2024, 4, 15, 00, 00, 0));
-//        assertTrue(transactionHandler.modifyTransaction(toModify));
-//
-//        //Modifying place to invalid value, should return false
-//        toModify.setPlace("");
-//
-//        try {
-//            assertFalse(transactionHandler.modifyTransaction(toModify));
-//        } catch(InvalidTransactionPlaceException ignored) {}
-//
-//        //Modifying place to valid value, should return true
-//        toModify.setPlace("Work");
-//        assertTrue(transactionHandler.modifyTransaction(toModify));
-//        assertEquals(transactionHandler.getTransactionByID(2).getPlace(), "Work");
-//
-//        //Modifying amount to invalid value, should return false
-//        toModify.setAmount(-1358154093.91399);
-//
-//        try {
-//            assertFalse(transactionHandler.modifyTransaction(toModify));
-//        } catch(InvalidTransactionAmountException ignored) {}
-//
-//        //Modifying amount to valid value, should return true
-//        toModify.setAmount(1500.00);
-//        assertTrue(transactionHandler.modifyTransaction(toModify));
-//        assertEquals(transactionHandler.getTransactionByID(2).getAmount(), 1500.00, 1);
-//
-//        //Modifying comment
-//        toModify.setComments("");
-//        assertTrue(transactionHandler.modifyTransaction(toModify));
-//
-//        //Modifying type
-//        toModify.setWithdrawal(false);
-//        assertTrue(transactionHandler.modifyTransaction(toModify));
-//        assertFalse(transactionHandler.getTransactionByID(2).getWithdrawal());
-//
-//        assertEquals(transactionHandler.getAllTransactions().size(), EXPECTED_SIZE);
-//    }
+    @Test
+    public void testModify() {
+
+        assertEquals(transactionHandler.getAllTransactions(1).size(), EXPECTED_SIZE);
+
+        Transaction toModify = transactionHandler.getTransactionByID(2);
+
+        //Modifying name to invalid value, should return false
+        toModify.setName("");
+
+        try {
+            assertFalse(transactionHandler.modifyTransaction(toModify));
+        } catch(InvalidTransactionNameException ignored) {}
+
+        //Modifying name to valid value, should return true
+        toModify.setName("Paycheck");
+        assertTrue(transactionHandler.modifyTransaction(toModify));
+        assertEquals(transactionHandler.getTransactionByID(2).getName(), "Paycheck");
+
+        //Modifying date/time to invalid value, should return false
+        toModify.setDateTime(new DateTime(159025, 1048, 1058, 159810, 15970135, 0));
+
+        //Modifying date/time to valid value, should return true
+        try {
+            assertFalse(transactionHandler.modifyTransaction(toModify));
+        } catch(InvalidDateTimeException ignored) {}
+
+        toModify.setDateTime(new DateTime(2024, 4, 15, 0, 0, 0));
+        assertTrue(transactionHandler.modifyTransaction(toModify));
+
+        //Modifying place to invalid value, should return false
+        toModify.setPlace("");
+
+        try {
+            assertFalse(transactionHandler.modifyTransaction(toModify));
+        } catch(InvalidTransactionPlaceException ignored) {}
+
+        //Modifying place to valid value, should return true
+        toModify.setPlace("Work");
+        assertTrue(transactionHandler.modifyTransaction(toModify));
+        assertEquals(transactionHandler.getTransactionByID(2).getPlace(), "Work");
+
+        //Modifying amount to invalid value, should return false
+        toModify.setAmount(-1358154093.91399);
+
+        try {
+            assertFalse(transactionHandler.modifyTransaction(toModify));
+        } catch(InvalidTransactionAmountException ignored) {}
+
+        //Modifying amount to valid value, should return true
+        toModify.setAmount(1500.00);
+        assertTrue(transactionHandler.modifyTransaction(toModify));
+        assertEquals(transactionHandler.getTransactionByID(2).getAmount(), 1500.00, 1);
+
+        //Modifying comment
+        toModify.setComments("");
+        assertTrue(transactionHandler.modifyTransaction(toModify));
+
+        //Modifying type
+        toModify.setWithdrawal(false);
+        assertTrue(transactionHandler.modifyTransaction(toModify));
+        assertFalse(transactionHandler.getTransactionByID(2).getWithdrawal());
+
+        assertEquals(transactionHandler.getAllTransactions(1).size(), EXPECTED_SIZE);
+    }
 
     @Test
     public void testGetOldestFirst() {
