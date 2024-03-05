@@ -16,9 +16,15 @@ import com.spenditure.logic.GeneralReportHandler;
 import com.spenditure.logic.ReportManager;
 import com.spenditure.logic.UserManager;
 import com.spenditure.object.MainCategory;
+import com.spenditure.presentation.UIUtility;
 
 import java.util.List;
 
+/**
+ * Slider for Report on each category
+ * @author Bao Ngo
+ * @version 04 Mar 2024
+ */
 
 public class SliderAdapterCatGeneral extends PagerAdapter {
     private Context context;
@@ -27,7 +33,7 @@ public class SliderAdapterCatGeneral extends PagerAdapter {
     private GeneralReportHandler generalReportHandler;
     private CategoryHandler categoryHandler;
     private List<MainCategory> categoryList;
-    private int[] list_bg_color = {
+    private int[] list_bg_color = { //Default background color for each slider
       R.drawable.background_light_green,
       R.drawable.background_dark_blue
     };
@@ -43,7 +49,7 @@ public class SliderAdapterCatGeneral extends PagerAdapter {
 
     @Override
     public int getCount() {
-        return categoryHandler.getAllCategory(1).size();
+        return categoryHandler.getAllCategory(UserManager.getUserID()).size();
     }
 
     @Override
@@ -60,10 +66,10 @@ public class SliderAdapterCatGeneral extends PagerAdapter {
         MainCategory currCategory = categoryList.get(position);
 
         //Get data from report manager
-        String countTransactionsString = generalReportHandler.numTransactions(1, currCategory.getCategoryID())+ " transactions";
-        String totalTransactionsString= "$"+ handle_decimal(generalReportHandler.totalSpending(1, currCategory.getCategoryID()));
-        String averageString= "$"+ handle_decimal(generalReportHandler.averageSpending(1, currCategory.getCategoryID()));
-        String percentageString = handle_decimal(generalReportHandler.percentage(1, currCategory.getCategoryID())) + "%";
+        String countTransactionsString =  UIUtility.cleanTransactionNumberString(generalReportHandler.numTransactions(UserManager.getUserID(), currCategory.getCategoryID()));
+        String totalTransactionsString= UIUtility.cleanTotalString(generalReportHandler.totalSpending(UserManager.getUserID(), currCategory.getCategoryID()));
+        String averageString=  UIUtility.cleanAverageString(generalReportHandler.averageSpending(UserManager.getUserID(), currCategory.getCategoryID()));
+        String percentageString = UIUtility.cleanPercentageString(generalReportHandler.percentage(UserManager.getUserID(), currCategory.getCategoryID()));
 
         //query UI components
         TextView tittle = view.findViewById(R.id.slide_tittle);
@@ -88,10 +94,5 @@ public class SliderAdapterCatGeneral extends PagerAdapter {
     public void destroyItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
         container.removeView((LinearLayout)object);
     }
-
-    private double handle_decimal(double number){
-        return Math.ceil(number * 100) / 100;
-    }
-
 
 }

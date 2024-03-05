@@ -29,18 +29,6 @@ public class TouchHelper extends ItemTouchHelper.SimpleCallback {
     public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
         final int position = viewHolder.getAdapterPosition();
         if(direction == ItemTouchHelper.RIGHT){
-//            AlertDialog.Builder builder = new AlertDialog.Builder(adapter.getContext());
-//            builder.setMessage("Are you sure to delete?").setTitle("Delete Task").setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-//                @Override
-//                public void onClick(DialogInterface dialog, int which) {
-//                    adapter.deleteTask(position);
-//                }
-//            }).setNegativeButton("No", new DialogInterface.OnClickListener() {
-//                @Override
-//                public void onClick(DialogInterface dialog, int which) {
-//                    adapter.notifyItemChanged(position);
-//                }
-//            });
             adapter.deleteTask(position);
         }
     }

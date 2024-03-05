@@ -19,11 +19,17 @@ import com.spenditure.presentation.UIUtility;
 
 import java.util.List;
 
+
+/**
+ * Slider for Report on each category
+ * @author Bao Ngo
+ * @version 04 Mar 2024
+ */
 public class SliderAdapterTimeBase extends PagerAdapter {
     Context context;
     LayoutInflater inflater;
    private List<IReport> reportList;
-    private int[] list_bg_color = {
+    private int[] list_bg_color = { //Default background color for each slider
             R.drawable.background_light_green,
             R.drawable.background_dark_blue
     };
@@ -63,7 +69,7 @@ public class SliderAdapterTimeBase extends PagerAdapter {
         TextView totalTransactions = view.findViewById(R.id.textview_catReport_total);
         TextView average = view.findViewById(R.id.textview_catReport_average);
         TextView percentage = view.findViewById(R.id.textview_catReport_percentage);
-//
+
 //        //Fill UI component with information
         tittle.setText(title );
         countTransactions.setText(UIUtility.cleanTransactionNumberString( currReport.getNumTrans()));
@@ -80,11 +86,6 @@ public class SliderAdapterTimeBase extends PagerAdapter {
     public void destroyItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
         container.removeView((LinearLayout)object);
     }
-
-    private double handle_decimal(double number){
-        return Math.ceil(number * 100) / 100;
-    }
-
 
 
 }

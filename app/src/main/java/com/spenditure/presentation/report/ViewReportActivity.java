@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -18,6 +19,7 @@ import com.facebook.shimmer.ShimmerFrameLayout;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.viewpager.widget.ViewPager;
 
 import com.spenditure.logic.CategoryHandler;
@@ -37,6 +39,11 @@ import java.util.List;
 import java.time.LocalDate;
 
 
+/**
+ * Report activity (Also main activity)
+ * @author Bao Ngo
+ * @version 04 Mar 2024
+ */
 public class ViewReportActivity extends AppCompatActivity {
 
     private static String dbName="SC";
@@ -45,8 +52,8 @@ public class ViewReportActivity extends AppCompatActivity {
 //    private SliderAdapterCatGeneral adapter;
     private ReportManager reportManager;
     private GeneralReportHandler generalReportHandler;
-    private final String[] custom_option = {"Report by average","Report by total","Report by percentage"};
-    private final String[] time_base_option = {"Report by year breaking into month","Report by month breaking into weeks"};
+    private final String[] custom_option = {"Report by average","Report by total","Report by percentage"}; //Drop down menu option
+    private final String[] time_base_option = {"Report by year breaking into month","Report by month breaking into weeks"};//Drop down menu option
     private CategoryHandler categoryHandler;
 //    private ViewPager viewPagerCustom;
     private IDateTime fromDate;
@@ -72,7 +79,7 @@ public class ViewReportActivity extends AppCompatActivity {
     }
 
     private void handleLastYearReport(){
-        IReport lastYearReport = reportManager.reportOnLastYear(1);
+        IReport lastYearReport = reportManager.reportOnLastYear(UserManager.getUserID());
         TextView numTransactions = findViewById(R.id.textview_lastYear_transactionsCount);
         TextView totalTransactions = findViewById(R.id.textview_lastYear_total);
         TextView average = findViewById(R.id.textview_lastYear_average);
@@ -114,7 +121,7 @@ public class ViewReportActivity extends AppCompatActivity {
                 if (fromDate == null || toDate == null){
                     Toast.makeText(ViewReportActivity.this,"Please choose 2 dates",Toast.LENGTH_SHORT).show();
                 }else {
-                    IReport timeCustomReport = reportManager.reportOnUserProvidedDates(1, fromDate, toDate);
+                    IReport timeCustomReport = reportManager.reportOnUserProvidedDates(UserManager.getUserID(), fromDate, toDate);
 
                     TextView transactionNum = findViewById(R.id.textview_customTime_totalTrans);
                     TextView  total = findViewById(R.id.textview_customTime_totalAmount);
@@ -203,8 +210,8 @@ public class ViewReportActivity extends AppCompatActivity {
     }
 
     private void handleGeneralReport(){
-        String spendString = "You've spent " + UIUtility.cleanTotalString(generalReportHandler.totalSpending(1));
-        String makeTransactions = "You've made " + UIUtility.cleanTransactionNumberString(generalReportHandler.numTransactions(1));
+        String spendString = "You've spent " + UIUtility.cleanTotalString(generalReportHandler.totalSpending(UserManager.getUserID()));
+        String makeTransactions = "You've made " + UIUtility.cleanTransactionNumberString(generalReportHandler.numTransactions(UserManager.getUserID()));
         TextView short_text = findViewById(R.id.textview_summary_report_short);
         TextView long_text = findViewById(R.id.textview_summary_report_long);
 
@@ -232,13 +239,13 @@ public class ViewReportActivity extends AppCompatActivity {
 
                 switch (position){
                     case 2:
-                        categories = generalReportHandler.sortByPercent(1,true);
+                        categories = generalReportHandler.sortByPercent(UserManager.getUserID(),true);
                         break;
                     case 1:
-                        categories = generalReportHandler.sortByTotal(1,true);
+                        categories = generalReportHandler.sortByTotal(UserManager.getUserID(),true);
                         break;
                     default:
-                        categories = generalReportHandler.sortByAverage(1,true);
+                        categories = generalReportHandler.sortByAverage(UserManager.getUserID(),true);
                         break;
                 }
 
@@ -262,7 +269,7 @@ public class ViewReportActivity extends AppCompatActivity {
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-
+                //We did nothing in purpose, but we still have to have this function because of it need to be overrided.
             }
         });
 
@@ -273,8 +280,16 @@ public class ViewReportActivity extends AppCompatActivity {
 
     private void handleCategoriesReport(){
         ViewPager viewPagerCategory = findViewById(R.id.viewpager_report);
-        SliderAdapterCatGeneral adapter = new SliderAdapterCatGeneral(this,categoryHandler.getAllCategory(1));
-        viewPagerCategory.setAdapter(adapter);
+        List<MainCategory> categoryList = categoryHandler.getAllCategory(UserManager.getUserID());
+        if(categoryList.size() >0 ){
+            ConstraintLayout nonReport = findViewById(R.id.report_no_category_report);
+            nonReport.setVisibility(View.INVISIBLE);
+            SliderAdapterCatGeneral adapter = new SliderAdapterCatGeneral(this,categoryList);
+            viewPagerCategory.setAdapter(adapter);
+        }else{
+            ConstraintLayout nonReport = findViewById(R.id.report_no_category_report);
+            nonReport.setVisibility(View.VISIBLE);
+        }
     }
 
     private void chooseTimeDialog(Button button,boolean from){

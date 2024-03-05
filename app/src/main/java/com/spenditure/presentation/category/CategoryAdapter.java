@@ -1,7 +1,5 @@
 package com.spenditure.presentation.category;
 
-
-
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,6 +17,12 @@ import com.spenditure.object.MainCategory;
 
 import java.util.List;
 
+
+/**
+ * Adapter for Category pages
+ * @author Bao Ngo
+ * @version 04 Mar 2024
+ */
 public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.MyViewHolder> {
 
     private List<MainCategory> categories;
@@ -28,9 +32,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.MyView
     public CategoryAdapter(ViewCategoryActivity activity, List<MainCategory> categories){
         this.categories = categories;
         this.activity = activity;
-
     }
-
 
     @NonNull
     @Override
@@ -52,7 +54,6 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.MyView
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder{
-
         TextView categoryName;
         public MyViewHolder(@NonNull View itemView){
             super(itemView);
@@ -72,8 +73,6 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.MyView
         }
         notifyItemRemoved(position);
     }
-
-
 
     public Context getContext() {
         return activity;
