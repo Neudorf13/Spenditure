@@ -65,7 +65,7 @@ public class CategoryHandlerIT {
         categoryHandler.addCategory("bills",  userID);
         assertEquals(expectedSize + 1,categoryHandler.getAllCategory(userID).size());
         assertEquals("Grocery",categoryHandler.getCategoryByID(userID).getName());
-//        assertEquals("bills",categoryHandler.getCategoryByID(1).getName());
+        assertEquals("bills",categoryHandler.getCategoryByID(4).getName());
     }
 
     @Test
@@ -77,9 +77,7 @@ public class CategoryHandlerIT {
         assertEquals("Food",categoryHandler.getCategoryByID(2).getName());
         assertEquals("Hang out",categoryHandler.getCategoryByID(3).getName());
 
-        categoryHandler.printCategoryTable();
         categoryHandler.deleteCategory(1);
-        categoryHandler.printCategoryTable();
 
         int count = categoryHandler.getAllCategory(1).size();
         System.out.println("Count: " + count);

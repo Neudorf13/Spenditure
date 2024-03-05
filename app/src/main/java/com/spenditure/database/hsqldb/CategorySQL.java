@@ -25,7 +25,6 @@ public class CategorySQL implements CategoryPersistence {
     public CategorySQL(final String dbPath) {
         this.dbPath = dbPath;
         this.currentCategoryID = initCategoryID();
-        System.out.println("Largest CID: " + currentCategoryID);
     }
 
     private Connection connection() throws SQLException {

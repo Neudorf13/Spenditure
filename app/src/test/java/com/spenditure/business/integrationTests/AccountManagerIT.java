@@ -56,7 +56,6 @@ public class AccountManagerIT {
         int userID = accountManager.login("Me","123");
         String username= accountManager.getUserName(userID);
         assertEquals("Me",username);
-
     }
 
     @Test
@@ -71,7 +70,6 @@ public class AccountManagerIT {
 
     @Test
     public void testRegister(){
-        System.out.println("in IT testRegister");
         int userID = accountManager.register("new user","testpassword");
         assertEquals(6,userID);
         accountManager.logout();
