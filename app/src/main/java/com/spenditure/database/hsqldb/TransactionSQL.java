@@ -3,6 +3,7 @@ package com.spenditure.database.hsqldb;
 import android.annotation.SuppressLint;
 
 import com.spenditure.database.TransactionPersistence;
+import com.spenditure.logic.exceptions.InvalidTransactionException;
 import com.spenditure.object.DateTime;
 import com.spenditure.object.IDateTime;
 import com.spenditure.object.Transaction;
@@ -13,7 +14,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,7 +32,7 @@ public class TransactionSQL implements TransactionPersistence {
 
 
     private Transaction fromResultSet(final ResultSet rs) throws SQLException {
-        System.out.println("in fromResultSet");
+        //System.out.println("in fromResultSet");
         final int transactionID = rs.getInt("TRANSACTIONID");
         final int userID = rs.getInt("USERID");
         final String name = rs.getString("NAME");
@@ -50,6 +50,30 @@ public class TransactionSQL implements TransactionPersistence {
         return new Transaction(transactionID, userID, name, dateTime, place, amount, comments, withdrawal, image, categoryID);
         //return null;
         //return new MainCategory(categoryName, Integer.parseInt(categoryID), Integer.parseInt(userID));
+    }
+
+    private int getNextTransactionID() {
+        int largestTransactionID = 1;
+        try(final Connection connection = connection()) {
+            final Statement st = connection.createStatement();
+            final ResultSet rs = st.executeQuery("SELECT * FROM transactions");
+            while (rs.next())
+            {
+
+                int currTransactionID = rs.getInt("TRANSACTIONID");
+                if(currTransactionID > largestTransactionID) {
+                    largestTransactionID = currTransactionID;
+                }
+            }
+            rs.close();
+            st.close();
+
+            return largestTransactionID+1;
+
+        }
+        catch (final SQLException e) {
+            throw new RuntimeException("An error occurred while processing the SQL operation", e);  //temp exception
+        }
     }
 
     public int countTransactions() {
@@ -133,6 +157,10 @@ public class TransactionSQL implements TransactionPersistence {
 
         try(final Connection connection = connection()) {
             final PreparedStatement statement = connection.prepareStatement("INSERT INTO TRANSACTIONS VALUES(?,?,?,?,?,?,?,?,?,?)");
+
+            if(transaction.getTransactionID() == -1) {
+                transaction.setTransactionID(getNextTransactionID());
+            }
             statement.setInt(1, transaction.getTransactionID());
             statement.setInt(2,transaction.getUserID());
             statement.setString(3,transaction.getName());
@@ -213,6 +241,7 @@ public class TransactionSQL implements TransactionPersistence {
                 return transaction;
             } else {
                 // If no rows found, return null or throw an exception based on your design
+                //throw new InvalidTransactionException("Transaction with ID " + transactionID + " not found");
                 return null;
             }
 
@@ -311,10 +340,10 @@ public class TransactionSQL implements TransactionPersistence {
         final ArrayList<Transaction> transactions = new ArrayList<>();
 
         try(final Connection connection = connection()) {
-            final PreparedStatement statement = connection.prepareStatement("SELECT * FROM transactions WHERE userID =? AND date >= ? AND date <= ?\"");
+            final PreparedStatement statement = connection.prepareStatement("SELECT * FROM transactions WHERE userID =? AND date >= ? AND date <= ?");
             statement.setInt(1, userID);
-            statement.setString(1,lower.getYearMonthDay());
-            statement.setString(2,upper.getYearMonthDay());
+            statement.setString(2,lower.getYearMonthDay());
+            statement.setString(3,upper.getYearMonthDay());
 
             final ResultSet resultSet = statement.executeQuery();
 

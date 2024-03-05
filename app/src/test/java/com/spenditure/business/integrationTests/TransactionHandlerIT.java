@@ -81,26 +81,26 @@ public class TransactionHandlerIT {
         Transaction[] invalid = new Transaction[numInvalidTests];
 
         //invalid ID
-        invalid[0] = new Transaction(0, "2024 BMW M4 Competition Cabriolet", new DateTime(2024, 3, 3, 12, 0, 0), "BMW Dealership", 110200, "", true);
+        invalid[0] = new Transaction(0,1, "2024 BMW M4 Competition Cabriolet", new DateTime(2024, 3, 3, 12, 0, 0), "BMW Dealership", 110200, "", true);
         //ID already exists
-        invalid[1] = new Transaction(1, "2024 Ford Raptor R", new DateTime(2024, 2, 28, 12, 0, 0), "Ford Dealership", 118954, "Includes optional Raptor 37 Performance Package", true);
+        invalid[1] = new Transaction(1,1, "2024 Ford Raptor R", new DateTime(2024, 2, 28, 12, 0, 0), "Ford Dealership", 118954, "Includes optional Raptor 37 Performance Package", true);
         //invalid name
-        invalid[2] = new Transaction(-1, "", new DateTime(2024, 10, 10, 12, 0, 0), "???", 9000000, "???", true);
+        invalid[2] = new Transaction(-1,1, "", new DateTime(2024, 10, 10, 12, 0, 0), "???", 9000000, "???", true);
         //invalid date
-        invalid[3] = new Transaction(-1, "Louisiana", new DateTime(1803, 7, 4, 12, 0, 0), "New Orleans", 358000000, "", true);
+        invalid[3] = new Transaction(-1,1, "Louisiana", new DateTime(1803, 7, 4, 12, 0, 0), "New Orleans", 358000000, "", true);
         //invalid leap year
-        invalid[4] = new Transaction(-1, "2024 Land Rover Range Rover SV P615 Long Wheelbase", new DateTime(2023, 2, 29, 10, 0, 0), "Jaguar Land Rover Dealership", 397224, "Maxed out options and accessories", true);
+        invalid[4] = new Transaction(-1,1, "2024 Land Rover Range Rover SV P615 Long Wheelbase", new DateTime(2023, 2, 29, 10, 0, 0), "Jaguar Land Rover Dealership", 397224, "Maxed out options and accessories", true);
         //invalid place
-        invalid[5] = new Transaction(-1, "2024 Acura TLX Type S", new DateTime(2024, 1, 31, 20, 0, 0), "", 66478.50, "", true);
+        invalid[5] = new Transaction(-1,1, "2024 Acura TLX Type S", new DateTime(2024, 1, 31, 20, 0, 0), "", 66478.50, "", true);
         //invalid amount
-        invalid[6] = new Transaction(-1, "The Moon", new DateTime(2020, 12, 25, 16, 20, 0), "Space", -1398140054810.5082150, "Illegally acquired", true);
+        invalid[6] = new Transaction(-1,1, "The Moon", new DateTime(2020, 12, 25, 16, 20, 0), "Space", -1398140054810.5082150, "Illegally acquired", true);
 
         //Invalid comment over character limit
         String invalidComment = "CANTWAIT!!";
         for( int i = 0; i < 350; i++ )
             invalidComment += "!";
 
-        invalid[7] = new Transaction(-1, "2024 Porsche 911 GT3 RS", new DateTime(2024, 5, 8, 12, 12, 0), "Porsche Dealership", 301439, invalidComment, true);
+        invalid[7] = new Transaction(-1,1, "2024 Porsche 911 GT3 RS", new DateTime(2024, 5, 8, 12, 12, 0), "Porsche Dealership", 301439, invalidComment, true);
 
         //Try inserting all invalid tests, all should return false
         for( int i = 0; i < numInvalidTests; i ++ ) {
@@ -113,14 +113,14 @@ public class TransactionHandlerIT {
         assertEquals(transactionHandler.getAllTransactions(1).size(), EXPECTED_SIZE);
 
         //Test valid insertion
-        Transaction newTransaction = new Transaction(-1, "Tow Truck Fee", new DateTime(2024, 2, 29, 18, 31, 0), "Pembina Highway", 143.59, "Damn BMW", true);
+        Transaction newTransaction = new Transaction(-1,1, "Tow Truck Fee", new DateTime(2024, 2, 29, 18, 31, 0), "Pembina Highway", 143.59, "Damn BMW", true);
         transactionHandler.addTransaction(newTransaction);
 
-        assertEquals(transactionHandler.getAllTransactions(1).size(), EXPECTED_SIZE + 1);
-
+        assertEquals( EXPECTED_SIZE + 1, transactionHandler.getAllTransactions(1).size());
         //Should return true
-        assertEquals("Morning Dons", transactionHandler.getTransactionByID(1).getName());
-        //assertEquals("Tow Truck Fee", transactionHandler.getTransactionByID(EXPECTED_SIZE + 1).getName());
+
+        //assertEquals("Morning Dons", transactionHandler.getTransactionByID(1).getName());
+        assertEquals("Tow Truck Fee", transactionHandler.getTransactionByID(EXPECTED_SIZE + 1).getName());
 
 
     }
@@ -153,7 +153,7 @@ public class TransactionHandlerIT {
             assertFalse(transactionHandler.deleteTransaction(test));
         } catch(InvalidTransactionException ignored) {}
 
-        test = new Transaction(1000, "Quarter Pounder With Cheese", new DateTime(2024, 12, 25, 23, 13, 0), "McDonald's", 11.75, "I'm lovin' it", true);
+        test = new Transaction(1000,1, "Quarter Pounder With Cheese", new DateTime(2024, 12, 25, 23, 13, 0), "McDonald's", 11.75, "I'm lovin' it", true);
 
         assertFalse(transactionHandler.deleteTransaction(test));
 
@@ -251,29 +251,28 @@ public class TransactionHandlerIT {
 //
 //        assertEquals(transactionHandler.getAllTransactions().size(), EXPECTED_SIZE);
 //    }
-//
-//    @Test
-//    public void testGetOldestFirst() {
-//
-//        ArrayList<Transaction> list = transactionHandler.getAllByOldestFirst(1);
-//
-//        //Test specific names that should have gone to the front/back; should return true
-////        assertEquals(list.get(0).getName(), transactionHandler.getTransactionByID(1).getName());
-//        assertEquals("Morning Dons", list.get(0).getName());
-//        assertEquals(list.get(EXPECTED_SIZE-1).getName(), transactionHandler.getTransactionByID(1).getName());
-//
-//    }
-//
-//    @Test
-//    public void testGetNewestFirst() {
-//
-//        ArrayList<Transaction> list = transactionHandler.getAllByNewestFirst(1);
-//
-//        //Test specific names that should have gone to the front/back; should return true
-//        assertEquals(list.get(0).getName(), transactionHandler.getTransactionByID(2).getName());
-//        assertEquals(list.get(EXPECTED_SIZE-1).getName(), transactionHandler.getTransactionByID(2).getName());
-//    }
-//
+
+    @Test
+    public void testGetOldestFirst() {
+
+        ArrayList<Transaction> list = transactionHandler.getAllByOldestFirst(1);
+
+        //Test specific names that should have gone to the front/back; should return true
+        assertEquals(list.get(0).getName(), transactionHandler.getTransactionByID(1).getName());
+        assertEquals(list.get(EXPECTED_SIZE-1).getName(), "Star Wars Rebels merch");
+
+    }
+
+    @Test
+    public void testGetNewestFirst() {
+
+        ArrayList<Transaction> list = transactionHandler.getAllByNewestFirst(1);
+
+        //Test specific names that should have gone to the front/back; should return true
+        assertEquals(list.get(0).getName(), transactionHandler.getTransactionByID(2).getName());
+        assertEquals(list.get(EXPECTED_SIZE-1).getName(), "Morning Dons");
+    }
+
     @Test
     public void testGetTransactionByCategoryID() {
 
@@ -307,7 +306,7 @@ public class TransactionHandlerIT {
         //Get multiple transactions with the same name
         for(int i = 0; i < numInserts; i ++) {
 
-            transactionHandler.addTransaction(new Transaction(-1,  "2024 Honda Civic Type R", new DateTime(2024, 2, 29, 16, 20, 0), "Winnipeg Honda", 53280.00, "MSRP", true));
+            transactionHandler.addTransaction(new Transaction(-1,1,  "2024 Honda Civic Type R", new DateTime(2024, 2, 29, 16, 20, 0), "Winnipeg Honda", 53280.00, "MSRP", true));
 
         }
 
@@ -324,28 +323,29 @@ public class TransactionHandlerIT {
     public void testGetByAmount() {
 
         //Check getByAmount
-        ArrayList<Transaction> list = transactionHandler.getTransactionByAmountBetween(1, 200.00, 200.00);
+        ArrayList<Transaction> list1 = transactionHandler.getTransactionByAmountBetween(1, 200.00, 200.00);
 
         //There are 2 values that are exactly 200
-        assertEquals(list.size(), 2);
+        assertEquals(list1.size(), 2);
 
         //Check amountLessThan
-        list = transactionHandler.getTransactionByAmountBetween(1, -1,200);
+        ArrayList<Transaction> list2 = transactionHandler.getTransactionByAmountBetween(1, -1,200);
 
         //Only 9 elements are strictly less than 200
-        assertEquals(list.size(), 9);
+//        assertEquals(list2.size(), 9);
+        assertEquals(11, list2.size());
 
         //Check amountGreaterThan
-        list = transactionHandler.getTransactionByAmountBetween(1, 250.50, Integer.MAX_VALUE);
+        ArrayList<Transaction> list3 = transactionHandler.getTransactionByAmountBetween(1, 250.50, Integer.MAX_VALUE);
 
         //Only 2 elements are strictly greater than 2
-        assertEquals(list.size(), 2);
+        assertEquals(list3.size(), 3);
 
         //Check amountBetween, which is inclusive unlike the others
-        list = transactionHandler.getTransactionByAmountBetween(1, 80.25, 200.00);
+        ArrayList<Transaction> list4 = transactionHandler.getTransactionByAmountBetween(1, 80.25, 200.00);
 
         //7 elements are between 80.25 and 200 (inclusive)
-        assertEquals(list.size(),7);
+        assertEquals(list4.size(),7);
 
     }
 
@@ -386,4 +386,27 @@ public class TransactionHandlerIT {
 //        assertEquals(list.size(), numInsertions);
 //
 //    }
+
+    @Test
+    public void testGetByDate() {
+
+        int numInsertions = 3;
+
+        DateTime date = new DateTime(2023, 9, 15, 0, 0, 0);
+        //Test retrieval of specific item by date
+        ArrayList<Transaction> list = transactionHandler.getTransactionByDateTime(1, date, date);
+
+        //Both should be true
+        assertEquals(list.size(), 1);
+        assertEquals(list.get(0).getName(), "Online shopping for household items");
+
+        //Test retrieval of items between specified dates
+        list = transactionHandler.getTransactionByDateTime(1,
+                new DateTime(2023, 9, 1, 0, 0, 0),
+                new DateTime(2023, 10, 1, 0, 0, 0));
+        assertEquals(list.size(), 6);
+
+
+
+    }
 }

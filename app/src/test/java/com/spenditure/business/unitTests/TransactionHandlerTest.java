@@ -122,6 +122,7 @@ public class TransactionHandlerTest {
 
         //Should return true
         assertEquals("Morning Dons", transactionHandler.getTransactionByID(1).getName());
+
         assertEquals("Tow Truck Fee", transactionHandler.getTransactionByID(EXPECTED_SIZE + 1).getName());
 
 
