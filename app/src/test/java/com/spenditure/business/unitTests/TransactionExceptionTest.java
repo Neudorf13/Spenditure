@@ -37,7 +37,7 @@ public class TransactionExceptionTest {
 
         transactionHandler = new TransactionHandler(true);
 
-        test = new Transaction(-1, UserManager.getUserID(), "2024 Honda Civic Type R", new DateTime(2024, 2, 29, 16, 20, 0), "Winnipeg Honda", 53280.00, "MSRP", true);
+        test = new Transaction(-1, 1, "2024 Honda Civic Type R", new DateTime(2024, 2, 29, 16, 20, 0), "Winnipeg Honda", 53280.00, "MSRP", true);
 
         caught = false;
 

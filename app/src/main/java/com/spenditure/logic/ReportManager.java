@@ -54,7 +54,7 @@ public class ReportManager implements IReportManager {
         // manually set to current date (probably an API for getting this info)
         IDateTime yearEnd = getCurrentDate();
         // manually set to 1 year ago from current date
-        IDateTime yearStart = new DateTime(yearEnd.getYear()-1, yearEnd.getMonth());
+        IDateTime yearStart = new DateTime(yearEnd.getYear()-1, yearEnd.getMonth(), yearEnd.getDay());
 
 
         double avgTransSize = getAverageTransactionSizeByDate(userID, yearStart, yearEnd);
@@ -74,8 +74,8 @@ public class ReportManager implements IReportManager {
 
         for(int i = 1; i <= 12; i++)
         {
-            monthReports.add(reportOnUserProvidedDates(userID, new DateTime(today.getYear()-1, i),
-                    new DateTime(today.getYear()-1, i)));
+            monthReports.add(reportOnUserProvidedDates(userID, new DateTime(today.getYear()-1, i, 1),
+                    correctDateTime(new DateTime(today.getYear()-1, i, 31))));
         }
 
         return monthReports;
@@ -120,7 +120,7 @@ public class ReportManager implements IReportManager {
     private DateTime getCurrentDate()
     {
         LocalDate javaDateObject = LocalDate.now(); // Create a date object
-        return new DateTime(javaDateObject.getYear(), javaDateObject.getMonthValue());
+        return new DateTime(javaDateObject.getYear(), javaDateObject.getMonthValue(), javaDateObject.getDayOfMonth());
     }
 
     private double getAverageTransactionSizeByDate(int userID, IDateTime startDate, IDateTime endDate) {
@@ -161,7 +161,7 @@ public class ReportManager implements IReportManager {
             sum += current;
         }
 
-        variance = sum / (transactions.size() - 1);
+        variance = sum / (transactions.size());
 
         standardDeviation = sqrt(variance);
 
