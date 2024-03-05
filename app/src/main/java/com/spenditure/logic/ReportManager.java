@@ -5,12 +5,9 @@ import static com.spenditure.logic.DateTimeValidator.validateDateTime;
 import static java.lang.Math.abs;
 import static java.lang.Math.sqrt;
 
-import androidx.annotation.NonNull;
-
 import com.spenditure.application.Services;
 import com.spenditure.database.CategoryPersistence;
 import com.spenditure.database.TransactionPersistence;
-import com.spenditure.logic.exceptions.InvalidDateException;
 import com.spenditure.object.DateTime;
 import com.spenditure.object.IDateTime;
 import com.spenditure.object.IReport;
@@ -20,7 +17,6 @@ import com.spenditure.object.MainCategory;
 import com.spenditure.object.Transaction;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.time.*;
 
@@ -38,65 +34,68 @@ import java.time.*;
  **/
 
 
-public class ReportManager implements IReportManager {
+public class ReportManager {
 
     //instance vars
     private TransactionPersistence dataAccessTransaction;
     private CategoryPersistence dataAccessCategory;
+    private static final int DAYS_IN_WEEK = 7;
+    private static final int WEEKS_IN_MONTH = 4;
 
     public ReportManager(boolean getStubDB) {
         this.dataAccessTransaction = Services.getTransactionPersistence(getStubDB);
         this.dataAccessCategory = Services.getCategoryPersistence(getStubDB);
     }
 
-    public IReport reportOnLastYear(int userID)
+    public IReport reportBackOneYear(int userID, IDateTime yearEnd)
     {
         // manually set to current date (probably an API for getting this info)
-        IDateTime yearEnd = getCurrentDate();
+//        IDateTime yearEnd = getCurrentDate();
         // manually set to 1 year ago from current date
-        IDateTime yearStart = new DateTime(yearEnd.getYear()-1, yearEnd.getMonth());
+        IDateTime yearStart = new DateTime(yearEnd.getYear()-1, yearEnd.getMonth(), yearEnd.getDay());
 
 
         double avgTransSize = getAverageTransactionSizeByDate(userID, yearStart, yearEnd);
         int numTrans = countAllTransactionsByDate(userID, yearStart, yearEnd);
         double stdDev = getStandardDeviationByDate(userID, yearStart, yearEnd);
+        double percent = getPercentForReport(userID, yearStart, yearEnd);
 
         ArrayList<CategoryStatistics> listOfCategoryStatistics = buildCategoryList(userID, yearStart, yearEnd);
 
-        return new Report(avgTransSize, numTrans, stdDev, listOfCategoryStatistics);
+        return new Report(avgTransSize, numTrans, stdDev, percent, listOfCategoryStatistics);
 
     }
 
-    public ArrayList<IReport> reportOnLastYearByMonth(int userID)
+    public ArrayList<IReport> reportBackOnLastYearByMonth(int userID, DateTime today)
     {
         ArrayList<IReport> monthReports = new ArrayList<IReport>();
-        DateTime today = getCurrentDate();
+//        DateTime today = getCurrentDate();
 
         for(int i = 1; i <= 12; i++)
         {
-            monthReports.add(reportOnUserProvidedDates(userID, new DateTime(today.getYear()-1, i),
-                    new DateTime(today.getYear()-1, i)));
+            monthReports.add(reportOnUserProvidedDates(userID, new DateTime(today.getYear()-1, i, 1),
+                    correctDateTime(new DateTime(today.getYear()-1, i, 31))));
         }
 
         return monthReports;
     }
 
-    public ArrayList<IReport> reportOnLastMonthByWeek(int userID) {
+    public ArrayList<IReport> reportBackOneMonthByWeek(int userID, DateTime start) {
 
-        DateTime[] weekDates = new DateTime[5];
+        DateTime[] weekDates = new DateTime[WEEKS_IN_MONTH + 1];
         ArrayList<IReport> result = new ArrayList<IReport>();
-        int daysInWeek = 7;
 
-        weekDates[0] = getCurrentDate(); //current day
+//        weekDates[0] = getCurrentDate(); //current day
+        weekDates[0] = start;
 
         for( int i = 1; i < weekDates.length; i ++ ) {
 
             DateTime week = weekDates[i - 1].copy();
-            week.adjust(0, 0, -i * daysInWeek, 0, 0, 0);
+            week.adjust(0, 0, -DAYS_IN_WEEK, 0, 0, 0);
 
             weekDates[i] = week;
 
-            result.add(reportOnUserProvidedDates(userID, weekDates[i - 1], weekDates[i]));
+            result.add(reportOnUserProvidedDates(userID, weekDates[i], weekDates[i - 1]));
         }
 
         return result;
@@ -111,16 +110,17 @@ public class ReportManager implements IReportManager {
         double averageTransactionSize = getAverageTransactionSizeByDate(userID, start, end);
         int numTransactions = countAllTransactionsByDate(userID, start, end);
         double standardDeviation = getStandardDeviationByDate(userID, start, end);
+        double percent = getPercentForReport(userID, start, end);
 
         ArrayList<CategoryStatistics> categoryStatistics = buildCategoryList(userID, start, end);
 
-        return new Report( averageTransactionSize, numTransactions, standardDeviation, categoryStatistics );
+        return new Report( averageTransactionSize, numTransactions, standardDeviation, percent, categoryStatistics );
     }
 
-    private DateTime getCurrentDate()
+    public static DateTime getCurrentDate()
     {
         LocalDate javaDateObject = LocalDate.now(); // Create a date object
-        return new DateTime(javaDateObject.getYear(), javaDateObject.getMonthValue());
+        return new DateTime(javaDateObject.getYear(), javaDateObject.getMonthValue(), javaDateObject.getDayOfMonth());
     }
 
     private double getAverageTransactionSizeByDate(int userID, IDateTime startDate, IDateTime endDate) {
@@ -161,7 +161,7 @@ public class ReportManager implements IReportManager {
             sum += current;
         }
 
-        variance = sum / (transactions.size() - 1);
+        variance = sum / (transactions.size());
 
         standardDeviation = sqrt(variance);
 
@@ -252,6 +252,17 @@ public class ReportManager implements IReportManager {
             return 0;
     }
 
+    private double getPercentForReport(int userID, IDateTime startDate, IDateTime endDate) {
+
+        DateTime beginningOfTime = new DateTime(DateTimeValidator.MIN_YEAR, 01, 01);
+        DateTime endOfTime = new DateTime(DateTimeValidator.MAX_YEAR, 12, 31, 23, 59, 59);
+
+        double allTotal = getTotalForAllTransactionsByDate(userID, beginningOfTime, endOfTime);
+        double reportTotal = getTotalForAllTransactionsByDate(userID, startDate, endDate);
+
+        return (reportTotal / allTotal) * 100;
+    }
+
     //sorting methods
 
     //returns list of CategoryStatisticss (one for each category)
@@ -272,10 +283,5 @@ public class ReportManager implements IReportManager {
 
         return categoryList;
     }
-
-
-
-
-
 
 }

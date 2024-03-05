@@ -1,11 +1,16 @@
 package com.spenditure;
 
 //import com.spenditure.business.ReportManagerTest;
+import com.spenditure.business.unitTests.AccountManagerTest;
 import com.spenditure.business.unitTests.CategoryHandlerTest;
 import com.spenditure.business.unitTests.CategoryExceptionTest;
 
+import com.spenditure.business.unitTests.DateTimeAdjusterTest;
+import com.spenditure.business.unitTests.GeneralReportHandlerTest;
+import com.spenditure.business.unitTests.ReportManagerTest;
 import com.spenditure.business.unitTests.TransactionExceptionTest;
 import com.spenditure.business.unitTests.TransactionHandlerTest;
+import com.spenditure.business.unitTests.UserManagerExceptionTest;
 import com.spenditure.objects.MainCategoryTest;
 
 import org.junit.runner.RunWith;
@@ -23,7 +28,11 @@ import org.junit.runners.Suite;
         CategoryExceptionTest.class,
         TransactionExceptionTest.class,
         TransactionHandlerTest.class,
-      //  ReportManagerTest.class
+        ReportManagerTest.class,
+        AccountManagerTest.class,
+        GeneralReportHandlerTest.class,
+        UserManagerExceptionTest.class,
+        DateTimeAdjusterTest.class
 })
 public class AllUnitTests {
 }

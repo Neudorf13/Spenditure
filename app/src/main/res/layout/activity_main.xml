@@ -805,7 +805,7 @@
                                     android:id="@+id/textview_customTime_totalTrans"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="20 transactions"
+                                    android:text="0 transactions"
                                     android:textSize="@dimen/normal_size"
                                     android:textColor="@color/white"
                                     android:textStyle="bold"/>
@@ -832,7 +832,7 @@
                                     android:id="@+id/textview_customTime_totalAmount"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="$1000 CAD"
+                                    android:text="$0 CAD"
                                     android:textSize="@dimen/normal_size"
                                     android:textColor="@color/white"
                                     android:textStyle="bold"/>
@@ -859,7 +859,7 @@
                                     android:id="@+id/textview_customTime_average"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="100 CAD"
+                                    android:text="$0 CAD"
                                     android:textSize="@dimen/normal_size"
                                     android:textColor="@color/white"
                                     android:textStyle="bold"/>
@@ -887,7 +887,7 @@
                                     android:id="@+id/textview_customTime_percentage"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="20 %"
+                                    android:text="0 %"
                                     android:textSize="@dimen/normal_size"
                                     android:textColor="@color/white"
                                     android:textStyle="bold"/>
