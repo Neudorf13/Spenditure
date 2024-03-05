@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -79,7 +78,7 @@ public class ViewReportActivity extends AppCompatActivity {
     }
 
     private void handleLastYearReport(){
-        IReport lastYearReport = reportManager.reportOnLastYear(UserManager.getUserID());
+        IReport lastYearReport = reportManager.reportBackOneYear(UserManager.getUserID(), ReportManager.getCurrentDate());
         TextView numTransactions = findViewById(R.id.textview_lastYear_transactionsCount);
         TextView totalTransactions = findViewById(R.id.textview_lastYear_total);
         TextView average = findViewById(R.id.textview_lastYear_average);

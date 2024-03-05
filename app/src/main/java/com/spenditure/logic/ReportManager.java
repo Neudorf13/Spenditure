@@ -5,12 +5,9 @@ import static com.spenditure.logic.DateTimeValidator.validateDateTime;
 import static java.lang.Math.abs;
 import static java.lang.Math.sqrt;
 
-import androidx.annotation.NonNull;
-
 import com.spenditure.application.Services;
 import com.spenditure.database.CategoryPersistence;
 import com.spenditure.database.TransactionPersistence;
-import com.spenditure.logic.exceptions.InvalidDateException;
 import com.spenditure.object.DateTime;
 import com.spenditure.object.IDateTime;
 import com.spenditure.object.IReport;
@@ -20,7 +17,6 @@ import com.spenditure.object.MainCategory;
 import com.spenditure.object.Transaction;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.time.*;
 
@@ -43,16 +39,18 @@ public class ReportManager implements IReportManager {
     //instance vars
     private TransactionPersistence dataAccessTransaction;
     private CategoryPersistence dataAccessCategory;
+    private static final int DAYS_IN_WEEK = 7;
+    private static final int WEEKS_IN_MONTH = 4;
 
     public ReportManager(boolean getStubDB) {
         this.dataAccessTransaction = Services.getTransactionPersistence(getStubDB);
         this.dataAccessCategory = Services.getCategoryPersistence(getStubDB);
     }
 
-    public IReport reportOnLastYear(int userID)
+    public IReport reportBackOneYear(int userID, IDateTime yearEnd)
     {
         // manually set to current date (probably an API for getting this info)
-        IDateTime yearEnd = getCurrentDate();
+//        IDateTime yearEnd = getCurrentDate();
         // manually set to 1 year ago from current date
         IDateTime yearStart = new DateTime(yearEnd.getYear()-1, yearEnd.getMonth(), yearEnd.getDay());
 
@@ -67,10 +65,10 @@ public class ReportManager implements IReportManager {
 
     }
 
-    public ArrayList<IReport> reportOnLastYearByMonth(int userID)
+    public ArrayList<IReport> reportBackOnLastYearByMonth(int userID, DateTime today)
     {
         ArrayList<IReport> monthReports = new ArrayList<IReport>();
-        DateTime today = getCurrentDate();
+//        DateTime today = getCurrentDate();
 
         for(int i = 1; i <= 12; i++)
         {
@@ -81,18 +79,18 @@ public class ReportManager implements IReportManager {
         return monthReports;
     }
 
-    public ArrayList<IReport> reportOnLastMonthByWeek(int userID) {
+    public ArrayList<IReport> reportBackOneMonthByWeek(int userID, DateTime start) {
 
-        DateTime[] weekDates = new DateTime[5];
+        DateTime[] weekDates = new DateTime[WEEKS_IN_MONTH + 1];
         ArrayList<IReport> result = new ArrayList<IReport>();
-        int daysInWeek = 7;
 
-        weekDates[0] = getCurrentDate(); //current day
+//        weekDates[0] = getCurrentDate(); //current day
+        weekDates[0] = start;
 
         for( int i = 1; i < weekDates.length; i ++ ) {
 
             DateTime week = weekDates[i - 1].copy();
-            week.adjust(0, 0, -i * daysInWeek, 0, 0, 0);
+            week.adjust(0, 0, -i * DAYS_IN_WEEK, 0, 0, 0);
 
             weekDates[i] = week;
 
@@ -117,7 +115,7 @@ public class ReportManager implements IReportManager {
         return new Report( averageTransactionSize, numTransactions, standardDeviation, categoryStatistics );
     }
 
-    private DateTime getCurrentDate()
+    public static DateTime getCurrentDate()
     {
         LocalDate javaDateObject = LocalDate.now(); // Create a date object
         return new DateTime(javaDateObject.getYear(), javaDateObject.getMonthValue(), javaDateObject.getDayOfMonth());
@@ -272,10 +270,5 @@ public class ReportManager implements IReportManager {
 
         return categoryList;
     }
-
-
-
-
-
 
 }

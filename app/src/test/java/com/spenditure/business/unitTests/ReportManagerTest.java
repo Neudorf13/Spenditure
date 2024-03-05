@@ -20,16 +20,10 @@ import static org.junit.Assert.*;
 import java.util.ArrayList; // import the ArrayList class
 import java.util.List;
 
-import com.spenditure.logic.DateTimeAdjuster;
-import com.spenditure.logic.GeneralReportHandler;
 import com.spenditure.logic.ReportManager;
-import com.spenditure.logic.UserManager;
 import com.spenditure.object.CategoryStatistics;
 import com.spenditure.object.DateTime;
-import com.spenditure.object.IDateTime;
 import com.spenditure.object.IReport;
-import com.spenditure.object.MainCategory;
-import com.spenditure.object.Report;
 
 
 import org.junit.After;
@@ -75,7 +69,7 @@ public class ReportManagerTest {
     @Test
     public void testReportOnLastYear() {
 
-        IReport report = reportManager.reportOnLastYear(1);
+        IReport report = reportManager.reportBackOneYear(1, new DateTime(2024, 03, 04));
 
         assertEquals("13 transactions since the beginning of 2023", 13, report.getNumTrans());
         assertEquals("Average is 171.38", 171.38, report.getAvgTransSize(), 0.1);
@@ -144,7 +138,7 @@ public class ReportManagerTest {
     @Test
     public void testReportOnLastMonthByWeek() {
 
-        ArrayList<IReport> reports = reportManager.reportOnLastMonthByWeek(1);
+        ArrayList<IReport> reports = reportManager.reportBackOneMonthByWeek(1, new DateTime(2024, 03, 04));
 
         assertEquals("There should be 4 reports, for 4 weeks in a month", 4, reports.size());
 
@@ -154,7 +148,7 @@ public class ReportManagerTest {
     @Test
     public void testReportOnLastYearByMonth() {
 
-        ArrayList<IReport> reports = reportManager.reportOnLastYearByMonth(1);
+        ArrayList<IReport> reports = reportManager.reportBackOnLastYearByMonth(1, new DateTime(2024, 03, 04));
 
         assertEquals("There should be 12 reports, one per month", 12, reports.size());
 

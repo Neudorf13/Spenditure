@@ -51,11 +51,11 @@ public class Report implements IReport{
     }
 
     public double getPercentage(){
-        double perCentage = 0;
+        double percentage = 0;
         for(CategoryStatistics categoryStatistics: this.categoryStatisticsList){
-            perCentage += categoryStatistics.getPercent();
+            percentage += categoryStatistics.getPercent();
         }
-        return perCentage;
+        return percentage;
 
     }
 }

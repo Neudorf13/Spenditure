@@ -8,11 +8,11 @@ import java.util.ArrayList;
 
 public interface IReportManager {
 
-    public IReport reportOnLastYear(int userID);
+    public IReport reportBackOneYear(int userID,IDateTime date);
 
-    public ArrayList<IReport> reportOnLastYearByMonth(int userID);
+    public ArrayList<IReport> reportBackOnLastYearByMonth(int userID, DateTime date);
 
-    public ArrayList<IReport> reportOnLastMonthByWeek(int userID);
+    public ArrayList<IReport> reportBackOneMonthByWeek(int userID, DateTime date);
 
     public IReport reportOnUserProvidedDates(int userID, IDateTime start, IDateTime end);
 }
