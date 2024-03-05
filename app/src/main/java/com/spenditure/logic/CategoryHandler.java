@@ -45,6 +45,7 @@ public class CategoryHandler implements ICategoryHandler{
     public void printCategoryTable() {
         dataAccessCategory.printCategoryTable();
     }
+
     /*
        addCategory
 
@@ -52,16 +53,29 @@ public class CategoryHandler implements ICategoryHandler{
        then sends it to the data layer to be added.
     */
     public MainCategory addCategory(String newCategoryName,int userID) throws InvalidCategoryException {
-        if (newCategoryName == null){
-            throw new InvalidCategoryException("Null pointer");
-        }else if(newCategoryName.equals("")){
-            throw new InvalidCategoryException("Name of category must not be blank");
+
+        if (newCategoryName == null) {
+            throw new InvalidCategoryException("No category was provided to add.");
+
+        } else if(newCategoryName.equals("")) {
+            throw new InvalidCategoryException("Category's name cannot be blank.");
+
         }
+
         return this.dataAccessCategory.addCategory(newCategoryName,userID);
     }
 
-    public void deleteCategory(int id) throws InvalidCategoryException{
+    /*
+
+        deleteCategory
+
+        Sends a request to delete a category based on a given category ID.
+
+     */
+    public void deleteCategory(int id) throws InvalidCategoryException {
+
         this.dataAccessCategory.deleteCategoryByID(id);
+
     }
 
     /*
@@ -75,41 +89,60 @@ public class CategoryHandler implements ICategoryHandler{
        Checks the name of category to make sure it's valid,
        then get parent category then send it to data layer to add subcategory to it.
     */
-    public SubCategory addSubCategory(int parentCategoryID,String newSubCategory) throws InvalidCategoryException,InvalidSubCategoryException{
-        if(newSubCategory == null){
-            throw new InvalidSubCategoryException("Null pointer");
-        }else if( newSubCategory.equals("")){
-            throw new InvalidSubCategoryException("Name of sub-category must not be blank");
+    public SubCategory addSubCategory(int parentCategoryID,String newSubCategory)
+            throws InvalidCategoryException,InvalidSubCategoryException {
+
+        if(newSubCategory == null) {
+            throw new InvalidSubCategoryException("No sub-category was given to add.");
+
+        } else if( newSubCategory.equals("")) {
+            throw new InvalidSubCategoryException("Sub-category's name cannot be blank");
+
         }
+
         MainCategory parentCategory = getCategoryByID(parentCategoryID);
+
         return parentCategory.addSubCategory(newSubCategory);
+
     }
 
     /*
        deleteSubCategory
+
        get parent category then send it to data layer to remove subcategory to it.
     */
-    public void deleteSubCategory(int parentCategoryID,int subCategoryID) throws InvalidCategoryException,InvalidSubCategoryException {
+    public void deleteSubCategory(int parentCategoryID,int subCategoryID)
+            throws InvalidCategoryException,InvalidSubCategoryException {
+
         MainCategory parentCategory = getCategoryByID(parentCategoryID);
+
         parentCategory.removeSubCategory(subCategoryID);
+
     }
 
     /*
        getAllSubCategoriesFromParent
        get parent category then get list of all sub-category.
     */
-    public List<SubCategory> getAllSubCategoriesFromParent(int parentCategoryID) throws InvalidCategoryException{
+    public List<SubCategory> getAllSubCategoriesFromParent(int parentCategoryID) throws InvalidCategoryException {
+
         MainCategory parentCategory = getCategoryByID(parentCategoryID);
+
         return parentCategory.getSubCategories();
+
     }
 
     /*
       getSubCategoryFromParent
       get parent category then get sub-category that have given ID.
    */
-    public SubCategory getSubCategoryFromParent(int parentCategoryID,int subCategoryID) throws InvalidCategoryException,InvalidSubCategoryException{
+    public SubCategory getSubCategoryFromParent(int parentCategoryID,int subCategoryID)
+            throws InvalidCategoryException,InvalidSubCategoryException{
+
         MainCategory parentCategory = getCategoryByID(parentCategoryID);
+
         return parentCategory.getSubCategoryByID(subCategoryID);
+
     }
 
 
