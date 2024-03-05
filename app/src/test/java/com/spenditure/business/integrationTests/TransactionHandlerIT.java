@@ -105,7 +105,7 @@ public class TransactionHandlerIT {
         //Try inserting all invalid tests, all should return false
         for( int i = 0; i < numInvalidTests; i ++ ) {
             try {
-                assertFalse(transactionHandler.addTransaction(invalid[i]));
+                assertFalse(addTransaction(invalid[i]));
             } catch(InvalidTransactionException ignored) {}
         }
 
@@ -114,7 +114,7 @@ public class TransactionHandlerIT {
 
         //Test valid insertion
         Transaction newTransaction = new Transaction(-1, "Tow Truck Fee", new DateTime(2024, 2, 29, 18, 31, 0), "Pembina Highway", 143.59, "Damn BMW", true);
-        transactionHandler.addTransaction(newTransaction);
+        addTransaction(newTransaction);
 
         assertEquals(transactionHandler.getAllTransactions(1).size(), EXPECTED_SIZE + 1);
 
@@ -307,7 +307,7 @@ public class TransactionHandlerIT {
         //Get multiple transactions with the same name
         for(int i = 0; i < numInserts; i ++) {
 
-            transactionHandler.addTransaction(new Transaction(-1,  "2024 Honda Civic Type R", new DateTime(2024, 2, 29, 16, 20, 0), "Winnipeg Honda", 53280.00, "MSRP", true));
+            addTransaction(new Transaction(-1,  "2024 Honda Civic Type R", new DateTime(2024, 2, 29, 16, 20, 0), "Winnipeg Honda", 53280.00, "MSRP", true));
 
         }
 
@@ -378,7 +378,7 @@ public class TransactionHandlerIT {
 //        //Test retrieval of all transactions from a specific date
 //        for(int i = 0; i < numInsertions; i ++)
 //
-//            transactionHandler.addTransaction(new Transaction(-1,  "2024 Honda Civic Type R", new DateTime(2024, 2, 29, 16 + i, 20 + i, 15 + i), "Winnipeg Honda", 53280.00, "MSRP", true));
+//            addTransaction(new Transaction(-1,  "2024 Honda Civic Type R", new DateTime(2024, 2, 29, 16 + i, 20 + i, 15 + i), "Winnipeg Honda", 53280.00, "MSRP", true));
 //
 //        list = transactionHandler.getTransactionByDate(new DateTime(2024, 2, 29));
 //
@@ -386,4 +386,8 @@ public class TransactionHandlerIT {
 //        assertEquals(list.size(), numInsertions);
 //
 //    }
+
+    private boolean addTransaction(Transaction t) {
+        return transactionHandler.addTransaction(UserManager.getUserID(), t.getName(), t.getDateTime(), t.getPlace(), t.getAmount(), t.getComments(), t.getWithdrawal());
+    }
 }
