@@ -82,7 +82,7 @@ public class ReportManager {
         validateDateTime(today);
         assert(userID >= 0);
 
-        ArrayList<IReport> monthReports = new ArrayList<IReport>();
+        ArrayList<IReport> monthReports = new ArrayList<>();
 
         for(int i = 1; i <= 12; i++) {
             monthReports.add(reportOnUserProvidedDates(
@@ -108,7 +108,7 @@ public class ReportManager {
         assert(userID >= 0);
 
         DateTime[] weekDates = new DateTime[WEEKS_IN_MONTH + 1];
-        ArrayList<IReport> result = new ArrayList<IReport>();
+        ArrayList<IReport> result = new ArrayList<>();
 
         weekDates[0] = start;
 
@@ -414,21 +414,26 @@ public class ReportManager {
 
      */
     private ArrayList<CategoryStatistics> buildCategoryList(int userID, IDateTime startDate, IDateTime endDate) {
+
         ArrayList<CategoryStatistics> categoryList = new ArrayList<>();
         int numCategories = countAllCategories(userID);
 
         for(int i = 1; i < numCategories+1; i++) {
+
             //for each Category calculate -> total, average, %
             MainCategory category = dataAccessCategory.getCategoryByID(i);
+
             double total = getTotalForCategoryByDate(userID, i, startDate, endDate);
             double average = getAverageForCategoryByDate(userID, i, startDate, endDate);
             double percent = getPercentForCategoryByDate(userID, i, startDate, endDate);
 
             CategoryStatistics node = new CategoryStatistics(category,total,average,percent);
             categoryList.add(node);
+
         }
 
         return categoryList;
+
     }
 
 }
