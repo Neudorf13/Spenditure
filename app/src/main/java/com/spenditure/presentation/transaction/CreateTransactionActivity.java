@@ -20,56 +20,73 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatToggleButton;
 
 import android.app.Activity;
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.spenditure.logic.CategoryHandler;
 import com.spenditure.logic.TransactionHandler;
 import com.spenditure.logic.UserManager;
 import com.spenditure.logic.exceptions.InvalidTransactionException;
 import com.spenditure.object.DateTime;
+import com.spenditure.object.MainCategory;
 import com.spenditure.object.Transaction;
 
 import com.example.spenditure.R;
+import com.spenditure.presentation.BottomNavigationHandler;
 import com.spenditure.presentation.ImageCaptureActivity;
 import com.spenditure.presentation.ImageViewActivity;
+import com.spenditure.presentation.category.CustomCategorySpinnerAdapter;
 import com.spenditure.presentation.category.ViewCategoryActivity;
 import com.spenditure.presentation.report.ViewReportActivity;
+
+import java.time.LocalDateTime;
 
 public class CreateTransactionActivity extends AppCompatActivity {
 
     private ActivityResultLauncher<Intent> getImageCaptureResult;
     private byte[] imageBytes;
     private Button viewImageButton;
+    private CustomCategorySpinnerAdapter adapter;
+    private DateTime selectedDate;
+    private int userID;
+    private TransactionHandler transactionHandler;
+    private CategoryHandler categoryHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_transaction);
+        this.userID = UserManager.getUserID();
+
+        transactionHandler = new TransactionHandler(true);
 
         setUpCreateButton();
-        navBarHandling();
-
+        setUpCategories();
+        setUpDatePicker();
         setUpImageCaptureButton();
         setUpViewImageButton();
+        navBarHandling();
     }
 
     private void setUpCreateButton() {
         // Set up click event for the Create Transaction Button
-        Button button = (Button) findViewById(R.id.button_edit_transaction);
+        Button button = (Button) findViewById(R.id.button_create_transaction);
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 // Call helper method
                 Transaction newTransaction = createTransaction();
 
                 try {
-                    TransactionHandler handler = new TransactionHandler(true);
-                    handler.addTransaction(newTransaction);
+                    transactionHandler.addTransaction(newTransaction);
 
                     // Return to the main window
                     startActivity(new Intent(getApplicationContext(), ViewReportActivity.class));
@@ -80,10 +97,57 @@ public class CreateTransactionActivity extends AppCompatActivity {
         });
     }
 
+    // Set up the category drop down menu
+    private void setUpCategories() {
+        categoryHandler = new CategoryHandler(true);
+
+        Spinner categories = (Spinner) findViewById(R.id.spinner_categories);
+
+        // Create adapter to display the categories
+        adapter = new CustomCategorySpinnerAdapter(categoryHandler.getAllCategory(userID), this);
+        categories.setAdapter(adapter);
+    }
+
+    // Set up the date picker
+    private void setUpDatePicker() {
+        EditText dateField = (EditText) findViewById(R.id.edittext_date);
+        // Default to today's date
+        LocalDateTime today = LocalDateTime.now();
+        selectedDate = new DateTime(today.getYear(), today.getMonthValue(), today.getDayOfMonth());
+
+        // Create event for when a new date is selected
+        DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker datePicker, int year, int month, int day) {
+                selectedDate = new DateTime(year, month, day);
+                dateField.setText(selectedDate.toString());
+            }
+        };
+
+        // Create event for when the date field is selected
+        dateField.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                DatePickerDialog dialog = new DatePickerDialog(
+                        CreateTransactionActivity.this,
+                        date,
+                        selectedDate.getYear(),
+                        selectedDate.getMonth(),
+                        selectedDate.getDay()
+                );
+
+                dialog.show();
+            }
+        });
+    }
+
+    // Set up the View Image button
     private void setUpViewImageButton(){
         viewImageButton = (Button) findViewById(R.id.button_view_image);
 
+        // Create handler for button click
         viewImageButton.setOnClickListener(view -> {
+            // Open the activity and pass it any existing image
             Intent imageViewActivity = new Intent(getApplicationContext(), ImageViewActivity.class);
             imageViewActivity.putExtra("imageBytes", imageBytes);
             startActivity(imageViewActivity);
@@ -92,7 +156,7 @@ public class CreateTransactionActivity extends AppCompatActivity {
 
     // Set up the image capture button
     private void setUpImageCaptureButton() {
-        // Initialize the ActivityResultLauncher
+        // Initialize the ActivityResultLauncher so when it returns, we can get the bytes from the image
         getImageCaptureResult = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(),
                 result -> {
@@ -103,13 +167,14 @@ public class CreateTransactionActivity extends AppCompatActivity {
                             Bundle received = data.getExtras();
                             imageBytes = received.getByteArray("imageBytes");
 
-                            // Enable the view image button now
+                            // Enable the View Image button now
                             viewImageButton.setEnabled(true);
                         }
                     }
                 }
         );
 
+        // Create handler for button click
         ImageButton button = (ImageButton) findViewById(R.id.button_take_image);
         button.setOnClickListener(view -> {
             Intent imageCaptureActivity = new Intent(getApplicationContext(), ImageCaptureActivity.class);
@@ -118,40 +183,53 @@ public class CreateTransactionActivity extends AppCompatActivity {
     }
 
     // Handle the bottom navigation bar
-    private void navBarHandling() {
+    private void navBarHandling(){
         BottomNavigationView navView = findViewById(R.id.nav_view);
-        navView.setSelectedItemId(R.id.navigation_create_transaction);
+
+        BottomNavigationHandler navigationHandler = new BottomNavigationHandler();
 
         navView.setOnItemSelectedListener((item -> {
-            if (item.getItemId() == R.id.navigation_home) {
-                startActivity(new Intent(getApplicationContext(), ViewReportActivity.class));
-                return true;
-            } else if (item.getItemId() == R.id.navigation_create_transaction) {
-                return true;
-            } else if (item.getItemId() == R.id.navigation_view_transactions) {
-                startActivity(new Intent(getApplicationContext(), ViewTransactionsActivity.class));
-                return true;
-            } else if (item.getItemId() == R.id.navigation_category) {
-                startActivity(new Intent(getApplicationContext(), ViewCategoryActivity.class));
-                return true;
-            } else {
+            if (item.getItemId() == R.id.navigation_create_transaction){
                 return false;
             }
+            Class<? extends AppCompatActivity> newActivity = navigationHandler.select(item.getItemId());
+            if(newActivity != null){
+                startActivity(new Intent(getApplicationContext(), newActivity));
+                return true;
+            }
+            return false;
         }));
+
+        // Set the selected item if needed
+        navView.setSelectedItemId(R.id.navigation_create_transaction);
     }
+
 
     // Helper method: create and return new Transaction object made from user-entered info
     private Transaction createTransaction() {
         // Parse all the user fields
         EditText whatTheHeck = (EditText) findViewById(R.id.edittext_what_the_heck);
-        DateTime date = new DateTime(2023, 1, 1, 1, 1, 0); // Set default date for now
         EditText place = (EditText) findViewById(R.id.edittext_place);
         EditText amount = (EditText) findViewById(R.id.edittext_amount);
         EditText comments = (EditText) findViewById(R.id.edittext_comments);
         AppCompatToggleButton type = (AppCompatToggleButton) findViewById(R.id.togglebutton_type);
+        Spinner category = (Spinner) findViewById(R.id.spinner_categories);
 
         // Create the new transaction object
-        Transaction newTransaction = new Transaction(UserManager.getUserID(), whatTheHeck.getText().toString(), date, place.getText().toString(), Double.parseDouble(amount.getText().toString()), comments.getText().toString(), type.isChecked());
+        Transaction newTransaction = new Transaction(
+                -1,
+                UserManager.getUserID(),
+                whatTheHeck.getText().toString(),
+                selectedDate,
+                place.getText().toString(),
+                Double.parseDouble(amount.getText().toString()),
+                comments.getText().toString(),
+                type.isChecked()
+        );
+
+        MainCategory cat = adapter.getItem(category.getSelectedItemPosition());
+
+        newTransaction.setCategoryID(cat.getCategoryID());
 
         // Only add image if it was taken
         if (imageBytes != null) {
@@ -160,6 +238,4 @@ public class CreateTransactionActivity extends AppCompatActivity {
 
         return newTransaction;
     }
-
-    ;
 }

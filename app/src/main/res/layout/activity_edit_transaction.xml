@@ -174,7 +174,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:minWidth="120dp"
-                android:inputType="number"
+                android:inputType="numberDecimal"
                 android:textSize="25dp"
                 android:textColor="@color/white"
                 app:layout_constraintBottom_toTopOf="@+id/togglebutton_type"
