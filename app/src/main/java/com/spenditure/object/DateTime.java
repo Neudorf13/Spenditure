@@ -63,8 +63,8 @@ public class DateTime implements IDateTime{
     public DateTime(int year) {
 
         this.year = year;
-        this.month = -1; // -1 signifies it was not given
-        this.day = -1;
+        this.month = 0;
+        this.day = 0;
         hour = 0;
         minute = 0;
     }
@@ -73,7 +73,7 @@ public class DateTime implements IDateTime{
 
         this.year = year;
         this.month = month;
-        this.day = -1; // -1 signifies that it was not given
+        this.day = 0;
         hour = 0;
         minute = 0;
     }

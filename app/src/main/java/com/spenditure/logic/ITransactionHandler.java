@@ -20,7 +20,7 @@ import java.util.List;
 
 
 public interface ITransactionHandler {
-    boolean addTransaction(Transaction t);
+    boolean addTransaction(int userID, String whatTheHeck, DateTime date, String place, double amount, String comments, boolean type);
 
     boolean modifyTransaction(Transaction t);
 

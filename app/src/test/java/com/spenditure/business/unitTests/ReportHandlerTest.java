@@ -26,12 +26,11 @@ import com.spenditure.object.DateTime;
 import com.spenditure.object.IReport;
 
 
-import org.checkerframework.checker.units.qual.C;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-public class ReportManagerTest {
+public class ReportHandlerTest {
 
 
     private ReportManager reportManager;
@@ -110,7 +109,7 @@ public class ReportManagerTest {
         assertEquals("Should only be 8 reports between Sept. 5, 2023 and Mar. 1, 2024", 8, report.getNumTrans());
         assertEquals("Average of all transactions should be 165.8", 165.8, report.getAvgTransSize(), 0.1);
         assertEquals("Standard deviation should be 138.5", 138.5, report.getStdDev(), 0.1);
-        assertEquals("59.5% of all transactions in db", 59.5, report.getPercent(), 0.1);
+        assertEquals("59.3% of all transactions in db", 59.3, report.getPercent(), 0.1);
 
         List<CategoryStatistics> list = report.getCategoryStatisticsList();
 

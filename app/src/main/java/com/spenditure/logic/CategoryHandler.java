@@ -16,7 +16,7 @@ import java.util.List;
  * PURPOSE: Handle all logic related to Category
  */
 
-public class CategoryHandler {
+public class CategoryHandler{
     //Attribute
     private CategoryPersistence dataAccessCategory;
 

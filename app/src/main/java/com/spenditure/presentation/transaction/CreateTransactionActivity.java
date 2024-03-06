@@ -54,9 +54,17 @@ public class CreateTransactionActivity extends AppCompatActivity {
                 // Call helper method
                 Transaction newTransaction = createTransaction();
 
+                // Parse all the user fields
+                EditText whatTheHeck = (EditText) findViewById(R.id.edittext_what_the_heck);
+                DateTime date = new DateTime(2023,1,1,1,1,0); // Set default date for now
+                EditText place = (EditText) findViewById(R.id.edittext_place);
+                EditText amount = (EditText) findViewById(R.id.edittext_amount);
+                EditText comments = (EditText) findViewById(R.id.edittext_comments);
+                AppCompatToggleButton type = (AppCompatToggleButton) findViewById(R.id.togglebutton_type);
+
                 try {
                     TransactionHandler handler = new TransactionHandler(true);
-                    handler.addTransaction(newTransaction);
+                    handler.addTransaction(UserManager.getUserID(), whatTheHeck.getText().toString(), date, place.getText().toString(), Double.parseDouble(amount.getText().toString()), comments.getText().toString(), type.isChecked());
 
                     // Return to the main window
                     startActivity(new Intent(getApplicationContext(), ViewReportActivity.class));
