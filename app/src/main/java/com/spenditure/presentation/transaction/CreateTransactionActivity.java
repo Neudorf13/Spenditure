@@ -35,6 +35,7 @@ import com.spenditure.object.Transaction;
 
 import com.example.spenditure.R;
 import com.spenditure.presentation.BottomNavigationHandler;
+import com.spenditure.presentation.ImageCaptureActivity;
 import com.spenditure.presentation.LoginActivity;
 import com.spenditure.presentation.category.CustomCategorySpinnerAdapter;
 import com.spenditure.presentation.category.ViewCategoryActivity;
@@ -67,6 +68,17 @@ public class CreateTransactionActivity extends AppCompatActivity {
         });
 
         navBarHandling();
+    }
+
+    // Set up the image capture button
+    private void setUpImageButton() {
+        Button button = (Button) findViewById(R.id.button_take_image);
+        button.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                // TODO: open ImageCaptureActivity, should return a byte array to be passed off to the new transaction
+                startActivity(new Intent(getApplicationContext(), ImageCaptureActivity.class));
+            }
+        });
     }
 
     // Handle the bottom navigation bar

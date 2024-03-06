@@ -20,6 +20,8 @@
     <string name="field_type">Type</string>
     <string name="field_comments">Comments</string>
     <string name="field_categories">Category</string>
+    <string name="field_image">Image</string>
+    <string name="label_take_image">Take Image</string>
 
     // View Transaction Activity
     <string name="label_edit">Edit</string>
