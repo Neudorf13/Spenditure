@@ -1,6 +1,6 @@
 package com.spenditure.logic;
 
-import static com.spenditure.logic.DateTimeAdjuster.correctDateTime;
+import static com.spenditure.logic.DateTimeAdjuster.*;
 import static com.spenditure.logic.DateTimeValidator.validateDateTime;
 import static java.lang.Math.abs;
 import static java.lang.Math.sqrt;
@@ -59,6 +59,8 @@ public class ReportManager implements IReportManager{
      */
     public IReport reportBackOneYear(int userID, IDateTime yearEnd) {
 
+        setEndOfDay((DateTime) yearEnd);
+
         validateDateTime(yearEnd);
         assert(userID >= 0);
 
@@ -79,6 +81,7 @@ public class ReportManager implements IReportManager{
      */
     public ArrayList<IReport> reportBackOnLastYearByMonth(int userID, DateTime today) {
 
+        setEndOfDay(today);
         validateDateTime(today);
         assert(userID >= 0);
 
@@ -87,7 +90,7 @@ public class ReportManager implements IReportManager{
         for(int i = 1; i <= 12; i++) {
             monthReports.add(reportOnUserProvidedDates(
                     userID, new DateTime(today.getYear()-1, i, 1),
-                    correctDateTime( new DateTime(today.getYear()-1, i, 31)) )
+                    correctDateTime( new DateTime(today.getYear()-1, i, 31, 23, 59, 59)) )
             );
         }
 
@@ -104,6 +107,7 @@ public class ReportManager implements IReportManager{
      */
     public ArrayList<IReport> reportBackOneMonthByWeek(int userID, DateTime start) {
 
+        setEndOfDay(start);
         validateDateTime(start);
         assert(userID >= 0);
 
@@ -134,6 +138,7 @@ public class ReportManager implements IReportManager{
      */
     public IReport reportOnUserProvidedDates(int userID, IDateTime start, IDateTime end) {
 
+        setEndOfDay((DateTime) end);
         validateDateTime(start);
         validateDateTime(end);
         assert(userID >= 0);

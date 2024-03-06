@@ -67,6 +67,17 @@ public class DateTimeAdjuster {
 
     }
 
+    public static void setEndOfDay(DateTime dateTime) {
+
+        int h = dateTime.getHour();
+        int m = dateTime.getMinute();
+        int s = dateTime.getSeconds();
+
+        dateTime.adjust(0, 0, 0,
+                -h + MAX_HOURS-1, -m + MAX_MINUTES-1, -s + MAX_SECONDS-1);
+
+    }
+
     /*
 
     fixSeconds

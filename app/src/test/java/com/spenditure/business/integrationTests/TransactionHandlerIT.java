@@ -80,9 +80,9 @@ public class TransactionHandlerIT {
         int numInvalidTests = 8;
         Transaction[] invalid = new Transaction[numInvalidTests];
 
-        //invalid ID
+        //invalid ID (obsolete test; ID is handled in TransactionHandler now)
         invalid[0] = new Transaction(0, "2024 BMW M4 Competition Cabriolet", new DateTime(2024, 3, 3, 12, 0, 0), "BMW Dealership", 110200, "", true);
-        //ID already exists
+        //ID already exists (obsolete test; ID is handled in TransactionHandler now)
         invalid[1] = new Transaction(1, "2024 Ford Raptor R", new DateTime(2024, 2, 28, 12, 0, 0), "Ford Dealership", 118954, "Includes optional Raptor 37 Performance Package", true);
         //invalid name
         invalid[2] = new Transaction(-1, "", new DateTime(2024, 10, 10, 12, 0, 0), "???", 9000000, "???", true);
@@ -103,7 +103,7 @@ public class TransactionHandlerIT {
         invalid[7] = new Transaction(-1, "2024 Porsche 911 GT3 RS", new DateTime(2024, 5, 8, 12, 12, 0), "Porsche Dealership", 301439, invalidComment, true);
 
         //Try inserting all invalid tests, all should return false
-        for( int i = 0; i < numInvalidTests; i ++ ) {
+        for( int i = 2; i < numInvalidTests; i ++ ) {
             try {
                 assertFalse(addTransaction(invalid[i]));
             } catch(InvalidTransactionException ignored) {}
