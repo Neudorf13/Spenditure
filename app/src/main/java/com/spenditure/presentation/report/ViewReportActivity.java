@@ -21,6 +21,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.viewpager.widget.ViewPager;
 
+import com.spenditure.application.Services;
 import com.spenditure.database.utils.DBHelper;
 import com.spenditure.logic.CategoryHandler;
 import com.spenditure.logic.GeneralReportHandler;
@@ -68,10 +69,10 @@ public class ViewReportActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         DBHelper.copyDatabaseToDevice(this);
 
-        TransactionHandler transactionHandler = new TransactionHandler(false);
-        reportManager = new ReportManager(false);
-        categoryHandler = new CategoryHandler(false);
-        generalReportHandler = new GeneralReportHandler(false);
+        TransactionHandler transactionHandler = new TransactionHandler(Services.DEVELOPING_STATUS);
+        reportManager = new ReportManager(Services.DEVELOPING_STATUS);
+        categoryHandler = new CategoryHandler(Services.DEVELOPING_STATUS);
+        generalReportHandler = new GeneralReportHandler(Services.DEVELOPING_STATUS);
         this.userID = UserManager.getUserID();
         this.currDate = ReportManager.getCurrentDate();
 
