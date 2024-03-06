@@ -25,6 +25,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -36,13 +37,15 @@ import com.spenditure.object.Transaction;
 
 import com.example.spenditure.R;
 import com.spenditure.presentation.ImageCaptureActivity;
+import com.spenditure.presentation.ImageViewActivity;
 import com.spenditure.presentation.category.ViewCategoryActivity;
 import com.spenditure.presentation.report.ViewReportActivity;
 
 public class CreateTransactionActivity extends AppCompatActivity {
 
-    private ActivityResultLauncher<Intent> getResult;
+    private ActivityResultLauncher<Intent> getImageCaptureResult;
     private byte[] imageBytes;
+    private Button viewImageButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,34 +72,45 @@ public class CreateTransactionActivity extends AppCompatActivity {
         });
 
         navBarHandling();
-        setUpImageButton();
+
+        setUpImageCaptureButton();
+        setUpViewImageButton();
+    }
+
+    private void setUpViewImageButton(){
+        viewImageButton = (Button) findViewById(R.id.button_view_image);
+
+        viewImageButton.setOnClickListener(view -> {
+            Intent imageViewActivity = new Intent(getApplicationContext(), ImageViewActivity.class);
+            imageViewActivity.putExtra("imageBytes", imageBytes);
+            startActivity(imageViewActivity);
+        });
     }
 
     // Set up the image capture button
-    private void setUpImageButton() {
+    private void setUpImageCaptureButton() {
         // Initialize the ActivityResultLauncher
-        getResult = registerForActivityResult(
+        getImageCaptureResult = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(),
                 result -> {
-                    Toast.makeText(CreateTransactionActivity.this, "wrong message", Toast.LENGTH_LONG).show();
                     if (result.getResultCode() == Activity.RESULT_OK) {
-                        Toast.makeText(CreateTransactionActivity.this, "hereeeee", Toast.LENGTH_LONG).show();
                         // Handle the result here
                         Intent data = result.getData();
                         if (data != null) {
-                            Toast.makeText(CreateTransactionActivity.this, "Made it here", Toast.LENGTH_LONG).show();
                             Bundle received = data.getExtras();
                             imageBytes = received.getByteArray("imageBytes");
+
+                            // Enable the view image button now
+                            viewImageButton.setEnabled(true);
                         }
                     }
                 }
         );
 
-        Button button = (Button) findViewById(R.id.button_take_image);
+        ImageButton button = (ImageButton) findViewById(R.id.button_take_image);
         button.setOnClickListener(view -> {
-            // TODO: open ImageCaptureActivity, should return a byte array to be passed off to the new transaction
             Intent imageCaptureActivity = new Intent(getApplicationContext(), ImageCaptureActivity.class);
-            getResult.launch(imageCaptureActivity);
+            getImageCaptureResult.launch(imageCaptureActivity);
         });
     }
 
@@ -136,7 +150,10 @@ public class CreateTransactionActivity extends AppCompatActivity {
         // Create the new transaction object
         Transaction newTransaction = new Transaction(UserManager.getUserID(), whatTheHeck.getText().toString(), date, place.getText().toString(), Double.parseDouble(amount.getText().toString()), comments.getText().toString(), type.isChecked());
 
-        newTransaction.setImage(imageBytes);
+        // Only add image if it was taken
+        if (imageBytes != null) {
+            newTransaction.setImage(imageBytes);
+        }
 
         return newTransaction;
     }

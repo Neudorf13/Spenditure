@@ -243,20 +243,32 @@
                 android:textSize="25dp"
                 android:textColor="@color/white"
                 app:layout_constraintBottom_toTopOf="@+id/textview_comments"
-                app:layout_constraintEnd_toStartOf="@+id/button_take_image"
+                app:layout_constraintEnd_toStartOf="@+id/button_view_image"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textview_categories" />
 
             <Button
-                android:id="@+id/button_take_image"
+                android:id="@+id/button_view_image"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/label_take_image"
-                android:textSize="25dp"
+                android:text="@string/label_view_image"
+                android:textSize="20dp"
+                android:backgroundTint="@color/light_blue"
+                android:enabled="false"
+                app:layout_constraintBottom_toTopOf="@+id/edittext_comments"
+                app:layout_constraintEnd_toStartOf="@+id/button_take_image"
+                app:layout_constraintStart_toEndOf="@+id/textview_image"
+                app:layout_constraintTop_toBottomOf="@+id/spinner_categories"/>
+
+            <ImageButton
+                android:id="@+id/button_take_image"
+                android:layout_width="100dp"
+                android:layout_height="50dp"
+                android:src="@drawable/symbol_camera"
                 android:backgroundTint="@color/light_blue"
                 app:layout_constraintBottom_toTopOf="@+id/edittext_comments"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/textview_image"
+                app:layout_constraintStart_toEndOf="@+id/button_view_image"
                 app:layout_constraintTop_toBottomOf="@+id/spinner_categories"/>
 
             <TextView

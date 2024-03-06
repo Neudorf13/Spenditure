@@ -17,6 +17,9 @@
         android:theme="@style/Theme.Spenditure"
         tools:targetApi="31">
         <activity
+            android:name="com.spenditure.presentation.ImageViewActivity"
+            android:exported="false" />
+        <activity
             android:name="com.spenditure.presentation.ImageCaptureActivity"
             android:exported="false" />
         <activity
@@ -25,6 +28,7 @@
             android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

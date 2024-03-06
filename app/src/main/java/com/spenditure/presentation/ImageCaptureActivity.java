@@ -21,6 +21,7 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -28,6 +29,7 @@ import com.example.spenditure.R;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.spenditure.presentation.transaction.CreateTransactionActivity;
 
+import java.io.ByteArrayOutputStream;
 import java.nio.ByteBuffer;
 
 public class ImageCaptureActivity extends AppCompatActivity {
@@ -38,7 +40,7 @@ public class ImageCaptureActivity extends AppCompatActivity {
 
     // Image variables
     private PreviewView previewView;
-    private Button captureButton;
+    private ImageButton captureButton;
     private Button confirmButton;
     private ImageView imageView;
     private ImageCapture imageCapture;
@@ -175,8 +177,15 @@ public class ImageCaptureActivity extends AppCompatActivity {
     // Display the captured image as a bitmap
     private void processCapturedImage() {
         Bitmap bitmap = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
+
+        // Compress the bitmap to reduce byte[] size
+        ByteArrayOutputStream os = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 70, os);
+        imageBytes = os.toByteArray();
+
         imageView.setImageBitmap(bitmap);
         imageView.setVisibility(View.VISIBLE);
+        imageView.setRotation(270);
     }
 
     @Override
