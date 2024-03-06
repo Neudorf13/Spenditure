@@ -76,14 +76,13 @@ public class ViewReportActivity extends AppCompatActivity {
         this.userID = UserManager.getUserID();
         this.currDate = ReportManager.getCurrentDate();
 
-        //Uncomment this when IT for reportTimebase is done
         handleGeneralReport();
         handleCustomCategoryReport();
-//        handleCategoriesReport();
-//        handleTimebaseReport();
-//        handleCustomDateReport();
+        handleCategoriesReport();
+        handleTimebaseReport();
+        handleCustomDateReport();
         navBarHandling();
-//        handleLastYearReport();
+        handleLastYearReport();
     }
 
     private void handleLastYearReport(){
@@ -97,7 +96,6 @@ public class ViewReportActivity extends AppCompatActivity {
         totalTransactions.setText(UIUtility.cleanTotalString(lastYearReport.getTotal()));
         average.setText(UIUtility.cleanAverageString(lastYearReport.getAvgTransSize()));
         percentage.setText(UIUtility.cleanPercentageString(lastYearReport.getPercent()));
-
     }
 
     private void handleCustomDateReport(){
