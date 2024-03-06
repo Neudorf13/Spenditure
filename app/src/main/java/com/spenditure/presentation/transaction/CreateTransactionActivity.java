@@ -1,47 +1,48 @@
 /**
  * CreateTransactionActivity.java
- *
+ * <p>
  * COMP3350 SECTION A02
  *
  * @author Jillian Friesen, 7889402
  * @date Tuesday, February 7, 2024
- *
+ * <p>
  * PURPOSE:
- *  This file contains all the event handlers and UI management for the Create Transaction
- *  activity where users can create and save a new transaction.
+ * This file contains all the event handlers and UI management for the Create Transaction
+ * activity where users can create and save a new transaction.
  **/
 
 
 package com.spenditure.presentation.transaction;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatToggleButton;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.spenditure.logic.TransactionHandler;
-import com.spenditure.logic.CategoryHandler;
 import com.spenditure.logic.UserManager;
 import com.spenditure.logic.exceptions.InvalidTransactionException;
 import com.spenditure.object.DateTime;
 import com.spenditure.object.Transaction;
 
 import com.example.spenditure.R;
-import com.spenditure.presentation.BottomNavigationHandler;
 import com.spenditure.presentation.ImageCaptureActivity;
-import com.spenditure.presentation.LoginActivity;
-import com.spenditure.presentation.category.CustomCategorySpinnerAdapter;
 import com.spenditure.presentation.category.ViewCategoryActivity;
 import com.spenditure.presentation.report.ViewReportActivity;
 
 public class CreateTransactionActivity extends AppCompatActivity {
+
+    private ActivityResultLauncher<Intent> getResult;
+    private byte[] imageBytes;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,27 +63,45 @@ public class CreateTransactionActivity extends AppCompatActivity {
                     // Return to the main window
                     startActivity(new Intent(getApplicationContext(), ViewReportActivity.class));
                 } catch (InvalidTransactionException e) {
-                    Toast.makeText(CreateTransactionActivity.this, e.getMessage(),Toast.LENGTH_LONG).show();
+                    Toast.makeText(CreateTransactionActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
                 }
             }
         });
 
         navBarHandling();
+        setUpImageButton();
     }
 
     // Set up the image capture button
     private void setUpImageButton() {
+        // Initialize the ActivityResultLauncher
+        getResult = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                result -> {
+                    Toast.makeText(CreateTransactionActivity.this, "wrong message", Toast.LENGTH_LONG).show();
+                    if (result.getResultCode() == Activity.RESULT_OK) {
+                        Toast.makeText(CreateTransactionActivity.this, "hereeeee", Toast.LENGTH_LONG).show();
+                        // Handle the result here
+                        Intent data = result.getData();
+                        if (data != null) {
+                            Toast.makeText(CreateTransactionActivity.this, "Made it here", Toast.LENGTH_LONG).show();
+                            Bundle received = data.getExtras();
+                            imageBytes = received.getByteArray("imageBytes");
+                        }
+                    }
+                }
+        );
+
         Button button = (Button) findViewById(R.id.button_take_image);
-        button.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                // TODO: open ImageCaptureActivity, should return a byte array to be passed off to the new transaction
-                startActivity(new Intent(getApplicationContext(), ImageCaptureActivity.class));
-            }
+        button.setOnClickListener(view -> {
+            // TODO: open ImageCaptureActivity, should return a byte array to be passed off to the new transaction
+            Intent imageCaptureActivity = new Intent(getApplicationContext(), ImageCaptureActivity.class);
+            getResult.launch(imageCaptureActivity);
         });
     }
 
     // Handle the bottom navigation bar
-    private void navBarHandling(){
+    private void navBarHandling() {
         BottomNavigationView navView = findViewById(R.id.nav_view);
         navView.setSelectedItemId(R.id.navigation_create_transaction);
 
@@ -95,7 +114,7 @@ public class CreateTransactionActivity extends AppCompatActivity {
             } else if (item.getItemId() == R.id.navigation_view_transactions) {
                 startActivity(new Intent(getApplicationContext(), ViewTransactionsActivity.class));
                 return true;
-            }else if(item.getItemId() == R.id.navigation_category){
+            } else if (item.getItemId() == R.id.navigation_category) {
                 startActivity(new Intent(getApplicationContext(), ViewCategoryActivity.class));
                 return true;
             } else {
@@ -108,7 +127,7 @@ public class CreateTransactionActivity extends AppCompatActivity {
     private Transaction createTransaction() {
         // Parse all the user fields
         EditText whatTheHeck = (EditText) findViewById(R.id.edittext_what_the_heck);
-        DateTime date = new DateTime(2023,1,1,1,1,0); // Set default date for now
+        DateTime date = new DateTime(2023, 1, 1, 1, 1, 0); // Set default date for now
         EditText place = (EditText) findViewById(R.id.edittext_place);
         EditText amount = (EditText) findViewById(R.id.edittext_amount);
         EditText comments = (EditText) findViewById(R.id.edittext_comments);
@@ -117,6 +136,10 @@ public class CreateTransactionActivity extends AppCompatActivity {
         // Create the new transaction object
         Transaction newTransaction = new Transaction(UserManager.getUserID(), whatTheHeck.getText().toString(), date, place.getText().toString(), Double.parseDouble(amount.getText().toString()), comments.getText().toString(), type.isChecked());
 
+        newTransaction.setImage(imageBytes);
+
         return newTransaction;
-    };
+    }
+
+    ;
 }

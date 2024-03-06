@@ -13,6 +13,8 @@ import androidx.camera.view.PreviewView;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -24,6 +26,7 @@ import android.widget.Toast;
 
 import com.example.spenditure.R;
 import com.google.common.util.concurrent.ListenableFuture;
+import com.spenditure.presentation.transaction.CreateTransactionActivity;
 
 import java.nio.ByteBuffer;
 
@@ -36,6 +39,7 @@ public class ImageCaptureActivity extends AppCompatActivity {
     // Image variables
     private PreviewView previewView;
     private Button captureButton;
+    private Button confirmButton;
     private ImageView imageView;
     private ImageCapture imageCapture;
 
@@ -51,6 +55,7 @@ public class ImageCaptureActivity extends AppCompatActivity {
 
         previewView = findViewById(R.id.previewview_camera);
         captureButton = findViewById(R.id.button_take_image);
+        confirmButton = findViewById(R.id.button_confirm);
         imageView = findViewById(R.id.imageview_image);
 
         if(cameraPermissionsGranted()){
@@ -63,8 +68,25 @@ public class ImageCaptureActivity extends AppCompatActivity {
         captureButton.setOnClickListener(view -> {
             if (previewMode) {
                 takePhoto();
-            } else {
-                // Handle button click after image is captured (optional)
+
+                // Change the button visibilities
+                captureButton.setVisibility(View.GONE);
+                confirmButton.setVisibility(View.VISIBLE);
+            }
+        });
+
+        confirmButton.setOnClickListener(view -> {
+            try {
+                // Return to the Create Transaction activity that called this one
+                Intent goBackIntent = new Intent();
+                // Use a bundle because the byte arrays are really big
+                Bundle bundle = new Bundle();
+                bundle.putByteArray("imageBytes", imageBytes);
+                goBackIntent.putExtras(bundle);
+                setResult(Activity.RESULT_OK, goBackIntent);
+                finish();
+            } catch (Exception e) {
+                Toast.makeText(ImageCaptureActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
     }
@@ -160,6 +182,5 @@ public class ImageCaptureActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        cameraExecutor.shutdown();
     }
 }
