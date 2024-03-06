@@ -11,7 +11,6 @@
  * activity where users can create and save a new transaction.
  **/
 
-
 package com.spenditure.presentation.transaction;
 
 import androidx.activity.result.ActivityResultLauncher;
@@ -79,18 +78,20 @@ public class CreateTransactionActivity extends AppCompatActivity {
 
     private void setUpCreateButton() {
         // Set up click event for the Create Transaction Button
-        Button button = (Button) findViewById(R.id.button_create_transaction);
+        Button button = findViewById(R.id.button_create_transaction);
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                // Call helper method
-                Transaction newTransaction = createTransaction();
-
                 try {
+                    // Call helper method
+                    Transaction newTransaction = createTransaction();
+
                     transactionHandler.addTransaction(newTransaction);
 
                     // Return to the main window
                     startActivity(new Intent(getApplicationContext(), ViewReportActivity.class));
                 } catch (InvalidTransactionException e) {
+                    Toast.makeText(CreateTransactionActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
+                } catch (Exception e) {
                     Toast.makeText(CreateTransactionActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
                 }
             }
@@ -101,7 +102,7 @@ public class CreateTransactionActivity extends AppCompatActivity {
     private void setUpCategories() {
         categoryHandler = new CategoryHandler(true);
 
-        Spinner categories = (Spinner) findViewById(R.id.spinner_categories);
+        Spinner categories = findViewById(R.id.spinner_categories);
 
         // Create adapter to display the categories
         adapter = new CustomCategorySpinnerAdapter(categoryHandler.getAllCategory(userID), this);
@@ -110,7 +111,7 @@ public class CreateTransactionActivity extends AppCompatActivity {
 
     // Set up the date picker
     private void setUpDatePicker() {
-        EditText dateField = (EditText) findViewById(R.id.edittext_date);
+        EditText dateField = findViewById(R.id.edittext_date);
         // Default to today's date
         LocalDateTime today = LocalDateTime.now();
         selectedDate = new DateTime(today.getYear(), today.getMonthValue(), today.getDayOfMonth());
@@ -143,7 +144,7 @@ public class CreateTransactionActivity extends AppCompatActivity {
 
     // Set up the View Image button
     private void setUpViewImageButton(){
-        viewImageButton = (Button) findViewById(R.id.button_view_image);
+        viewImageButton = findViewById(R.id.button_view_image);
 
         // Create handler for button click
         viewImageButton.setOnClickListener(view -> {
@@ -175,7 +176,7 @@ public class CreateTransactionActivity extends AppCompatActivity {
         );
 
         // Create handler for button click
-        ImageButton button = (ImageButton) findViewById(R.id.button_take_image);
+        ImageButton button = findViewById(R.id.button_take_image);
         button.setOnClickListener(view -> {
             Intent imageCaptureActivity = new Intent(getApplicationContext(), ImageCaptureActivity.class);
             getImageCaptureResult.launch(imageCaptureActivity);
@@ -204,16 +205,15 @@ public class CreateTransactionActivity extends AppCompatActivity {
         navView.setSelectedItemId(R.id.navigation_create_transaction);
     }
 
-
     // Helper method: create and return new Transaction object made from user-entered info
     private Transaction createTransaction() {
         // Parse all the user fields
-        EditText whatTheHeck = (EditText) findViewById(R.id.edittext_what_the_heck);
-        EditText place = (EditText) findViewById(R.id.edittext_place);
-        EditText amount = (EditText) findViewById(R.id.edittext_amount);
-        EditText comments = (EditText) findViewById(R.id.edittext_comments);
-        AppCompatToggleButton type = (AppCompatToggleButton) findViewById(R.id.togglebutton_type);
-        Spinner category = (Spinner) findViewById(R.id.spinner_categories);
+        EditText whatTheHeck = findViewById(R.id.edittext_what_the_heck);
+        EditText place = findViewById(R.id.edittext_place);
+        EditText amount = findViewById(R.id.edittext_amount);
+        EditText comments = findViewById(R.id.edittext_comments);
+        AppCompatToggleButton type = findViewById(R.id.togglebutton_type);
+        Spinner category = findViewById(R.id.spinner_categories);
 
         // Create the new transaction object
         Transaction newTransaction = new Transaction(
@@ -227,8 +227,8 @@ public class CreateTransactionActivity extends AppCompatActivity {
                 type.isChecked()
         );
 
+        // Get the selected category and add it to the new transaction
         MainCategory cat = adapter.getItem(category.getSelectedItemPosition());
-
         newTransaction.setCategoryID(cat.getCategoryID());
 
         // Only add image if it was taken

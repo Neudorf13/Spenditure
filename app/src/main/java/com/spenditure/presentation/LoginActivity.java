@@ -1,3 +1,15 @@
+/**
+ * LoginActivity.java
+ * <p>
+ * COMP3350 SECTION A02
+ *
+ * @author Jillian Friesen, 7889402
+ * @date Tuesday, March 5, 2024
+ * <p>
+ * PURPOSE:
+ * This file handles the Login screen and allows users to enter their credentials to access the rest of the app.
+ **/
+
 package com.spenditure.presentation;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,6 +28,7 @@ import com.spenditure.presentation.report.ViewReportActivity;
 
 public class LoginActivity extends AppCompatActivity {
 
+    // Instance variables
     private String username;
     private String password;
     private UserManager userManager;
@@ -29,26 +42,27 @@ public class LoginActivity extends AppCompatActivity {
         setUpLoginButton();
     }
 
+    // Set up the login button
     private void setUpLoginButton() {
-        Button button = (Button) findViewById(R.id.button_login);
+        Button button = findViewById(R.id.button_login);
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                EditText user = (EditText) findViewById(R.id.edittext_username);
+                EditText user = findViewById(R.id.edittext_username);
                 username = user.getText().toString();
 
-                EditText pass = (EditText) findViewById(R.id.edittext_current_password);
+                EditText pass = findViewById(R.id.edittext_current_password);
                 password = pass.getText().toString();
 
                 try {
                     int userID = userManager.login(username, password);
 
                     if (userID != 0){
-                        // Login
+                        // Login and open the report activity
                         Intent newIntent = new Intent(getApplicationContext(), ViewReportActivity.class);
                         startActivity(newIntent);
                     }
                 } catch (InvalidUserInformationException e){
-                    Toast.makeText(LoginActivity.this, e.getMessage(),Toast.LENGTH_LONG).show();
+                    Toast.makeText(LoginActivity.this, "Unable to log in: " + e.getMessage(),Toast.LENGTH_LONG).show();
                     user.setText("");
                     pass.setText("");
                 }

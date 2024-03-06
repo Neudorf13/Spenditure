@@ -56,7 +56,6 @@ public class EditTransactionActivity extends AppCompatActivity {
     private Button viewImageButton;
     private CustomCategorySpinnerAdapter adapter;
     private DateTime selectedDate;
-
     private int userID;
 
     @Override
@@ -92,7 +91,7 @@ public class EditTransactionActivity extends AppCompatActivity {
 
     private void setUpEditButton() {
         // Set up click event for the Edit Transaction Button
-        Button button = (Button) findViewById(R.id.button_edit_transaction);
+        Button button = findViewById(R.id.button_edit_transaction);
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
 
@@ -112,7 +111,7 @@ public class EditTransactionActivity extends AppCompatActivity {
 
     // Set up the category drop down menu
     private void setUpCategories() {
-        Spinner categories = (Spinner) findViewById(R.id.spinner_categories);
+        Spinner categories = findViewById(R.id.spinner_categories);
 
         try {
             // Create adapter to display the categories
@@ -125,7 +124,7 @@ public class EditTransactionActivity extends AppCompatActivity {
 
     // Set up the date picker
     private void setUpDatePicker() {
-        EditText dateField = (EditText) findViewById(R.id.edittext_date);
+        EditText dateField = findViewById(R.id.edittext_date);
 
         // Create event for when a new date is selected
         DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
@@ -155,7 +154,7 @@ public class EditTransactionActivity extends AppCompatActivity {
 
 
     private void setUpViewImageButton(){
-        viewImageButton = (Button) findViewById(R.id.button_view_image);
+        viewImageButton = findViewById(R.id.button_view_image);
 
         viewImageButton.setOnClickListener(view -> {
             Intent imageViewActivity = new Intent(getApplicationContext(), ImageViewActivity.class);
@@ -184,7 +183,7 @@ public class EditTransactionActivity extends AppCompatActivity {
                 }
         );
 
-        ImageButton button = (ImageButton) findViewById(R.id.button_take_image);
+        ImageButton button = findViewById(R.id.button_take_image);
         button.setOnClickListener(view -> {
             Intent imageCaptureActivity = new Intent(getApplicationContext(), ImageCaptureActivity.class);
             getImageCaptureResult.launch(imageCaptureActivity);
@@ -209,10 +208,10 @@ public class EditTransactionActivity extends AppCompatActivity {
 
     // Populate the fields on the UI using the given transaction
     private void populateTransactionFields(Transaction transaction){
-        EditText whatTheHeck = (EditText) findViewById(R.id.edittext_what_the_heck);
+        EditText whatTheHeck = findViewById(R.id.edittext_what_the_heck);
         whatTheHeck.setText(transaction.getName());
 
-        EditText dateField = (EditText) findViewById(R.id.edittext_date);
+        EditText dateField = findViewById(R.id.edittext_date);
         selectedDate = new DateTime(
                 transaction.getDateTime().getYear(),
                 transaction.getDateTime().getMonth(),
@@ -220,21 +219,21 @@ public class EditTransactionActivity extends AppCompatActivity {
         );
         dateField.setText(selectedDate.toString());
 
-        EditText place = (EditText) findViewById(R.id.edittext_place);
+        EditText place = findViewById(R.id.edittext_place);
         place.setText(transaction.getPlace());
 
-        EditText amount = (EditText) findViewById(R.id.edittext_amount);
+        EditText amount = findViewById(R.id.edittext_amount);
         amount.setText(Double.toString(transaction.getAmount()));
 
-        EditText comments = (EditText) findViewById(R.id.edittext_comments);
+        EditText comments = findViewById(R.id.edittext_comments);
         comments.setText(transaction.getComments());
 
-        AppCompatToggleButton type = (AppCompatToggleButton) findViewById(R.id.togglebutton_type);
+        AppCompatToggleButton type = findViewById(R.id.togglebutton_type);
         type.setChecked(transaction.getWithdrawal());
 
         try {
             // Get and select the category
-            Spinner category = (Spinner) findViewById(R.id.spinner_categories);
+            Spinner category = findViewById(R.id.spinner_categories);
             MainCategory cat = categoryHandler.getCategoryByID(transaction.getCategoryID());
             category.setSelection(adapter.getPosition(cat));
         } catch(Exception e) {
@@ -245,7 +244,7 @@ public class EditTransactionActivity extends AppCompatActivity {
 
         // If there was an image saved, enable the View Image button
         if (imageBytes != null) {
-            Button button = (Button) findViewById(R.id.button_view_image);
+            Button button = findViewById(R.id.button_view_image);
             button.setEnabled(true);
         }
     }
@@ -253,13 +252,12 @@ public class EditTransactionActivity extends AppCompatActivity {
     // Helper method: return the updated Transaction object made from user-entered info
     private Transaction editTransaction() {
         // Parse all the user fields
-        EditText whatTheHeck = (EditText) findViewById(R.id.edittext_what_the_heck);
-        DateTime date = new DateTime(2023,1,1,1,1,0); // Set default date for now
-        EditText place = (EditText) findViewById(R.id.edittext_place);
-        EditText amount = (EditText) findViewById(R.id.edittext_amount);
-        EditText comments = (EditText) findViewById(R.id.edittext_comments);
-        AppCompatToggleButton type = (AppCompatToggleButton) findViewById(R.id.togglebutton_type);
-        Spinner category = (Spinner) findViewById(R.id.spinner_categories);
+        EditText whatTheHeck = findViewById(R.id.edittext_what_the_heck);
+        EditText place = findViewById(R.id.edittext_place);
+        EditText amount = findViewById(R.id.edittext_amount);
+        EditText comments = findViewById(R.id.edittext_comments);
+        AppCompatToggleButton type = findViewById(R.id.togglebutton_type);
+        Spinner category = findViewById(R.id.spinner_categories);
 
         // Create the new transaction object
         Transaction updatedTransaction = new Transaction(
@@ -273,8 +271,8 @@ public class EditTransactionActivity extends AppCompatActivity {
                 type.isChecked()
         );
 
+        // Get the selected category & update the transaction
         MainCategory cat = adapter.getItem(category.getSelectedItemPosition());
-
         updatedTransaction.setCategoryID(cat.getCategoryID());
 
         // Only add image if it was taken

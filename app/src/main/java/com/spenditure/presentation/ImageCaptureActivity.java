@@ -1,3 +1,15 @@
+/**
+ * ImageCaptureActivity.java
+ * <p>
+ * COMP3350 SECTION A02
+ *
+ * @author Jillian Friesen, 7889402
+ * @date Tuesday, March 5, 2024
+ * <p>
+ * PURPOSE:
+ * This file allows users to capture an image to attach to a transaction.
+ **/
+
 package com.spenditure.presentation;
 
 import androidx.annotation.NonNull;
@@ -27,7 +39,6 @@ import android.widget.Toast;
 
 import com.example.spenditure.R;
 import com.google.common.util.concurrent.ListenableFuture;
-import com.spenditure.presentation.transaction.CreateTransactionActivity;
 
 import java.io.ByteArrayOutputStream;
 import java.nio.ByteBuffer;
@@ -60,6 +71,7 @@ public class ImageCaptureActivity extends AppCompatActivity {
         confirmButton = findViewById(R.id.button_confirm);
         imageView = findViewById(R.id.imageview_image);
 
+        // Check if permissions are granted
         if(cameraPermissionsGranted()){
             startCamera();
         } else {
@@ -67,6 +79,7 @@ public class ImageCaptureActivity extends AppCompatActivity {
             ActivityCompat.requestPermissions(this, REQUIRED_PERMISSIONS, REQUEST_CODE_PERMISSIONS);
         }
 
+        // Set up button event to capture image
         captureButton.setOnClickListener(view -> {
             if (previewMode) {
                 takePhoto();
@@ -77,13 +90,16 @@ public class ImageCaptureActivity extends AppCompatActivity {
             }
         });
 
+        // Set up button event to confirm image and close the activity
         confirmButton.setOnClickListener(view -> {
             try {
                 // Return to the Create Transaction activity that called this one
                 Intent goBackIntent = new Intent();
+
                 // Use a bundle because the byte arrays are really big
                 Bundle bundle = new Bundle();
                 bundle.putByteArray("imageBytes", imageBytes);
+
                 goBackIntent.putExtras(bundle);
                 setResult(Activity.RESULT_OK, goBackIntent);
                 finish();
@@ -98,6 +114,7 @@ public class ImageCaptureActivity extends AppCompatActivity {
         return ContextCompat.checkSelfPermission(this, android.Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED;
     }
 
+    // Event: If permissions are requested from the user, handle result
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -105,7 +122,7 @@ public class ImageCaptureActivity extends AppCompatActivity {
             if (cameraPermissionsGranted()) {
                 startCamera();
             } else {
-                Toast.makeText(this, "Permissions not granted by the user.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Camera permissions not granted by the user.", Toast.LENGTH_SHORT).show();
                 finish();
             }
         }
@@ -134,7 +151,7 @@ public class ImageCaptureActivity extends AppCompatActivity {
             @Override
             public void onError(@NonNull ImageCaptureException exception) {
                 // Handle capture error
-                Toast.makeText(ImageCaptureActivity.this, "Image capture error " + exception.getMessage(), Toast.LENGTH_LONG).show();
+                Toast.makeText(ImageCaptureActivity.this, "Image capture error: " + exception.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
     }
@@ -149,7 +166,7 @@ public class ImageCaptureActivity extends AppCompatActivity {
 
                         Preview preview = new Preview.Builder().build();
 
-                        // Select back camera as a default
+                        // Select back camera
                         CameraSelector cameraSelector = new CameraSelector.Builder()
                                 .requireLensFacing(CameraSelector.LENS_FACING_BACK)
                                 .build();
@@ -157,10 +174,10 @@ public class ImageCaptureActivity extends AppCompatActivity {
                         // Attach the preview use case to the view
                         preview.setSurfaceProvider(previewView.getSurfaceProvider());
 
-                        // Set up image capture use case
+                        // Set up image capture
                         imageCapture = new ImageCapture.Builder().build();
 
-                        // Unbind any previous use cases before binding new ones
+                        // Unbind any previous use cases
                         cameraProvider.unbindAll();
 
                         // Bind use cases to camera
@@ -168,7 +185,7 @@ public class ImageCaptureActivity extends AppCompatActivity {
                                 this, cameraSelector, preview, imageCapture);
 
                     } catch (Exception e){
-                        e.printStackTrace();
+                        Toast.makeText(ImageCaptureActivity.this, "Camera set up error: " + e.getMessage(), Toast.LENGTH_LONG).show();
                     }
                 }, ContextCompat.getMainExecutor(this)
         );
@@ -184,7 +201,11 @@ public class ImageCaptureActivity extends AppCompatActivity {
         imageBytes = os.toByteArray();
 
         imageView.setImageBitmap(bitmap);
+
+        // Display the image
         imageView.setVisibility(View.VISIBLE);
+
+        // Rotate the image view to display properly
         imageView.setRotation(270);
     }
 

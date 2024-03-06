@@ -1,3 +1,15 @@
+/**
+ * ViewProfileActivity.java
+ * <p>
+ * COMP3350 SECTION A02
+ *
+ * @author Jillian Friesen, 7889402
+ * @date Tuesday, March 5, 2024
+ * <p>
+ * PURPOSE:
+ * This file handles the user information and allows users to change their credentials and logout.
+ **/
+
 package com.spenditure.presentation;
 
 import android.content.Intent;
@@ -13,10 +25,10 @@ import com.example.spenditure.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.spenditure.logic.UserManager;
 import com.spenditure.logic.exceptions.InvalidUserInformationException;
-import com.spenditure.presentation.report.ViewReportActivity;
 
 public class ViewProfileActivity extends AppCompatActivity {
 
+    // Instance variables
     private String username;
     private String currentPassword;
     private String newPassword;
@@ -35,27 +47,27 @@ public class ViewProfileActivity extends AppCompatActivity {
         navBarHandling();
     }
 
-    // Set up the UI fields
+    // Populate the information fields
     private void setUpFields(){
-        EditText usernameField = (EditText) findViewById(R.id.edittext_username);
+        EditText usernameField = findViewById(R.id.edittext_username);
         usernameField.setText(userManager.getUserName(UserManager.getUserID()));
 
-        EditText currentPasswordField = (EditText) findViewById(R.id.edittext_current_password);
+        EditText currentPasswordField = findViewById(R.id.edittext_current_password);
         currentPasswordField.setText("123");
     }
 
     // Set up the Save Changes button
     private void setUpSaveButton(){
-        Button button = (Button) findViewById(R.id.button_save_changes);
+        Button button = findViewById(R.id.button_save_changes);
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                EditText usernameField = (EditText) findViewById(R.id.edittext_username);
+                EditText usernameField = findViewById(R.id.edittext_username);
                 username = usernameField.getText().toString();
 
-                EditText currentPasswordField = (EditText) findViewById(R.id.edittext_current_password);
+                EditText currentPasswordField = findViewById(R.id.edittext_current_password);
                 currentPassword = currentPasswordField.getText().toString();
 
-                EditText newPasswordField = (EditText) findViewById(R.id.edittext_new_password);
+                EditText newPasswordField = findViewById(R.id.edittext_new_password);
                 newPassword = newPasswordField.getText().toString();
 
                 try {
@@ -63,9 +75,9 @@ public class ViewProfileActivity extends AppCompatActivity {
                     userManager.changeUsername(userManager.getUserID(), username);
                     userManager.changePassword(userManager.getUserID(), currentPassword, newPassword);
 
-                    Toast.makeText(ViewProfileActivity.this, "Changes saved successfully",Toast.LENGTH_LONG).show();
+                    Toast.makeText(ViewProfileActivity.this, "Changes saved successfully.",Toast.LENGTH_LONG).show();
                 } catch (InvalidUserInformationException e){
-                    Toast.makeText(ViewProfileActivity.this, e.getMessage(),Toast.LENGTH_LONG).show();
+                    Toast.makeText(ViewProfileActivity.this, "Unable to update credentials." + e.getMessage(),Toast.LENGTH_LONG).show();
                     usernameField.setText("");
                     currentPasswordField.setText("");
                 }
@@ -75,7 +87,7 @@ public class ViewProfileActivity extends AppCompatActivity {
 
     // Set up the logout button
     private void setUpLogoutButton(){
-        Button button = (Button) findViewById(R.id.button_logout);
+        Button button = findViewById(R.id.button_logout);
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 try {
