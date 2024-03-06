@@ -4,9 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 import com.spenditure.logic.CategoryHandler;
-import com.spenditure.logic.ReportManager;
 import com.spenditure.object.MainCategory;
-import com.spenditure.object.SubCategory;
 import com.spenditure.utils.TestUtils;
 
 import org.junit.After;

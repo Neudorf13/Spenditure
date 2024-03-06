@@ -7,14 +7,9 @@ import com.spenditure.application.Services;
 import com.spenditure.database.CategoryPersistence;
 import com.spenditure.database.TransactionPersistence;
 import com.spenditure.database.UserPersistence;
-import com.spenditure.logic.ReportManager;
-import com.spenditure.object.DateTime;
-import com.spenditure.object.MainCategory;
-import com.spenditure.object.Transaction;
 import com.spenditure.utils.TestUtils;
 
 import org.junit.Before;
-import org.junit.Test;
 
 import java.io.File;
 import java.io.IOException;

@@ -1,29 +1,35 @@
-package com.spenditure.business.unitTests;
+package com.spenditure.business.integrationTests;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.After;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import com.spenditure.logic.UserManager;
 import com.spenditure.logic.exceptions.InvalidUserInformationException;
+import com.spenditure.utils.TestUtils;
 
-/**
- * Category handler unit tests
- * @author Bao Ngo
- * @version 01 March 2024
- */
-public class AccountManagerTest {
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+
+import java.io.File;
+import java.io.IOException;
+
+public class UserManagerIT {
 
     private UserManager accountManager;
+    private File tempDB;
+
     @Before
-    public void setup(){
-        this.accountManager = new UserManager(true);
+    public void setup() throws IOException {
+        this.tempDB = TestUtils.copyDB();
+        this.accountManager = new UserManager(false);
     }
     @After
     public void tearDown(){
-        UserManager.cleanup(true);
+        UserManager.cleanup(false);
         this.accountManager = null;
+        this.tempDB = null;
     }
 
     @Test
@@ -35,12 +41,13 @@ public class AccountManagerTest {
         userID = accountManager.login("He","12345");
         assertEquals(3,userID);
     }
-
+//
     @Test
     public void testGetUserID(){
         accountManager.login("Me","123");
         int userID = UserManager.getUserID();
         assertEquals(1,userID);
+
 
     }
 
@@ -49,7 +56,6 @@ public class AccountManagerTest {
         int userID = accountManager.login("Me","123");
         String username= accountManager.getUserName(userID);
         assertEquals("Me",username);
-
     }
 
     @Test
@@ -75,12 +81,13 @@ public class AccountManagerTest {
     @Test
     public void testRegister(){
         int userID = accountManager.register("new user","testpassword123");
-        assertEquals(4,userID);
+        assertEquals(6,userID);
         accountManager.logout();
         userID = accountManager.login("new user","testpassword123");
-        assertEquals(4,userID);
+        assertEquals(6,userID);
     }
 
+//
     @Test
     public void testLogOut(){
         accountManager.login("Me","123");
@@ -97,11 +104,10 @@ public class AccountManagerTest {
 
     @Test
     public void testChangeUsername(){
-        int userID = accountManager.login("Me","123");
-        assertEquals(1,userID);
+        int userID = accountManager.login("TestingUser1","12345");
+        assertEquals(4,userID);
         boolean success = accountManager.changeUsername(userID,"newUsername");
         assertTrue(success);
         assertEquals("newUsername",accountManager.getUserName(userID));
     }
 }
-

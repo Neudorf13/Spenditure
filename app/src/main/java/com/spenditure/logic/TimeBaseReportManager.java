@@ -34,7 +34,7 @@ import java.time.*;
  **/
 
 
-public class ReportManager implements IReportManager{
+public class TimeBaseReportManager implements ITimeBaseReportManager {
 
     //Constants for time-based reporting
     private static final int DAYS_IN_WEEK = 7;
@@ -44,7 +44,7 @@ public class ReportManager implements IReportManager{
     private TransactionPersistence dataAccessTransaction;
     private CategoryPersistence dataAccessCategory;
 
-    public ReportManager(boolean getStubDB) {
+    public TimeBaseReportManager(boolean getStubDB) {
         this.dataAccessTransaction = Services.getTransactionPersistence(getStubDB);
         this.dataAccessCategory = Services.getCategoryPersistence(getStubDB);
     }

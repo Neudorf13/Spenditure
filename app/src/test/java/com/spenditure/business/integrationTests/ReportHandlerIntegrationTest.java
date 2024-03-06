@@ -6,7 +6,7 @@ import static org.junit.Assert.assertTrue;
 
 import com.spenditure.application.Services;
 import com.spenditure.database.CategoryPersistence;
-import com.spenditure.logic.ReportManager;
+import com.spenditure.logic.TimeBaseReportManager;
 import com.spenditure.logic.UserManager;
 import com.spenditure.object.CategoryStatistics;
 import com.spenditure.object.DateTime;
@@ -25,7 +25,7 @@ import java.util.List;
 
 public class ReportHandlerIntegrationTest {
 
-    private ReportManager reportManager;
+    private TimeBaseReportManager reportManager;
     private UserManager userManager;
     private File tempDB;
 
@@ -33,7 +33,7 @@ public class ReportHandlerIntegrationTest {
     public void setup() throws IOException {
 
         this.tempDB = TestUtils.copyDB();
-        this.reportManager = new ReportManager(false);
+        this.reportManager = new TimeBaseReportManager(false);
         userManager = new UserManager(false);
         userManager.login("Me", "123");
 

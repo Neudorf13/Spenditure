@@ -14,7 +14,6 @@ public interface ICategoryHandler {
 
     public MainCategory getCategoryByID(int id) throws InvalidCategoryException;
 
-    public void printCategoryTable();
 
     public MainCategory addCategory(String newCategoryName,int userID);
 
