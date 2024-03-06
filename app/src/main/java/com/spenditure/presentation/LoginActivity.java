@@ -37,7 +37,7 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        userManager = new UserManager(Services.DEVELOPING_STATUS);
+        userManager = new UserManager(true);
         setContentView(R.layout.activity_login);
 
         setUpLoginButton();
