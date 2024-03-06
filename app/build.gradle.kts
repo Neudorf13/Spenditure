@@ -3,11 +3,11 @@ plugins {
 }
 
 android {
-    namespace = "com.example.spenditure"
+    namespace = "com.spenditure"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.example.spenditure"
+        applicationId = "com.spenditure"
         minSdk = 33
         targetSdk = 33
         versionCode = 1

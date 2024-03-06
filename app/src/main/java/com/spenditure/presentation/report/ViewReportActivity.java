@@ -75,6 +75,7 @@ public class ViewReportActivity extends AppCompatActivity {
         this.userID = UserManager.getUserID();
         this.currDate = ReportManager.getCurrentDate();
 
+        //Uncomment this when IT for reportTimebase is done
         handleGeneralReport();
         handleCustomCategoryReport();
 //        handleCategoriesReport();
