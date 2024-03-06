@@ -55,19 +55,29 @@ public class AccountManagerTest {
     @Test
     public void testChangePassword(){
         int userID = accountManager.login("Me","123");
-        boolean success = accountManager.changePassword(userID,"123","ok");
-        assertTrue(success);
+        boolean changed;
+
+        try {
+            changed = accountManager.changePassword(userID, "123", "ok");
+        } catch(InvalidUserInformationException ignore) { changed = false; }
+
+        assertFalse("Invalid password, shouldn't have worked", changed);
+
+        changed = accountManager.changePassword(userID, "123", "Hello123");
+        assertTrue(changed);
+
         accountManager.logout();
-        userID = accountManager.login("Me","ok");
+
+        userID = accountManager.login("Me","Hello123");
         assertEquals(1,userID);
     }
 
     @Test
     public void testRegister(){
-        int userID = accountManager.register("new user","testpassword");
+        int userID = accountManager.register("new user","testpassword123");
         assertEquals(4,userID);
         accountManager.logout();
-        userID = accountManager.login("new user","testpassword");
+        userID = accountManager.login("new user","testpassword123");
         assertEquals(4,userID);
     }
 

@@ -13,13 +13,14 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
 public class TransactionSQL implements TransactionPersistence {
 
     private final String dbPath;
+
+    private int currentID = 0;
 
     public TransactionSQL(final String dbPath) {
         this.dbPath = dbPath;
@@ -477,5 +478,7 @@ public class TransactionSQL implements TransactionPersistence {
             throw new RuntimeException("An error occurred while processing the SQL operation", e);  //temp exception
         }
     }
+
+    public int generateUniqueID() { return currentID++; }
 
 }

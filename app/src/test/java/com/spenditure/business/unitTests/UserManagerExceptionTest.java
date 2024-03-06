@@ -189,7 +189,7 @@ public class UserManagerExceptionTest {
         caught = false;
         try{
             userManager.register("Aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa","aaa");
-        }catch (InvalidStringFormat e){
+        }catch (InvalidUserInformationException e){
             caught = true;
         }
         assertTrue(caught);
@@ -236,7 +236,7 @@ public class UserManagerExceptionTest {
         caught = false;
         try{
             userManager.changeUsername(userID,"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
-        }catch (InvalidStringFormat e){
+        }catch (InvalidUserInformationException e){
             caught = true;
         }
         assertTrue(caught);

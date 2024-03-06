@@ -35,6 +35,7 @@ public interface TransactionPersistence {
     ArrayList<Transaction> getTransactionsByAmount(int userID, double lower, double upper);
     ArrayList<Transaction> getTransactionsByDateTime(int userID, IDateTime lower, IDateTime upper);
 
+    public int generateUniqueID();
 
     ArrayList<Transaction> getTransactionsByCategoryID(int categoryID);
 

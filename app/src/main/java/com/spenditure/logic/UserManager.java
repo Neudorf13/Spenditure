@@ -73,7 +73,6 @@ public class UserManager implements IUserManager{
      */
     public boolean changePassword(int userID, String oldPassword, String newPassword) throws InvalidUserInformationException {
 
-        validatePassword(oldPassword);
         validatePassword(newPassword);
 
         if(userID < 0)

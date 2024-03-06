@@ -12,6 +12,7 @@
 
 package com.spenditure.logic;
 
+import com.spenditure.logic.exceptions.InvalidTransactionException;
 import com.spenditure.object.DateTime;
 import com.spenditure.object.Transaction;
 
@@ -21,6 +22,9 @@ import java.util.List;
 
 public interface ITransactionHandler {
     boolean addTransaction(int userID, String whatTheHeck, DateTime date, String place, double amount, String comments, boolean type);
+
+    boolean addTransaction(int userID, String whatTheHeck, DateTime date, String place, double amount, String comments, boolean withdrawal, byte[] image, int categoryID)
+        throws InvalidTransactionException;
 
     boolean modifyTransaction(Transaction t);
 

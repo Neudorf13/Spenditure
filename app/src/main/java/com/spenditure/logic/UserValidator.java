@@ -49,7 +49,7 @@ public class UserValidator {
                 || username.length() > USERNAME_CHARACTER_LIMIT ) {
 
             throw new InvalidUserInformationException("Username cannot be blank or over "+USERNAME_CHARACTER_LIMIT
-                +"characters long.\nUsername provided: "+username);
+                +" characters long.\nUsername provided: "+username);
 
         }
 
@@ -68,7 +68,7 @@ public class UserValidator {
                 || password.length() > PASSWORD_CHARACTER_LIMIT ) {
 
             throw new InvalidUserInformationException("Password cannot be blank, over "+PASSWORD_CHARACTER_LIMIT
-                    +" characters long, or less than "+PASSWORD_MIN_LENGTH+"characters.\nPassword provided: "+password);
+                    +" characters long, or less than "+PASSWORD_MIN_LENGTH+" characters long.\nPassword provided: "+password);
 
         }
 

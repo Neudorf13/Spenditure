@@ -307,7 +307,8 @@ public class TransactionHandlerIT {
         //Get multiple transactions with the same name
         for(int i = 0; i < numInserts; i ++) {
 
-            addTransaction(new Transaction(-1,  "2024 Honda Civic Type R", new DateTime(2024, 2, 29, 16, 20, 0), "Winnipeg Honda", 53280.00, "MSRP", true));
+            transactionHandler.addTransaction(1, "2024 Honda Civic Type R", new DateTime(2024, 2, 29, 16, 20, 0), "Winnipeg Honda", 53280.00, "MSRP", true, null, 3);
+//            addTransaction(new Transaction(-1,  "2024 Honda Civic Type R", new DateTime(2024, 2, 29, 16, 20, 0), "Winnipeg Honda", 53280.00, "MSRP", true));
 
         }
 
@@ -330,15 +331,15 @@ public class TransactionHandlerIT {
         assertEquals(list.size(), 2);
 
         //Check amountLessThan
-        list = transactionHandler.getTransactionByAmountBetween(1, -1,200);
+        list = transactionHandler.getTransactionByAmountBetween(1, -1,199.99);
 
         //Only 9 elements are strictly less than 200
-        assertEquals(list.size(), 9);
+        assertEquals(9, list.size());
 
         //Check amountGreaterThan
-        list = transactionHandler.getTransactionByAmountBetween(1, 250.50, Integer.MAX_VALUE);
+        list = transactionHandler.getTransactionByAmountBetween(1, 250.51, Integer.MAX_VALUE);
 
-        //Only 2 elements are strictly greater than 2
+        //Only 2 elements are strictly greater than 250
         assertEquals(list.size(), 2);
 
         //Check amountBetween, which is inclusive unlike the others
@@ -388,6 +389,6 @@ public class TransactionHandlerIT {
 //    }
 
     private boolean addTransaction(Transaction t) {
-        return transactionHandler.addTransaction(UserManager.getUserID(), t.getName(), t.getDateTime(), t.getPlace(), t.getAmount(), t.getComments(), t.getWithdrawal());
+        return transactionHandler.addTransaction(1, t.getName(), t.getDateTime(), t.getPlace(), t.getAmount(), t.getComments(), t.getWithdrawal());
     }
 }
