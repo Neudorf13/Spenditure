@@ -24,7 +24,8 @@ public class CategorySQL implements CategoryPersistence {
 
     public CategorySQL(final String dbPath) {
         this.dbPath = dbPath;
-        this.currentCategoryID = initCategoryID();
+//        this.currentCategoryID = initCategoryID();
+        this.currentCategoryID = 1;
     }
 
     private Connection connection() throws SQLException {
@@ -33,8 +34,9 @@ public class CategorySQL implements CategoryPersistence {
 
     private int initCategoryID() {
         int largestCategoryID = 1;
-
+        System.out.println("Before");
         try(final Connection connection = connection()) {
+            System.out.println("after");
             final Statement st = connection.createStatement();
             final ResultSet rs = st.executeQuery("SELECT * FROM categories");
 
@@ -50,7 +52,8 @@ public class CategorySQL implements CategoryPersistence {
             return largestCategoryID;
         }
         catch (final SQLException e) {
-            throw new RuntimeException("An error occurred while processing the SQL operation", e);  //temp exception
+            e.printStackTrace();
+            throw new RuntimeException("An error occurred while processing the SQL operation1", e);  //temp exception
         }
 
     }
@@ -82,7 +85,7 @@ public class CategorySQL implements CategoryPersistence {
             return categories;
         }
         catch (final SQLException e) {
-            throw new RuntimeException("An error occurred while processing the SQL operation", e);  //temp exception
+            throw new RuntimeException("An error occurred while processing the SQL operation2", e);  //temp exception
         }
     }
 
@@ -101,7 +104,7 @@ public class CategorySQL implements CategoryPersistence {
             return category;
         }
         catch (final SQLException e) {
-            throw new RuntimeException("An error occurred while processing the SQL operation", e);  //temp exception
+            throw new RuntimeException("An error occurred while processing the SQL operation3", e);  //temp exception
         }
     }
 
@@ -120,7 +123,7 @@ public class CategorySQL implements CategoryPersistence {
             //should this return something?
         }
         catch (final SQLException e) {
-            throw new RuntimeException("An error occurred while processing the SQL operation", e);  //temp exception
+            throw new RuntimeException("An error occurred while processing the SQL operation4", e);  //temp exception
         }
     }
 
@@ -142,7 +145,7 @@ public class CategorySQL implements CategoryPersistence {
 
         }
         catch (final SQLException e) {
-            throw new RuntimeException("An error occurred while processing the SQL operation", e);  //temp exception
+            throw new RuntimeException("An error occurred while processing the SQL operation5", e);  //temp exception
         }
 
     }

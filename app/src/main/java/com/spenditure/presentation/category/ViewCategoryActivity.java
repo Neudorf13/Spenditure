@@ -13,6 +13,7 @@ import android.view.View;
 import com.example.spenditure.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.spenditure.database.utils.DBHelper;
 import com.spenditure.logic.CategoryHandler;
 import com.spenditure.logic.UserManager;
 import com.spenditure.presentation.BottomNavigationHandler;
@@ -37,7 +38,9 @@ public class ViewCategoryActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        DBHelper.copyDatabaseToDevice(getApplicationContext());
         categoryHandler = new CategoryHandler(false);
+//        categoryHandler = new CategoryHandler(false);
         setContentView(R.layout.activity_view_category);
         recyclerView = findViewById(R.id.recyclerview_category);
         mFab = findViewById(R.id.floatingActionButton_category);

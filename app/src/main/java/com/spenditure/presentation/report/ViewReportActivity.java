@@ -21,6 +21,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.viewpager.widget.ViewPager;
 
+import com.spenditure.database.utils.DBHelper;
 import com.spenditure.logic.CategoryHandler;
 import com.spenditure.logic.GeneralReportHandler;
 import com.spenditure.logic.ReportManager;
@@ -64,19 +65,26 @@ public class ViewReportActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        reportManager = new ReportManager(true);
-        categoryHandler = new CategoryHandler(true);
-        generalReportHandler = new GeneralReportHandler(true);
-        this.userID = UserManager.getUserID();
-        this.currDate = ReportManager.getCurrentDate();
+        try{
+            DBHelper.copyDatabaseToDevice(getApplicationContext());
+            categoryHandler = new CategoryHandler(false);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
 
-        handleGeneralReport();
-        handleCustomCategoryReport();
-        handleCategoriesReport();
-        handleTimebaseReport();
-        handleCustomDateReport();
+//        reportManager = new ReportManager(true);
+
+//        generalReportHandler = new GeneralReportHandler(true);
+//        this.userID = UserManager.getUserID();
+//        this.currDate = ReportManager.getCurrentDate();
+
+//        handleGeneralReport();
+//        handleCustomCategoryReport();
+//        handleCategoriesReport();
+//        handleTimebaseReport();
+//        handleCustomDateReport();
         navBarHandling();
-        handleLastYearReport();
+//        handleLastYearReport();
     }
 
     private void handleLastYearReport(){
