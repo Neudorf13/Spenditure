@@ -20,7 +20,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import com.example.spenditure.R;
+import com.spenditure.R;
 import com.spenditure.object.Transaction;
 
 import java.util.List;

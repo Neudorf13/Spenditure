@@ -77,11 +77,6 @@ public class CategoryStub implements CategoryPersistence {
         throw new InvalidCategoryException("Category ID: "+ categoryID + " does not exist.");
     }
 
-    @Override
-    public void printCategoryTable() {
-
-    }
-
     //Support methods
     private  int generateUniqueCategoryID(){
         return currentCategoryID++;

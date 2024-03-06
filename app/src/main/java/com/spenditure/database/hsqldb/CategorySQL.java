@@ -23,9 +23,11 @@ public class CategorySQL implements CategoryPersistence {
     private int currentCategoryID;
 
     public CategorySQL(final String dbPath) {
+
         this.dbPath = dbPath;
+//        this.dbPath = "/data/user/0/com.spenditure/app_db/SC";
         this.currentCategoryID = initCategoryID();
-        System.out.println("Largest CID: " + currentCategoryID);
+//        this.currentCategoryID = 1;
     }
 
     private Connection connection() throws SQLException {
@@ -34,14 +36,12 @@ public class CategorySQL implements CategoryPersistence {
 
     private int initCategoryID() {
         int largestCategoryID = 1;
-
+        System.out.println("Before");
         try(final Connection connection = connection()) {
-            //final PreparedStatement statement = connection.prepareStatement("SELECT * FROM categories");
-            //statement.setString(1, Integer.toString(userID));
+            System.out.println("after");
             final Statement st = connection.createStatement();
             final ResultSet rs = st.executeQuery("SELECT * FROM categories");
 
-            //final ResultSet resultSet = statement.executeQuery();
             while(rs.next()) {
                 final int categoryID = rs.getInt("CATEGORYID");
                 if(categoryID > largestCategoryID) {
@@ -54,7 +54,8 @@ public class CategorySQL implements CategoryPersistence {
             return largestCategoryID;
         }
         catch (final SQLException e) {
-            throw new RuntimeException("An error occurred while processing the SQL operation", e);  //temp exception
+            e.printStackTrace();
+            throw new RuntimeException("An error occurred while processing the SQL operation1", e);  //temp exception
         }
 
     }
@@ -86,21 +87,17 @@ public class CategorySQL implements CategoryPersistence {
             return categories;
         }
         catch (final SQLException e) {
-            //throw new PersistenceException(e);
-            throw new RuntimeException("An error occurred while processing the SQL operation", e);  //temp exception
+            throw new RuntimeException("An error occurred while processing the SQL operation2", e);  //temp exception
         }
     }
 
-    //int userID, String newCategory
     @Override
     public MainCategory addCategory(String categoryName, int userID) {
         currentCategoryID++;
         MainCategory category = new MainCategory(categoryName,currentCategoryID,userID);
-        //MainCategory category = new MainCategory(categoryName,1,userID);
         try(final Connection connection = connection()) {
             final PreparedStatement statement = connection.prepareStatement("INSERT INTO CATEGORIES VALUES(?, ?, ?)");
-//            statement.setInt(1, categoryID);//FIX this
-            statement.setInt(1, category.getCategoryID());//FIX this
+            statement.setInt(1, category.getCategoryID());
             statement.setString(2, categoryName);
             statement.setInt(3, userID);
 
@@ -109,7 +106,7 @@ public class CategorySQL implements CategoryPersistence {
             return category;
         }
         catch (final SQLException e) {
-            throw new RuntimeException("An error occurred while processing the SQL operation", e);  //temp exception
+            throw new RuntimeException("An error occurred while processing the SQL operation3", e);  //temp exception
         }
     }
 
@@ -128,7 +125,7 @@ public class CategorySQL implements CategoryPersistence {
             //should this return something?
         }
         catch (final SQLException e) {
-            throw new RuntimeException("An error occurred while processing the SQL operation", e);  //temp exception
+            throw new RuntimeException("An error occurred while processing the SQL operation4", e);  //temp exception
         }
     }
 
@@ -148,47 +145,13 @@ public class CategorySQL implements CategoryPersistence {
                 throw new InvalidUserInformationException("No category with id: " + categoryID);
             }
 
-
-
-
-
-//            resultSet.close();
-//            statement.close();
-
-
-
         }
         catch (final SQLException e) {
-            throw new RuntimeException("An error occurred while processing the SQL operation", e);  //temp exception
+            throw new RuntimeException("An error occurred while processing the SQL operation5", e);  //temp exception
         }
 
     }
 
-
-    @Override
-    public void printCategoryTable() {
-        try(final Connection connection = connection()) {
-            final Statement st = connection.createStatement();
-            final ResultSet rs = st.executeQuery("SELECT * FROM categories");
-            while (rs.next())
-            {
-                int userID = rs.getInt("USERID");
-                String categoryName = rs.getString("CATEGORYNAME");
-                int categoryID = rs.getInt("CATEGORYID");
-
-
-                @SuppressLint("DefaultLocale") String printUser = String.format("UserID: %d, CategoryID: %d, Category Name: %s", userID, categoryID, categoryName);
-                System.out.println(printUser);
-            }
-            rs.close();
-            st.close();
-
-        }
-        catch (final SQLException e) {
-            throw new RuntimeException("An error occurred while processing the SQL operation", e);  //temp exception
-        }
-
-    }
 
 
 }

@@ -33,7 +33,7 @@ import com.spenditure.logic.exceptions.InvalidTransactionException;
 import com.spenditure.object.DateTime;
 import com.spenditure.object.Transaction;
 
-import com.example.spenditure.R;
+import com.spenditure.R;
 import com.spenditure.presentation.BottomNavigationHandler;
 import com.spenditure.presentation.LoginActivity;
 import com.spenditure.presentation.category.CustomCategorySpinnerAdapter;

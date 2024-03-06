@@ -159,8 +159,8 @@ public class UserManager implements IUserManager{
     }
 
     //For testing purposes
-    public static void cleanup(){
-        Services.restartAccountDB(true);
+    public static void cleanup(boolean getStubDB){
+        Services.restartAccountDB(getStubDB);
         UserManager.userID = -1;
     }
 

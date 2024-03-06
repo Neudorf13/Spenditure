@@ -19,8 +19,8 @@ public class UserManagerExceptionTest {
     }
 
     @After
-    public void teardown(){
-        UserManager.cleanup();
+    public void teardown(boolean stub){
+        UserManager.cleanup(stub);
         this.userManager = null;
     }
 

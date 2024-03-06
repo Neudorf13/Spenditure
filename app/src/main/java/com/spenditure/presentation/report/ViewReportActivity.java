@@ -13,7 +13,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.spenditure.R;
+import com.spenditure.R;
 import com.facebook.shimmer.ShimmerFrameLayout;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -21,9 +21,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.viewpager.widget.ViewPager;
 
+import com.spenditure.application.Services;
+import com.spenditure.database.utils.DBHelper;
 import com.spenditure.logic.CategoryHandler;
 import com.spenditure.logic.GeneralReportHandler;
 import com.spenditure.logic.ReportManager;
+import com.spenditure.logic.TransactionHandler;
 import com.spenditure.logic.UserManager;
 import com.spenditure.object.DateTime;
 import com.spenditure.object.IDateTime;
@@ -45,40 +48,46 @@ import java.time.LocalDate;
  */
 public class ViewReportActivity extends AppCompatActivity {
 
-    private static String dbName="SC";
+    private static String dbName="SC1";
 
-//    private ViewPager viewPagerCategory;
-//    private SliderAdapterCatGeneral adapter;
     private ReportManager reportManager;
     private GeneralReportHandler generalReportHandler;
     private final String[] custom_option = {"Report by average","Report by total","Report by percentage"}; //Drop down menu option
     private final String[] time_base_option = {"Report by year breaking into month","Report by month breaking into weeks"};//Drop down menu option
     private CategoryHandler categoryHandler;
-//    private ViewPager viewPagerCustom;
+
     private IDateTime fromDate;
     private IDateTime toDate;
     private LocalDate currTime =  LocalDate.now();
+    private int userID;
+    private DateTime currDate;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        reportManager = new ReportManager(true);
-        categoryHandler = new CategoryHandler(true);
-        generalReportHandler = new GeneralReportHandler(true);
+        DBHelper.copyDatabaseToDevice(this);
 
+        TransactionHandler transactionHandler = new TransactionHandler(Services.DEVELOPING_STATUS);
+        reportManager = new ReportManager(Services.DEVELOPING_STATUS);
+        categoryHandler = new CategoryHandler(Services.DEVELOPING_STATUS);
+        generalReportHandler = new GeneralReportHandler(Services.DEVELOPING_STATUS);
+        this.userID = UserManager.getUserID();
+        this.currDate = ReportManager.getCurrentDate();
+
+        //Uncomment this when IT for reportTimebase is done
         handleGeneralReport();
         handleCustomCategoryReport();
-        handleCategoriesReport();
-        handleTimebaseReport();
-        handleCustomDateReport();
+//        handleCategoriesReport();
+//        handleTimebaseReport();
+//        handleCustomDateReport();
         navBarHandling();
-        handleLastYearReport();
+//        handleLastYearReport();
     }
 
     private void handleLastYearReport(){
-        IReport lastYearReport = reportManager.reportBackOneYear(UserManager.getUserID(), ReportManager.getCurrentDate());
+        IReport lastYearReport = reportManager.reportBackOneYear(userID, this.currDate);
         TextView numTransactions = findViewById(R.id.textview_lastYear_transactionsCount);
         TextView totalTransactions = findViewById(R.id.textview_lastYear_total);
         TextView average = findViewById(R.id.textview_lastYear_average);
@@ -95,9 +104,9 @@ public class ViewReportActivity extends AppCompatActivity {
         Button fromButton = findViewById(R.id.button_report_from);
         Button toButton = findViewById(R.id.button_report_to);
         Button getReport = findViewById(R.id.button_get_report);
-        fromDate = new DateTime(currTime.getYear(),currTime.getMonthValue()  , currTime.getDayOfMonth());
-        toDate = new DateTime(currTime.getYear(),currTime.getMonthValue()  , currTime.getDayOfMonth());
-        String currTimeString = currTime.getDayOfMonth() + "/" + currTime.getMonthValue() + "/" +  currTime.getYear() ;
+        fromDate = currDate;
+        toDate = currDate;
+        String currTimeString = currDate.getMonth() + "/" + currDate.getDay() + "/" +  currDate.getYear() ;
         fromButton.setText(currTimeString);
         toButton.setText(currTimeString);
         fromButton.setOnClickListener(new View.OnClickListener() {
@@ -120,7 +129,7 @@ public class ViewReportActivity extends AppCompatActivity {
                 if (fromDate == null || toDate == null){
                     Toast.makeText(ViewReportActivity.this,"Please choose 2 dates",Toast.LENGTH_SHORT).show();
                 }else {
-                    IReport timeCustomReport = reportManager.reportOnUserProvidedDates(UserManager.getUserID(), fromDate, toDate);
+                    IReport timeCustomReport = reportManager.reportOnUserProvidedDates(userID, fromDate, toDate);
 
                     TextView transactionNum = findViewById(R.id.textview_customTime_totalTrans);
                     TextView  total = findViewById(R.id.textview_customTime_totalAmount);
@@ -145,13 +154,8 @@ public class ViewReportActivity extends AppCompatActivity {
         ViewPager viewPagerCustom = findViewById(R.id.gridlayout_timebase_report);
         Spinner spinner = findViewById(R.id.spinner_timebase_report);
 
-
-//        SliderAdapterCatGeneral adapterCustom= new SliderAdapterCatGeneral(this,categoryHandler.getAllCategory());
-
-        //Uncomment this when Toran done
-//        reportManager.reportOnLastYearByMonth(1);
-//        SliderAdapterTimeBase adapterCustom= new SliderAdapterTimeBase(this,reportManager.reportOnLastYearByMonth(1),"Month");
-//        viewPagerCustom.setAdapter(adapterCustom);
+        SliderAdapterTimeBase adapterCustom= new SliderAdapterTimeBase(this,reportManager.reportBackOnLastYearByMonth(userID,currDate),"Month");
+        viewPagerCustom.setAdapter(adapterCustom);
 
 
         ArrayAdapter<String>adapter = new ArrayAdapter<>(this, R.layout.custom_snipper_report,time_base_option);
@@ -167,11 +171,11 @@ public class ViewReportActivity extends AppCompatActivity {
                 shimmerFrameLayout.startShimmerAnimation();
 
                 if (position == 0){
-//                    SliderAdapterTimeBase adapterCustom= new SliderAdapterTimeBase(getApplicationContext(),reportManager.reportOnLastYearByMonth(1),"Month");
-//                    viewPagerCustom.setAdapter(adapterCustom);
+                    SliderAdapterTimeBase adapterCustom= new SliderAdapterTimeBase(getApplicationContext(),reportManager.reportBackOnLastYearByMonth(userID,currDate),"Month");
+                    viewPagerCustom.setAdapter(adapterCustom);
                 }else {
-//                    SliderAdapterTimeBase adapterCustom= new SliderAdapterTimeBase(getApplicationContext(),reportManager.reportOnLastMonthByWeek(1),"Week");
-//                    viewPagerCustom.setAdapter(adapterCustom);
+                    SliderAdapterTimeBase adapterCustom= new SliderAdapterTimeBase(getApplicationContext(),reportManager.reportBackOneMonthByWeek(userID,currDate),"Week");
+                    viewPagerCustom.setAdapter(adapterCustom);
                 }
 
                 Handler handler = new Handler();
@@ -184,7 +188,7 @@ public class ViewReportActivity extends AppCompatActivity {
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-
+                //We did nothing in purpose, but we still have to have this function because of it need to be overrided.
             }
         });
     }
@@ -209,8 +213,8 @@ public class ViewReportActivity extends AppCompatActivity {
     }
 
     private void handleGeneralReport(){
-        String spendString = "You've spent " + UIUtility.cleanTotalString(generalReportHandler.totalSpending(UserManager.getUserID()));
-        String makeTransactions = "You've made " + UIUtility.cleanTransactionNumberString(generalReportHandler.numTransactions(UserManager.getUserID()));
+        String spendString = "You've spent " + UIUtility.cleanTotalString(generalReportHandler.totalSpending(userID));
+        String makeTransactions = "You've made " + UIUtility.cleanTransactionNumberString(generalReportHandler.numTransactions(userID));
         TextView short_text = findViewById(R.id.textview_summary_report_short);
         TextView long_text = findViewById(R.id.textview_summary_report_long);
 
@@ -234,17 +238,17 @@ public class ViewReportActivity extends AppCompatActivity {
 
                 String spendMostString = "Mostly spending on ";
                 String spendLeastString = "Least spending on ";
-                List<IMainCategory>categories = new ArrayList<IMainCategory>();
+                List<IMainCategory>categories;
 
                 switch (position){
                     case 2:
-                        categories = generalReportHandler.sortByPercent(UserManager.getUserID(),true);
+                        categories = generalReportHandler.sortByPercent(userID,true);
                         break;
                     case 1:
-                        categories = generalReportHandler.sortByTotal(UserManager.getUserID(),true);
+                        categories = generalReportHandler.sortByTotal(userID,true);
                         break;
                     default:
-                        categories = generalReportHandler.sortByAverage(UserManager.getUserID(),true);
+                        categories = generalReportHandler.sortByAverage(userID,true);
                         break;
                 }
 
@@ -296,14 +300,12 @@ public class ViewReportActivity extends AppCompatActivity {
         DatePickerDialog dialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                String displayDay = String.valueOf(dayOfMonth ) + "/"  + String.valueOf(month+ 1) + "/" + String.valueOf(year);
+                String displayDay = String.valueOf(month+ 1 ) + "/"  + String.valueOf(dayOfMonth) + "/" + String.valueOf(year);
                 DateTime newDate = new DateTime(year, month,  dayOfMonth);
                 if(from){
                     ViewReportActivity.this.fromDate = newDate;
-//                    displayDay = newDate.toString();
                 }else {
                     ViewReportActivity.this.toDate = newDate;
-//                    displayDay = newDate.toString();
                 }
 
                 button.setText(displayDay);
