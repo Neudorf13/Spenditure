@@ -98,12 +98,12 @@ public class ReportHandlerIntegrationTest {
 //        //assertEquals("Expected transaction average for Category 3 to be approximately 229.41",testCategory3,229.41,0.1);
 //    }
 
-    @Test
-    public void testCount() {
-    //    int test1 = reportManager.countAllCategories(1);
-
-     //   assertEquals(test1,4);
-    }
+//    @Test
+//    public void testCount() {
+//    //    int test1 = reportManager.countAllCategories(1);
+//
+//     //   assertEquals(test1,4);
+//    }
 
     @Test
     public void testCategoryTable() {
