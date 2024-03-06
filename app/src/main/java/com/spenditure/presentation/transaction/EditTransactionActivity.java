@@ -13,14 +13,18 @@
 
 package com.spenditure.presentation.transaction;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatToggleButton;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 
 import com.example.spenditure.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -28,12 +32,17 @@ import com.spenditure.logic.TransactionHandler;
 import com.spenditure.logic.UserManager;
 import com.spenditure.object.DateTime;
 import com.spenditure.object.Transaction;
+import com.spenditure.presentation.ImageCaptureActivity;
+import com.spenditure.presentation.ImageViewActivity;
 import com.spenditure.presentation.report.ViewReportActivity;
 
 public class EditTransactionActivity extends AppCompatActivity {
 
     // Instance Variables
     private Transaction givenTransaction;
+    private ActivityResultLauncher<Intent> getImageCaptureResult;
+    private byte[] imageBytes;
+    private Button viewImageButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +64,14 @@ public class EditTransactionActivity extends AppCompatActivity {
         // Populate the UI fields
         populateTransactionFields(givenTransaction);
 
+        setUpEditButton();
+        navBarHandling();
+
+        setUpImageCaptureButton();
+        setUpViewImageButton();
+    }
+
+    private void setUpEditButton() {
         // Set up click event for the Edit Transaction Button
         Button button = (Button) findViewById(R.id.button_edit_transaction);
         button.setOnClickListener(new View.OnClickListener() {
@@ -68,8 +85,43 @@ public class EditTransactionActivity extends AppCompatActivity {
                 startActivity(new Intent(getApplicationContext(), ViewTransactionsActivity.class));
             }
         });
+    }
 
-        navBarHandling();
+    private void setUpViewImageButton(){
+        viewImageButton = (Button) findViewById(R.id.button_view_image);
+
+        viewImageButton.setOnClickListener(view -> {
+            Intent imageViewActivity = new Intent(getApplicationContext(), ImageViewActivity.class);
+            imageViewActivity.putExtra("imageBytes", imageBytes);
+            startActivity(imageViewActivity);
+        });
+    }
+
+    // Set up the image capture button
+    private void setUpImageCaptureButton() {
+        // Initialize the ActivityResultLauncher
+        getImageCaptureResult = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                result -> {
+                    if (result.getResultCode() == Activity.RESULT_OK) {
+                        // Handle the result here
+                        Intent data = result.getData();
+                        if (data != null) {
+                            Bundle received = data.getExtras();
+                            imageBytes = received.getByteArray("imageBytes");
+
+                            // Enable the view image button now
+                            viewImageButton.setEnabled(true);
+                        }
+                    }
+                }
+        );
+
+        ImageButton button = (ImageButton) findViewById(R.id.button_take_image);
+        button.setOnClickListener(view -> {
+            Intent imageCaptureActivity = new Intent(getApplicationContext(), ImageCaptureActivity.class);
+            getImageCaptureResult.launch(imageCaptureActivity);
+        });
     }
 
     // Handle the bottom navigation bar
@@ -112,6 +164,14 @@ public class EditTransactionActivity extends AppCompatActivity {
 
         AppCompatToggleButton type = (AppCompatToggleButton) findViewById(R.id.togglebutton_type);
         type.setChecked(transaction.getWithdrawal());
+
+        imageBytes = transaction.getImage();
+
+        // If there was an image saved, enable the View Image button
+        if (imageBytes != null) {
+            Button button = (Button) findViewById(R.id.button_view_image);
+            button.setEnabled(true);
+        }
     }
 
     // Helper method: return the updated Transaction object made from user-entered info
@@ -126,6 +186,11 @@ public class EditTransactionActivity extends AppCompatActivity {
 
         // Create the new transaction object
         Transaction updatedTransaction = new Transaction(UserManager.getUserID(), givenTransaction.getTransactionID(), whatTheHeck.getText().toString(), date, place.getText().toString(), Double.parseDouble(amount.getText().toString()), comments.getText().toString(), type.isChecked(),null);
+
+        // Only add image if it was taken
+        if (imageBytes != null) {
+            updatedTransaction.setImage(imageBytes);
+        }
 
         return updatedTransaction;
     };

@@ -52,8 +52,16 @@ public class CreateTransactionActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_transaction);
 
+        setUpCreateButton();
+        navBarHandling();
+
+        setUpImageCaptureButton();
+        setUpViewImageButton();
+    }
+
+    private void setUpCreateButton() {
         // Set up click event for the Create Transaction Button
-        Button button = (Button) findViewById(R.id.button_create_transaction);
+        Button button = (Button) findViewById(R.id.button_edit_transaction);
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 // Call helper method
@@ -70,11 +78,6 @@ public class CreateTransactionActivity extends AppCompatActivity {
                 }
             }
         });
-
-        navBarHandling();
-
-        setUpImageCaptureButton();
-        setUpViewImageButton();
     }
 
     private void setUpViewImageButton(){
