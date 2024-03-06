@@ -18,20 +18,27 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.example.spenditure.R;
+import com.spenditure.R;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.spenditure.logic.CategoryHandler;
+import com.spenditure.logic.UserManager;
 import com.spenditure.logic.exceptions.InvalidCategoryException;
 import com.spenditure.presentation.IOnDialogCloseListener;
 
+
+/**
+ * Pop up for adding Category
+ * @author Bao Ngo
+ * @version 04 Mar 2024
+ */
 public class AddNewCategory extends BottomSheetDialogFragment {
     public static final String TAG = "AddNewCategory";
     private EditText mCategoryEdit;
     private Button mSaveBtn;
     private CategoryHandler categoryHandler;
     private Context context;
-    private Adapter adapter;
 
+    //Return new instance of pop up component
     public static AddNewCategory newInstance(){
         return new AddNewCategory();
     }
@@ -48,12 +55,12 @@ public class AddNewCategory extends BottomSheetDialogFragment {
 
         mCategoryEdit = view.findViewById(R.id.category_edittext);
         mSaveBtn = view.findViewById(R.id.category_save_btn);
-        this.categoryHandler = new CategoryHandler(true);
+        this.categoryHandler = new CategoryHandler(false);
 
         mCategoryEdit.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
+                //We did nothing in purpose, but we still have to have this function because of it need to be overrided.
             }
 
             @Override
@@ -69,7 +76,7 @@ public class AddNewCategory extends BottomSheetDialogFragment {
 
             @Override
             public void afterTextChanged(Editable s) {
-
+                //We did nothing in purpose, but we still have to have this function because of it need to be overrided.
             }
         });
 
@@ -82,12 +89,13 @@ public class AddNewCategory extends BottomSheetDialogFragment {
 
                 }else{
                     try {
-                        categoryHandler.addCategory(newCategory);
+                        categoryHandler.addCategory(newCategory, UserManager.getUserID());
                     }catch (InvalidCategoryException e){
                         Toast.makeText(context,"Category already exists", Toast.LENGTH_SHORT).show();
                     }
 
                     Toast.makeText(context,"Category added successfully", Toast.LENGTH_SHORT).show();
+
                 }
                 dismiss();
             }

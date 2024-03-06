@@ -72,7 +72,6 @@ public class TransactionValidator {
             throw new InvalidTransactionPlaceException("Provided place was blank.");
         else
             return true;
-//        return place != null && place.length() > 0;
 
     }
 

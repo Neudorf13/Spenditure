@@ -1,0 +1,9 @@
+package com.spenditure.database;
+
+public interface UserPersistence {
+    int login(String username, String password); //Return user id
+    String getUserName(int userID);
+    boolean changePassword(int userID, String oldPassword, String newPassword);
+    boolean changeUsername(int userID, String newUsername);
+    int register(String username, String password,String email);
+}

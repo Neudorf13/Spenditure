@@ -22,13 +22,21 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.spenditure.logic.TransactionHandler;
+import com.spenditure.logic.CategoryHandler;
+import com.spenditure.logic.UserManager;
+import com.spenditure.logic.exceptions.InvalidTransactionException;
 import com.spenditure.object.DateTime;
 import com.spenditure.object.Transaction;
 
-import com.example.spenditure.R;
+import com.spenditure.R;
+import com.spenditure.presentation.BottomNavigationHandler;
+import com.spenditure.presentation.LoginActivity;
+import com.spenditure.presentation.category.CustomCategorySpinnerAdapter;
 import com.spenditure.presentation.category.ViewCategoryActivity;
 import com.spenditure.presentation.report.ViewReportActivity;
 
@@ -46,11 +54,23 @@ public class CreateTransactionActivity extends AppCompatActivity {
                 // Call helper method
                 Transaction newTransaction = createTransaction();
 
-                TransactionHandler handler = new TransactionHandler(true);
-                handler.addTransaction(newTransaction);
+                // Parse all the user fields
+                EditText whatTheHeck = (EditText) findViewById(R.id.edittext_what_the_heck);
+                DateTime date = new DateTime(2023,1,1,1,1,0); // Set default date for now
+                EditText place = (EditText) findViewById(R.id.edittext_place);
+                EditText amount = (EditText) findViewById(R.id.edittext_amount);
+                EditText comments = (EditText) findViewById(R.id.edittext_comments);
+                AppCompatToggleButton type = (AppCompatToggleButton) findViewById(R.id.togglebutton_type);
 
-                // Return to the main window
-                startActivity(new Intent(getApplicationContext(), ViewReportActivity.class));
+                try {
+                    TransactionHandler handler = new TransactionHandler(true);
+                    handler.addTransaction(UserManager.getUserID(), whatTheHeck.getText().toString(), date, place.getText().toString(), Double.parseDouble(amount.getText().toString()), comments.getText().toString(), type.isChecked());
+
+                    // Return to the main window
+                    startActivity(new Intent(getApplicationContext(), ViewReportActivity.class));
+                } catch (InvalidTransactionException e) {
+                    Toast.makeText(CreateTransactionActivity.this, e.getMessage(),Toast.LENGTH_LONG).show();
+                }
             }
         });
 
@@ -84,14 +104,14 @@ public class CreateTransactionActivity extends AppCompatActivity {
     private Transaction createTransaction() {
         // Parse all the user fields
         EditText whatTheHeck = (EditText) findViewById(R.id.edittext_what_the_heck);
-        DateTime date = new DateTime(2023,1,1,1,1); // Set default date for now
+        DateTime date = new DateTime(2023,1,1,1,1,0); // Set default date for now
         EditText place = (EditText) findViewById(R.id.edittext_place);
         EditText amount = (EditText) findViewById(R.id.edittext_amount);
         EditText comments = (EditText) findViewById(R.id.edittext_comments);
         AppCompatToggleButton type = (AppCompatToggleButton) findViewById(R.id.togglebutton_type);
 
         // Create the new transaction object
-        Transaction newTransaction = new Transaction(-1, whatTheHeck.getText().toString(), date, place.getText().toString(), Double.parseDouble(amount.getText().toString()), comments.getText().toString(), type.isChecked());
+        Transaction newTransaction = new Transaction(UserManager.getUserID(), whatTheHeck.getText().toString(), date, place.getText().toString(), Double.parseDouble(amount.getText().toString()), comments.getText().toString(), type.isChecked());
 
         return newTransaction;
     };

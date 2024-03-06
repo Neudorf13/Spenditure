@@ -10,20 +10,23 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.viewpager.widget.PagerAdapter;
 
-import com.example.spenditure.R;
-import com.spenditure.logic.ReportManager;
-import com.spenditure.object.ICategory;
+import com.spenditure.R;
 import com.spenditure.object.IReport;
-import com.spenditure.object.MainCategory;
 import com.spenditure.presentation.UIUtility;
 
 import java.util.List;
 
+
+/**
+ * Slider for Report on each category
+ * @author Bao Ngo
+ * @version 04 Mar 2024
+ */
 public class SliderAdapterTimeBase extends PagerAdapter {
     Context context;
     LayoutInflater inflater;
    private List<IReport> reportList;
-    private int[] list_bg_color = {
+    private int[] list_bg_color = { //Default background color for each slider
             R.drawable.background_light_green,
             R.drawable.background_dark_blue
     };
@@ -63,13 +66,13 @@ public class SliderAdapterTimeBase extends PagerAdapter {
         TextView totalTransactions = view.findViewById(R.id.textview_catReport_total);
         TextView average = view.findViewById(R.id.textview_catReport_average);
         TextView percentage = view.findViewById(R.id.textview_catReport_percentage);
-//
+
 //        //Fill UI component with information
         tittle.setText(title );
         countTransactions.setText(UIUtility.cleanTransactionNumberString( currReport.getNumTrans()));
         totalTransactions.setText(UIUtility.cleanTotalString(currReport.getTotal()));
         average.setText(UIUtility.cleanAverageString(currReport.getAvgTransSize()));
-        percentage.setText(UIUtility.cleanAverageString(currReport.getPercentage()));
+        percentage.setText(UIUtility.cleanAverageString(currReport.getPercent()));
 
         linearLayout.setBackgroundResource(list_bg_color[position % list_bg_color.length]);
         container.addView(view);
@@ -80,11 +83,6 @@ public class SliderAdapterTimeBase extends PagerAdapter {
     public void destroyItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
         container.removeView((LinearLayout)object);
     }
-
-    private double handle_decimal(double number){
-        return Math.ceil(number * 100) / 100;
-    }
-
 
 
 }

@@ -22,9 +22,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.example.spenditure.R;
+import com.spenditure.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.spenditure.logic.TransactionHandler;
+import com.spenditure.logic.UserManager;
 import com.spenditure.object.DateTime;
 import com.spenditure.object.Transaction;
 import com.spenditure.presentation.report.ViewReportActivity;
@@ -97,7 +98,7 @@ public class EditTransactionActivity extends AppCompatActivity {
         EditText whatTheHeck = (EditText) findViewById(R.id.edittext_what_the_heck);
         whatTheHeck.setText(transaction.getName());
 
-        DateTime date = new DateTime(2023,1,1,1,1); // Set default date for now
+        DateTime date = new DateTime(2023,1,1,1,1,1); // Set default date for now
         EditText dateTime = (EditText) findViewById(R.id.edittext_date);
 
         EditText place = (EditText) findViewById(R.id.edittext_place);
@@ -110,21 +111,21 @@ public class EditTransactionActivity extends AppCompatActivity {
         comments.setText(transaction.getComments());
 
         AppCompatToggleButton type = (AppCompatToggleButton) findViewById(R.id.togglebutton_type);
-        type.setChecked(transaction.getType());
+        type.setChecked(transaction.getWithdrawal());
     }
 
     // Helper method: return the updated Transaction object made from user-entered info
     private Transaction editTransaction() {
         // Parse all the user fields
         EditText whatTheHeck = (EditText) findViewById(R.id.edittext_what_the_heck);
-        DateTime date = new DateTime(2023,1,1,1,1); // Set default date for now
+        DateTime date = new DateTime(2023,1,1,1,1,0); // Set default date for now
         EditText place = (EditText) findViewById(R.id.edittext_place);
         EditText amount = (EditText) findViewById(R.id.edittext_amount);
         EditText comments = (EditText) findViewById(R.id.edittext_comments);
         AppCompatToggleButton type = (AppCompatToggleButton) findViewById(R.id.togglebutton_type);
 
         // Create the new transaction object
-        Transaction updatedTransaction = new Transaction(givenTransaction.getTransactionID(), whatTheHeck.getText().toString(), date, place.getText().toString(), Double.parseDouble(amount.getText().toString()), comments.getText().toString(), type.isChecked());
+        Transaction updatedTransaction = new Transaction(UserManager.getUserID(), givenTransaction.getTransactionID(), whatTheHeck.getText().toString(), date, place.getText().toString(), Double.parseDouble(amount.getText().toString()), comments.getText().toString(), type.isChecked(),null);
 
         return updatedTransaction;
     };

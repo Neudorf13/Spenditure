@@ -13,6 +13,13 @@
 
 package com.spenditure.object;
 
+import static com.spenditure.logic.DateTimeAdjuster.correctDateTime;
+
+import android.annotation.SuppressLint;
+
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 public class DateTime implements IDateTime{
 
     private int year;
@@ -24,6 +31,8 @@ public class DateTime implements IDateTime{
     private int hour;
 
     private int minute;
+
+    private int seconds;
 
     //Relates month names to month value; names correlate to month-1
     private static final String[] MONTHS = {
@@ -41,20 +50,21 @@ public class DateTime implements IDateTime{
             "December"
     };
 
-    public DateTime(int year, int month, int day, int hour, int minute)
+    public DateTime(int year, int month, int day, int hour, int minute, int seconds)
     {
         this.year = year;
         this.month = month;
         this.day = day;
         this.hour = hour;
         this.minute = minute;
+        this.seconds = seconds;
     }
 
     public DateTime(int year) {
 
         this.year = year;
-        this.month = -1; // -1 signifies it was not given
-        this.day = -1;
+        this.month = 0;
+        this.day = 0;
         hour = 0;
         minute = 0;
     }
@@ -63,7 +73,7 @@ public class DateTime implements IDateTime{
 
         this.year = year;
         this.month = month;
-        this.day = -1; // -1 signifies that it was not given
+        this.day = 0;
         hour = 0;
         minute = 0;
     }
@@ -75,7 +85,42 @@ public class DateTime implements IDateTime{
         this.day = day;
         hour = 0;
         minute = 0;
+        seconds = 0;
+    }
 
+//    public DateTime(String dateString) {
+//
+//
+////        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+//        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+//
+//        LocalDateTime dateTime = LocalDateTime.parse(dateString, formatter);
+//
+//        this.year = dateTime.getYear();
+//        this.month = dateTime.getMonthValue();
+//        this.day = dateTime.getDayOfMonth();
+////        this.hour = dateTime.getHour();
+////        this.minute = dateTime.getMinute();
+////        this.seconds = dateTime.getSecond();
+//    }
+    public DateTime(String dateString) {
+
+        String[] parts = dateString.split("-");
+
+        if (parts.length == 3) {
+            try {
+                // Parse each part to integers and assign them to the attributes
+                this.year = Integer.parseInt(parts[0]);
+                this.month = Integer.parseInt(parts[1]);
+                this.day = Integer.parseInt(parts[2]);
+            } catch (NumberFormatException e) {
+                // Handle if the parsing fails (e.g., invalid format)
+                System.err.println("Invalid date format: " + dateString);
+            }
+        } else {
+            // Handle if the dateString doesn't have three parts
+            System.err.println("Invalid date format: " + dateString);
+        }
     }
 
     public String toString() {
@@ -92,6 +137,34 @@ public class DateTime implements IDateTime{
                 + hour + ":" + adjustMinutesPrefix + minute + adjustMinutesSuffix;
 
     }
+
+
+    public String getYearMonthDay() {
+        @SuppressLint("DefaultLocale") String result = String.format("%d-%d-%d", this.year, this.month, this.day);
+        return result;
+    }
+
+
+
+//    public static DateTime FromTimestamp(Timestamp timestamp)
+//    {
+//        // Convert milliseconds since the epoch to seconds
+//        long secondsSinceEpoch = timestamp.Value / 1000;
+//
+//        // Create a DateTimeOffset object representing the timestamp
+//        DateTimeOffset dateTimeOffset = DateTimeOffset.FromUnixTimeSeconds(secondsSinceEpoch);
+//
+//        // Extract year, month, day, hour, minute, and second components
+//        int year = dateTimeOffset.Year;
+//        int month = dateTimeOffset.Month;
+//        int day = dateTimeOffset.Day;
+//        int hour = dateTimeOffset.Hour;
+//        int minute = dateTimeOffset.Minute;
+//        int seconds = dateTimeOffset.Second;
+//
+//        // Create and return a new DateTime object using the constructor
+//        return new DateTime(year, month, day, hour, minute, seconds);
+//    }
 
     /*
         compare()
@@ -118,12 +191,40 @@ public class DateTime implements IDateTime{
         } else if( minute - other.getMinute() != 0 ) {
             return minute - other.getMinute();
 
+        } else if(seconds - other.getSeconds() != 0) {
+            return seconds - other.getSeconds();
         } else
             return 0;
 
     }
 
-    public void adjust( int changeYear, int changeMonth, int changeDay, int changeHour, int changeMinute ) {
+    public void adjust( int changeYear, int changeMonth, int changeDay, int changeHour, int changeMinute, int changeSecond ) {
+
+        DateTime temp = new DateTime(
+        year + changeYear,
+        month + changeMonth,
+        day + changeDay,
+        hour + changeHour,
+        minute + changeMinute,
+        seconds + changeSecond );
+
+        DateTime adjusted = correctDateTime(temp);
+
+        year = adjusted.getYear();
+
+        month = adjusted.getMonth();
+
+        day = adjusted.getDay();
+
+        hour = adjusted.getHour();
+
+        minute = adjusted.getMinute();
+
+        seconds = adjusted.getSeconds();
+
+    }
+
+    public void absoluteAdjust(int changeYear, int changeMonth, int changeDay, int changeHour, int changeMinute, int changeSecond ) {
 
         year += changeYear;
 
@@ -135,11 +236,13 @@ public class DateTime implements IDateTime{
 
         minute += changeMinute;
 
+        seconds += changeSecond;
+
     }
 
     public DateTime copy() {
 
-        return new DateTime(year, month, day, hour, minute);
+        return new DateTime(year, month, day, hour, minute,seconds);
 
     }
 
@@ -168,4 +271,5 @@ public class DateTime implements IDateTime{
         return minute;
     }
 
+    public int getSeconds() {return seconds; }
 }

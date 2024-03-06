@@ -1,23 +1,28 @@
 package com.spenditure.presentation.category;
 
-
-
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.spenditure.R;
+import com.spenditure.R;
 import com.spenditure.logic.CategoryHandler;
 import com.spenditure.object.MainCategory;
 
 
 import java.util.List;
 
+
+/**
+ * Adapter for Category pages
+ * @author Bao Ngo
+ * @version 04 Mar 2024
+ */
 public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.MyViewHolder> {
 
     private List<MainCategory> categories;
@@ -27,9 +32,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.MyView
     public CategoryAdapter(ViewCategoryActivity activity, List<MainCategory> categories){
         this.categories = categories;
         this.activity = activity;
-
     }
-
 
     @NonNull
     @Override
@@ -51,7 +54,6 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.MyView
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder{
-
         TextView categoryName;
         public MyViewHolder(@NonNull View itemView){
             super(itemView);
@@ -63,11 +65,14 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.MyView
     public void deleteTask(int position){
         MainCategory category = categories.get(position);
         CategoryHandler categoryHandler = new CategoryHandler(true);
-        categoryHandler.deleteCategory(category.getID());
+
+        try{
+            categoryHandler.deleteCategory(category.getCategoryID());
+        }catch (Exception e){
+            Toast.makeText(getContext(),e.getMessage(), Toast.LENGTH_SHORT).show();
+        }
         notifyItemRemoved(position);
     }
-
-
 
     public Context getContext() {
         return activity;

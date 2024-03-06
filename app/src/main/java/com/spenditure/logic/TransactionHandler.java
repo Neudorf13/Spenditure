@@ -48,24 +48,36 @@ public class TransactionHandler implements ITransactionHandler, Serializable {
     /*
         addTransaction
 
-        Checks the ID to make sure it's a new transaction,
-        validates it, then sends it to the data layer to be added.
+        Takes all of the values needed to create a new transaction, validates that transaction, and then
+        adds it to the database.
      */
+
     @Override
-    public boolean addTransaction(Transaction t) throws InvalidTransactionException {
+    public boolean addTransaction(int userID, String whatTheHeck, DateTime date, String place, double amount, String comments, boolean type) throws InvalidTransactionException {
 
+        Transaction t = new Transaction( NEW_TRANSACTION_ID, userID, whatTheHeck, date, place, amount, comments, type );
 
-        if( t == null )
-            throw new InvalidTransactionException("No transaction was provided to add!");
-
-        else if(!checkNewTransactionID(t))
+        if( !checkNewTransactionID(t) )
             throw new InvalidTransactionException("Transaction I.D. of new transaction (I.D.: "
                     + t.getTransactionID() +") is invalid; the transaction may already exist.");
 
-        if(TransactionValidator.validateTransaction(t))
+        if( TransactionValidator.validateTransaction(t) )
             return dataAccessTransaction.addTransaction(t);
         else
             return false;
+    }
+
+    @Override
+    public boolean addTransaction(int userID, String whatTheHeck, DateTime date, String place, double amount, String comments, boolean withdrawal, byte[] image, int categoryID)
+        throws InvalidTransactionException {
+
+        Transaction t = new Transaction( NEW_TRANSACTION_ID, userID, whatTheHeck, date, place, amount, comments, withdrawal, image, categoryID );
+
+        if( TransactionValidator.validateTransaction(t) )
+            return dataAccessTransaction.addTransaction(t);
+        else
+            return false;
+
     }
 
     /*
@@ -108,7 +120,7 @@ public class TransactionHandler implements ITransactionHandler, Serializable {
             throw new InvalidTransactionException("Transaction I.D. of new transaction (I.D.: "
                     + t.getTransactionID() +") is invalid; the transaction may not exist.");
 
-        return dataAccessTransaction.deleteTransaction(t);
+        return dataAccessTransaction.deleteTransaction(t.getTransactionID());
 
     }
 
@@ -131,9 +143,9 @@ public class TransactionHandler implements ITransactionHandler, Serializable {
         Returns all transactions given by the data layer.
      */
     @Override
-    public List<Transaction> getAllTransactions() {
+    public List<Transaction> getAllTransactions(int userID) {
 
-        return dataAccessTransaction.getAllTransactions();
+        return dataAccessTransaction.getAllTransactions(userID);
 
     }
 
@@ -143,9 +155,9 @@ public class TransactionHandler implements ITransactionHandler, Serializable {
         Returns all transactions, sorted by newest first
      */
     @Override
-    public ArrayList<Transaction> getAllByNewestFirst() {
+    public ArrayList<Transaction> getAllByNewestFirst(int userID) {
 
-        return dataAccessTransaction.sortByDateNewestFirst();
+       return dataAccessTransaction.getNewestTransactionsForUser(userID);
 
     }
 
@@ -155,9 +167,10 @@ public class TransactionHandler implements ITransactionHandler, Serializable {
         Returns all transactions, sorted by oldest first
      */
     @Override
-    public ArrayList<Transaction> getAllByOldestFirst() {
+    public ArrayList<Transaction> getAllByOldestFirst(int userID) {
 
-        return dataAccessTransaction.sortByDateOldestFirst();
+
+        return dataAccessTransaction.getOldestTransactionsForUser(userID);
 
     }
 
@@ -172,7 +185,7 @@ public class TransactionHandler implements ITransactionHandler, Serializable {
     @Override
     public ArrayList<Transaction> getTransactionByCategoryID(int categoryID) {
 
-        return dataAccessTransaction.getTransactionByCategoryID(categoryID);
+        return dataAccessTransaction.getTransactionsByCategoryID(categoryID);
 
     }
 
@@ -184,31 +197,20 @@ public class TransactionHandler implements ITransactionHandler, Serializable {
 
      */
     @Override
-    public ArrayList<Transaction> getTransactionByName(String name) {
+    public ArrayList<Transaction> getTransactionByName(int userID, String name) {
 
-        return dataAccessTransaction.getTransactionByName(name);
+        return dataAccessTransaction.getTransactionByName(userID,name);
 
     }
 
     @Override
-    public ArrayList<Transaction> getTransactionByPlace(String place) {
+    public ArrayList<Transaction> getTransactionByPlace(int userID, String place) {
 
-        return dataAccessTransaction.getTransactionsByPlace(place);
-
-    }
-
-    /*
-
-        getTransactionByAmount
-
-        Returns all transactions with amount values equal to the specified value.
-
-     */
-    public ArrayList<Transaction> getTransactionByAmount(double amount) {
-
-        return dataAccessTransaction.getTransactionsByAmount(amount, amount);
+        return dataAccessTransaction.getTransactionsByPlace(userID, place);
 
     }
+
+
 
     /*
 
@@ -219,39 +221,12 @@ public class TransactionHandler implements ITransactionHandler, Serializable {
 
      */
     @Override
-    public ArrayList<Transaction> getTransactionByAmountBetween(double lower, double upper) {
+    public ArrayList<Transaction> getTransactionByAmountBetween(int userID, double lower, double upper) {
 
-        return dataAccessTransaction.getTransactionsByAmount(lower, upper);
-
-    }
-
-    /*
-
-        getTransactionByAmountGreaterThan
-
-        Returns all transactions with amount values greater than the given amount.
-
-     */
-    @Override
-    public ArrayList<Transaction> getTransactionByAmountGreaterThan(double amount) {
-
-        return dataAccessTransaction.getTransactionsByAmount(amount + 1, Double.MAX_VALUE);
+        return dataAccessTransaction.getTransactionsByAmount(userID, lower, upper);
 
     }
 
-    /*
-
-        getTransactionByAmountLessThan
-
-        Returns all transactions with amount values less than the given amount.
-
-     */
-    @Override
-    public ArrayList<Transaction> getTransactionByAmountLessThan(double amount) {
-
-        return dataAccessTransaction.getTransactionsByAmount(0, amount - 1);
-
-    }
 
     /*
 
@@ -260,70 +235,13 @@ public class TransactionHandler implements ITransactionHandler, Serializable {
         Returns all transactions which occur at the specified date and time
 
      */
-    public ArrayList<Transaction> getTransactionByDateTime(DateTime lower, DateTime upper) {
+    public ArrayList<Transaction> getTransactionByDateTime(int userID, DateTime lower, DateTime upper) {
 
-        return dataAccessTransaction.getTransactionsByDateTime(lower, upper);
-
-    }
-
-    /*
-
-        getTransactionByDate
-
-        Returns all transactions which occur at any time on the specified date.
-
-     */
-    public ArrayList<Transaction> getTransactionByDate(DateTime target) {
-
-        DateTime lower = new DateTime(target.getYear(), target.getMonth(), target.getDay(),
-                00, 00);
-        DateTime upper = new DateTime(target.getYear(), target.getMonth(), target.getDay(),
-                DateTimeValidator.MAX_HOURS, DateTimeValidator.MAX_MINUTES);
-
-        return dataAccessTransaction.getTransactionsByDateTime(lower, upper);
+        return dataAccessTransaction.getTransactionsByDateTime(userID, lower, upper);
 
     }
 
-    /*
 
-        getTransactionByDateTimeBetween
-
-        Returns all transactions which occurred between the specified dates and times.
-
-     */
-    public ArrayList<Transaction> getTransactionByDateTimeBetween(DateTime lower, DateTime upper) {
-
-        return dataAccessTransaction.getTransactionsByDateTime(lower, upper);
-
-    }
-
-    /*
-
-        getTransactionByDateTimeBefore
-
-        Returns all transactions which occurred before the specified date and time.
-
-     */
-    public ArrayList<Transaction> getTransactionByDateTimeBefore(DateTime date) {
-
-        return dataAccessTransaction.getTransactionsByDateTime(
-                new DateTime(0, 0, 0, 0, 0), date);
-
-    }
-
-    /*
-
-        getTransactionByDateTimeAfter
-
-        Returns all transactions which occurred after the specified date and time.
-
-     */
-    public ArrayList<Transaction> getTransactionByDateTimeAfter(DateTime lower) {
-
-        return dataAccessTransaction.getTransactionsByDateTime(lower,
-                new DateTime(9999, 99, 99, 99, 99));
-
-    }
 
     /*
         checkNewTransactionID

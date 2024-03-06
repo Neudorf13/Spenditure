@@ -13,46 +13,68 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.spenditure.R;
+import com.spenditure.R;
 import com.facebook.shimmer.ShimmerFrameLayout;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.viewpager.widget.ViewPager;
 
+import com.spenditure.application.Services;
+import com.spenditure.database.utils.DBHelper;
 import com.spenditure.logic.CategoryHandler;
+import com.spenditure.logic.GeneralReportHandler;
 import com.spenditure.logic.ReportManager;
+import com.spenditure.logic.TransactionHandler;
+import com.spenditure.logic.UserManager;
 import com.spenditure.object.DateTime;
 import com.spenditure.object.IDateTime;
+import com.spenditure.object.IMainCategory;
 import com.spenditure.object.IReport;
 import com.spenditure.object.MainCategory;
 import com.spenditure.presentation.BottomNavigationHandler;
 import com.spenditure.presentation.UIUtility;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.time.LocalDate;
 
 
+/**
+ * Report activity (Also main activity)
+ * @author Bao Ngo
+ * @version 04 Mar 2024
+ */
 public class ViewReportActivity extends AppCompatActivity {
 
-//    private ViewPager viewPagerCategory;
-//    private SliderAdapterCatGeneral adapter;
+    private static String dbName="SC1";
+
     private ReportManager reportManager;
-    private final String[] custom_option = {"Report by average","Report by total","Report by percentage"};
-    private final String[] time_base_option = {"Report by year breaking into month","Report by month breaking into weeks"};
+    private GeneralReportHandler generalReportHandler;
+    private final String[] custom_option = {"Report by average","Report by total","Report by percentage"}; //Drop down menu option
+    private final String[] time_base_option = {"Report by year breaking into month","Report by month breaking into weeks"};//Drop down menu option
     private CategoryHandler categoryHandler;
-//    private ViewPager viewPagerCustom;
+
     private IDateTime fromDate;
     private IDateTime toDate;
     private LocalDate currTime =  LocalDate.now();
+    private int userID;
+    private DateTime currDate;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        reportManager = new ReportManager(true);
-        categoryHandler = new CategoryHandler(true);
+        DBHelper.copyDatabaseToDevice(this);
+
+        TransactionHandler transactionHandler = new TransactionHandler(Services.DEVELOPING_STATUS);
+        reportManager = new ReportManager(Services.DEVELOPING_STATUS);
+        categoryHandler = new CategoryHandler(Services.DEVELOPING_STATUS);
+        generalReportHandler = new GeneralReportHandler(Services.DEVELOPING_STATUS);
+        this.userID = UserManager.getUserID();
+        this.currDate = ReportManager.getCurrentDate();
 
         handleGeneralReport();
         handleCustomCategoryReport();
@@ -64,7 +86,7 @@ public class ViewReportActivity extends AppCompatActivity {
     }
 
     private void handleLastYearReport(){
-        IReport lastYearReport = reportManager.reportOnLastYear();
+        IReport lastYearReport = reportManager.reportBackOneYear(userID, this.currDate);
         TextView numTransactions = findViewById(R.id.textview_lastYear_transactionsCount);
         TextView totalTransactions = findViewById(R.id.textview_lastYear_total);
         TextView average = findViewById(R.id.textview_lastYear_average);
@@ -73,17 +95,16 @@ public class ViewReportActivity extends AppCompatActivity {
         numTransactions.setText(UIUtility.cleanTransactionNumberString(lastYearReport.getNumTrans()));
         totalTransactions.setText(UIUtility.cleanTotalString(lastYearReport.getTotal()));
         average.setText(UIUtility.cleanAverageString(lastYearReport.getAvgTransSize()));
-        percentage.setText(UIUtility.cleanPercentageString(lastYearReport.getPercentage()));
-
+        percentage.setText(UIUtility.cleanPercentageString(lastYearReport.getPercent()));
     }
 
     private void handleCustomDateReport(){
         Button fromButton = findViewById(R.id.button_report_from);
         Button toButton = findViewById(R.id.button_report_to);
         Button getReport = findViewById(R.id.button_get_report);
-        fromDate = new DateTime(currTime.getYear(),currTime.getMonthValue()  , currTime.getDayOfMonth());
-        toDate = new DateTime(currTime.getYear(),currTime.getMonthValue()  , currTime.getDayOfMonth());
-        String currTimeString = currTime.getDayOfMonth() + "/" + currTime.getMonthValue() + "/" +  currTime.getYear() ;
+        fromDate = currDate;
+        toDate = currDate;
+        String currTimeString = currDate.getMonth() + "/" + currDate.getDay() + "/" +  currDate.getYear() ;
         fromButton.setText(currTimeString);
         toButton.setText(currTimeString);
         fromButton.setOnClickListener(new View.OnClickListener() {
@@ -106,7 +127,7 @@ public class ViewReportActivity extends AppCompatActivity {
                 if (fromDate == null || toDate == null){
                     Toast.makeText(ViewReportActivity.this,"Please choose 2 dates",Toast.LENGTH_SHORT).show();
                 }else {
-                    IReport timeCustomReport = reportManager.reportOnUserProvidedDates(fromDate, toDate);
+                    IReport timeCustomReport = reportManager.reportOnUserProvidedDates(userID, fromDate, toDate);
 
                     TextView transactionNum = findViewById(R.id.textview_customTime_totalTrans);
                     TextView  total = findViewById(R.id.textview_customTime_totalAmount);
@@ -117,7 +138,7 @@ public class ViewReportActivity extends AppCompatActivity {
                     transactionNum.setText(UIUtility.cleanTransactionNumberString(timeCustomReport.getNumTrans()));
                     total.setText(UIUtility.cleanTotalString(timeCustomReport.getTotal()));
                     average.setText(UIUtility.cleanAverageString(timeCustomReport.getAvgTransSize()));
-                    percentage.setText(UIUtility.cleanPercentageString(timeCustomReport.getPercentage()));
+                    percentage.setText(UIUtility.cleanPercentageString(timeCustomReport.getPercent()));
 
                 }
             }
@@ -131,9 +152,7 @@ public class ViewReportActivity extends AppCompatActivity {
         ViewPager viewPagerCustom = findViewById(R.id.gridlayout_timebase_report);
         Spinner spinner = findViewById(R.id.spinner_timebase_report);
 
-
-//        SliderAdapterCatGeneral adapterCustom= new SliderAdapterCatGeneral(this,categoryHandler.getAllCategory());
-        SliderAdapterTimeBase adapterCustom= new SliderAdapterTimeBase(this,reportManager.reportOnLastYearByMonth(),"Month");
+        SliderAdapterTimeBase adapterCustom= new SliderAdapterTimeBase(this,reportManager.reportBackOnLastYearByMonth(userID,currDate),"Month");
         viewPagerCustom.setAdapter(adapterCustom);
 
 
@@ -150,10 +169,10 @@ public class ViewReportActivity extends AppCompatActivity {
                 shimmerFrameLayout.startShimmerAnimation();
 
                 if (position == 0){
-                    SliderAdapterTimeBase adapterCustom= new SliderAdapterTimeBase(getApplicationContext(),reportManager.reportOnLastYearByMonth(),"Month");
+                    SliderAdapterTimeBase adapterCustom= new SliderAdapterTimeBase(getApplicationContext(),reportManager.reportBackOnLastYearByMonth(userID,currDate),"Month");
                     viewPagerCustom.setAdapter(adapterCustom);
                 }else {
-                    SliderAdapterTimeBase adapterCustom= new SliderAdapterTimeBase(getApplicationContext(),reportManager.reportOnLastMonthByWeek(),"Week");
+                    SliderAdapterTimeBase adapterCustom= new SliderAdapterTimeBase(getApplicationContext(),reportManager.reportBackOneMonthByWeek(userID,currDate),"Week");
                     viewPagerCustom.setAdapter(adapterCustom);
                 }
 
@@ -167,33 +186,13 @@ public class ViewReportActivity extends AppCompatActivity {
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-
+                //We did nothing in purpose, but we still have to have this function because of it need to be overrided.
             }
         });
     }
 
     // Handle the bottom navigation bar
     private void navBarHandling(){
-//        BottomNavigationView navView = findViewById(R.id.nav_view);
-//        navView.setSelectedItemId(R.id.navigation_home);
-//
-//        navView.setOnItemSelectedListener((item -> {
-//            if (item.getItemId() == R.id.navigation_home) {
-//                return true;
-//            } else if (item.getItemId() == R.id.navigation_create_transaction) {
-//                startActivity(new Intent(getApplicationContext(), CreateTransactionActivity.class));
-//                return true;
-//            } else if (item.getItemId() == R.id.navigation_view_transactions) {
-//                startActivity(new Intent(getApplicationContext(), ViewTransactionsActivity.class));
-//                return true;
-//            }else if(item.getItemId() == R.id.navigation_category){
-//                startActivity(new Intent(getApplicationContext(), ViewCategoryActivity.class));
-//                return true;
-//            }else {
-//                return false;
-//            }
-//        }));
-
         BottomNavigationView navView = findViewById(R.id.nav_view);
         navView.setSelectedItemId(R.id.navigation_home);
         BottomNavigationHandler navigationHandler = new BottomNavigationHandler();
@@ -209,13 +208,11 @@ public class ViewReportActivity extends AppCompatActivity {
             }
             return false;
         }));
-
-
     }
 
     private void handleGeneralReport(){
-        String spendString = "You've spent " + UIUtility.cleanTotalString(reportManager.getTotalForAllTransactions());
-        String makeTransactions = "You've made " + UIUtility.cleanTransactionNumberString(reportManager.countAllTransactions());
+        String spendString = "You've spent " + UIUtility.cleanTotalString(generalReportHandler.totalSpending(userID));
+        String makeTransactions = "You've made " + UIUtility.cleanTransactionNumberString(generalReportHandler.numTransactions(userID));
         TextView short_text = findViewById(R.id.textview_summary_report_short);
         TextView long_text = findViewById(R.id.textview_summary_report_long);
 
@@ -239,23 +236,26 @@ public class ViewReportActivity extends AppCompatActivity {
 
                 String spendMostString = "Mostly spending on ";
                 String spendLeastString = "Least spending on ";
-                List<MainCategory>categories;
+                List<IMainCategory>categories;
 
                 switch (position){
                     case 2:
-                        categories = reportManager.sortByPercent(true);
+                        categories = generalReportHandler.sortByPercent(userID,true);
                         break;
                     case 1:
-                        categories = reportManager.sortByTotal(true);
+                        categories = generalReportHandler.sortByTotal(userID,true);
                         break;
                     default:
-                        categories = reportManager.sortByAverage(true);
+                        categories = generalReportHandler.sortByAverage(userID,true);
+                        break;
                 }
 
                 if(categories.size() == 0){
                     findViewById(R.id.imageView_check_custom).setVisibility(View.INVISIBLE);
+                    findViewById(R.id.textview_custom_report_short).setVisibility(View.INVISIBLE);
                     ((TextView)findViewById(R.id.textview_custom_report_long)).setText("Group transactions to categories to see the report.");
                 }else{
+                    findViewById(R.id.textview_custom_report_short).setVisibility(View.VISIBLE);
                     spendMostString += categories.get(0).getName();
                     spendLeastString += categories.get(categories.size()-1).getName();
                     if( spendMostString.length() > spendLeastString.length()){
@@ -270,7 +270,7 @@ public class ViewReportActivity extends AppCompatActivity {
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-
+                //We did nothing in purpose, but we still have to have this function because of it need to be overrided.
             }
         });
 
@@ -281,8 +281,16 @@ public class ViewReportActivity extends AppCompatActivity {
 
     private void handleCategoriesReport(){
         ViewPager viewPagerCategory = findViewById(R.id.viewpager_report);
-        SliderAdapterCatGeneral adapter = new SliderAdapterCatGeneral(this,categoryHandler.getAllCategory());
-        viewPagerCategory.setAdapter(adapter);
+        List<MainCategory> categoryList = categoryHandler.getAllCategory(UserManager.getUserID());
+        if(categoryList.size() >0 ){
+            ConstraintLayout nonReport = findViewById(R.id.report_no_category_report);
+            nonReport.setVisibility(View.INVISIBLE);
+            SliderAdapterCatGeneral adapter = new SliderAdapterCatGeneral(this,categoryList);
+            viewPagerCategory.setAdapter(adapter);
+        }else{
+            ConstraintLayout nonReport = findViewById(R.id.report_no_category_report);
+            nonReport.setVisibility(View.VISIBLE);
+        }
     }
 
     private void chooseTimeDialog(Button button,boolean from){
@@ -290,14 +298,12 @@ public class ViewReportActivity extends AppCompatActivity {
         DatePickerDialog dialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                String displayDay = String.valueOf(dayOfMonth ) + "/"  + String.valueOf(month+ 1) + "/" + String.valueOf(year);
+                String displayDay = String.valueOf(month+ 1 ) + "/"  + String.valueOf(dayOfMonth) + "/" + String.valueOf(year);
                 DateTime newDate = new DateTime(year, month,  dayOfMonth);
                 if(from){
                     ViewReportActivity.this.fromDate = newDate;
-//                    displayDay = newDate.toString();
                 }else {
                     ViewReportActivity.this.toDate = newDate;
-//                    displayDay = newDate.toString();
                 }
 
                 button.setText(displayDay);
@@ -310,4 +316,20 @@ public class ViewReportActivity extends AppCompatActivity {
 
 
 
+    public static void setDBPathName(final String name) {
+        try {
+            Class.forName("org.hsqldb.jdbcDriver").newInstance();
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        dbName = name;
+    }
+
+    public static String getDBPathName() {
+        return dbName;
+    }
 }

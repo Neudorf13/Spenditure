@@ -6,7 +6,7 @@ import android.content.Intent;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.spenditure.R;
+import com.spenditure.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.spenditure.presentation.category.ViewCategoryActivity;
 import com.spenditure.presentation.report.ViewReportActivity;
@@ -39,6 +39,7 @@ class NavigationConfig {
         ACTIVITY_MAP.put(R.id.navigation_create_transaction, CreateTransactionActivity.class);
         ACTIVITY_MAP.put(R.id.navigation_view_transactions, ViewTransactionsActivity.class);
         ACTIVITY_MAP.put(R.id.navigation_category, ViewCategoryActivity.class);
+        ACTIVITY_MAP.put(R.id.navigation_user, ViewProfileActivity.class);
         // Add other mappings as needed
     }
 }

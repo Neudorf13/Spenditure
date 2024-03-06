@@ -24,10 +24,12 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 
-import com.example.spenditure.R;
+import com.spenditure.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.spenditure.logic.TransactionHandler;
+import com.spenditure.logic.UserManager;
 import com.spenditure.object.Transaction;
+import com.spenditure.presentation.BottomNavigationHandler;
 import com.spenditure.presentation.category.ViewCategoryActivity;
 import com.spenditure.presentation.report.ViewReportActivity;
 
@@ -51,7 +53,7 @@ public class ViewTransactionsActivity extends AppCompatActivity {
         if( transactionHandler == null){
             transactionHandler = new TransactionHandler(true);
         }
-        transactions = transactionHandler.getAllByNewestFirst();
+        transactions = transactionHandler.getAllByNewestFirst(UserManager.getUserID());
 
         ListView transactionsListView = (ListView)findViewById(R.id.listview_transactions);
 
@@ -87,24 +89,23 @@ public class ViewTransactionsActivity extends AppCompatActivity {
     // Handle the bottom navigation bar
     private void navBarHandling(){
         BottomNavigationView navView = findViewById(R.id.nav_view);
-        navView.setSelectedItemId(R.id.navigation_view_transactions);
+
+        BottomNavigationHandler navigationHandler = new BottomNavigationHandler();
 
         navView.setOnItemSelectedListener((item -> {
-            if (item.getItemId() == R.id.navigation_home) {
-                startActivity(new Intent(getApplicationContext(), ViewReportActivity.class));
-                return true;
-            } else if (item.getItemId() == R.id.navigation_create_transaction) {
-                startActivity(new Intent(getApplicationContext(), CreateTransactionActivity.class));
-                return true;
-            } else if (item.getItemId() == R.id.navigation_view_transactions) {
-                return true;
-            }else if(item.getItemId() == R.id.navigation_category){
-                startActivity(new Intent(getApplicationContext(), ViewCategoryActivity.class));
-                return true;
-            } else {
+            if (item.getItemId() == R.id.navigation_view_transactions){
                 return false;
             }
+            Class<? extends AppCompatActivity> newActivity = navigationHandler.select(item.getItemId());
+            if(newActivity != null){
+                startActivity(new Intent(getApplicationContext(), newActivity));
+                return true;
+            }
+            return false;
         }));
+
+        // Set the selected item if needed
+        navView.setSelectedItemId(R.id.navigation_view_transactions);
     }
 
     // Change the sorting mode for the transactions
@@ -113,10 +114,10 @@ public class ViewTransactionsActivity extends AppCompatActivity {
 
         if (newestFirst){
             // Newest transactions first
-            updatedList = transactionHandler.getAllByNewestFirst();
+            updatedList = transactionHandler.getAllByNewestFirst(UserManager.getUserID());
         } else {
             // Oldest transactions first
-            updatedList = transactionHandler.getAllByOldestFirst();
+            updatedList = transactionHandler.getAllByOldestFirst(UserManager.getUserID());
         }
 
         // Update the list view with the new order

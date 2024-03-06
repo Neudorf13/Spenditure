@@ -17,28 +17,35 @@ import java.util.*;
 public class CategoryStub implements CategoryPersistence {
     //Attributes
     private List<MainCategory> categoryList;
-    private int currentID = 1;
+    private int currentCategoryID = 1;
+    private int currentUserID = 1;
 
     //Constructors
     public CategoryStub(){
         this.categoryList = new ArrayList<>();
-        this.categoryList.add(new MainCategory("Grocery",generateUniqueID()));
-        this.categoryList.add(new MainCategory("Food",generateUniqueID()));
-        this.categoryList.add(new MainCategory("Hang out",generateUniqueID()));
+        this.categoryList.add(new MainCategory("Grocery",generateUniqueCategoryID(),1));
+        this.categoryList.add(new MainCategory("Food",generateUniqueCategoryID(),1));
+        this.categoryList.add(new MainCategory("Hang out",generateUniqueCategoryID(),1));
     }
 
     //Business methods
     @Override
-    public List<MainCategory> getAllCategory() {
-        return this.categoryList;
+    public List<MainCategory> getAllCategory(int userID) {
+        List<MainCategory> categories = new ArrayList<>();
+        for (int i = 0; i < categoryList.size(); i++) {
+            if(categoryList.get(i).getUserID() == userID) {
+                categories.add(categoryList.get(i));
+            }
+        }
+        return categories;
     }
 
     @Override
-    public MainCategory addCategory(String newCategoryName) throws InvalidCategoryException{
+    public MainCategory addCategory(String newCategoryName,int userID) throws InvalidCategoryException{
         if (validateUnique(newCategoryName)){
-            MainCategory newCategory = new MainCategory(newCategoryName,generateUniqueID());
+            MainCategory newCategory = new MainCategory(newCategoryName,generateUniqueCategoryID(),userID);
             this.categoryList.add(newCategory);
-            return newCategory ;
+            return newCategory;
         }else{
             throw new InvalidCategoryException("Category's ID not exist");
         }
@@ -47,33 +54,34 @@ public class CategoryStub implements CategoryPersistence {
     }
 
     @Override
-    public void deleteCategoryByID(int id) throws InvalidCategoryException {
+    public void deleteCategoryByID(int categoryID) throws InvalidCategoryException {
         Iterator<MainCategory> iterator = this.categoryList.iterator();
         boolean found = false;
         while (iterator.hasNext() && !found) {
             MainCategory curr = iterator.next();
-            if(curr.getID() == id){
+            if(curr.getCategoryID() == categoryID){
                 iterator.remove();
                 found = true;
             }
         }
-        if(!found) throw new InvalidCategoryException("Category's ID not exist");
+        if(!found) throw new InvalidCategoryException("Category ID: " + categoryID + " does not exist.");
     }
 
     @Override
-    public MainCategory getCategoryByID(int id) throws InvalidCategoryException {
+    public MainCategory getCategoryByID(int categoryID) throws InvalidCategoryException {
         for(MainCategory category : this.categoryList){
-            if(category.getID() == id){
+            if(category.getCategoryID() == categoryID){
                 return  category;
             }
         }
-        throw new InvalidCategoryException("Category's ID not exist: " + id);
+        throw new InvalidCategoryException("Category ID: "+ categoryID + " does not exist.");
     }
 
     //Support methods
-    private  int generateUniqueID(){
-        return currentID++;
+    private  int generateUniqueCategoryID(){
+        return currentCategoryID++;
     }
+
 
     private boolean validateUnique(String categoryName){
         for(MainCategory currCategory : this.categoryList){

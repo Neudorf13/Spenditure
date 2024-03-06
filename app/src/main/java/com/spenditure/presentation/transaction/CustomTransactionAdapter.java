@@ -20,7 +20,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import com.example.spenditure.R;
+import com.spenditure.R;
 import com.spenditure.object.Transaction;
 
 import java.util.List;
@@ -64,7 +64,7 @@ public class CustomTransactionAdapter extends BaseAdapter {
 
         // Set the transaction amount
         TextView amount = (TextView) view.findViewById(R.id.textview_list_amount);
-        amount.setText(String.format("$%s", Double.toString(transactions.get(i).getAmount())));
+        amount.setText(String.format("$%.2f", transactions.get(i).getAmount()));
 
         return view;
     }

@@ -12,12 +12,14 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:orientation="vertical"
-        android:layout_marginRight="100dp">
+        android:layout_marginRight="100dp"
+        android:layout_marginBottom="10dp">
 
         <TextView
             android:id="@+id/textview_list_what_the_heck"
             android:text="Transaction 1"
             android:textSize="18dp"
+            android:textColor="@color/white"
             android:layout_margin="5dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
@@ -25,6 +27,7 @@
         <TextView
             android:id="@+id/textview_list_amount"
             android:text="$3.95"
+            android:textColor="@color/white"
             android:layout_marginLeft="20dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>

@@ -28,10 +28,10 @@ public class MainCategoryTest {
     @Test
     public void testCreateCategory(){
         System.out.println("Starting create Category");
-        MainCategory category = new MainCategory("tuition fee",1);
+        MainCategory category = new MainCategory("tuition fee",1,1);
         assertNotNull(category);
         assertEquals("tuition fee",category.getName());
-        assertEquals(1,category.getID());
+        assertEquals(1,category.getCategoryID());
 
         System.out.println("Finished testCreateCategory");
     }
