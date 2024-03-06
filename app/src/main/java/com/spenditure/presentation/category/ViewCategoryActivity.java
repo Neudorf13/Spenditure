@@ -10,10 +10,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
-import com.example.spenditure.R;
+import com.spenditure.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.spenditure.application.Services;
+import com.spenditure.database.utils.DBHelper;
 import com.spenditure.logic.CategoryHandler;
+import com.spenditure.logic.ICategoryHandler;
 import com.spenditure.logic.UserManager;
 import com.spenditure.presentation.BottomNavigationHandler;
 import com.spenditure.presentation.TouchHelper;
@@ -28,7 +31,7 @@ import com.spenditure.presentation.transaction.ViewTransactionsActivity;
  */
 public class ViewCategoryActivity extends AppCompatActivity {
 
-    private CategoryHandler categoryHandler = null;
+    private ICategoryHandler categoryHandler = null;
     private RecyclerView recyclerView;
     private FloatingActionButton mFab;
     private CategoryAdapter adapter;
@@ -37,7 +40,8 @@ public class ViewCategoryActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        categoryHandler = new CategoryHandler(false);
+
+        categoryHandler = new CategoryHandler(Services.DEVELOPING_STATUS);
         setContentView(R.layout.activity_view_category);
         recyclerView = findViewById(R.id.recyclerview_category);
         mFab = findViewById(R.id.floatingActionButton_category);

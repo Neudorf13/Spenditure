@@ -80,9 +80,9 @@ public class TransactionHandlerIT {
         int numInvalidTests = 8;
         Transaction[] invalid = new Transaction[numInvalidTests];
 
-        //invalid ID
+        //invalid ID (obsolete test; ID is handled in TransactionHandler now)
         invalid[0] = new Transaction(0, "2024 BMW M4 Competition Cabriolet", new DateTime(2024, 3, 3, 12, 0, 0), "BMW Dealership", 110200, "", true);
-        //ID already exists
+        //ID already exists (obsolete test; ID is handled in TransactionHandler now)
         invalid[1] = new Transaction(1, "2024 Ford Raptor R", new DateTime(2024, 2, 28, 12, 0, 0), "Ford Dealership", 118954, "Includes optional Raptor 37 Performance Package", true);
         //invalid name
         invalid[2] = new Transaction(-1, "", new DateTime(2024, 10, 10, 12, 0, 0), "???", 9000000, "???", true);
@@ -103,9 +103,9 @@ public class TransactionHandlerIT {
         invalid[7] = new Transaction(-1, "2024 Porsche 911 GT3 RS", new DateTime(2024, 5, 8, 12, 12, 0), "Porsche Dealership", 301439, invalidComment, true);
 
         //Try inserting all invalid tests, all should return false
-        for( int i = 0; i < numInvalidTests; i ++ ) {
+        for( int i = 2; i < numInvalidTests; i ++ ) {
             try {
-                assertFalse(transactionHandler.addTransaction(invalid[i]));
+                assertFalse(addTransaction(invalid[i]));
             } catch(InvalidTransactionException ignored) {}
         }
 
@@ -114,7 +114,7 @@ public class TransactionHandlerIT {
 
         //Test valid insertion
         Transaction newTransaction = new Transaction(-1, "Tow Truck Fee", new DateTime(2024, 2, 29, 18, 31, 0), "Pembina Highway", 143.59, "Damn BMW", true);
-        transactionHandler.addTransaction(newTransaction);
+        addTransaction(newTransaction);
 
         assertEquals(transactionHandler.getAllTransactions(1).size(), EXPECTED_SIZE + 1);
 
@@ -307,7 +307,8 @@ public class TransactionHandlerIT {
         //Get multiple transactions with the same name
         for(int i = 0; i < numInserts; i ++) {
 
-            transactionHandler.addTransaction(new Transaction(-1,  "2024 Honda Civic Type R", new DateTime(2024, 2, 29, 16, 20, 0), "Winnipeg Honda", 53280.00, "MSRP", true));
+            transactionHandler.addTransaction(1, "2024 Honda Civic Type R", new DateTime(2024, 2, 29, 16, 20, 0), "Winnipeg Honda", 53280.00, "MSRP", true, null, 3);
+//            addTransaction(new Transaction(-1,  "2024 Honda Civic Type R", new DateTime(2024, 2, 29, 16, 20, 0), "Winnipeg Honda", 53280.00, "MSRP", true));
 
         }
 
@@ -330,15 +331,15 @@ public class TransactionHandlerIT {
         assertEquals(list.size(), 2);
 
         //Check amountLessThan
-        list = transactionHandler.getTransactionByAmountBetween(1, -1,200);
+        list = transactionHandler.getTransactionByAmountBetween(1, -1,199.99);
 
         //Only 9 elements are strictly less than 200
-        assertEquals(list.size(), 9);
+        assertEquals(9, list.size());
 
         //Check amountGreaterThan
-        list = transactionHandler.getTransactionByAmountBetween(1, 250.50, Integer.MAX_VALUE);
+        list = transactionHandler.getTransactionByAmountBetween(1, 250.51, Integer.MAX_VALUE);
 
-        //Only 2 elements are strictly greater than 2
+        //Only 2 elements are strictly greater than 250
         assertEquals(list.size(), 2);
 
         //Check amountBetween, which is inclusive unlike the others
@@ -378,7 +379,7 @@ public class TransactionHandlerIT {
 //        //Test retrieval of all transactions from a specific date
 //        for(int i = 0; i < numInsertions; i ++)
 //
-//            transactionHandler.addTransaction(new Transaction(-1,  "2024 Honda Civic Type R", new DateTime(2024, 2, 29, 16 + i, 20 + i, 15 + i), "Winnipeg Honda", 53280.00, "MSRP", true));
+//            addTransaction(new Transaction(-1,  "2024 Honda Civic Type R", new DateTime(2024, 2, 29, 16 + i, 20 + i, 15 + i), "Winnipeg Honda", 53280.00, "MSRP", true));
 //
 //        list = transactionHandler.getTransactionByDate(new DateTime(2024, 2, 29));
 //
@@ -386,4 +387,8 @@ public class TransactionHandlerIT {
 //        assertEquals(list.size(), numInsertions);
 //
 //    }
+
+    private boolean addTransaction(Transaction t) {
+        return transactionHandler.addTransaction(1, t.getName(), t.getDateTime(), t.getPlace(), t.getAmount(), t.getComments(), t.getWithdrawal());
+    }
 }

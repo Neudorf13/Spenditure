@@ -18,6 +18,7 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import com.spenditure.logic.TransactionHandler;
+import com.spenditure.logic.UserManager;
 import com.spenditure.logic.exceptions.InvalidDateTimeException;
 import com.spenditure.logic.exceptions.InvalidTransactionAmountException;
 import com.spenditure.logic.exceptions.InvalidTransactionException;
@@ -82,9 +83,9 @@ public class TransactionHandlerTest {
         int numInvalidTests = 8;
         Transaction[] invalid = new Transaction[numInvalidTests];
 
-        //invalid ID
+        //invalid ID (no longer needed now that TransactionHandler builds transactions)
         invalid[0] = new Transaction(0, 1, "2024 BMW M4 Competition Cabriolet", new DateTime(2024, 3, 3, 12, 00, 0), "BMW Dealership", 110200, "", true);
-        //ID already exists
+        //ID already exists (no longer needed now that TransactionHandler builds transactions)
         invalid[1] = new Transaction(1, 1, "2024 Ford Raptor R", new DateTime(2024, 2, 28, 12, 00, 0), "Ford Dealership", 118954, "Includes optional Raptor 37 Performance Package", true);
         //invalid name
         invalid[2] = new Transaction(-1, 1, "", new DateTime(2024, 10, 10, 12, 00,0), "???", 9000000, "???", true);
@@ -105,9 +106,9 @@ public class TransactionHandlerTest {
         invalid[7] = new Transaction(-1, 1, "2024 Porsche 911 GT3 RS", new DateTime(2024, 5, 8, 12, 12, 0), "Porsche Dealership", 301439, invalidComment, true);
 
         //Try inserting all invalid tests, all should return false
-        for( int i = 0; i < numInvalidTests; i ++ ) {
+        for( int i = 2; i < numInvalidTests; i ++ ) {
             try {
-                assertFalse(transactionHandler.addTransaction(invalid[i]));
+                assertFalse(addTransaction(invalid[i]));
             } catch(InvalidTransactionException ignored) {}
         }
 
@@ -116,12 +117,13 @@ public class TransactionHandlerTest {
 
         //Test valid insertion
         Transaction newTransaction = new Transaction(-1, 1, "Tow Truck Fee", new DateTime(2024, 2, 29, 18, 31, 0), "Pembina Highway", 143.59, "Damn BMW", true);
-        transactionHandler.addTransaction(newTransaction);
+        addTransaction(newTransaction);
 
         assertEquals(transactionHandler.getAllTransactions(1).size(), EXPECTED_SIZE + 1);
 
         //Should return true
         assertEquals("Morning Dons", transactionHandler.getTransactionByID(1).getName());
+
         assertEquals("Tow Truck Fee", transactionHandler.getTransactionByID(EXPECTED_SIZE + 1).getName());
 
 
@@ -313,7 +315,7 @@ public class TransactionHandlerTest {
         //Get multiple transactions with the same name
         for(int i = 0; i < numInserts; i ++) {
 
-            transactionHandler.addTransaction(new Transaction(-1, 1,  "2024 Honda Civic Type R", new DateTime(2024, 2, 29, 16, 20, 0), "Winnipeg Honda", 53280.00, "MSRP", true));
+            addTransaction(new Transaction(-1, 1,  "2024 Honda Civic Type R", new DateTime(2024, 2, 29, 16, 20, 0), "Winnipeg Honda", 53280.00, "MSRP", true));
 
         }
 
@@ -376,6 +378,10 @@ public class TransactionHandlerTest {
 
 
 
+    }
+
+    private boolean addTransaction(Transaction t) {
+        return transactionHandler.addTransaction(1, t.getName(), t.getDateTime(), t.getPlace(), t.getAmount(), t.getComments(), t.getWithdrawal());
     }
 
 }

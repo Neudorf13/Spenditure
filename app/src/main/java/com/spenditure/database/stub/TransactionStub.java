@@ -137,9 +137,9 @@ public class TransactionStub implements TransactionPersistence {
 
     }
 
-    public int countTransactions() {
-        return 0;
-    }
+//    public int countTransactions() {
+//        return 0;
+//    }
 
     public ArrayList<Transaction> getAllTransactions(int userID)
     {
@@ -319,10 +319,7 @@ public class TransactionStub implements TransactionPersistence {
         return transactionList;
     }
 
-    @Override
-    public void printTransactionTable() {
 
-    }
 
 
 

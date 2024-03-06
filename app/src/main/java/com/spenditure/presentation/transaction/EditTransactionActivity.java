@@ -30,9 +30,12 @@ import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.example.spenditure.R;
+import com.spenditure.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.spenditure.application.Services;
 import com.spenditure.logic.CategoryHandler;
+import com.spenditure.logic.ICategoryHandler;
+import com.spenditure.logic.ITransactionHandler;
 import com.spenditure.logic.TransactionHandler;
 import com.spenditure.logic.UserManager;
 import com.spenditure.logic.exceptions.InvalidTransactionException;
@@ -49,8 +52,8 @@ public class EditTransactionActivity extends AppCompatActivity {
 
     // Instance Variables
     private Transaction givenTransaction;
-    private TransactionHandler transactionHandler;
-    private CategoryHandler categoryHandler;
+    private ITransactionHandler transactionHandler;
+    private ICategoryHandler categoryHandler;
     private ActivityResultLauncher<Intent> getImageCaptureResult;
     private byte[] imageBytes;
     private Button viewImageButton;
@@ -63,7 +66,7 @@ public class EditTransactionActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_transaction);
         this.userID = UserManager.getUserID();
-        categoryHandler = new CategoryHandler(true);
+        categoryHandler = new CategoryHandler(Services.DEVELOPING_STATUS);
 
         int givenID = -1;
 
@@ -74,7 +77,7 @@ public class EditTransactionActivity extends AppCompatActivity {
         }
 
         // Get the transaction
-        transactionHandler = new TransactionHandler(true);
+        transactionHandler = new TransactionHandler(Services.DEVELOPING_STATUS);
         givenTransaction = transactionHandler.getTransactionByID(givenID);
 
         setUpCategories();

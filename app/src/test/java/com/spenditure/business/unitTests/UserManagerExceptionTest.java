@@ -2,6 +2,7 @@ package com.spenditure.business.unitTests;
 
 
 import com.spenditure.logic.UserManager;
+import com.spenditure.logic.UserValidator;
 import com.spenditure.logic.exceptions.*;
 import org.junit.Before;
 import org.junit.Test;
@@ -20,7 +21,7 @@ public class UserManagerExceptionTest {
 
     @After
     public void teardown(){
-        UserManager.cleanup();
+        UserManager.cleanup(true);
         this.userManager = null;
     }
 
@@ -189,7 +190,7 @@ public class UserManagerExceptionTest {
         caught = false;
         try{
             userManager.register("Aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa","aaa");
-        }catch (InvalidStringFormat e){
+        }catch (InvalidUserInformationException e){
             caught = true;
         }
         assertTrue(caught);
@@ -236,9 +237,55 @@ public class UserManagerExceptionTest {
         caught = false;
         try{
             userManager.changeUsername(userID,"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
-        }catch (InvalidStringFormat e){
+        }catch (InvalidUserInformationException e){
             caught = true;
         }
+        assertTrue(caught);
+    }
+
+    @Test
+    public void testValidateEmail() {
+
+        boolean caught = false;
+
+        try {
+            UserValidator.validateEmail("john.doe@domain.com");
+        } catch(InvalidUserInformationException e) {
+            caught = true;
+        }
+
+        assertFalse(caught);
+
+        try {
+            UserValidator.validateEmail("john@doe@domain@com");
+        } catch(InvalidUserInformationException e) {
+            caught = true;
+        }
+
+        assertTrue(caught);
+
+        try {
+            UserValidator.validateEmail("john.doe@hahahagotcha");
+        } catch(InvalidUserInformationException e) {
+            caught = true;
+        }
+
+        assertTrue(caught);
+
+        try {
+            UserValidator.validateEmail("john.doe@sneaky.trickster.co.uk");
+        } catch(InvalidUserInformationException e) {
+            caught = true;
+        }
+
+        assertTrue(caught);
+
+        try {
+            UserValidator.validateEmail("AAAASSAEFQJEPQIJAKLSJDCALNV1-1'4F;MFQA;SDXCÆÍSÍÍÎÅÍ˜Ω≈Œ∏´∑");
+        } catch(InvalidUserInformationException e) {
+            caught = true;
+        }
+
         assertTrue(caught);
     }
 

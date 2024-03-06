@@ -10,7 +10,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.spenditure.R;
+import com.spenditure.R;
 import com.spenditure.logic.CategoryHandler;
 import com.spenditure.object.MainCategory;
 

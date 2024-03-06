@@ -31,7 +31,10 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.spenditure.application.Services;
 import com.spenditure.logic.CategoryHandler;
+import com.spenditure.logic.ICategoryHandler;
+import com.spenditure.logic.ITransactionHandler;
 import com.spenditure.logic.TransactionHandler;
 import com.spenditure.logic.UserManager;
 import com.spenditure.logic.exceptions.InvalidTransactionException;
@@ -39,7 +42,7 @@ import com.spenditure.object.DateTime;
 import com.spenditure.object.MainCategory;
 import com.spenditure.object.Transaction;
 
-import com.example.spenditure.R;
+import com.spenditure.R;
 import com.spenditure.presentation.BottomNavigationHandler;
 import com.spenditure.presentation.ImageCaptureActivity;
 import com.spenditure.presentation.ImageViewActivity;
@@ -57,8 +60,8 @@ public class CreateTransactionActivity extends AppCompatActivity {
     private CustomCategorySpinnerAdapter adapter;
     private DateTime selectedDate;
     private int userID;
-    private TransactionHandler transactionHandler;
-    private CategoryHandler categoryHandler;
+    private ITransactionHandler transactionHandler;
+    private ICategoryHandler categoryHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,7 +69,7 @@ public class CreateTransactionActivity extends AppCompatActivity {
         setContentView(R.layout.activity_create_transaction);
         this.userID = UserManager.getUserID();
 
-        transactionHandler = new TransactionHandler(true);
+        transactionHandler = new TransactionHandler(Services.DEVELOPING_STATUS);
 
         setUpCreateButton();
         setUpCategories();
@@ -83,9 +86,7 @@ public class CreateTransactionActivity extends AppCompatActivity {
             public void onClick(View v) {
                 try {
                     // Call helper method
-                    Transaction newTransaction = createTransaction();
-
-                    transactionHandler.addTransaction(newTransaction);
+                    createTransaction();
 
                     // Return to the main window
                     startActivity(new Intent(getApplicationContext(), ViewReportActivity.class));
@@ -206,7 +207,7 @@ public class CreateTransactionActivity extends AppCompatActivity {
     }
 
     // Helper method: create and return new Transaction object made from user-entered info
-    private Transaction createTransaction() {
+    private void createTransaction() {
         // Parse all the user fields
         EditText whatTheHeck = findViewById(R.id.edittext_what_the_heck);
         EditText place = findViewById(R.id.edittext_place);
@@ -215,27 +216,11 @@ public class CreateTransactionActivity extends AppCompatActivity {
         AppCompatToggleButton type = findViewById(R.id.togglebutton_type);
         Spinner category = findViewById(R.id.spinner_categories);
 
-        // Create the new transaction object
-        Transaction newTransaction = new Transaction(
-                -1,
-                UserManager.getUserID(),
-                whatTheHeck.getText().toString(),
-                selectedDate,
-                place.getText().toString(),
-                Double.parseDouble(amount.getText().toString()),
-                comments.getText().toString(),
-                type.isChecked()
-        );
-
-        // Get the selected category and add it to the new transaction
         MainCategory cat = adapter.getItem(category.getSelectedItemPosition());
-        newTransaction.setCategoryID(cat.getCategoryID());
+        // Create the new transaction object
+        transactionHandler.addTransaction(UserManager.getUserID(),whatTheHeck.getText().toString(),selectedDate,place.getText().toString(),
+                Double.parseDouble(amount.getText().toString()),comments.getText().toString(),type.isChecked(),imageBytes,cat.getCategoryID());
 
-        // Only add image if it was taken
-        if (imageBytes != null) {
-            newTransaction.setImage(imageBytes);
-        }
 
-        return newTransaction;
     }
 }
