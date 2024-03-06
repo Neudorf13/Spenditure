@@ -23,9 +23,11 @@ public class CategorySQL implements CategoryPersistence {
     private int currentCategoryID;
 
     public CategorySQL(final String dbPath) {
+
         this.dbPath = dbPath;
-//        this.currentCategoryID = initCategoryID();
-        this.currentCategoryID = 1;
+//        this.dbPath = "/data/user/0/com.spenditure/app_db/SC";
+        this.currentCategoryID = initCategoryID();
+//        this.currentCategoryID = 1;
     }
 
     private Connection connection() throws SQLException {

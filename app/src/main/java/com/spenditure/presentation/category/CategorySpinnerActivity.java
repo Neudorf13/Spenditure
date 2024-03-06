@@ -4,7 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 
-import com.example.spenditure.R;
+import com.spenditure.R;
 
 public class CategorySpinnerActivity extends AppCompatActivity {
 

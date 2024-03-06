@@ -24,7 +24,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.example.spenditure.databinding.FragmentNotificationsBinding;
+import com.spenditure.databinding.FragmentNotificationsBinding;
 
 public class NotificationsFragment extends Fragment {
 

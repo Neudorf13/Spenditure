@@ -8,7 +8,7 @@ import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import com.example.spenditure.R;
+import com.spenditure.R;
 import com.spenditure.object.MainCategory;
 import com.spenditure.object.SubCategory;
 import com.spenditure.object.Transaction;

@@ -23,7 +23,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.example.spenditure.databinding.FragmentHomeBinding;
+import com.spenditure.databinding.FragmentHomeBinding;
 
 public class HomeFragment extends Fragment {
 

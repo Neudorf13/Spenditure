@@ -18,7 +18,7 @@
 //
 //    private ActivityMainBinding binding;
 //    private static String dbName="SC";
-//    //private static String dbName="src/main/java/com/spenditure/database/assets/SC.script";
+//    //private static String dbName="src/main/java/com/spenditure/database/assets/SC1.script";
 //
 //    @Override
 //    protected void onCreate(Bundle savedInstanceState) {

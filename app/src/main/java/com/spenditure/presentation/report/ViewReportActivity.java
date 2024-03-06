@@ -13,7 +13,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.spenditure.R;
+import com.spenditure.R;
 import com.facebook.shimmer.ShimmerFrameLayout;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -25,6 +25,7 @@ import com.spenditure.database.utils.DBHelper;
 import com.spenditure.logic.CategoryHandler;
 import com.spenditure.logic.GeneralReportHandler;
 import com.spenditure.logic.ReportManager;
+import com.spenditure.logic.TransactionHandler;
 import com.spenditure.logic.UserManager;
 import com.spenditure.object.DateTime;
 import com.spenditure.object.IDateTime;
@@ -46,7 +47,7 @@ import java.time.LocalDate;
  */
 public class ViewReportActivity extends AppCompatActivity {
 
-    private static String dbName="SC";
+    private static String dbName="SC1";
 
     private ReportManager reportManager;
     private GeneralReportHandler generalReportHandler;
@@ -65,21 +66,17 @@ public class ViewReportActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        try{
-            DBHelper.copyDatabaseToDevice(getApplicationContext());
-            categoryHandler = new CategoryHandler(false);
-        }catch (Exception e){
-            e.printStackTrace();
-        }
+        DBHelper.copyDatabaseToDevice(this);
 
-//        reportManager = new ReportManager(true);
+        TransactionHandler transactionHandler = new TransactionHandler(false);
+        reportManager = new ReportManager(false);
+        categoryHandler = new CategoryHandler(false);
+        generalReportHandler = new GeneralReportHandler(false);
+        this.userID = UserManager.getUserID();
+        this.currDate = ReportManager.getCurrentDate();
 
-//        generalReportHandler = new GeneralReportHandler(true);
-//        this.userID = UserManager.getUserID();
-//        this.currDate = ReportManager.getCurrentDate();
-
-//        handleGeneralReport();
-//        handleCustomCategoryReport();
+        handleGeneralReport();
+        handleCustomCategoryReport();
 //        handleCategoriesReport();
 //        handleTimebaseReport();
 //        handleCustomDateReport();
