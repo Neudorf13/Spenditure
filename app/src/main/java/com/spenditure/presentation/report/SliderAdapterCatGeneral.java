@@ -13,7 +13,9 @@ import androidx.viewpager.widget.PagerAdapter;
 import com.spenditure.R;
 import com.spenditure.logic.CategoryHandler;
 import com.spenditure.logic.GeneralReportHandler;
-import com.spenditure.logic.ReportManager;
+import com.spenditure.logic.IGeneralReportHandler;
+import com.spenditure.logic.ITimeBaseReportManager;
+import com.spenditure.logic.TimeBaseReportManager;
 import com.spenditure.logic.UserManager;
 import com.spenditure.object.MainCategory;
 import com.spenditure.presentation.UIUtility;
@@ -29,8 +31,8 @@ import java.util.List;
 public class SliderAdapterCatGeneral extends PagerAdapter {
     private Context context;
     private LayoutInflater inflater;
-    private ReportManager reportManager;
-    private GeneralReportHandler generalReportHandler;
+    private ITimeBaseReportManager reportManager;
+    private IGeneralReportHandler generalReportHandler;
     private CategoryHandler categoryHandler;
     private List<MainCategory> categoryList;
     private int[] list_bg_color = { //Default background color for each slider
@@ -40,7 +42,7 @@ public class SliderAdapterCatGeneral extends PagerAdapter {
 
     public SliderAdapterCatGeneral(Context context, List<MainCategory> categoryList){
         this.context = context;
-        this.reportManager = new ReportManager(true);
+        this.reportManager = new TimeBaseReportManager(true);
         this.generalReportHandler = new GeneralReportHandler(true);
         this.categoryHandler = new CategoryHandler(true);
         this.categoryList = categoryList;

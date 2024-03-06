@@ -17,11 +17,9 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 
 import com.spenditure.logic.GeneralReportHandler;
-import com.spenditure.logic.ReportManager;
 import com.spenditure.logic.UserManager;
 import com.spenditure.logic.exceptions.InvalidCategoryException;
 import com.spenditure.logic.exceptions.InvalidLogInException;
-import com.spenditure.object.CategoryReport;
 import com.spenditure.object.ICategoryReport;
 import com.spenditure.object.IMainCategory;
 

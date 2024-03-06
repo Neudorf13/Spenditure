@@ -25,7 +25,11 @@ import com.spenditure.application.Services;
 import com.spenditure.database.utils.DBHelper;
 import com.spenditure.logic.CategoryHandler;
 import com.spenditure.logic.GeneralReportHandler;
-import com.spenditure.logic.ReportManager;
+import com.spenditure.logic.ICategoryHandler;
+import com.spenditure.logic.IGeneralReportHandler;
+import com.spenditure.logic.ITimeBaseReportManager;
+import com.spenditure.logic.ITransactionHandler;
+import com.spenditure.logic.TimeBaseReportManager;
 import com.spenditure.logic.TransactionHandler;
 import com.spenditure.logic.UserManager;
 import com.spenditure.object.DateTime;
@@ -36,7 +40,6 @@ import com.spenditure.object.MainCategory;
 import com.spenditure.presentation.BottomNavigationHandler;
 import com.spenditure.presentation.UIUtility;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.time.LocalDate;
 
@@ -50,11 +53,13 @@ public class ViewReportActivity extends AppCompatActivity {
 
     private static String dbName="SC1";
 
-    private ReportManager reportManager;
-    private GeneralReportHandler generalReportHandler;
+    private ITimeBaseReportManager reportManager;
+    private IGeneralReportHandler generalReportHandler;
+
+    private ITransactionHandler transactionHandler;
     private final String[] custom_option = {"Report by average","Report by total","Report by percentage"}; //Drop down menu option
     private final String[] time_base_option = {"Report by year breaking into month","Report by month breaking into weeks"};//Drop down menu option
-    private CategoryHandler categoryHandler;
+    private ICategoryHandler categoryHandler;
 
     private IDateTime fromDate;
     private IDateTime toDate;
@@ -69,12 +74,12 @@ public class ViewReportActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         DBHelper.copyDatabaseToDevice(this);
 
-        TransactionHandler transactionHandler = new TransactionHandler(Services.DEVELOPING_STATUS);
-        reportManager = new ReportManager(Services.DEVELOPING_STATUS);
+        transactionHandler = new TransactionHandler(Services.DEVELOPING_STATUS);
+        reportManager = new TimeBaseReportManager(Services.DEVELOPING_STATUS);
         categoryHandler = new CategoryHandler(Services.DEVELOPING_STATUS);
         generalReportHandler = new GeneralReportHandler(Services.DEVELOPING_STATUS);
         this.userID = UserManager.getUserID();
-        this.currDate = ReportManager.getCurrentDate();
+        this.currDate = TimeBaseReportManager.getCurrentDate();
 
         handleGeneralReport();
         handleCustomCategoryReport();
@@ -315,6 +320,10 @@ public class ViewReportActivity extends AppCompatActivity {
     }
 
 
+
+    /**
+     * DB set up in Main activity
+     */
 
     public static void setDBPathName(final String name) {
         try {

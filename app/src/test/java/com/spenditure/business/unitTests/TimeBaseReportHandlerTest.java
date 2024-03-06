@@ -20,7 +20,7 @@ import static org.junit.Assert.*;
 import java.util.ArrayList; // import the ArrayList class
 import java.util.List;
 
-import com.spenditure.logic.ReportManager;
+import com.spenditure.logic.TimeBaseReportManager;
 import com.spenditure.object.CategoryStatistics;
 import com.spenditure.object.DateTime;
 import com.spenditure.object.IReport;
@@ -30,15 +30,15 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-public class ReportHandlerTest {
+public class TimeBaseReportHandlerTest {
 
 
-    private ReportManager reportManager;
+    private TimeBaseReportManager reportManager;
 
     @Before
     public void setup() {
 //        Services.restartCategoryDB(true);
-        this.reportManager = new ReportManager(true);
+        this.reportManager = new TimeBaseReportManager(true);
     }
 
     @After
