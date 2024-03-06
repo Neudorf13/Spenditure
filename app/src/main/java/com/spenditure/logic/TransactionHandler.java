@@ -48,24 +48,36 @@ public class TransactionHandler implements ITransactionHandler, Serializable {
     /*
         addTransaction
 
-        Checks the ID to make sure it's a new transaction,
-        validates it, then sends it to the data layer to be added.
+        Takes all of the values needed to create a new transaction, validates that transaction, and then
+        adds it to the database.
      */
+
     @Override
-    public boolean addTransaction(Transaction t) throws InvalidTransactionException {
+    public boolean addTransaction(int userID, String whatTheHeck, DateTime date, String place, double amount, String comments, boolean type) throws InvalidTransactionException {
 
+        Transaction t = new Transaction( NEW_TRANSACTION_ID, userID, whatTheHeck, date, place, amount, comments, type );
 
-        if( t == null )
-            throw new InvalidTransactionException("No transaction was provided to add!");
-
-        else if(!checkNewTransactionID(t))
+        if( !checkNewTransactionID(t) )
             throw new InvalidTransactionException("Transaction I.D. of new transaction (I.D.: "
                     + t.getTransactionID() +") is invalid; the transaction may already exist.");
 
-        if(TransactionValidator.validateTransaction(t))
+        if( TransactionValidator.validateTransaction(t) )
             return dataAccessTransaction.addTransaction(t);
         else
             return false;
+    }
+
+    @Override
+    public boolean addTransaction(int userID, String whatTheHeck, DateTime date, String place, double amount, String comments, boolean withdrawal, byte[] image, int categoryID)
+        throws InvalidTransactionException {
+
+        Transaction t = new Transaction( NEW_TRANSACTION_ID, userID, whatTheHeck, date, place, amount, comments, withdrawal, image, categoryID );
+
+        if( TransactionValidator.validateTransaction(t) )
+            return dataAccessTransaction.addTransaction(t);
+        else
+            return false;
+
     }
 
     /*

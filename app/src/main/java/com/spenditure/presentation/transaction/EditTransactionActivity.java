@@ -30,7 +30,7 @@ import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.example.spenditure.R;
+import com.spenditure.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.spenditure.logic.CategoryHandler;
 import com.spenditure.logic.TransactionHandler;

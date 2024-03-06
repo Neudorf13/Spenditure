@@ -10,7 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.viewpager.widget.PagerAdapter;
 
-import com.example.spenditure.R;
+import com.spenditure.R;
 import com.spenditure.object.IReport;
 import com.spenditure.presentation.UIUtility;
 

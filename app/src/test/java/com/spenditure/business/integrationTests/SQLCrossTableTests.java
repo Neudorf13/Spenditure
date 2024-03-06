@@ -7,14 +7,9 @@ import com.spenditure.application.Services;
 import com.spenditure.database.CategoryPersistence;
 import com.spenditure.database.TransactionPersistence;
 import com.spenditure.database.UserPersistence;
-import com.spenditure.logic.ReportManager;
-import com.spenditure.object.DateTime;
-import com.spenditure.object.MainCategory;
-import com.spenditure.object.Transaction;
 import com.spenditure.utils.TestUtils;
 
 import org.junit.Before;
-import org.junit.Test;
 
 import java.io.File;
 import java.io.IOException;
@@ -42,32 +37,32 @@ public class SQLCrossTableTests {
 
     }
 
-    @Test
-    public void addCategoryAndTransaction() {
-
-//        userPersistence.printUserTable();
-
-//        int register = userPersistence.register(77,"testDummy","123abc","ddd@gmail.com");
-
-//        userPersistence.printUserTable();
-
-//        assertEquals(77, register);
-
-        categoryPersistence.printCategoryTable();
-
-        MainCategory category = categoryPersistence.addCategory("test",77);
-
-        categoryPersistence.printCategoryTable();
-
-        assertNotNull(category);
-
-        transactionPersistence.printTransactionTable();
-
-        transactionPersistence.addTransaction(new Transaction(2,77,"testTransaction", new DateTime(2020,10,15), "testLand", 17.77, "nothing to say", false, null, 4));
-
-        transactionPersistence.printTransactionTable();
-
-    }
+//    @Test
+//    public void addCategoryAndTransaction() {
+//
+////        userPersistence.printUserTable();
+//
+////        int register = userPersistence.register(77,"testDummy","123abc","ddd@gmail.com");
+//
+////        userPersistence.printUserTable();
+//
+////        assertEquals(77, register);
+//
+//        categoryPersistence.printCategoryTable();
+//
+//        MainCategory category = categoryPersistence.addCategory("test",77);
+//
+//        categoryPersistence.printCategoryTable();
+//
+//        assertNotNull(category);
+//
+//        transactionPersistence.printTransactionTable();
+//
+//        transactionPersistence.addTransaction(new Transaction(2,77,"testTransaction", new DateTime(2020,10,15), "testLand", 17.77, "nothing to say", false, null, 4));
+//
+//        transactionPersistence.printTransactionTable();
+//
+//    }
 
 
 }

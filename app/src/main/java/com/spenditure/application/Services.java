@@ -20,9 +20,13 @@ import com.spenditure.presentation.report.ViewReportActivity;
  */
 
 public class Services {
+
+    public static final boolean DEVELOPING_STATUS = false;
     private static CategoryPersistence categoryPersistence = null;
     private static TransactionPersistence transactionPersistence = null;
     private static UserPersistence userPersistence = null;
+
+
 
     public static synchronized CategoryPersistence getCategoryPersistence(boolean inDeveloping){
         if(categoryPersistence == null) {
@@ -92,6 +96,8 @@ public class Services {
             userPersistence = new UserSQL(ViewReportActivity.getDBPathName());
         }
     }
+
+
 
 
 }

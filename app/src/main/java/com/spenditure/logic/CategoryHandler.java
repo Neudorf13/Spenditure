@@ -16,7 +16,7 @@ import java.util.List;
  * PURPOSE: Handle all logic related to Category
  */
 
-public class CategoryHandler {
+public class CategoryHandler implements ICategoryHandler{
     //Attribute
     private CategoryPersistence dataAccessCategory;
 
@@ -42,9 +42,6 @@ public class CategoryHandler {
         return this.dataAccessCategory.getCategoryByID(id);
     }
 
-    public void printCategoryTable() {
-        dataAccessCategory.printCategoryTable();
-    }
     /*
        addCategory
 

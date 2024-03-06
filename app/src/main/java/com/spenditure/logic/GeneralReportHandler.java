@@ -33,7 +33,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class GeneralReportHandler implements IGeneralReportHandler{
+public class GeneralReportHandler implements IGeneralReportHandler {
     private TransactionPersistence dataAccessTransaction;
     private CategoryPersistence dataAccessCategory;
 

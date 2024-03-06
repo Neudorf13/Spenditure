@@ -22,7 +22,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.example.spenditure.databinding.FragmentDashboardBinding;
+import com.spenditure.databinding.FragmentDashboardBinding;
 
 public class DashboardFragment extends Fragment {
 

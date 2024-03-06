@@ -21,7 +21,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.example.spenditure.R;
+import com.spenditure.R;
 import com.spenditure.logic.UserManager;
 import com.spenditure.logic.exceptions.InvalidUserInformationException;
 import com.spenditure.presentation.report.ViewReportActivity;

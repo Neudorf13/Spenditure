@@ -13,7 +13,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.spenditure.R;
+import com.spenditure.R;
 import com.facebook.shimmer.ShimmerFrameLayout;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -21,9 +21,16 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.viewpager.widget.ViewPager;
 
+import com.spenditure.application.Services;
+import com.spenditure.database.utils.DBHelper;
 import com.spenditure.logic.CategoryHandler;
 import com.spenditure.logic.GeneralReportHandler;
-import com.spenditure.logic.ReportManager;
+import com.spenditure.logic.ICategoryHandler;
+import com.spenditure.logic.IGeneralReportHandler;
+import com.spenditure.logic.ITimeBaseReportManager;
+import com.spenditure.logic.ITransactionHandler;
+import com.spenditure.logic.TimeBaseReportManager;
+import com.spenditure.logic.TransactionHandler;
 import com.spenditure.logic.UserManager;
 import com.spenditure.object.DateTime;
 import com.spenditure.object.IDateTime;
@@ -33,7 +40,6 @@ import com.spenditure.object.MainCategory;
 import com.spenditure.presentation.BottomNavigationHandler;
 import com.spenditure.presentation.UIUtility;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.time.LocalDate;
 
@@ -45,13 +51,15 @@ import java.time.LocalDate;
  */
 public class ViewReportActivity extends AppCompatActivity {
 
-    private static String dbName="SC";
+    private static String dbName="SC1";
 
-    private ReportManager reportManager;
-    private GeneralReportHandler generalReportHandler;
+    private ITimeBaseReportManager reportManager;
+    private IGeneralReportHandler generalReportHandler;
+
+    private ITransactionHandler transactionHandler;
     private final String[] custom_option = {"Report by average","Report by total","Report by percentage"}; //Drop down menu option
     private final String[] time_base_option = {"Report by year breaking into month","Report by month breaking into weeks"};//Drop down menu option
-    private CategoryHandler categoryHandler;
+    private ICategoryHandler categoryHandler;
 
     private IDateTime fromDate;
     private IDateTime toDate;
@@ -64,11 +72,14 @@ public class ViewReportActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        reportManager = new ReportManager(true);
-        categoryHandler = new CategoryHandler(true);
-        generalReportHandler = new GeneralReportHandler(true);
+        DBHelper.copyDatabaseToDevice(this);
+
+        transactionHandler = new TransactionHandler(Services.DEVELOPING_STATUS);
+        reportManager = new TimeBaseReportManager(Services.DEVELOPING_STATUS);
+        categoryHandler = new CategoryHandler(Services.DEVELOPING_STATUS);
+        generalReportHandler = new GeneralReportHandler(Services.DEVELOPING_STATUS);
         this.userID = UserManager.getUserID();
-        this.currDate = ReportManager.getCurrentDate();
+        this.currDate = TimeBaseReportManager.getCurrentDate();
 
         handleGeneralReport();
         handleCustomCategoryReport();
@@ -90,7 +101,6 @@ public class ViewReportActivity extends AppCompatActivity {
         totalTransactions.setText(UIUtility.cleanTotalString(lastYearReport.getTotal()));
         average.setText(UIUtility.cleanAverageString(lastYearReport.getAvgTransSize()));
         percentage.setText(UIUtility.cleanPercentageString(lastYearReport.getPercent()));
-
     }
 
     private void handleCustomDateReport(){
@@ -310,6 +320,10 @@ public class ViewReportActivity extends AppCompatActivity {
     }
 
 
+
+    /**
+     * DB set up in Main activity
+     */
 
     public static void setDBPathName(final String name) {
         try {
