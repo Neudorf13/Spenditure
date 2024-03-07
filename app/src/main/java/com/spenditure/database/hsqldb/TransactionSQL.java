@@ -68,38 +68,13 @@ public class TransactionSQL implements TransactionPersistence {
 
         }
         catch (final SQLException e) {
-            throw new RuntimeException("An error occurred while processing the SQL operation", e);   
+            throw new RuntimeException("An error occurred while processing the SQL operation", e);
         }
     }
+
 
     //returns list of all Transaction objects associated with a TID in transactions table
     @Override
-    public List<Transaction> getAllTransactions(int userID) {
-        List<Transaction> transactions = new ArrayList<>();
-
-        try(final Connection connection = connection()) {
-            final PreparedStatement statement = connection.prepareStatement("SELECT * FROM transactions\nWHERE userID=?");
-            statement.setInt(1,userID);
-
-            final ResultSet resultSet = statement.executeQuery();
-
-            while (resultSet.next())
-            {
-                final Transaction transaction = fromResultSet(resultSet);
-                transactions.add(transaction);
-            }
-            resultSet.close();
-            statement.close();
-
-            return transactions;
-
-        }
-        catch (final SQLException e) {
-            throw new RuntimeException("An error occurred while processing the SQL operation", e);   
-        }
-
-    }
-
     public List<Transaction> getAllTransactionsForUser(int userID) {
         List<Transaction> transactions = new ArrayList<>();
 
@@ -121,7 +96,7 @@ public class TransactionSQL implements TransactionPersistence {
             return transactions;
         }
         catch (final SQLException e) {
-            throw new RuntimeException("An error occurred while processing the SQL operation", e);   
+            throw new RuntimeException("An error occurred while processing the SQL operation", e);
         }
     }
 
@@ -153,7 +128,7 @@ public class TransactionSQL implements TransactionPersistence {
             return true;
         }
         catch (final SQLException e) {
-            throw new RuntimeException("An error occurred while processing the SQL operation", e);   
+            throw new RuntimeException("An error occurred while processing the SQL operation", e);
         }
     }
 
@@ -197,7 +172,7 @@ public class TransactionSQL implements TransactionPersistence {
             return row > 0; //true if row number is greater than 0
         }
         catch (final SQLException e) {
-            throw new RuntimeException("An error occurred while processing the SQL operation", e);   
+            throw new RuntimeException("An error occurred while processing the SQL operation", e);
         }
     }
 
@@ -225,7 +200,7 @@ public class TransactionSQL implements TransactionPersistence {
 
         }
         catch (final SQLException e) {
-            throw new RuntimeException("An error occurred while processing the SQL operation", e);   
+            throw new RuntimeException("An error occurred while processing the SQL operation", e);
         }
     }
 
@@ -253,7 +228,7 @@ public class TransactionSQL implements TransactionPersistence {
 
         }
         catch (final SQLException e) {
-            throw new RuntimeException("An error occurred while processing the SQL operation", e);   
+            throw new RuntimeException("An error occurred while processing the SQL operation", e);
         }
     }
 
@@ -281,7 +256,7 @@ public class TransactionSQL implements TransactionPersistence {
 
         }
         catch (final SQLException e) {
-            throw new RuntimeException("An error occurred while processing the SQL operation", e);   
+            throw new RuntimeException("An error occurred while processing the SQL operation", e);
         }
     }
 
@@ -310,7 +285,7 @@ public class TransactionSQL implements TransactionPersistence {
 
         }
         catch (final SQLException e) {
-            throw new RuntimeException("An error occurred while processing the SQL operation", e);   
+            throw new RuntimeException("An error occurred while processing the SQL operation", e);
         }
     }
 
@@ -339,7 +314,7 @@ public class TransactionSQL implements TransactionPersistence {
 
         }
         catch (final SQLException e) {
-            throw new RuntimeException("An error occurred while processing the SQL operation", e);   
+            throw new RuntimeException("An error occurred while processing the SQL operation", e);
         }
     }
 
@@ -366,7 +341,7 @@ public class TransactionSQL implements TransactionPersistence {
 
         }
         catch (final SQLException e) {
-            throw new RuntimeException("An error occurred while processing the SQL operation", e);   
+            throw new RuntimeException("An error occurred while processing the SQL operation", e);
         }
     }
 
@@ -393,7 +368,7 @@ public class TransactionSQL implements TransactionPersistence {
 
         }
         catch (final SQLException e) {
-            throw new RuntimeException("An error occurred while processing the SQL operation", e);   
+            throw new RuntimeException("An error occurred while processing the SQL operation", e);
         }
     }
 
@@ -420,11 +395,11 @@ public class TransactionSQL implements TransactionPersistence {
 
         }
         catch (final SQLException e) {
-            throw new RuntimeException("An error occurred while processing the SQL operation", e);   
+            throw new RuntimeException("An error occurred while processing the SQL operation", e);
         }
     }
 
-    //generates a new unique TID
-    public int generateUniqueID() { return currentID++; }
+//    //generates a new unique TID
+//    public int generateUniqueID() { return currentID++; }
 
 }

@@ -36,9 +36,7 @@ public class CategorySQL implements CategoryPersistence {
     //initalize currentCategoryID variable to be largest CID in db
     private int initCategoryID() {
         int largestCategoryID = 1;
-        System.out.println("Before");
         try(final Connection connection = connection()) {
-            System.out.println("after");
             final Statement st = connection.createStatement();
             final ResultSet rs = st.executeQuery("SELECT * FROM categories");
 

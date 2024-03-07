@@ -138,7 +138,7 @@ public class TransactionHandler implements ITransactionHandler, Serializable {
     @Override
     public List<Transaction> getAllTransactions(int userID) {
 
-        return dataAccessTransaction.getAllTransactions(userID);
+        return dataAccessTransaction.getAllTransactionsForUser(userID);
 
     }
 
