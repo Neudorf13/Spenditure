@@ -27,10 +27,12 @@ public class TransactionSQL implements TransactionPersistence {
         this.dbPath = dbPath;
     }
 
+    //get connection to DB
     private Connection connection() throws SQLException {
         return DriverManager.getConnection("jdbc:hsqldb:file:" + dbPath + ";shutdown=true", "SA", "");
     }
 
+    //returns Transaction object as result of a query
     private Transaction fromResultSet(final ResultSet rs) throws SQLException {
         final int transactionID = rs.getInt("TRANSACTIONID");
         final int userID = rs.getInt("USERID");
@@ -49,6 +51,7 @@ public class TransactionSQL implements TransactionPersistence {
         return new Transaction(transactionID, userID, name, dateTime, place, amount, comments, withdrawal, image, categoryID);
     }
 
+    //returns what the next transactionID should be -> current largest TID + 1
     private int getNextTransactionID() {
         int largestTransactionID = 1;
         try(final Connection connection = connection()) {
@@ -73,6 +76,7 @@ public class TransactionSQL implements TransactionPersistence {
         }
     }
 
+    //returns list of all Transaction objects associated with a TID in transactions table
     @Override
     public List<Transaction> getAllTransactions(int userID) {
         List<Transaction> transactions = new ArrayList<>();
@@ -125,7 +129,7 @@ public class TransactionSQL implements TransactionPersistence {
         }
     }
 
-
+    //takes a Transaction object and inserts a new entry to transaction table
     @Override
     public boolean addTransaction(Transaction transaction) {
 
@@ -157,6 +161,7 @@ public class TransactionSQL implements TransactionPersistence {
         }
     }
 
+    //takes a Transaction object, updates entry in transaction table with matchin TID to have matching values as the object
     @Override
     public boolean modifyTransaction(Transaction transaction) {
         try (Connection connection = connection()) {
@@ -183,6 +188,8 @@ public class TransactionSQL implements TransactionPersistence {
         }
     }
 
+    //attempts to delete an entry in the transaction table with associated TID
+    //returns true if a row is deleted, false otherwise
     @Override
     public boolean deleteTransaction(int transactionID) {
         try(final Connection connection = connection()) {
@@ -198,6 +205,7 @@ public class TransactionSQL implements TransactionPersistence {
         }
     }
 
+    //attempts to return a Transaction object with a specific TID, returns false if TID doesnt exist in table
     @Override
     public Transaction getTransactionByID(int transactionID) {
         try(final Connection connection = connection()) {
@@ -225,6 +233,7 @@ public class TransactionSQL implements TransactionPersistence {
         }
     }
 
+    //returns list of transactions that match a TID and name
     @Override
     public ArrayList<Transaction> getTransactionByName(int userID, String name) {
         final ArrayList<Transaction> transactions = new ArrayList<>();
@@ -252,6 +261,7 @@ public class TransactionSQL implements TransactionPersistence {
         }
     }
 
+    //returns list of transactions that match a TID and place
     @Override
     public ArrayList<Transaction> getTransactionsByPlace(int userID, String place) {
         final ArrayList<Transaction> transactions = new ArrayList<>();
@@ -279,6 +289,7 @@ public class TransactionSQL implements TransactionPersistence {
         }
     }
 
+    //returns list of transactions that match a TID and is between 2 bounds for it's amount value
     @Override
     public ArrayList<Transaction> getTransactionsByAmount(int userID, double lower, double upper) {
         final ArrayList<Transaction> transactions = new ArrayList<>();
@@ -307,7 +318,7 @@ public class TransactionSQL implements TransactionPersistence {
         }
     }
 
-
+    //returns list of transactions that match a TID and is between 2 bounds for it's date value
     @Override
     public ArrayList<Transaction> getTransactionsByDateTime(int userID, IDateTime lower, IDateTime upper) {
         final ArrayList<Transaction> transactions = new ArrayList<>();
@@ -336,6 +347,7 @@ public class TransactionSQL implements TransactionPersistence {
         }
     }
 
+    // returns a list of Transaction objects with an associated CID
     @Override
     public ArrayList<Transaction> getTransactionsByCategoryID(int categoryID) {
         ArrayList<Transaction> transactions = new ArrayList<>();
@@ -362,6 +374,7 @@ public class TransactionSQL implements TransactionPersistence {
         }
     }
 
+    //returns all transactions for a TID, ordered newest -> oldest
     @Override
     public ArrayList<Transaction> getNewestTransactionsForUser(int userID) {
         ArrayList<Transaction> transactions = new ArrayList<>();
@@ -388,6 +401,7 @@ public class TransactionSQL implements TransactionPersistence {
         }
     }
 
+    //returns all transactions for a TID, ordered oldest -> newest
     @Override
     public ArrayList<Transaction> getOldestTransactionsForUser(int userID) {
         ArrayList<Transaction> transactions = new ArrayList<>();
@@ -414,7 +428,7 @@ public class TransactionSQL implements TransactionPersistence {
         }
     }
 
-
+    //generates a new unique TID
     public int generateUniqueID() { return currentID++; }
 
 }
