@@ -37,7 +37,7 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        userManager = new UserManager(true);
+        userManager = new UserManager(true); //We have problem when we access the table, may be something wrong when we write a script, so we use stubDB
         setContentView(R.layout.activity_login);
 
         setUpLoginButton();
