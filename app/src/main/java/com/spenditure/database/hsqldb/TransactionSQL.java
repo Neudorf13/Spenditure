@@ -72,34 +72,9 @@ public class TransactionSQL implements TransactionPersistence {
         }
     }
 
+
     //returns list of all Transaction objects associated with a TID in transactions table
     @Override
-    public List<Transaction> getAllTransactions(int userID) {
-        List<Transaction> transactions = new ArrayList<>();
-
-        try(final Connection connection = connection()) {
-            final PreparedStatement statement = connection.prepareStatement("SELECT * FROM transactions\nWHERE userID=?");
-            statement.setInt(1,userID);
-
-            final ResultSet resultSet = statement.executeQuery();
-
-            while (resultSet.next())
-            {
-                final Transaction transaction = fromResultSet(resultSet);
-                transactions.add(transaction);
-            }
-            resultSet.close();
-            statement.close();
-
-            return transactions;
-
-        }
-        catch (final SQLException e) {
-            throw new RuntimeException("An error occurred while processing the SQL operation", e);  //temp exception
-        }
-
-    }
-
     public List<Transaction> getAllTransactionsForUser(int userID) {
         List<Transaction> transactions = new ArrayList<>();
 
@@ -424,7 +399,7 @@ public class TransactionSQL implements TransactionPersistence {
         }
     }
 
-    //generates a new unique TID
-    public int generateUniqueID() { return currentID++; }
+//    //generates a new unique TID
+//    public int generateUniqueID() { return currentID++; }
 
 }

@@ -22,7 +22,6 @@ import java.util.List;
 public interface TransactionPersistence {
 
     // query database
-    List<Transaction> getAllTransactions(int userID);
     List<Transaction> getAllTransactionsForUser(int userID);
     boolean addTransaction(Transaction newTransaction);
     boolean modifyTransaction(Transaction targetTransaction);

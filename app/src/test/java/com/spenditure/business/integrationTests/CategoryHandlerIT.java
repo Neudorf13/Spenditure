@@ -38,7 +38,6 @@ public class CategoryHandlerIT {
         int expectedSize = 3;
 
         List<MainCategory> categoryList = categoryHandler.getAllCategory(1);
-        System.out.println("Category Size for user 1: " + categoryList.size());
         assertEquals(expectedSize, categoryList.size());
 
         MainCategory category1 = categoryHandler.getCategoryByID(1);
@@ -78,7 +77,6 @@ public class CategoryHandlerIT {
         categoryHandler.deleteCategory(1);
 
         int count = categoryHandler.getAllCategory(1).size();
-        System.out.println("Count: " + count);
         //assertEquals(2 ,count);
         assertEquals("Food",categoryHandler.getCategoryByID(2).getName());
         assertEquals("Hang out",categoryHandler.getCategoryByID(3).getName());
