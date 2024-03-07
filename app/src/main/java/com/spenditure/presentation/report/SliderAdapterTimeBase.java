@@ -26,7 +26,7 @@ import java.util.List;
 public class SliderAdapterTimeBase extends PagerAdapter {
     Context context;
     LayoutInflater inflater;
-   private List<IReport> reportList;
+   private List<Report> reportList;
     private int[] list_bg_color = { //Default background color for each slider
             R.drawable.background_light_green,
             R.drawable.background_dark_blue
@@ -56,7 +56,7 @@ public class SliderAdapterTimeBase extends PagerAdapter {
         inflater = (LayoutInflater) context.getSystemService(context.LAYOUT_INFLATER_SERVICE);
         View view = inflater.inflate(R.layout.report_slide,container,false);
         LinearLayout linearLayout = view.findViewById(R.id.report_slider_layout);
-        IReport currReport = reportList.get(position);
+        Report currReport = reportList.get(position);
 
         //Get data from report manager
         String title = mode + " " + (position+1);

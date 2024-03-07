@@ -43,9 +43,9 @@ public class DateTimeValidator {
 
         returns true if the DateTime has valid values.
      */
-    public static boolean validateDateTime(DateTime dateTime) throws InvalidDateTimeException {
-
-        return validateDate(dateTime) && validateTime(dateTime);
+    public static void validateDateTime(DateTime dateTime) throws InvalidDateTimeException {
+        validateDate(dateTime);
+        validateTime(dateTime);
 
     }
 
@@ -55,22 +55,20 @@ public class DateTimeValidator {
         returns true if the date values are valid according
         to a standard Gregorian calendar.
      */
-    public static boolean validateDate(DateTime date) throws InvalidDateException {
-        boolean valid = false;
+    public static void validateDate(DateTime date) throws InvalidDateException {
 
         int year = date.getYear();
         int month = date.getMonth();
         int day = date.getDay();
 
-        if(validateYear(year) && validateMonth(month) && validateDay(day)) {
+        validateYear(year);
+        validateMonth(month);
+        validateDay(day);
 
-            boolean leapYear = checkLeapYear(year);
+        boolean leapYear = checkLeapYear(year);
 
-            valid = validateMonthDay(month, day, leapYear);
+        validateMonthDay(month, day, leapYear);
 
-        }
-
-        return valid;
 
     }
 
@@ -79,13 +77,15 @@ public class DateTimeValidator {
 
         returns true if the time values are valid.
      */
-    public static boolean validateTime(DateTime time) throws InvalidTimeException {
+    public static void validateTime(DateTime time) throws InvalidTimeException {
 
         int hour = time.getHour();
         int minute = time.getMinute();
         int second = time.getSeconds();
 
-        return validateHour(hour) && validateMinute(minute) && validateSecond(second);
+        validateHour(hour);
+        validateMinute(minute);
+        validateSecond(second);
 
     }
 
@@ -94,12 +94,11 @@ public class DateTimeValidator {
 
         ensures hour value is less than MAX_HOURS and at least 0.
      */
-    private static boolean validateHour(int hour) throws InvalidTimeException {
+    private static void validateHour(int hour) throws InvalidTimeException {
 
         if( hour >= MAX_HOURS || hour < 0 )
             throw new InvalidTimeException("Provided hour value (" + hour + ") must be at least 0 and at most 23.");
 
-        return true;
 
     }
 
@@ -108,12 +107,12 @@ public class DateTimeValidator {
 
         ensures minute value is less than 60 and at least 0.
      */
-    private static boolean validateMinute(int minute) throws InvalidTimeException {
+    private static void validateMinute(int minute) throws InvalidTimeException {
 
         if( minute >= MAX_MINUTES || minute < 0 )
             throw new InvalidTimeException("Provided minute value (" + minute + ") must be at least 0 and at most 59.");
 
-        return true;
+
     }
 
     /*
@@ -121,12 +120,11 @@ public class DateTimeValidator {
 
      ensures second value is less than 60 and at least 0.
     */
-    private static boolean validateSecond(int second) throws InvalidTimeException {
+    private static void validateSecond(int second) throws InvalidTimeException {
 
         if( second >= MAX_SECONDS || second < 0 )
             throw new InvalidTimeException("Provided second value (" + second + ") must be at least 0 and at most 59.");
 
-        return true;
     }
 
     /*
@@ -134,12 +132,11 @@ public class DateTimeValidator {
 
         ensures year is greater than or equal to the minimum allowed year
      */
-    private static boolean validateYear(int year) throws InvalidDateException {
+    private static void validateYear(int year) throws InvalidDateException {
 
         if( year > MAX_YEAR || year < MIN_YEAR )
             throw new InvalidDateException("Provided year value (" + year + ") must be between " + MIN_YEAR + " and " + MAX_YEAR + ".");
 
-        return true;
     }
 
     /*
@@ -147,12 +144,11 @@ public class DateTimeValidator {
 
         ensures the month value is between 12 (inclusive) and 0 (exclusive).
      */
-    private static boolean validateMonth(int month) throws InvalidDateException {
+    private static void validateMonth(int month) throws InvalidDateException {
 
         if( month > 12 || month <= 0 )
             throw new InvalidDateException("Provided month value (" + month + ") must be at least 1 and at most 12.");
 
-        return true;
     }
 
     /*
@@ -160,12 +156,11 @@ public class DateTimeValidator {
 
         ensures the day value is between 31 (inclusive) and 0 (exclusive).
      */
-    private static boolean validateDay(int day) throws InvalidDateException {
+    private static void validateDay(int day) throws InvalidDateException {
 
         if( day > 31 || day <= 0 )
             throw new InvalidDateException("Provided day value (" + day + ") must be at least 1 and at most 31.");
 
-        return true;
     }
 
     /*
@@ -174,7 +169,7 @@ public class DateTimeValidator {
         checks to make sure the day value is within the appropriate range for
         the month it's paired with
      */
-    private static boolean validateMonthDay(int month, int day, boolean leapYear) throws InvalidDateException {
+    private static void validateMonthDay(int month, int day, boolean leapYear) throws InvalidDateException {
 
         int numDays;
 
@@ -196,8 +191,9 @@ public class DateTimeValidator {
         }
 
         if( numDays >= day && day > 0 )
-            return true;
-
+        {
+            // we good
+        }
         else {
 
             String leapYearMessage = "";
