@@ -41,7 +41,7 @@ import java.util.List;
 public class ViewTransactionsActivity extends AppCompatActivity {
 
     // Instance Variables
-    private static ITransactionHandler transactionHandler = null;
+    private static TransactionHandler transactionHandler = null;
     private List<Transaction> transactions;
     private int currentIdSelected;
     private CustomTransactionAdapter adaptor;
