@@ -101,7 +101,7 @@ public class CreateTransactionActivity extends AppCompatActivity {
 
     // Set up the category drop down menu
     private void setUpCategories() {
-        categoryHandler = new CategoryHandler(true);
+        categoryHandler = new CategoryHandler(Services.DEVELOPING_STATUS);
 
         Spinner categories = findViewById(R.id.spinner_categories);
 

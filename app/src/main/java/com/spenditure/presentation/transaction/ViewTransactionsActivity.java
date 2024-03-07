@@ -26,6 +26,8 @@ import android.widget.ListView;
 
 import com.spenditure.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.spenditure.application.Services;
+import com.spenditure.logic.ITransactionHandler;
 import com.spenditure.logic.TransactionHandler;
 import com.spenditure.logic.UserManager;
 import com.spenditure.object.Transaction;
@@ -39,7 +41,7 @@ import java.util.List;
 public class ViewTransactionsActivity extends AppCompatActivity {
 
     // Instance Variables
-    private static TransactionHandler transactionHandler = null;
+    private static ITransactionHandler transactionHandler = null;
     private List<Transaction> transactions;
     private int currentIdSelected;
     private CustomTransactionAdapter adaptor;
@@ -51,7 +53,7 @@ public class ViewTransactionsActivity extends AppCompatActivity {
 
         // Get all the transactions from the handler
         if( transactionHandler == null){
-            transactionHandler = new TransactionHandler(true);
+            transactionHandler = new TransactionHandler(Services.DEVELOPING_STATUS);
         }
         transactions = transactionHandler.getAllByNewestFirst(UserManager.getUserID());
 
