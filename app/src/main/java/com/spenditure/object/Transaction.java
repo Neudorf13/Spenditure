@@ -13,7 +13,7 @@
 
 package com.spenditure.object;
 
-public class Transaction implements ITransaction{
+public class Transaction {
 
     private int transactionID;
 

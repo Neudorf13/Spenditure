@@ -12,7 +12,9 @@
  **/
 
 
-package com.spenditure.object;
+package com.spenditure.object.Comparison;
+
+import com.spenditure.object.Transaction;
 
 import java.util.Comparator;
 

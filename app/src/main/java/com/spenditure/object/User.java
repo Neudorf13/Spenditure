@@ -5,7 +5,7 @@ package com.spenditure.object;
  * @author Bao Ngo
  * @version 06 Feb 2024
  */
-public class User implements IUser{
+public class User {
     //Attributes
     private String fullName;
     private String username;
@@ -21,34 +21,32 @@ public class User implements IUser{
     }
 
     //Business methods
-    @Override
     public String getName() {
         return this.fullName;
     }
 
 
 
-    @Override
     public String getEmail() {
         return this.email;
     }
 
-    @Override
+
     public String getUsername() {
         return this.username;
     }
 
-    @Override
+
     public void updateName(String newFullName) {
         this.fullName = newFullName;
     }
 
-    @Override
+
     public void updateUserName(String newUserName) {
         this.username = newUserName;
     }
 
-    @Override
+
     public void updateEmail(String newEmail) {
         this.email = newEmail;
     }

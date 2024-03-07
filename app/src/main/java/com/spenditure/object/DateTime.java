@@ -20,7 +20,7 @@ import android.annotation.SuppressLint;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-public class DateTime implements IDateTime{
+public class DateTime {
 
     private int year;
 
@@ -174,7 +174,7 @@ public class DateTime implements IDateTime{
         - NEGATIVE if this DateTime is older than the other DateTime;
         - ZERO if the DateTimes are the same.
      */
-    public int compare(IDateTime other) {
+    public int compare(DateTime other) {
 
         if( year - other.getYear() != 0 ) {
             return year - other.getYear();
