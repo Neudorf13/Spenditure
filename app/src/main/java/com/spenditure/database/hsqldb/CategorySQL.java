@@ -25,20 +25,18 @@ public class CategorySQL implements CategoryPersistence {
     public CategorySQL(final String dbPath) {
 
         this.dbPath = dbPath;
-//        this.dbPath = "/data/user/0/com.spenditure/app_db/SC";
-        this.currentCategoryID = initCategoryID();
-//        this.currentCategoryID = 1;
+        this.currentCategoryID = initCategoryID();  //initalizes CID tracker var
     }
 
+    //get connection to db
     private Connection connection() throws SQLException {
         return DriverManager.getConnection("jdbc:hsqldb:file:" + dbPath + ";shutdown=true", "SA", "");
     }
 
+    //initalize currentCategoryID variable to be largest CID in db
     private int initCategoryID() {
         int largestCategoryID = 1;
-        System.out.println("Before");
         try(final Connection connection = connection()) {
-            System.out.println("after");
             final Statement st = connection.createStatement();
             final ResultSet rs = st.executeQuery("SELECT * FROM categories");
 
@@ -55,11 +53,12 @@ public class CategorySQL implements CategoryPersistence {
         }
         catch (final SQLException e) {
             e.printStackTrace();
-            throw new RuntimeException("An error occurred while processing the SQL operation1", e);  //temp exception
+            throw new RuntimeException("An error occurred while processing the SQL operation1", e);
         }
 
     }
 
+    //builds a MainCategory object as a result of query
     private MainCategory fromResultSet(final ResultSet rs) throws SQLException {
         final String categoryName = rs.getString("CATEGORYNAME");
         final int categoryID = rs.getInt("CATEGORYID");
@@ -67,6 +66,7 @@ public class CategorySQL implements CategoryPersistence {
         return new MainCategory(categoryName, categoryID, userID);
     }
 
+    //returns a list of all Categories for a specific UID
     @Override
     public List<MainCategory> getAllCategory(int userID) {
         final List<MainCategory> categories = new ArrayList<>();
@@ -87,10 +87,11 @@ public class CategorySQL implements CategoryPersistence {
             return categories;
         }
         catch (final SQLException e) {
-            throw new RuntimeException("An error occurred while processing the SQL operation2", e);  //temp exception
+            throw new RuntimeException("An error occurred while processing the SQL operation2", e);
         }
-    }
+        }
 
+    //takes name + userID, incrememnts current CID -> adds a new category to the table
     @Override
     public MainCategory addCategory(String categoryName, int userID) {
         currentCategoryID++;
@@ -106,10 +107,12 @@ public class CategorySQL implements CategoryPersistence {
             return category;
         }
         catch (final SQLException e) {
-            throw new RuntimeException("An error occurred while processing the SQL operation3", e);  //temp exception
+            throw new RuntimeException("An error occurred while processing the SQL operation3", e);
         }
     }
 
+    //updates all transactions attatched to this CID to have CID = -1
+    //deletes the entry in categories table with given CID
     @Override
     public void deleteCategoryByID(int categoryID) throws InvalidCategoryException {
 
@@ -122,13 +125,13 @@ public class CategorySQL implements CategoryPersistence {
             statement.setInt(1,categoryID);
             statement.executeUpdate();
 
-            //should this return something?
         }
         catch (final SQLException e) {
-            throw new RuntimeException("An error occurred while processing the SQL operation4", e);  //temp exception
+            throw new RuntimeException("An error occurred while processing the SQL operation4", e);
         }
     }
 
+    //returns a category object for given CID, if CID doesn't exist in categories table -> throws exception
     @Override
     public MainCategory getCategoryByID(int categoryID) throws InvalidCategoryException {
 
@@ -147,7 +150,7 @@ public class CategorySQL implements CategoryPersistence {
 
         }
         catch (final SQLException e) {
-            throw new RuntimeException("An error occurred while processing the SQL operation5", e);  //temp exception
+            throw new RuntimeException("An error occurred while processing the SQL operation5", e);
         }
 
     }

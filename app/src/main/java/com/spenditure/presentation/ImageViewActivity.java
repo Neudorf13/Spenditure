@@ -22,7 +22,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.example.spenditure.R;
+import com.spenditure.R;
 
 public class ImageViewActivity extends AppCompatActivity {
 

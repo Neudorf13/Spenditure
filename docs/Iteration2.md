@@ -1,5 +1,7 @@
 # Iteration 2
 
+* For grader: our app takes quite a bit of time to start up the main activity. We are not sure it is because of android emulator or inefficient way to set up SQL database (if this is the case, we really happy to get feedback and advice from you).
+
 ## Features:
 
 * User Manager
@@ -10,12 +12,14 @@
 
 * SQL database
 
+* Goal tracker
+
 ## User Stories:
 
 ### Completed:
 
 
-* Adding User Manager for user to log in
+* Adding User Manager for user to log in,log-out
 * Logic for log out, log out and update user information
 
 * UI/logic to let users choose time period to see report
@@ -23,16 +27,19 @@
 
 * SQL database and integration testing
 
+* Allow user to open camera and take picture of recipe
+
 ### Not complete:
 
+* Due to time constrain, we push goal tracker feature to next iteration
 
 ## *Architecture*
 The architecture for iteration 1 can be found [here](./docs/Architecture_Diagram_Iteration1.pdf).
-The updated architecture for iteration 2 can be found [here](./docs/Architecture_Diagram_Iteration1.pdf).
+The updated architecture for iteration 2 can be found [here](./docs/Architecture_Diagram_Iteration2.pdf).
 
 ## Next Iteration
 
-### For the second Iteration we plan to incorporate the following features:
+### For the Third Iteration we plan to incorporate the following features:
 
 * Illustrative report manager
     - A feature that provides users with visual reporting graphics on their spending habits.

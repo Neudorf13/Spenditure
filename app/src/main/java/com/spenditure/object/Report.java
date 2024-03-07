@@ -3,7 +3,7 @@ package com.spenditure.object;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Report implements IReport{
+public class Report {
 
     private double avgTransSize;
 

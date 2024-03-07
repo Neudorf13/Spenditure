@@ -1,6 +1,6 @@
 package com.spenditure.object;
 
-public class CategoryReport implements ICategoryReport{
+public class CategoryReport {
 
     MainCategory category;
 
@@ -22,7 +22,7 @@ public class CategoryReport implements ICategoryReport{
         this.percentage = percentage;
     }
 
-    public IMainCategory getCategory()
+    public MainCategory getCategory()
     {
         return category;
     }

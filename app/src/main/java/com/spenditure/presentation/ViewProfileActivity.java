@@ -23,6 +23,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.spenditure.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.spenditure.application.Services;
 import com.spenditure.logic.UserManager;
 import com.spenditure.logic.exceptions.InvalidUserInformationException;
 
@@ -37,7 +38,7 @@ public class ViewProfileActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        userManager = new UserManager(true);
+        userManager = new UserManager(Services.DEVELOPING_STATUS);
         setContentView(R.layout.activity_view_profile);
 
         setUpFields();

@@ -22,6 +22,8 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.spenditure.R;
+import com.spenditure.application.Services;
+import com.spenditure.database.utils.DBHelper;
 import com.spenditure.logic.UserManager;
 import com.spenditure.logic.exceptions.InvalidUserInformationException;
 import com.spenditure.presentation.report.ViewReportActivity;
@@ -36,7 +38,8 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        userManager = new UserManager(true);
+        DBHelper.copyDatabaseToDevice(this);
+        userManager = new UserManager(Services.DEVELOPING_STATUS);
         setContentView(R.layout.activity_login);
 
         setUpLoginButton();

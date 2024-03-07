@@ -20,8 +20,8 @@ import com.spenditure.logic.GeneralReportHandler;
 import com.spenditure.logic.UserManager;
 import com.spenditure.logic.exceptions.InvalidCategoryException;
 import com.spenditure.logic.exceptions.InvalidLogInException;
-import com.spenditure.object.ICategoryReport;
-import com.spenditure.object.IMainCategory;
+import com.spenditure.object.CategoryReport;
+import com.spenditure.object.MainCategory;
 
 import org.junit.After;
 import org.junit.Before;
@@ -109,8 +109,8 @@ public class GeneralReportHandlerTest {
     @Test
     public void testCategoryReport() {
         //test two different categories to see if report is correct
-        ICategoryReport category1 = generalReportHandler.getCategoryReport(1, 1);
-        ICategoryReport category2 = generalReportHandler.getCategoryReport(1, 2);
+        CategoryReport category1 = generalReportHandler.getCategoryReport(1, 1);
+        CategoryReport category2 = generalReportHandler.getCategoryReport(1, 2);
 
 
         // testing objects
@@ -141,7 +141,7 @@ public class GeneralReportHandlerTest {
     @Test
     public void testSortByTotal()
     {
-        ArrayList<IMainCategory> test = generalReportHandler.sortByTotal(1, true);
+        ArrayList<MainCategory> test = generalReportHandler.sortByTotal(1, true);
 
 
         assertEquals("Testing 1st position of sort by total", test.get(0).getCategoryID(), 3,0.1);
@@ -151,7 +151,7 @@ public class GeneralReportHandlerTest {
     @Test
     public void testSortByPercent()
     {
-        ArrayList<IMainCategory> test = generalReportHandler.sortByPercent(1, true);
+        ArrayList<MainCategory> test = generalReportHandler.sortByPercent(1, true);
 
 
         assertEquals("Testing 1st position of sort by percent", test.get(0).getCategoryID(), 3,0.1);
@@ -162,7 +162,7 @@ public class GeneralReportHandlerTest {
     @Test
     public void testSortByAverage()
     {
-        ArrayList<IMainCategory> test = generalReportHandler.sortByAverage(1, true);
+        ArrayList<MainCategory> test = generalReportHandler.sortByAverage(1, true);
 
 
         assertEquals("Testing 1st position of sort by average", test.get(0).getCategoryID(), 3,0.1);

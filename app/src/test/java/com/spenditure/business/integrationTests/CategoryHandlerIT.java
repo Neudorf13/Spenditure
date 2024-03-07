@@ -38,7 +38,6 @@ public class CategoryHandlerIT {
         int expectedSize = 3;
 
         List<MainCategory> categoryList = categoryHandler.getAllCategory(1);
-        System.out.println("Category Size for user 1: " + categoryList.size());
         assertEquals(expectedSize, categoryList.size());
 
         MainCategory category1 = categoryHandler.getCategoryByID(1);
@@ -78,48 +77,9 @@ public class CategoryHandlerIT {
         categoryHandler.deleteCategory(1);
 
         int count = categoryHandler.getAllCategory(1).size();
-        System.out.println("Count: " + count);
         //assertEquals(2 ,count);
         assertEquals("Food",categoryHandler.getCategoryByID(2).getName());
         assertEquals("Hang out",categoryHandler.getCategoryByID(3).getName());
     }
-//
-//    @Test
-//    public void testAddSubCategory(){
-//        assertEquals(0,categoryHandler.getAllSubCategoriesFromParent(1).size());
-//        SubCategory newSubCategoryKid =categoryHandler.addSubCategory(1,"For kids");
-//        assertEquals(1,categoryHandler.getAllSubCategoriesFromParent(1).size());
-//        SubCategory newSubFromListKid = categoryHandler.getSubCategoryFromParent(1,newSubCategoryKid.getCategoryID());
-//        assertNotNull(newSubFromListKid);
-//        assertEquals(newSubCategoryKid.getCategoryID(),newSubFromListKid.getCategoryID());
-//        assertEquals(newSubCategoryKid.getName(),newSubFromListKid.getName());
-//
-//        SubCategory newSubCategoryAdult =categoryHandler.addSubCategory(1,"For adult");
-//        assertEquals(2,categoryHandler.getAllSubCategoriesFromParent(1).size());
-//        SubCategory newSubFromListAdult = categoryHandler.getSubCategoryFromParent(1,newSubCategoryAdult.getCategoryID());
-//        assertNotNull(newSubFromListKid);
-//        assertEquals(newSubCategoryAdult.getCategoryID(),newSubFromListAdult.getCategoryID());
-//        assertEquals(newSubCategoryAdult.getName(),newSubFromListAdult.getName());
-//
-//        SubCategory newSubCategoryLunch = categoryHandler.addSubCategory(2,"For lunch");
-//        assertEquals(1,categoryHandler.getAllSubCategoriesFromParent(2).size());
-//        SubCategory newSubFromListLunch = categoryHandler.getSubCategoryFromParent(2,newSubCategoryLunch.getCategoryID());
-//        assertNotNull(newSubFromListLunch);
-//        assertEquals(newSubCategoryLunch.getCategoryID(),newSubFromListLunch.getCategoryID());
-//        assertEquals(newSubCategoryLunch.getName(),newSubFromListLunch.getName());
-//    }
-//
-//    @Test
-//    public void testDeleteSubCategory(){
-//        assertEquals(0,categoryHandler.getAllSubCategoriesFromParent(1).size());
-//        SubCategory newSubCategoryKid =categoryHandler.addSubCategory(1,"For kids");
-//        SubCategory newSubCategoryAdult =categoryHandler.addSubCategory(1,"For adult");
-//        assertEquals(2,categoryHandler.getAllSubCategoriesFromParent(1).size());
-//
-//        categoryHandler.deleteSubCategory(1,newSubCategoryKid.getCategoryID());
-//        assertEquals(1,categoryHandler.getAllSubCategoriesFromParent(1).size());
-//        SubCategory newSubFromListAdult = categoryHandler.getSubCategoryFromParent(1,newSubCategoryAdult.getCategoryID());
-//        assertEquals(newSubCategoryAdult.getCategoryID(),newSubFromListAdult.getCategoryID());
-//        assertEquals(newSubCategoryAdult.getName(),newSubFromListAdult.getName());
-//    }
+
 }

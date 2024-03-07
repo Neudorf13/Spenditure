@@ -5,7 +5,7 @@ package com.spenditure.object;
  * @author Bao Ngo
  * @version 06 Feb 2024
  */
-public class SubCategory implements ICategory{
+public class SubCategory {
     //Attibutes
     private String name;
     private int categoryID;
@@ -18,12 +18,11 @@ public class SubCategory implements ICategory{
     }
 
     //Business methods
-    @Override
+
     public String getName() {
         return this.name;
     }
 
-    @Override
     public int getCategoryID() {
         return this.categoryID;
     }

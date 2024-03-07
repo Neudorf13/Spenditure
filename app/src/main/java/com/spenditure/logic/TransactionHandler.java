@@ -61,10 +61,9 @@ public class TransactionHandler implements ITransactionHandler, Serializable {
             throw new InvalidTransactionException("Transaction I.D. of new transaction (I.D.: "
                     + t.getTransactionID() +") is invalid; the transaction may already exist.");
 
-        if( TransactionValidator.validateTransaction(t) )
-            return dataAccessTransaction.addTransaction(t);
-        else
-            return false;
+        TransactionValidator.validateTransaction(t);
+        return dataAccessTransaction.addTransaction(t);
+
     }
 
     @Override
@@ -73,11 +72,8 @@ public class TransactionHandler implements ITransactionHandler, Serializable {
 
         Transaction t = new Transaction( NEW_TRANSACTION_ID, userID, whatTheHeck, date, place, amount, comments, withdrawal, image, categoryID );
 
-        if( TransactionValidator.validateTransaction(t) )
-            return dataAccessTransaction.addTransaction(t);
-        else
-            return false;
-
+        TransactionValidator.validateTransaction(t);
+        return dataAccessTransaction.addTransaction(t);
     }
 
     /*
@@ -97,11 +93,8 @@ public class TransactionHandler implements ITransactionHandler, Serializable {
             throw new InvalidTransactionException("Transaction I.D. of new transaction (I.D.: "
                     + t.getTransactionID() +") is invalid; the transaction may not exist.");
 
-        if(TransactionValidator.validateTransaction(t))
-            return dataAccessTransaction.modifyTransaction(t);
-        else
-            return false;
-
+        TransactionValidator.validateTransaction(t);
+        return dataAccessTransaction.modifyTransaction(t);
     }
 
     /*
@@ -145,7 +138,7 @@ public class TransactionHandler implements ITransactionHandler, Serializable {
     @Override
     public List<Transaction> getAllTransactions(int userID) {
 
-        return dataAccessTransaction.getAllTransactions(userID);
+        return dataAccessTransaction.getAllTransactionsForUser(userID);
 
     }
 
