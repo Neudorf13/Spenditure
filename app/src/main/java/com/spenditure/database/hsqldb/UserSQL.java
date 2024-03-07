@@ -48,7 +48,7 @@ public class UserSQL implements UserPersistence {
             return userName;
         }
         catch (final SQLException e) {
-            throw new RuntimeException("An error occurred while processing the SQL operation", e);  //temp exception
+            throw new RuntimeException("An error occurred while processing the SQL operation", e);   
         }
 
     }
@@ -70,7 +70,7 @@ public class UserSQL implements UserPersistence {
 
         }
         catch (final SQLException e) {
-            throw new RuntimeException("An error occurred while processing the SQL operation", e);  //temp exception
+            throw new RuntimeException("An error occurred while processing the SQL operation", e);   
         }
     }
 
@@ -94,7 +94,7 @@ public class UserSQL implements UserPersistence {
 
         }
         catch (final SQLException e) {
-            throw new RuntimeException("An error occurred while processing the SQL operation", e);  //temp exception
+            throw new RuntimeException("An error occurred while processing the SQL operation", e);   
         }
 
     }
@@ -130,7 +130,7 @@ public class UserSQL implements UserPersistence {
             }
         }
         catch (final SQLException e) {
-            throw new RuntimeException("An error occurred while processing the SQL operation", e);  //temp exception
+            throw new RuntimeException("An error occurred while processing the SQL operation", e);   
         }
 
     }
@@ -153,7 +153,7 @@ public class UserSQL implements UserPersistence {
 
         }
         catch (final SQLException e) {
-            throw new RuntimeException("An error occurred while processing the SQL operation", e);  //temp exception
+            throw new RuntimeException("An error occurred while processing the SQL operation", e);   
         }
 
     }
@@ -185,7 +185,7 @@ public class UserSQL implements UserPersistence {
             }
         }
         catch (final SQLException e) {
-            throw new RuntimeException("An error occurred while processing the SQL operation", e);  //temp exception
+            throw new RuntimeException("An error occurred while processing the SQL operation", e);   
         }
 
     }

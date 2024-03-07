@@ -55,7 +55,7 @@ public class CategorySQL implements CategoryPersistence {
         }
         catch (final SQLException e) {
             e.printStackTrace();
-            throw new RuntimeException("An error occurred while processing the SQL operation1", e);  //temp exception
+            throw new RuntimeException("An error occurred while processing the SQL operation1", e);
         }
 
     }
@@ -89,7 +89,7 @@ public class CategorySQL implements CategoryPersistence {
             return categories;
         }
         catch (final SQLException e) {
-            throw new RuntimeException("An error occurred while processing the SQL operation2", e);  //temp exception
+            throw new RuntimeException("An error occurred while processing the SQL operation2", e);
         }
         }
 
@@ -109,7 +109,7 @@ public class CategorySQL implements CategoryPersistence {
             return category;
         }
         catch (final SQLException e) {
-            throw new RuntimeException("An error occurred while processing the SQL operation3", e);  //temp exception
+            throw new RuntimeException("An error occurred while processing the SQL operation3", e);
         }
     }
 
@@ -127,10 +127,9 @@ public class CategorySQL implements CategoryPersistence {
             statement.setInt(1,categoryID);
             statement.executeUpdate();
 
-            //should this return something?
         }
         catch (final SQLException e) {
-            throw new RuntimeException("An error occurred while processing the SQL operation4", e);  //temp exception
+            throw new RuntimeException("An error occurred while processing the SQL operation4", e);
         }
     }
 
@@ -153,7 +152,7 @@ public class CategorySQL implements CategoryPersistence {
 
         }
         catch (final SQLException e) {
-            throw new RuntimeException("An error occurred while processing the SQL operation5", e);  //temp exception
+            throw new RuntimeException("An error occurred while processing the SQL operation5", e);
         }
 
     }

@@ -14,8 +14,8 @@ import com.spenditure.R;
 import com.spenditure.logic.CategoryHandler;
 import com.spenditure.logic.GeneralReportHandler;
 import com.spenditure.logic.IGeneralReportHandler;
-import com.spenditure.logic.ITimeBaseReportManager;
-import com.spenditure.logic.TimeBaseReportManager;
+import com.spenditure.logic.ITimeBaseReportHandler;
+import com.spenditure.logic.TimeBaseReportHandler;
 import com.spenditure.logic.UserManager;
 import com.spenditure.object.MainCategory;
 import com.spenditure.presentation.UIUtility;
@@ -31,7 +31,7 @@ import java.util.List;
 public class SliderAdapterCatGeneral extends PagerAdapter {
     private Context context;
     private LayoutInflater inflater;
-    private ITimeBaseReportManager reportManager;
+    private ITimeBaseReportHandler reportManager;
     private IGeneralReportHandler generalReportHandler;
     private CategoryHandler categoryHandler;
     private List<MainCategory> categoryList;
@@ -42,7 +42,7 @@ public class SliderAdapterCatGeneral extends PagerAdapter {
 
     public SliderAdapterCatGeneral(Context context, List<MainCategory> categoryList){
         this.context = context;
-        this.reportManager = new TimeBaseReportManager(true);
+        this.reportManager = new TimeBaseReportHandler(true);
         this.generalReportHandler = new GeneralReportHandler(true);
         this.categoryHandler = new CategoryHandler(true);
         this.categoryList = categoryList;

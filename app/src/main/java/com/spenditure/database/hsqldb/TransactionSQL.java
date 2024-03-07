@@ -68,7 +68,7 @@ public class TransactionSQL implements TransactionPersistence {
 
         }
         catch (final SQLException e) {
-            throw new RuntimeException("An error occurred while processing the SQL operation", e);  //temp exception
+            throw new RuntimeException("An error occurred while processing the SQL operation", e);   
         }
     }
 
@@ -95,7 +95,7 @@ public class TransactionSQL implements TransactionPersistence {
 
         }
         catch (final SQLException e) {
-            throw new RuntimeException("An error occurred while processing the SQL operation", e);  //temp exception
+            throw new RuntimeException("An error occurred while processing the SQL operation", e);   
         }
 
     }
@@ -121,7 +121,7 @@ public class TransactionSQL implements TransactionPersistence {
             return transactions;
         }
         catch (final SQLException e) {
-            throw new RuntimeException("An error occurred while processing the SQL operation", e);  //temp exception
+            throw new RuntimeException("An error occurred while processing the SQL operation", e);   
         }
     }
 
@@ -153,7 +153,7 @@ public class TransactionSQL implements TransactionPersistence {
             return true;
         }
         catch (final SQLException e) {
-            throw new RuntimeException("An error occurred while processing the SQL operation", e);  //temp exception
+            throw new RuntimeException("An error occurred while processing the SQL operation", e);   
         }
     }
 
@@ -197,7 +197,7 @@ public class TransactionSQL implements TransactionPersistence {
             return row > 0; //true if row number is greater than 0
         }
         catch (final SQLException e) {
-            throw new RuntimeException("An error occurred while processing the SQL operation", e);  //temp exception
+            throw new RuntimeException("An error occurred while processing the SQL operation", e);   
         }
     }
 
@@ -225,7 +225,7 @@ public class TransactionSQL implements TransactionPersistence {
 
         }
         catch (final SQLException e) {
-            throw new RuntimeException("An error occurred while processing the SQL operation", e);  //temp exception
+            throw new RuntimeException("An error occurred while processing the SQL operation", e);   
         }
     }
 
@@ -253,7 +253,7 @@ public class TransactionSQL implements TransactionPersistence {
 
         }
         catch (final SQLException e) {
-            throw new RuntimeException("An error occurred while processing the SQL operation", e);  //temp exception
+            throw new RuntimeException("An error occurred while processing the SQL operation", e);   
         }
     }
 
@@ -281,7 +281,7 @@ public class TransactionSQL implements TransactionPersistence {
 
         }
         catch (final SQLException e) {
-            throw new RuntimeException("An error occurred while processing the SQL operation", e);  //temp exception
+            throw new RuntimeException("An error occurred while processing the SQL operation", e);   
         }
     }
 
@@ -310,7 +310,7 @@ public class TransactionSQL implements TransactionPersistence {
 
         }
         catch (final SQLException e) {
-            throw new RuntimeException("An error occurred while processing the SQL operation", e);  //temp exception
+            throw new RuntimeException("An error occurred while processing the SQL operation", e);   
         }
     }
 
@@ -339,7 +339,7 @@ public class TransactionSQL implements TransactionPersistence {
 
         }
         catch (final SQLException e) {
-            throw new RuntimeException("An error occurred while processing the SQL operation", e);  //temp exception
+            throw new RuntimeException("An error occurred while processing the SQL operation", e);   
         }
     }
 
@@ -366,7 +366,7 @@ public class TransactionSQL implements TransactionPersistence {
 
         }
         catch (final SQLException e) {
-            throw new RuntimeException("An error occurred while processing the SQL operation", e);  //temp exception
+            throw new RuntimeException("An error occurred while processing the SQL operation", e);   
         }
     }
 
@@ -393,7 +393,7 @@ public class TransactionSQL implements TransactionPersistence {
 
         }
         catch (final SQLException e) {
-            throw new RuntimeException("An error occurred while processing the SQL operation", e);  //temp exception
+            throw new RuntimeException("An error occurred while processing the SQL operation", e);   
         }
     }
 
@@ -420,7 +420,7 @@ public class TransactionSQL implements TransactionPersistence {
 
         }
         catch (final SQLException e) {
-            throw new RuntimeException("An error occurred while processing the SQL operation", e);  //temp exception
+            throw new RuntimeException("An error occurred while processing the SQL operation", e);   
         }
     }
 

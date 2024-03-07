@@ -27,9 +27,9 @@ import com.spenditure.logic.CategoryHandler;
 import com.spenditure.logic.GeneralReportHandler;
 import com.spenditure.logic.ICategoryHandler;
 import com.spenditure.logic.IGeneralReportHandler;
-import com.spenditure.logic.ITimeBaseReportManager;
+import com.spenditure.logic.ITimeBaseReportHandler;
 import com.spenditure.logic.ITransactionHandler;
-import com.spenditure.logic.TimeBaseReportManager;
+import com.spenditure.logic.TimeBaseReportHandler;
 import com.spenditure.logic.TransactionHandler;
 import com.spenditure.logic.UserManager;
 import com.spenditure.object.DateTime;
@@ -51,7 +51,7 @@ public class ViewReportActivity extends AppCompatActivity {
 
     private static String dbName="SC1";
 
-    private ITimeBaseReportManager reportManager;
+    private ITimeBaseReportHandler reportManager;
     private IGeneralReportHandler generalReportHandler;
 
     private ITransactionHandler transactionHandler;
@@ -73,11 +73,11 @@ public class ViewReportActivity extends AppCompatActivity {
         DBHelper.copyDatabaseToDevice(this);
 
         transactionHandler = new TransactionHandler(Services.DEVELOPING_STATUS);
-        reportManager = new TimeBaseReportManager(Services.DEVELOPING_STATUS);
+        reportManager = new TimeBaseReportHandler(Services.DEVELOPING_STATUS);
         categoryHandler = new CategoryHandler(Services.DEVELOPING_STATUS);
         generalReportHandler = new GeneralReportHandler(Services.DEVELOPING_STATUS);
         this.userID = UserManager.getUserID();
-        this.currDate = TimeBaseReportManager.getCurrentDate();
+        this.currDate = TimeBaseReportHandler.getCurrentDate();
 
         handleGeneralReport();
         handleCustomCategoryReport();

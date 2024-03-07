@@ -5,7 +5,7 @@ import com.spenditure.object.Report;
 
 import java.util.ArrayList;
 
-public interface ITimeBaseReportManager {
+public interface ITimeBaseReportHandler {
 
     public Report reportBackOneYear(int userID, DateTime yearEnd);
 
