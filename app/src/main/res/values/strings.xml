@@ -20,6 +20,12 @@
     <string name="field_type">Type</string>
     <string name="field_comments">Comments</string>
     <string name="field_categories">Category</string>
+    <string name="field_image">Image</string>
+    <string name="label_take_image">Take Image</string>
+    <string name="label_view_image">View Image</string>
+    <string name="label_retake_image">Retake</string>
+    <string name="label_confirm">Confirm</string>
+    <string name="label_back">Back</string>
 
     // View Transaction Activity
     <string name="label_edit">Edit</string>

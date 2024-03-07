@@ -13,32 +13,60 @@
 
 package com.spenditure.presentation.transaction;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatToggleButton;
 
+import android.app.Activity;
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.spenditure.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.spenditure.application.Services;
+import com.spenditure.logic.CategoryHandler;
+import com.spenditure.logic.ICategoryHandler;
+import com.spenditure.logic.ITransactionHandler;
 import com.spenditure.logic.TransactionHandler;
 import com.spenditure.logic.UserManager;
+import com.spenditure.logic.exceptions.InvalidTransactionException;
 import com.spenditure.object.DateTime;
+import com.spenditure.object.MainCategory;
 import com.spenditure.object.Transaction;
+import com.spenditure.presentation.BottomNavigationHandler;
+import com.spenditure.presentation.ImageCaptureActivity;
+import com.spenditure.presentation.ImageViewActivity;
+import com.spenditure.presentation.category.CustomCategorySpinnerAdapter;
 import com.spenditure.presentation.report.ViewReportActivity;
 
 public class EditTransactionActivity extends AppCompatActivity {
 
     // Instance Variables
     private Transaction givenTransaction;
+    private ITransactionHandler transactionHandler;
+    private ICategoryHandler categoryHandler;
+    private ActivityResultLauncher<Intent> getImageCaptureResult;
+    private byte[] imageBytes;
+    private Button viewImageButton;
+    private CustomCategorySpinnerAdapter adapter;
+    private DateTime selectedDate;
+    private int userID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_transaction);
+        this.userID = UserManager.getUserID();
+        categoryHandler = new CategoryHandler(Services.DEVELOPING_STATUS);
 
         int givenID = -1;
 
@@ -49,84 +77,212 @@ public class EditTransactionActivity extends AppCompatActivity {
         }
 
         // Get the transaction
-        TransactionHandler handler = new TransactionHandler(true);
-        givenTransaction = handler.getTransactionByID(givenID);
+        transactionHandler = new TransactionHandler(Services.DEVELOPING_STATUS);
+        givenTransaction = transactionHandler.getTransactionByID(givenID);
+
+        setUpCategories();
 
         // Populate the UI fields
         populateTransactionFields(givenTransaction);
 
+        setUpEditButton();
+        setUpDatePicker();
+        setUpImageCaptureButton();
+        setUpViewImageButton();
+        navBarHandling();
+    }
+
+    private void setUpEditButton() {
         // Set up click event for the Edit Transaction Button
-        Button button = (Button) findViewById(R.id.button_edit_transaction);
+        Button button = findViewById(R.id.button_edit_transaction);
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                // Call helper method
-                Transaction updatedTransaction = editTransaction();
 
-                TransactionHandler handler = new TransactionHandler(true);
-                handler.modifyTransaction(updatedTransaction);
+                try {
+                    // Call helper method
+                    Transaction updatedTransaction = editTransaction();
 
-                startActivity(new Intent(getApplicationContext(), ViewTransactionsActivity.class));
+                    transactionHandler.modifyTransaction(updatedTransaction);
+
+                    startActivity(new Intent(getApplicationContext(), ViewTransactionsActivity.class));
+                } catch (InvalidTransactionException e) {
+                    Toast.makeText(EditTransactionActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
+                }
             }
         });
+    }
 
-        navBarHandling();
+    // Set up the category drop down menu
+    private void setUpCategories() {
+        Spinner categories = findViewById(R.id.spinner_categories);
+
+        try {
+            // Create adapter to display the categories
+            adapter = new CustomCategorySpinnerAdapter(categoryHandler.getAllCategory(userID), EditTransactionActivity.this);
+            categories.setAdapter(adapter);
+        } catch (Exception e) {
+            Toast.makeText(EditTransactionActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
+        }
+    }
+
+    // Set up the date picker
+    private void setUpDatePicker() {
+        EditText dateField = findViewById(R.id.edittext_date);
+
+        // Create event for when a new date is selected
+        DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker datePicker, int year, int month, int day) {
+                selectedDate = new DateTime(year, month, day);
+                dateField.setText(selectedDate.toString());
+            }
+        };
+
+        // Create event for when the date field is selected
+        dateField.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                DatePickerDialog dialog = new DatePickerDialog(
+                        EditTransactionActivity.this,
+                        date,
+                        selectedDate.getYear(),
+                        selectedDate.getMonth(),
+                        selectedDate.getDay()
+                );
+
+                dialog.show();
+            }
+        });
+    }
+
+
+    private void setUpViewImageButton(){
+        viewImageButton = findViewById(R.id.button_view_image);
+
+        viewImageButton.setOnClickListener(view -> {
+            Intent imageViewActivity = new Intent(getApplicationContext(), ImageViewActivity.class);
+            imageViewActivity.putExtra("imageBytes", imageBytes);
+            startActivity(imageViewActivity);
+        });
+    }
+
+    // Set up the image capture button
+    private void setUpImageCaptureButton() {
+        // Initialize the ActivityResultLauncher
+        getImageCaptureResult = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                result -> {
+                    if (result.getResultCode() == Activity.RESULT_OK) {
+                        // Handle the result here
+                        Intent data = result.getData();
+                        if (data != null) {
+                            Bundle received = data.getExtras();
+                            imageBytes = received.getByteArray("imageBytes");
+
+                            // Enable the view image button now
+                            viewImageButton.setEnabled(true);
+                        }
+                    }
+                }
+        );
+
+        ImageButton button = findViewById(R.id.button_take_image);
+        button.setOnClickListener(view -> {
+            Intent imageCaptureActivity = new Intent(getApplicationContext(), ImageCaptureActivity.class);
+            getImageCaptureResult.launch(imageCaptureActivity);
+        });
     }
 
     // Handle the bottom navigation bar
     private void navBarHandling(){
         BottomNavigationView navView = findViewById(R.id.nav_view);
-        navView.setSelectedItemId(R.id.navigation_home);
+
+        BottomNavigationHandler navigationHandler = new BottomNavigationHandler();
 
         navView.setOnItemSelectedListener((item -> {
-            if (item.getItemId() == R.id.navigation_home) {
-                startActivity(new Intent(getApplicationContext(), ViewReportActivity.class));
+            Class<? extends AppCompatActivity> newActivity = navigationHandler.select(item.getItemId());
+            if(newActivity != null){
+                startActivity(new Intent(getApplicationContext(), newActivity));
                 return true;
-            } else if (item.getItemId() == R.id.navigation_create_transaction) {
-                startActivity(new Intent(getApplicationContext(), CreateTransactionActivity.class));
-                return true;
-            } else if (item.getItemId() == R.id.navigation_view_transactions) {
-                startActivity(new Intent(getApplicationContext(), ViewTransactionsActivity.class));
-                return true;
-            } else {
-                return false;
             }
+            return false;
         }));
     }
 
     // Populate the fields on the UI using the given transaction
     private void populateTransactionFields(Transaction transaction){
-        EditText whatTheHeck = (EditText) findViewById(R.id.edittext_what_the_heck);
+        EditText whatTheHeck = findViewById(R.id.edittext_what_the_heck);
         whatTheHeck.setText(transaction.getName());
 
-        DateTime date = new DateTime(2023,1,1,1,1,1); // Set default date for now
-        EditText dateTime = (EditText) findViewById(R.id.edittext_date);
+        EditText dateField = findViewById(R.id.edittext_date);
+        selectedDate = new DateTime(
+                transaction.getDateTime().getYear(),
+                transaction.getDateTime().getMonth(),
+                transaction.getDateTime().getDay()
+        );
+        dateField.setText(selectedDate.toString());
 
-        EditText place = (EditText) findViewById(R.id.edittext_place);
+        EditText place = findViewById(R.id.edittext_place);
         place.setText(transaction.getPlace());
 
-        EditText amount = (EditText) findViewById(R.id.edittext_amount);
+        EditText amount = findViewById(R.id.edittext_amount);
         amount.setText(Double.toString(transaction.getAmount()));
 
-        EditText comments = (EditText) findViewById(R.id.edittext_comments);
+        EditText comments = findViewById(R.id.edittext_comments);
         comments.setText(transaction.getComments());
 
-        AppCompatToggleButton type = (AppCompatToggleButton) findViewById(R.id.togglebutton_type);
+        AppCompatToggleButton type = findViewById(R.id.togglebutton_type);
         type.setChecked(transaction.getWithdrawal());
+
+        try {
+            // Get and select the category
+            Spinner category = findViewById(R.id.spinner_categories);
+            MainCategory cat = categoryHandler.getCategoryByID(transaction.getCategoryID());
+            category.setSelection(adapter.getPosition(cat));
+        } catch(Exception e) {
+            Toast.makeText(EditTransactionActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
+        }
+
+        imageBytes = transaction.getImage();
+
+        // If there was an image saved, enable the View Image button
+        if (imageBytes != null) {
+            Button button = findViewById(R.id.button_view_image);
+            button.setEnabled(true);
+        }
     }
 
     // Helper method: return the updated Transaction object made from user-entered info
     private Transaction editTransaction() {
         // Parse all the user fields
-        EditText whatTheHeck = (EditText) findViewById(R.id.edittext_what_the_heck);
-        DateTime date = new DateTime(2023,1,1,1,1,0); // Set default date for now
-        EditText place = (EditText) findViewById(R.id.edittext_place);
-        EditText amount = (EditText) findViewById(R.id.edittext_amount);
-        EditText comments = (EditText) findViewById(R.id.edittext_comments);
-        AppCompatToggleButton type = (AppCompatToggleButton) findViewById(R.id.togglebutton_type);
+        EditText whatTheHeck = findViewById(R.id.edittext_what_the_heck);
+        EditText place = findViewById(R.id.edittext_place);
+        EditText amount = findViewById(R.id.edittext_amount);
+        EditText comments = findViewById(R.id.edittext_comments);
+        AppCompatToggleButton type = findViewById(R.id.togglebutton_type);
+        Spinner category = findViewById(R.id.spinner_categories);
 
         // Create the new transaction object
-        Transaction updatedTransaction = new Transaction(UserManager.getUserID(), givenTransaction.getTransactionID(), whatTheHeck.getText().toString(), date, place.getText().toString(), Double.parseDouble(amount.getText().toString()), comments.getText().toString(), type.isChecked(),null);
+        Transaction updatedTransaction = new Transaction(
+                givenTransaction.getTransactionID(),
+                UserManager.getUserID(),
+                whatTheHeck.getText().toString(),
+                selectedDate,
+                place.getText().toString(),
+                Double.parseDouble(amount.getText().toString()),
+                comments.getText().toString(),
+                type.isChecked()
+        );
+
+        // Get the selected category & update the transaction
+        MainCategory cat = adapter.getItem(category.getSelectedItemPosition());
+        updatedTransaction.setCategoryID(cat.getCategoryID());
+
+        // Only add image if it was taken
+        if (imageBytes != null) {
+            updatedTransaction.setImage(imageBytes);
+        }
 
         return updatedTransaction;
-    };
+    }
 }
