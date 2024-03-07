@@ -174,7 +174,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:minWidth="120dp"
-                android:inputType="number"
+                android:inputType="numberDecimal"
                 android:textSize="25dp"
                 android:textColor="@color/white"
                 app:layout_constraintBottom_toTopOf="@+id/togglebutton_type"
@@ -217,7 +217,7 @@
                 android:text="@string/field_categories"
                 android:textSize="25dp"
                 android:textColor="@color/white"
-                app:layout_constraintBottom_toTopOf="@+id/textview_comments"
+                app:layout_constraintBottom_toTopOf="@+id/textview_image"
                 app:layout_constraintEnd_toStartOf="@+id/spinner_categories"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textview_type" />
@@ -230,10 +230,46 @@
                 android:minHeight="30dp"
                 android:textColor="@color/white"
                 android:backgroundTint="@color/light_blue"
-                app:layout_constraintBottom_toTopOf="@+id/edittext_comments"
+                app:layout_constraintBottom_toTopOf="@+id/button_take_image"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/textview_categories"
                 app:layout_constraintTop_toBottomOf="@+id/togglebutton_type"/>
+
+            <TextView
+                android:id="@+id/textview_image"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/field_image"
+                android:textSize="25dp"
+                android:textColor="@color/white"
+                app:layout_constraintBottom_toTopOf="@+id/textview_comments"
+                app:layout_constraintEnd_toStartOf="@+id/button_view_image"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textview_categories" />
+
+            <Button
+                android:id="@+id/button_view_image"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/label_view_image"
+                android:textSize="20dp"
+                android:backgroundTint="@color/light_blue"
+                android:enabled="false"
+                app:layout_constraintBottom_toTopOf="@+id/edittext_comments"
+                app:layout_constraintEnd_toStartOf="@+id/button_take_image"
+                app:layout_constraintStart_toEndOf="@+id/textview_image"
+                app:layout_constraintTop_toBottomOf="@+id/spinner_categories"/>
+
+            <ImageButton
+                android:id="@+id/button_take_image"
+                android:layout_width="100dp"
+                android:layout_height="50dp"
+                android:src="@drawable/symbol_camera"
+                android:backgroundTint="@color/light_blue"
+                app:layout_constraintBottom_toTopOf="@+id/edittext_comments"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/button_view_image"
+                app:layout_constraintTop_toBottomOf="@+id/spinner_categories"/>
 
             <TextView
                 android:id="@+id/textview_comments"
@@ -245,7 +281,7 @@
                 app:layout_constraintBottom_toTopOf="@+id/button_create_transaction"
                 app:layout_constraintEnd_toStartOf="@+id/edittext_comments"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textview_categories" />
+                app:layout_constraintTop_toBottomOf="@+id/textview_image" />
 
             <EditText
                 android:id="@+id/edittext_comments"
@@ -257,7 +293,7 @@
                 app:layout_constraintBottom_toTopOf="@+id/button_create_transaction"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/textview_comments"
-                app:layout_constraintTop_toBottomOf="@+id/spinner_categories"/>
+                app:layout_constraintTop_toBottomOf="@+id/button_take_image"/>
 
             <Button
                 android:id="@+id/button_create_transaction"
