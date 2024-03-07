@@ -72,7 +72,7 @@ public class ViewReportActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        DBHelper.copyDatabaseToDevice(this);
+
 
         transactionHandler = new TransactionHandler(Services.DEVELOPING_STATUS);
         reportManager = new TimeBaseReportManager(Services.DEVELOPING_STATUS);
