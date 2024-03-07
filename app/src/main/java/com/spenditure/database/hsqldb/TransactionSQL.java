@@ -1,11 +1,7 @@
 package com.spenditure.database.hsqldb;
 
-import android.annotation.SuppressLint;
-
 import com.spenditure.database.TransactionPersistence;
-import com.spenditure.logic.exceptions.InvalidTransactionException;
 import com.spenditure.object.DateTime;
-import com.spenditure.object.IDateTime;
 import com.spenditure.object.Transaction;
 
 import java.sql.Connection;
@@ -309,7 +305,7 @@ public class TransactionSQL implements TransactionPersistence {
 
 
     @Override
-    public ArrayList<Transaction> getTransactionsByDateTime(int userID, IDateTime lower, IDateTime upper) {
+    public ArrayList<Transaction> getTransactionsByDateTime(int userID, DateTime lower, DateTime upper) {
         final ArrayList<Transaction> transactions = new ArrayList<>();
 
         try(final Connection connection = connection()) {

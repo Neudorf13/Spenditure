@@ -2,7 +2,7 @@ package com.spenditure.object;
 
 //CategoryStatistics class used for internal ReportManager purposes
 //Stores each Category with associated total, average and percent values
-public class CategoryStatistics implements ICategoryStatistics{
+public class CategoryStatistics {
     //instance vars
     private MainCategory category;
     private double total;

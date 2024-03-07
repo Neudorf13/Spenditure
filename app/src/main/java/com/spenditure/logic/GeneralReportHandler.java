@@ -18,13 +18,7 @@ package com.spenditure.logic;
 import com.spenditure.application.Services;
 import com.spenditure.database.CategoryPersistence;
 import com.spenditure.database.TransactionPersistence;
-import com.spenditure.database.stub.TransactionStub;
-import com.spenditure.logic.exceptions.InvalidTransactionException;
 import com.spenditure.object.CategoryReport;
-import com.spenditure.object.CategoryStatistics;
-import com.spenditure.object.ICategoryReport;
-import com.spenditure.object.IDateTime;
-import com.spenditure.object.IMainCategory;
 import com.spenditure.object.MainCategory;
 import com.spenditure.object.Transaction;
 import com.spenditure.logic.exceptions.*;
@@ -253,7 +247,7 @@ public class GeneralReportHandler implements IGeneralReportHandler {
      * @param int categoryID - categoryID of category to be reported on
      * @returns ICategoryReport - report object
      */
-    public ICategoryReport getCategoryReport(int userID, int categoryID) throws InvalidLogInException, InvalidCategoryException
+    public CategoryReport getCategoryReport(int userID, int categoryID) throws InvalidLogInException, InvalidCategoryException
     {
         double totalSpending;
         int numTransactions;
@@ -284,11 +278,11 @@ public class GeneralReportHandler implements IGeneralReportHandler {
      * @param boolean descending - if true then sorted in descending order, else ascending
      * @returns ArrayList<IMainCategory> - sorted array list
      */
-    public ArrayList<IMainCategory> sortByTotal(int userID, boolean descending) throws InvalidLogInException
+    public ArrayList<MainCategory> sortByTotal(int userID, boolean descending) throws InvalidLogInException
     {
-        ArrayList<ICategoryReport> categoryReportList = new ArrayList<ICategoryReport>();
+        ArrayList<CategoryReport> categoryReportList = new ArrayList<CategoryReport>();
         List<MainCategory> mainCategoryList;
-        ArrayList<IMainCategory> sortedCategories = new ArrayList<IMainCategory>();
+        ArrayList<MainCategory> sortedCategories = new ArrayList<MainCategory>();
 
         // ensure someone is logged in
         if(userID == -1 )
@@ -316,7 +310,7 @@ public class GeneralReportHandler implements IGeneralReportHandler {
         });
 
         // take out category objects from sorted list of category reports
-        for (ICategoryReport node : categoryReportList) {
+        for (CategoryReport node : categoryReportList) {
             sortedCategories.add(node.getCategory());
         }
 
@@ -331,11 +325,11 @@ public class GeneralReportHandler implements IGeneralReportHandler {
      * @param boolean descending - if true then sorted in descending order, else ascending
      * @returns ArrayList<IMainCategory> - sorted array list
      */
-    public ArrayList<IMainCategory> sortByPercent(int userID, boolean descending) throws InvalidLogInException
+    public ArrayList<MainCategory> sortByPercent(int userID, boolean descending) throws InvalidLogInException
     {
-        ArrayList<ICategoryReport> categoryReportList = new ArrayList<ICategoryReport>();
+        ArrayList<CategoryReport> categoryReportList = new ArrayList<CategoryReport>();
         List<MainCategory> mainCategoryList;
-        ArrayList<IMainCategory> sortedCategories = new ArrayList<IMainCategory>();
+        ArrayList<MainCategory> sortedCategories = new ArrayList<MainCategory>();
 
         // ensure someone is logged in
         if(userID == -1 )
@@ -363,7 +357,7 @@ public class GeneralReportHandler implements IGeneralReportHandler {
         });
 
         // take out category objects from sorted list of category reports
-        for (ICategoryReport node : categoryReportList) {
+        for (CategoryReport node : categoryReportList) {
             sortedCategories.add(node.getCategory());
         }
 
@@ -378,11 +372,11 @@ public class GeneralReportHandler implements IGeneralReportHandler {
      * @param boolean descending - if true then sorted in descending order, else ascending
      * @returns ArrayList<IMainCategory> - sorted array list
      */
-    public ArrayList<IMainCategory> sortByAverage(int userID, boolean descending) throws InvalidLogInException
+    public ArrayList<MainCategory> sortByAverage(int userID, boolean descending) throws InvalidLogInException
     {
-        ArrayList<ICategoryReport> categoryReportList = new ArrayList<ICategoryReport>();
+        ArrayList<CategoryReport> categoryReportList = new ArrayList<CategoryReport>();
         List<MainCategory> mainCategoryList;
-        ArrayList<IMainCategory> sortedCategories = new ArrayList<IMainCategory>();
+        ArrayList<MainCategory> sortedCategories = new ArrayList<MainCategory>();
 
         // ensure someone is logged in
         if(userID == -1 )
@@ -411,7 +405,7 @@ public class GeneralReportHandler implements IGeneralReportHandler {
         });
 
         // take out category objects from sorted list of category reports
-        for (ICategoryReport node : categoryReportList) {
+        for (CategoryReport node : categoryReportList) {
             sortedCategories.add(node.getCategory());
         }
 

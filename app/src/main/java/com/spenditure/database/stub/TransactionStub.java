@@ -5,10 +5,7 @@ import com.spenditure.logic.CategoryHandler;
 import com.spenditure.object.DateNewestFirstComparator;
 import com.spenditure.object.DateOldestFirstComparator;
 import com.spenditure.object.DateTime;
-import com.spenditure.object.IDateTime;
 import com.spenditure.object.Transaction;
-
-import org.checkerframework.checker.units.qual.A;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -268,7 +265,7 @@ public class TransactionStub implements TransactionPersistence {
 
     }
 
-    public ArrayList<Transaction> getTransactionsByDateTime(int userID, IDateTime lower, IDateTime upper) {
+    public ArrayList<Transaction> getTransactionsByDateTime(int userID, DateTime lower, DateTime upper) {
 
         ArrayList<Transaction> allTransactionsInBounds = new ArrayList<>();
 

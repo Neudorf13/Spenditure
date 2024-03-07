@@ -23,7 +23,7 @@ import java.util.List;
 import com.spenditure.logic.TimeBaseReportManager;
 import com.spenditure.object.CategoryStatistics;
 import com.spenditure.object.DateTime;
-import com.spenditure.object.IReport;
+import com.spenditure.object.Report;
 
 
 import org.junit.After;
@@ -46,30 +46,13 @@ public class TimeBaseReportHandlerTest {
         reportManager = null;
     }
 
-    //Test function broken by: functions made private (getPercentForCategoryByDate)
-    /*@Test
-    public void testPercentSum() {
-        //get a percent for each category and make sure it sums to 100
-        //check individual %'s against expected values
-        DateTime lower = new DateTime(1, 1, 1, 0, 0, 0);
-        DateTime upper = new DateTime(2024, 12, 31, 23, 59, 59);
 
-        double category1 = reportManager.getPercentForCategoryByDate(1, 1, lower, upper);
-        double category2 = reportManager.getPercentForCategoryByDate(1, 2, lower, upper);
-        double category3 = reportManager.getPercentForCategoryByDate(1, 3, lower, upper);
-        double sum = category1 + category2 + category3;
-
-        assertEquals("Expected category 1 to take up approximately 19.72% of total transaction cost", category1,19.72,0.1);
-        assertEquals("Expected category 2 to take up approximately 18.65% of total transaction cost",category2,18.65,0.1);
-        assertEquals("Expected category 3 to take up approximately 61.62% of total transaction cost",category3,61.62,0.1);
-        assertEquals("Expected percent sum of each category to be 100%",sum,100, 0.1);
-    }*/
 
     //Tests: reportOnLastYear()
     @Test
     public void testReportOnLastYear() {
 
-        IReport report = reportManager.reportBackOneYear(1, new DateTime(2024, 03, 04));
+        Report report = reportManager.reportBackOneYear(1, new DateTime(2024, 03, 04));
 
         assertEquals("13 transactions since the beginning of 2023", 13, report.getNumTrans());
         assertEquals("Average is 171.38", 171.38, report.getAvgTransSize(), 0.1);
@@ -104,7 +87,7 @@ public class TimeBaseReportHandlerTest {
         DateTime start = new DateTime(2023, 9, 5);
         DateTime end = new DateTime(2024, 3, 4);
 
-        IReport report = reportManager.reportOnUserProvidedDates(1, start, end);
+        Report report = reportManager.reportOnUserProvidedDates(1, start, end);
 
         assertEquals("Should only be 8 reports between Sept. 5, 2023 and Mar. 1, 2024", 8, report.getNumTrans());
         assertEquals("Average of all transactions should be 165.8", 165.8, report.getAvgTransSize(), 0.1);
@@ -138,11 +121,11 @@ public class TimeBaseReportHandlerTest {
     @Test
     public void testReportOnLastMonthByWeek() {
 
-        ArrayList<IReport> reports = reportManager.reportBackOneMonthByWeek(1, new DateTime(2023, 10, 06));
+        ArrayList<Report> reports = reportManager.reportBackOneMonthByWeek(1, new DateTime(2023, 10, 06));
 
         assertEquals("There should be 4 reports, for 4 weeks in a month", 4, reports.size());
 
-        IReport week = reports.get(0);
+        Report week = reports.get(0);
         assertEquals("There should only be 2 transactions", 2, week.getNumTrans());
         assertEquals("The average is 175 for those two", 175, week.getAvgTransSize(), 0.1);
 
@@ -163,11 +146,11 @@ public class TimeBaseReportHandlerTest {
     @Test
     public void testReportOnLastYearByMonth() {
 
-        ArrayList<IReport> reports = reportManager.reportBackOnLastYearByMonth(1, new DateTime(2024, 03, 04));
+        ArrayList<Report> reports = reportManager.reportBackOnLastYearByMonth(1, new DateTime(2024, 03, 04));
 
         assertEquals("There should be 12 reports, one per month", 12, reports.size());
 
-        IReport month = reports.get(4);
+        Report month = reports.get(4);
         CategoryStatistics categoryStatistics = month.getCategoryStatisticsList().get(2);
 
         assertEquals("Only 1 transaction should be present", 1, month.getNumTrans());

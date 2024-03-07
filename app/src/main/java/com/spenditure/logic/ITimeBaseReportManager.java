@@ -1,19 +1,18 @@
 package com.spenditure.logic;
 
 import com.spenditure.object.DateTime;
-import com.spenditure.object.IDateTime;
-import com.spenditure.object.IReport;
+import com.spenditure.object.Report;
 
 import java.util.ArrayList;
 
 public interface ITimeBaseReportManager {
 
-    public IReport reportBackOneYear(int userID, IDateTime yearEnd);
+    public Report reportBackOneYear(int userID, DateTime yearEnd);
 
-    public ArrayList<IReport> reportBackOnLastYearByMonth(int userID, DateTime today);
+    public ArrayList<Report> reportBackOnLastYearByMonth(int userID, DateTime today);
 
-    public ArrayList<IReport> reportBackOneMonthByWeek(int userID, DateTime start);
+    public ArrayList<Report> reportBackOneMonthByWeek(int userID, DateTime start);
 
-    public IReport reportOnUserProvidedDates(int userID, IDateTime start, IDateTime end);
+    public Report reportOnUserProvidedDates(int userID, DateTime start, DateTime end);
 
 }

@@ -13,9 +13,8 @@
 
 package com.spenditure.logic;
 
-import com.spenditure.object.DateTime;
 import com.spenditure.logic.exceptions.*;
-import com.spenditure.object.IDateTime;
+import com.spenditure.object.DateTime;
 
 import java.time.LocalDate;
 
@@ -44,7 +43,7 @@ public class DateTimeValidator {
 
         returns true if the DateTime has valid values.
      */
-    public static boolean validateDateTime(IDateTime dateTime) throws InvalidDateTimeException {
+    public static boolean validateDateTime(DateTime dateTime) throws InvalidDateTimeException {
 
         return validateDate(dateTime) && validateTime(dateTime);
 
@@ -56,7 +55,7 @@ public class DateTimeValidator {
         returns true if the date values are valid according
         to a standard Gregorian calendar.
      */
-    public static boolean validateDate(IDateTime date) throws InvalidDateException {
+    public static boolean validateDate(DateTime date) throws InvalidDateException {
         boolean valid = false;
 
         int year = date.getYear();
@@ -80,7 +79,7 @@ public class DateTimeValidator {
 
         returns true if the time values are valid.
      */
-    public static boolean validateTime(IDateTime time) throws InvalidTimeException {
+    public static boolean validateTime(DateTime time) throws InvalidTimeException {
 
         int hour = time.getHour();
         int minute = time.getMinute();

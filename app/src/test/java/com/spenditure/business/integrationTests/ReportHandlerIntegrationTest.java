@@ -10,8 +10,8 @@ import com.spenditure.logic.TimeBaseReportManager;
 import com.spenditure.logic.UserManager;
 import com.spenditure.object.CategoryStatistics;
 import com.spenditure.object.DateTime;
-import com.spenditure.object.IReport;
 import com.spenditure.object.MainCategory;
+import com.spenditure.object.Report;
 import com.spenditure.utils.TestUtils;
 
 import org.junit.After;
@@ -125,7 +125,7 @@ public class ReportHandlerIntegrationTest {
     @Test
     public void testReportOnLastYear() {
 
-        IReport report = reportManager.reportBackOneYear(1, new DateTime(2024, 03, 04));
+        Report report = reportManager.reportBackOneYear(1, new DateTime(2024, 03, 04));
 
         assertEquals("13 transactions since the beginning of 2023", 13, report.getNumTrans());
         assertEquals("Average is 171.38", 171.38, report.getAvgTransSize(), 0.1);
@@ -160,7 +160,7 @@ public class ReportHandlerIntegrationTest {
         DateTime start = new DateTime(2023, 9, 5);
         DateTime end = new DateTime(2024, 3, 4);
 
-        IReport report = reportManager.reportOnUserProvidedDates(1, start, end);
+        Report report = reportManager.reportOnUserProvidedDates(1, start, end);
 
         assertEquals("Should only be 8 reports between Sept. 5, 2023 and Mar. 1, 2024", 8, report.getNumTrans());
         assertEquals("Average of all transactions should be 165.8", 165.8, report.getAvgTransSize(), 0.1);
@@ -194,11 +194,11 @@ public class ReportHandlerIntegrationTest {
     @Test
     public void testReportOnLastMonthByWeek() {
 
-        ArrayList<IReport> reports = reportManager.reportBackOneMonthByWeek(1, new DateTime(2023, 10, 06));
+        ArrayList<Report> reports = reportManager.reportBackOneMonthByWeek(1, new DateTime(2023, 10, 06));
 
         assertEquals("There should be 4 reports, for 4 weeks in a month", 4, reports.size());
 
-        IReport week = reports.get(0);
+        Report week = reports.get(0);
         assertEquals("There should only be 2 transactions", 2, week.getNumTrans());
         assertEquals("The average is 175 for those two", 175, week.getAvgTransSize(), 0.1);
 
@@ -219,11 +219,11 @@ public class ReportHandlerIntegrationTest {
     @Test
     public void testReportOnLastYearByMonth() {
 
-        ArrayList<IReport> reports = reportManager.reportBackOnLastYearByMonth(1, new DateTime(2024, 03, 04));
+        ArrayList<Report> reports = reportManager.reportBackOnLastYearByMonth(1, new DateTime(2024, 03, 04));
 
         assertEquals("There should be 12 reports, one per month", 12, reports.size());
 
-        IReport month = reports.get(4);
+        Report month = reports.get(4);
         CategoryStatistics categoryStatistics = month.getCategoryStatisticsList().get(2);
 
         assertEquals("Only 1 transaction should be present", 1, month.getNumTrans());

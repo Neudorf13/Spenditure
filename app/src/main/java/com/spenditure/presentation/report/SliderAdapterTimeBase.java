@@ -11,9 +11,10 @@ import androidx.annotation.NonNull;
 import androidx.viewpager.widget.PagerAdapter;
 
 import com.spenditure.R;
-import com.spenditure.object.IReport;
+import com.spenditure.object.Report;
 import com.spenditure.presentation.UIUtility;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -32,7 +33,7 @@ public class SliderAdapterTimeBase extends PagerAdapter {
     };
     private String mode;
 
-    public SliderAdapterTimeBase(Context context, List<IReport> reportList, String mode){
+    public SliderAdapterTimeBase(Context context, ArrayList<Report> reportList, String mode){
         this.context = context;
         this.reportList = reportList;
         this.mode = mode;
