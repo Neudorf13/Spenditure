@@ -1,5 +1,7 @@
 # Iteration 2
 
+# For grader: our app takes quite a bit of time to start up the main activity. We are not sure it is because of android emulator or inefficient way to set up SQL database (if this is the case, we really happy to get feedback and advice from you)
+
 ## Features:
 
 * User Manager
