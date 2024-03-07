@@ -24,10 +24,12 @@ public class UserSQL implements UserPersistence {
         this.dbPath = dbPath;
     }
 
+    //returns connection to DB
     private Connection connection() throws SQLException {
         return DriverManager.getConnection("jdbc:hsqldb:file:" + dbPath + ";shutdown=true", "SA", "");
     }
 
+    //returns username for associated UID
     @Override
     public String getUserName(int userID) {
         String userName = "";
@@ -51,7 +53,7 @@ public class UserSQL implements UserPersistence {
 
     }
 
-
+    //returns number of users in user table
     private int getNumberOfUsers() {
         int count = 0;
         try(final Connection connection = connection()) {
@@ -97,6 +99,9 @@ public class UserSQL implements UserPersistence {
 
     }
 
+    //takes UID, current password, new password to change it to
+    //attempts to update password in table for entry with associated UID
+    //returns true on success, false on failure to update
     @Override
     public boolean changePassword(int userID, String oldPassword, String newPassword) {
         try(final Connection connection = connection()) {
@@ -130,6 +135,8 @@ public class UserSQL implements UserPersistence {
 
     }
 
+    //takes a UID and a new username, attempts to update username in table for entry with associated UID
+    //returns true on success, false on failure to update
     @Override
     public boolean changeUsername(int userID, String newUsername) {
         try(final Connection connection = connection()) {
@@ -151,6 +158,9 @@ public class UserSQL implements UserPersistence {
 
     }
 
+    //takes username, password, email
+    //attempts to insert new entry into user table
+    //returns UID on sucess, throws exception on failure
     @Override
     public int register( String username, String password,String email) {
         try(final Connection connection = connection()) {
