@@ -11,7 +11,7 @@ import java.util.List;
  * @author Bao Ngo
  * @version 06 Feb 2024
  */
-public class MainCategory implements IMainCategory {
+public class MainCategory  {
     //Attributes
     private String name;
     private int categoryID;
@@ -30,17 +30,14 @@ public class MainCategory implements IMainCategory {
     }
 
     //Business methods
-    @Override
     public String getName() {
         return this.name;
     }
-    @Override
     public int getCategoryID() {
         return this.categoryID;
     }
     public int getUserID() { return this.userID;}
 
-    @Override
     public List<SubCategory> getSubCategories() { //For future development
         return this.listSubCategories;
     }
@@ -59,7 +56,6 @@ public class MainCategory implements IMainCategory {
         }
     }
 
-    @Override
     public void removeSubCategory(int id) throws InvalidSubCategoryException{
         Iterator<SubCategory> iterator = this.listSubCategories.iterator();
         boolean found = false;
@@ -73,7 +69,6 @@ public class MainCategory implements IMainCategory {
         if(!found) throw new InvalidSubCategoryException("Sub-category's ID not exist");
     }
 
-    @Override
     public SubCategory getSubCategoryByID(int id) throws InvalidSubCategoryException {
         for(SubCategory currSub : this.listSubCategories){
             if(currSub.getCategoryID() == id) return currSub;

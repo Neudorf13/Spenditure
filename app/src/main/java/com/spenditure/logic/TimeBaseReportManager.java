@@ -9,8 +9,6 @@ import com.spenditure.application.Services;
 import com.spenditure.database.CategoryPersistence;
 import com.spenditure.database.TransactionPersistence;
 import com.spenditure.object.DateTime;
-import com.spenditure.object.IDateTime;
-import com.spenditure.object.IReport;
 import com.spenditure.object.Report;
 import com.spenditure.object.CategoryStatistics;
 import com.spenditure.object.MainCategory;
@@ -57,7 +55,7 @@ public class TimeBaseReportManager implements ITimeBaseReportManager {
     ending at the provided date.
 
      */
-    public IReport reportBackOneYear(int userID, IDateTime yearEnd) {
+    public Report reportBackOneYear(int userID, DateTime yearEnd) {
 
         setEndOfDay((DateTime) yearEnd);
 
@@ -65,7 +63,7 @@ public class TimeBaseReportManager implements ITimeBaseReportManager {
         assert(userID >= 0);
 
         // manually set to 1 year ago from provided date
-        IDateTime yearStart = new DateTime(yearEnd.getYear()-1, yearEnd.getMonth(), yearEnd.getDay());
+        DateTime yearStart = new DateTime(yearEnd.getYear()-1, yearEnd.getMonth(), yearEnd.getDay());
 
         return reportOnUserProvidedDates(userID, yearStart, yearEnd);
 
@@ -79,13 +77,13 @@ public class TimeBaseReportManager implements ITimeBaseReportManager {
     Reports are ordered from January to December.
 
      */
-    public ArrayList<IReport> reportBackOnLastYearByMonth(int userID, DateTime today) {
+    public ArrayList<Report> reportBackOnLastYearByMonth(int userID, DateTime today) {
 
         setEndOfDay(today);
         validateDateTime(today);
         assert(userID >= 0);
 
-        ArrayList<IReport> monthReports = new ArrayList<>();
+        ArrayList<Report> monthReports = new ArrayList<>();
 
         for(int i = 1; i <= 12; i++) {
             monthReports.add(reportOnUserProvidedDates(
@@ -105,14 +103,14 @@ public class TimeBaseReportManager implements ITimeBaseReportManager {
     ending at the provided date.
 
      */
-    public ArrayList<IReport> reportBackOneMonthByWeek(int userID, DateTime start) {
+    public ArrayList<Report> reportBackOneMonthByWeek(int userID, DateTime start) {
 
         setEndOfDay(start);
         validateDateTime(start);
         assert(userID >= 0);
 
         DateTime[] weekDates = new DateTime[WEEKS_IN_MONTH + 1];
-        ArrayList<IReport> result = new ArrayList<>();
+        ArrayList<Report> result = new ArrayList<>();
 
         weekDates[0] = start;
 
@@ -136,7 +134,7 @@ public class TimeBaseReportManager implements ITimeBaseReportManager {
     Creates a report starting and ending at user-specified times.
 
      */
-    public IReport reportOnUserProvidedDates(int userID, IDateTime start, IDateTime end) {
+    public Report reportOnUserProvidedDates(int userID, DateTime start, DateTime end) {
 
         setEndOfDay((DateTime) end);
         validateDateTime(start);
@@ -176,7 +174,7 @@ public class TimeBaseReportManager implements ITimeBaseReportManager {
     Returns the average transaction size between the two provided dates.
 
      */
-    private double getAverageTransactionSizeByDate(int userID, IDateTime startDate, IDateTime endDate) {
+    private double getAverageTransactionSizeByDate(int userID, DateTime startDate, DateTime endDate) {
 
         List<Transaction> transactions = dataAccessTransaction.getTransactionsByDateTime(userID, startDate, endDate);
 
@@ -202,7 +200,7 @@ public class TimeBaseReportManager implements ITimeBaseReportManager {
     Returns the standard deviation value for transactions between the two specified dates.
 
      */
-    private double getStandardDeviationByDate(int userID, IDateTime startDate, IDateTime endDate) {
+    private double getStandardDeviationByDate(int userID, DateTime startDate, DateTime endDate) {
 
         List<Transaction> transactions = dataAccessTransaction.getTransactionsByDateTime(userID, startDate, endDate);
 
@@ -239,7 +237,7 @@ public class TimeBaseReportManager implements ITimeBaseReportManager {
     Returns the number of transactions that occured betweent the given dates.
 
      */
-    private int countAllTransactionsByDate(int userID, IDateTime startDate, IDateTime endDate) {
+    private int countAllTransactionsByDate(int userID, DateTime startDate, DateTime endDate) {
 
         List<Transaction> transactions = dataAccessTransaction.getTransactionsByDateTime(userID, startDate, endDate);
 
@@ -269,7 +267,7 @@ public class TimeBaseReportManager implements ITimeBaseReportManager {
     Returns the number of transactions of a given category that occured between the given dates.
 
      */
-    private int countTransactionsByCategoryByDate(int userID, int categoryID, IDateTime startDate, IDateTime endDate) {
+    private int countTransactionsByCategoryByDate(int userID, int categoryID, DateTime startDate, DateTime endDate) {
 
         ArrayList<Transaction> categoryTransactions = new ArrayList<>();
 
@@ -292,7 +290,7 @@ public class TimeBaseReportManager implements ITimeBaseReportManager {
     Returns the total value of all the transactions that occured between the given dates.
 
      */
-    private double getTotalForAllTransactionsByDate(int userID, IDateTime startDate, IDateTime endDate) {
+    private double getTotalForAllTransactionsByDate(int userID, DateTime startDate, DateTime endDate) {
 
         List<Transaction> transactions = dataAccessTransaction.getTransactionsByDateTime(userID, startDate, endDate);
 
@@ -335,7 +333,7 @@ public class TimeBaseReportManager implements ITimeBaseReportManager {
     Returns the total value of all transactions in a category over a given time.
 
      */
-    private double getTotalForCategoryByDate(int userID, int categoryID, IDateTime startDate, IDateTime endDate) {
+    private double getTotalForCategoryByDate(int userID, int categoryID, DateTime startDate, DateTime endDate) {
 
         ArrayList<Transaction> transactionsInTimeframe = dataAccessTransaction.getTransactionsByDateTime(userID, startDate, endDate);
 
@@ -361,7 +359,7 @@ public class TimeBaseReportManager implements ITimeBaseReportManager {
     Returns the average value of each transaction in a given category for given dates.
 
      */
-    private double getAverageForCategoryByDate(int userID, int categoryID, IDateTime startDate, IDateTime endDate) {
+    private double getAverageForCategoryByDate(int userID, int categoryID, DateTime startDate, DateTime endDate) {
 
         double total = getTotalForCategoryByDate(userID, categoryID, startDate, endDate);
 
@@ -380,7 +378,7 @@ public class TimeBaseReportManager implements ITimeBaseReportManager {
     Returns the percentage of transactions in a given category out of all transactions, for given dates
 
      */
-    private double getPercentForCategoryByDate(int userID, int categoryID, IDateTime startDate, IDateTime endDate) {
+    private double getPercentForCategoryByDate(int userID, int categoryID, DateTime startDate, DateTime endDate) {
 
         double totalAllTransactions = getTotalForAllTransactionsByDate(userID, startDate, endDate);
 
@@ -399,7 +397,7 @@ public class TimeBaseReportManager implements ITimeBaseReportManager {
     Returns the percentage of all transactions in the report out of all transactions in total
 
      */
-    private double getPercentForReport(int userID, IDateTime startDate, IDateTime endDate) {
+    private double getPercentForReport(int userID, DateTime startDate, DateTime endDate) {
 
         double allTotal = getTotalForAllTransactions(userID);
 
@@ -418,7 +416,7 @@ public class TimeBaseReportManager implements ITimeBaseReportManager {
     itself.
 
      */
-    private ArrayList<CategoryStatistics> buildCategoryList(int userID, IDateTime startDate, IDateTime endDate) {
+    private ArrayList<CategoryStatistics> buildCategoryList(int userID, DateTime startDate, DateTime endDate) {
 
         ArrayList<CategoryStatistics> categoryList = new ArrayList<>();
         int numCategories = countAllCategories(userID);

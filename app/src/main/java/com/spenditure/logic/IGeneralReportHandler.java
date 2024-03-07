@@ -14,8 +14,7 @@
 
 package com.spenditure.logic;
 
-import com.spenditure.object.ICategoryReport;
-import com.spenditure.object.IMainCategory;
+import com.spenditure.object.CategoryReport;
 import com.spenditure.object.MainCategory;
 
 import java.util.ArrayList;
@@ -36,11 +35,11 @@ public interface IGeneralReportHandler {
 
     public double averageSpending(int userID);
 
-    public ICategoryReport getCategoryReport(int userID, int categoryID);
+    public CategoryReport getCategoryReport(int userID, int categoryID);
 
-    public ArrayList<IMainCategory> sortByTotal(int userID, boolean descending);
+    public ArrayList<MainCategory> sortByTotal(int userID, boolean descending);
 
-    public ArrayList<IMainCategory> sortByPercent(int userID, boolean descending);
+    public ArrayList<MainCategory> sortByPercent(int userID, boolean descending);
 
-    public ArrayList<IMainCategory> sortByAverage(int userID, boolean descending);
+    public ArrayList<MainCategory> sortByAverage(int userID, boolean descending);
 }

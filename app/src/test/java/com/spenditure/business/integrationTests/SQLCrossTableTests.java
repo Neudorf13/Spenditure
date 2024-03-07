@@ -37,32 +37,7 @@ public class SQLCrossTableTests {
 
     }
 
-//    @Test
-//    public void addCategoryAndTransaction() {
-//
-////        userPersistence.printUserTable();
-//
-////        int register = userPersistence.register(77,"testDummy","123abc","ddd@gmail.com");
-//
-////        userPersistence.printUserTable();
-//
-////        assertEquals(77, register);
-//
-//        categoryPersistence.printCategoryTable();
-//
-//        MainCategory category = categoryPersistence.addCategory("test",77);
-//
-//        categoryPersistence.printCategoryTable();
-//
-//        assertNotNull(category);
-//
-//        transactionPersistence.printTransactionTable();
-//
-//        transactionPersistence.addTransaction(new Transaction(2,77,"testTransaction", new DateTime(2020,10,15), "testLand", 17.77, "nothing to say", false, null, 4));
-//
-//        transactionPersistence.printTransactionTable();
-//
-//    }
+
 
 
 }

@@ -33,10 +33,8 @@ import com.spenditure.logic.TimeBaseReportManager;
 import com.spenditure.logic.TransactionHandler;
 import com.spenditure.logic.UserManager;
 import com.spenditure.object.DateTime;
-import com.spenditure.object.IDateTime;
-import com.spenditure.object.IMainCategory;
-import com.spenditure.object.IReport;
 import com.spenditure.object.MainCategory;
+import com.spenditure.object.Report;
 import com.spenditure.presentation.BottomNavigationHandler;
 import com.spenditure.presentation.UIUtility;
 
@@ -61,8 +59,8 @@ public class ViewReportActivity extends AppCompatActivity {
     private final String[] time_base_option = {"Report by year breaking into month","Report by month breaking into weeks"};//Drop down menu option
     private ICategoryHandler categoryHandler;
 
-    private IDateTime fromDate;
-    private IDateTime toDate;
+    private DateTime fromDate;
+    private DateTime toDate;
     private LocalDate currTime =  LocalDate.now();
     private int userID;
     private DateTime currDate;
@@ -91,7 +89,7 @@ public class ViewReportActivity extends AppCompatActivity {
     }
 
     private void handleLastYearReport(){
-        IReport lastYearReport = reportManager.reportBackOneYear(userID, this.currDate);
+        Report lastYearReport = reportManager.reportBackOneYear(userID, this.currDate);
         TextView numTransactions = findViewById(R.id.textview_lastYear_transactionsCount);
         TextView totalTransactions = findViewById(R.id.textview_lastYear_total);
         TextView average = findViewById(R.id.textview_lastYear_average);
@@ -132,7 +130,7 @@ public class ViewReportActivity extends AppCompatActivity {
                 if (fromDate == null || toDate == null){
                     Toast.makeText(ViewReportActivity.this,"Please choose 2 dates",Toast.LENGTH_SHORT).show();
                 }else {
-                    IReport timeCustomReport = reportManager.reportOnUserProvidedDates(userID, fromDate, toDate);
+                    Report timeCustomReport = reportManager.reportOnUserProvidedDates(userID, fromDate, toDate);
 
                     TextView transactionNum = findViewById(R.id.textview_customTime_totalTrans);
                     TextView  total = findViewById(R.id.textview_customTime_totalAmount);
@@ -241,7 +239,7 @@ public class ViewReportActivity extends AppCompatActivity {
 
                 String spendMostString = "Mostly spending on ";
                 String spendLeastString = "Least spending on ";
-                List<IMainCategory>categories;
+                List<MainCategory>categories;
 
                 switch (position){
                     case 2:

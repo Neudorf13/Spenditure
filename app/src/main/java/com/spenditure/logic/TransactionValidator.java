@@ -26,24 +26,23 @@ public class TransactionValidator {
     /*
         validateTransaction
 
-        returns true if all values for the transaction are valid
+        throws exception if not valid
      */
-    public static boolean validateTransaction(Transaction t) throws InvalidTransactionException {
+    public static void validateTransaction(Transaction t) throws InvalidTransactionException {
 
-        boolean valid = false;
+
 
         if(t != null) {
-            boolean validName = validateName(t.getName());
-            boolean validDate = DateTimeValidator.validateDateTime(t.getDateTime());
-            boolean validPlace = validatePlace(t.getPlace());
-            boolean validAmount = validateAmount(t.getAmount());
-            boolean commentLimitCheck = checkComment(t.getComments());
+            validateName(t.getName());
+            DateTimeValidator.validateDateTime(t.getDateTime());
+            validatePlace(t.getPlace());
+            validateAmount(t.getAmount());
+            checkComment(t.getComments());
             //Type is a boolean, so it can't be invalid
 
-            valid = validName && validDate && validPlace && validAmount && commentLimitCheck;
         }
 
-        return valid;
+
 
     }
 
@@ -52,12 +51,10 @@ public class TransactionValidator {
 
         ensures the name is not null and at least 1 character long
      */
-    private static boolean validateName(String name) throws InvalidTransactionNameException {
+    private static void validateName(String name) throws InvalidTransactionNameException {
 
         if( name == null || name.length() == 0 )
             throw new InvalidTransactionNameException("Provided name was blank.");
-        else
-            return true;
 
     }
 
@@ -66,12 +63,11 @@ public class TransactionValidator {
 
         ensures the place is not null and at least 1 character long
      */
-    private static boolean validatePlace(String place) throws InvalidTransactionPlaceException {
+    private static void validatePlace(String place) throws InvalidTransactionPlaceException {
 
         if( place == null || place.length() == 0 )
             throw new InvalidTransactionPlaceException("Provided place was blank.");
-        else
-            return true;
+
 
     }
 
@@ -80,12 +76,11 @@ public class TransactionValidator {
 
         ensures the amount is at least 0 and fits the minimum increment value
      */
-    private static boolean validateAmount(double amount) throws InvalidTransactionAmountException {
+    private static void validateAmount(double amount) throws InvalidTransactionAmountException {
 
         if(amount < 0)
             throw new InvalidTransactionAmountException("Provided amount "+amount+" is a negative number.");
-        else
-            return true;
+
 
     }
 
@@ -95,17 +90,15 @@ public class TransactionValidator {
         ensures the comment meets the character limit, if a comment
         exists
      */
-    private static boolean checkComment(String comment) throws InvalidTransactionCommentException {
+    private static void checkComment(String comment) throws InvalidTransactionCommentException {
 
         boolean withinLimit = true;
 
         if( comment != null )
             withinLimit = comment.length() <= COMMENT_CHAR_LIMIT;
 
-        if( withinLimit )
-            return withinLimit;
-
-        else {
+        if( !withinLimit )
+        {
             int overflow = comment.length() - COMMENT_CHAR_LIMIT;
             throw new InvalidTransactionCommentException("Provided comment was " + overflow + " characters too long.");
         }
