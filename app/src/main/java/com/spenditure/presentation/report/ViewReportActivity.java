@@ -2,6 +2,8 @@ package com.spenditure.presentation.report;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
@@ -13,6 +15,12 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.github.mikephil.charting.charts.PieChart;
+import com.github.mikephil.charting.components.Legend;
+import com.github.mikephil.charting.data.PieData;
+import com.github.mikephil.charting.data.PieDataSet;
+import com.github.mikephil.charting.data.PieEntry;
+import com.github.mikephil.charting.utils.ColorTemplate;
 import com.spenditure.R;
 import com.facebook.shimmer.ShimmerFrameLayout;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -32,12 +40,15 @@ import com.spenditure.logic.ITransactionHandler;
 import com.spenditure.logic.TimeBaseReportHandler;
 import com.spenditure.logic.TransactionHandler;
 import com.spenditure.logic.UserManager;
+import com.spenditure.object.CategoryReport;
+import com.spenditure.object.CategoryStatistics;
 import com.spenditure.object.DateTime;
 import com.spenditure.object.MainCategory;
 import com.spenditure.object.Report;
 import com.spenditure.presentation.BottomNavigationHandler;
 import com.spenditure.presentation.UIUtility;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.time.LocalDate;
 
@@ -86,6 +97,69 @@ public class ViewReportActivity extends AppCompatActivity {
         handleCustomDateReport();
         navBarHandling();
         handleLastYearReport();
+
+    }
+
+    private void handleCategoriesReport(){
+        List<CategoryReport> categoryStatisticsList = generalReportHandler.getAllCategoryReport(UserManager.getUserID());
+
+        handleStatsCategories(categoryStatisticsList);
+        handleChartCategory(categoryStatisticsList);
+    }
+
+    private void handleStatsCategories(List<CategoryReport> categoryStatisticsList){
+        ViewPager viewPagerCategory = findViewById(R.id.viewpager_report);
+
+        if(categoryStatisticsList.size() >0 ){
+            ConstraintLayout nonReport = findViewById(R.id.report_no_category_report);
+            nonReport.setVisibility(View.INVISIBLE);
+            SliderAdapterCatGeneral adapter = new SliderAdapterCatGeneral(this,categoryStatisticsList);
+            viewPagerCategory.setAdapter(adapter);
+        }else{
+            ConstraintLayout nonReport = findViewById(R.id.report_no_category_report);
+            nonReport.setVisibility(View.VISIBLE);
+        }
+    }
+
+    private void handleChartCategory(List<CategoryReport> categoryStatisticsList){
+        ArrayList<PieEntry> entries = new ArrayList<>();
+        Typeface boldTF = Typeface.defaultFromStyle(Typeface.BOLD);
+        PieChart catChart = findViewById(R.id.piechart_category);
+
+        for(CategoryReport categoryReport : categoryStatisticsList){
+            if(categoryReport.getPercentage() > 0){
+                entries.add(new PieEntry((float) categoryReport.getPercentage(),categoryReport.getCategory().getName()));
+            }
+        }
+
+        PieDataSet pieDataSet = new PieDataSet(entries,"");
+        pieDataSet.setValueFormatter(new PercentageValueFormatter());
+
+        PieData pieData = new PieData(pieDataSet);
+        catChart.setData(pieData);
+
+
+        //Styling pie chart
+        pieDataSet.setValueTextSize(20); // Set size of value text
+        pieDataSet.setValueTextColor(Color.WHITE);
+        pieDataSet.setColors(ColorTemplate.MATERIAL_COLORS);
+        pieDataSet.setValueTypeface(boldTF);
+
+        catChart.getDescription().setEnabled(false);
+        catChart.animateY(1000);
+
+        catChart.setHoleColor(R.drawable.background_dark_blue);
+        catChart.setEntryLabelTextSize(0);
+        catChart.setCenterTextColor(Color.WHITE);
+
+        Legend legend = catChart.getLegend();
+        legend.setTextSize(40); // Set text size of legend
+        legend.setHorizontalAlignment(Legend.LegendHorizontalAlignment.CENTER);
+        legend.setTextColor(Color.WHITE);
+        legend.setFormSize(20);
+        legend.setTypeface(boldTF);
+
+        catChart.invalidate();
     }
 
     private void handleLastYearReport(){
@@ -282,19 +356,7 @@ public class ViewReportActivity extends AppCompatActivity {
         spinner.setAdapter(adapter);
     }
 
-    private void handleCategoriesReport(){
-        ViewPager viewPagerCategory = findViewById(R.id.viewpager_report);
-        List<MainCategory> categoryList = categoryHandler.getAllCategory(UserManager.getUserID());
-        if(categoryList.size() >0 ){
-            ConstraintLayout nonReport = findViewById(R.id.report_no_category_report);
-            nonReport.setVisibility(View.INVISIBLE);
-            SliderAdapterCatGeneral adapter = new SliderAdapterCatGeneral(this,categoryList);
-            viewPagerCategory.setAdapter(adapter);
-        }else{
-            ConstraintLayout nonReport = findViewById(R.id.report_no_category_report);
-            nonReport.setVisibility(View.VISIBLE);
-        }
-    }
+
 
     private void chooseTimeDialog(Button button,boolean from){
 

@@ -268,6 +268,16 @@ public class GeneralReportHandler implements IGeneralReportHandler {
         return new CategoryReport(dataAccessCategory.getCategoryByID(categoryID), totalSpending, numTransactions, average, percentage);
     }
 
+    //Bao new function
+    public List<CategoryReport> getAllCategoryReport(int userID){
+        List<CategoryReport> categoryReportList = new ArrayList<CategoryReport>();
+        List<MainCategory> mainCategoryList = dataAccessCategory.getAllCategory(userID);
+        for (MainCategory mainCategory : mainCategoryList){
+            categoryReportList.add(getCategoryReport(userID,mainCategory.getCategoryID()));
+        }
+        return categoryReportList;
+    }
+
 
 
     /**

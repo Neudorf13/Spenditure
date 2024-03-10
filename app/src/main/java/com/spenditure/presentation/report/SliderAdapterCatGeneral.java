@@ -11,12 +11,14 @@ import androidx.annotation.NonNull;
 import androidx.viewpager.widget.PagerAdapter;
 
 import com.spenditure.R;
+import com.spenditure.application.Services;
 import com.spenditure.logic.CategoryHandler;
 import com.spenditure.logic.GeneralReportHandler;
 import com.spenditure.logic.IGeneralReportHandler;
 import com.spenditure.logic.ITimeBaseReportHandler;
 import com.spenditure.logic.TimeBaseReportHandler;
 import com.spenditure.logic.UserManager;
+import com.spenditure.object.CategoryReport;
 import com.spenditure.object.MainCategory;
 import com.spenditure.presentation.UIUtility;
 
@@ -34,18 +36,18 @@ public class SliderAdapterCatGeneral extends PagerAdapter {
     private ITimeBaseReportHandler reportManager;
     private IGeneralReportHandler generalReportHandler;
     private CategoryHandler categoryHandler;
-    private List<MainCategory> categoryList;
+    List<CategoryReport> categoryStatisticsList;
     private int[] list_bg_color = { //Default background color for each slider
       R.drawable.background_light_green,
       R.drawable.background_dark_blue
     };
 
-    public SliderAdapterCatGeneral(Context context, List<MainCategory> categoryList){
+    public SliderAdapterCatGeneral(Context context, List<CategoryReport> categoryStatisticsList){
         this.context = context;
-        this.reportManager = new TimeBaseReportHandler(true);
-        this.generalReportHandler = new GeneralReportHandler(true);
-        this.categoryHandler = new CategoryHandler(true);
-        this.categoryList = categoryList;
+        this.reportManager = new TimeBaseReportHandler(Services.DEVELOPING_STATUS);
+        this.generalReportHandler = new GeneralReportHandler(Services.DEVELOPING_STATUS);
+        this.categoryHandler = new CategoryHandler(Services.DEVELOPING_STATUS);
+        this.categoryStatisticsList = categoryStatisticsList;
     }
 
 
@@ -65,13 +67,13 @@ public class SliderAdapterCatGeneral extends PagerAdapter {
         inflater = (LayoutInflater) context.getSystemService(context.LAYOUT_INFLATER_SERVICE);
         View view = inflater.inflate(R.layout.report_slide,container,false);
         LinearLayout linearLayout = view.findViewById(R.id.report_slider_layout);
-        MainCategory currCategory = categoryList.get(position);
+        CategoryReport currCategoryReport = categoryStatisticsList.get(position);
 
         //Get data from report manager
-        String countTransactionsString =  UIUtility.cleanTransactionNumberString(generalReportHandler.numTransactions(UserManager.getUserID(), currCategory.getCategoryID()));
-        String totalTransactionsString= UIUtility.cleanTotalString(generalReportHandler.totalSpending(UserManager.getUserID(), currCategory.getCategoryID()));
-        String averageString=  UIUtility.cleanAverageString(generalReportHandler.averageSpending(UserManager.getUserID(), currCategory.getCategoryID()));
-        String percentageString = UIUtility.cleanPercentageString(generalReportHandler.percentage(UserManager.getUserID(), currCategory.getCategoryID()));
+        String countTransactionsString =  UIUtility.cleanTransactionNumberString(currCategoryReport.getNumTransactions());
+        String totalTransactionsString= UIUtility.cleanTotalString(currCategoryReport.getTotalSpending());
+        String averageString=  UIUtility.cleanAverageString(currCategoryReport.getAverageTransactions());
+        String percentageString = UIUtility.cleanPercentageString(currCategoryReport.getPercentage());
 
         //query UI components
         TextView tittle = view.findViewById(R.id.slide_tittle);
@@ -81,7 +83,7 @@ public class SliderAdapterCatGeneral extends PagerAdapter {
         TextView percentage = view.findViewById(R.id.textview_catReport_percentage);
 
         //Fill UI component with information
-        tittle.setText(currCategory.getName());
+        tittle.setText(currCategoryReport.getCategory().getName());
         countTransactions.setText(countTransactionsString);
         totalTransactions.setText(totalTransactionsString);
         average.setText(averageString);
