@@ -38,7 +38,10 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        DBHelper.copyDatabaseToDevice(this);
+        if(!Services.DEVELOPING_STATUS){
+            DBHelper.copyDatabaseToDevice(this);
+        }
+
         userManager = new UserManager(Services.DEVELOPING_STATUS);
         setContentView(R.layout.activity_login);
 

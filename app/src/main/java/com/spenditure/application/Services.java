@@ -21,7 +21,7 @@ import com.spenditure.presentation.report.ViewReportActivity;
 
 public class Services {
 
-    public static final boolean DEVELOPING_STATUS = false;
+    public static final boolean DEVELOPING_STATUS = true;
     private static CategoryPersistence categoryPersistence = null;
     private static TransactionPersistence transactionPersistence = null;
     private static UserPersistence userPersistence = null;
