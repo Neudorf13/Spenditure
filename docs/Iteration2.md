@@ -6,6 +6,8 @@
 
 * We did test our app on physical device, it runs smoothly with SQL database. It also runs android studio emulator, however, it is a bit lag. You can switch to stub database by setting boolean variable mentioned above for testing logic and UI to save your time.
 
+* Note: to login to the app. Use username:Me and password:123
+
 ## Features:
 
 * User Manager
