@@ -15,11 +15,19 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.Legend;
+import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.components.YAxis;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.LineData;
+import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
+import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
+import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.github.mikephil.charting.utils.ColorTemplate;
 import com.spenditure.R;
 import com.facebook.shimmer.ShimmerFrameLayout;
@@ -49,6 +57,7 @@ import com.spenditure.presentation.BottomNavigationHandler;
 import com.spenditure.presentation.UIUtility;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.time.LocalDate;
 
@@ -97,7 +106,60 @@ public class ViewReportActivity extends AppCompatActivity {
         handleCustomDateReport();
         navBarHandling();
         handleLastYearReport();
+        handleLineChart();
 
+    }
+
+    private void handleLineChart(){
+        LineChart lineChart = findViewById(R.id.lineChart_spending);
+        lineChart.getAxisRight().setDrawLabels(false);
+        lineChart.getAxisRight().setDrawGridLines(false);
+
+        lineChart.getAxisLeft().setDrawGridLines(false);
+        lineChart.getXAxis().setDrawGridLines(false);
+
+
+        List<String> xValues = Arrays.asList("ha","ho","he","hi");
+        XAxis xAxis = lineChart.getXAxis();
+        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+        xAxis.setValueFormatter(new IndexAxisValueFormatter(xValues));
+        xAxis.setLabelCount(4);
+        xAxis.setGranularity(1f);
+        xAxis.setGridColor(Color.WHITE);
+        xAxis.setAxisLineColor(Color.WHITE);
+        xAxis.setTextSize(20f);
+        xAxis.setAxisLineWidth(5f);
+        xAxis.setTextColor(Color.WHITE);
+
+        YAxis yAxis = lineChart.getAxisLeft();
+        yAxis.setAxisMinimum(0f);
+        yAxis.setMaxWidth(100f);
+        yAxis.setAxisLineWidth(2f);
+        yAxis.setZeroLineColor(Color.WHITE);
+        yAxis.setLabelCount(10);
+        yAxis.setAxisLineColor(Color.WHITE);
+        yAxis.setTextSize(20f);
+        yAxis.setAxisLineWidth(5f);
+        yAxis.setTextColor(Color.WHITE);
+
+        List<Entry>entries = new ArrayList<>();
+        entries.add(new Entry(0,10f));
+        entries.add(new Entry(1,10f));
+        entries.add(new Entry(2,15f));
+        entries.add(new Entry(3,45f));
+
+        LineDataSet dataSet = new LineDataSet(entries,"Math");
+
+        dataSet.setColors(Color.WHITE);
+        dataSet.setLineWidth(5f);
+        dataSet.setCircleRadius(5f);
+        dataSet.setValueTextSize(20f);
+        dataSet.setValueTextColor(Color.WHITE);
+
+        LineData lineData = new LineData(dataSet);
+        lineChart.setData(lineData);
+        lineChart.getLegend().setEnabled(false);
+        lineChart.invalidate();
     }
 
     private void handleCategoriesReport(){

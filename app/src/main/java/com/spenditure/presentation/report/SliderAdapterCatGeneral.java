@@ -37,10 +37,7 @@ public class SliderAdapterCatGeneral extends PagerAdapter {
     private IGeneralReportHandler generalReportHandler;
     private CategoryHandler categoryHandler;
     List<CategoryReport> categoryStatisticsList;
-    private int[] list_bg_color = { //Default background color for each slider
-      R.drawable.background_light_green,
-      R.drawable.background_dark_blue
-    };
+
 
     public SliderAdapterCatGeneral(Context context, List<CategoryReport> categoryStatisticsList){
         this.context = context;
@@ -89,7 +86,7 @@ public class SliderAdapterCatGeneral extends PagerAdapter {
         average.setText(averageString);
         percentage.setText(percentageString);
 
-        linearLayout.setBackgroundResource(list_bg_color[position % list_bg_color.length]);
+        linearLayout.setBackgroundResource(R.drawable.background_light_green);
         container.addView(view);
         return view;
     }

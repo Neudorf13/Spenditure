@@ -27,10 +27,7 @@ public class SliderAdapterTimeBase extends PagerAdapter {
     Context context;
     LayoutInflater inflater;
    private List<Report> reportList;
-    private int[] list_bg_color = { //Default background color for each slider
-            R.drawable.background_light_green,
-            R.drawable.background_dark_blue
-    };
+
     private String mode;
 
     public SliderAdapterTimeBase(Context context, ArrayList<Report> reportList, String mode){
@@ -75,7 +72,7 @@ public class SliderAdapterTimeBase extends PagerAdapter {
         average.setText(UIUtility.cleanAverageString(currReport.getAvgTransSize()));
         percentage.setText(UIUtility.cleanAverageString(currReport.getPercent()));
 
-        linearLayout.setBackgroundResource(list_bg_color[position % list_bg_color.length]);
+        linearLayout.setBackgroundResource(R.drawable.background_light_green);
         container.addView(view);
         return view;
     }
