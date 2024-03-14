@@ -28,12 +28,12 @@ public class SliderAdapterTimeBase extends PagerAdapter {
     LayoutInflater inflater;
    private List<Report> reportList;
 
-    private String mode;
+    private List<String> timeLabels;
 
-    public SliderAdapterTimeBase(Context context, ArrayList<Report> reportList, String mode){
+    public SliderAdapterTimeBase(Context context, List<Report> reportList, List<String> timeLabels){
         this.context = context;
         this.reportList = reportList;
-        this.mode = mode;
+        this.timeLabels = timeLabels;
     }
 
 
@@ -56,7 +56,7 @@ public class SliderAdapterTimeBase extends PagerAdapter {
         Report currReport = reportList.get(position);
 
         //Get data from report manager
-        String title = mode + " " + (position+1);
+        String title = timeLabels.get(position);
 //
         //query UI components
         TextView tittle = view.findViewById(R.id.slide_tittle);

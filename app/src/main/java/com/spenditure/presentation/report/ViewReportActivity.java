@@ -54,6 +54,7 @@ import com.spenditure.object.DateTime;
 import com.spenditure.object.MainCategory;
 import com.spenditure.object.Report;
 import com.spenditure.presentation.BottomNavigationHandler;
+import com.spenditure.presentation.UIChartUtility;
 import com.spenditure.presentation.UIUtility;
 
 import java.util.ArrayList;
@@ -102,63 +103,24 @@ public class ViewReportActivity extends AppCompatActivity {
         handleGeneralReport();
         handleCustomCategoryReport();
         handleCategoriesReport();
+        handleLastYearReport();
         handleTimebaseReport();
         handleCustomDateReport();
         navBarHandling();
-        handleLastYearReport();
-        handleLineChart();
+
 
     }
 
-    private void handleLineChart(){
+    private void handleLineChart(List<Report> reportList,List<String>timeLabels){
         LineChart lineChart = findViewById(R.id.lineChart_spending);
-        lineChart.getAxisRight().setDrawLabels(false);
-        lineChart.getAxisRight().setDrawGridLines(false);
-
-        lineChart.getAxisLeft().setDrawGridLines(false);
-        lineChart.getXAxis().setDrawGridLines(false);
-
-
-        List<String> xValues = Arrays.asList("ha","ho","he","hi");
-        XAxis xAxis = lineChart.getXAxis();
-        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
-        xAxis.setValueFormatter(new IndexAxisValueFormatter(xValues));
-        xAxis.setLabelCount(4);
-        xAxis.setGranularity(1f);
-        xAxis.setGridColor(Color.WHITE);
-        xAxis.setAxisLineColor(Color.WHITE);
-        xAxis.setTextSize(20f);
-        xAxis.setAxisLineWidth(5f);
-        xAxis.setTextColor(Color.WHITE);
-
-        YAxis yAxis = lineChart.getAxisLeft();
-        yAxis.setAxisMinimum(0f);
-        yAxis.setMaxWidth(100f);
-        yAxis.setAxisLineWidth(2f);
-        yAxis.setZeroLineColor(Color.WHITE);
-        yAxis.setLabelCount(10);
-        yAxis.setAxisLineColor(Color.WHITE);
-        yAxis.setTextSize(20f);
-        yAxis.setAxisLineWidth(5f);
-        yAxis.setTextColor(Color.WHITE);
 
         List<Entry>entries = new ArrayList<>();
-        entries.add(new Entry(0,10f));
-        entries.add(new Entry(1,10f));
-        entries.add(new Entry(2,15f));
-        entries.add(new Entry(3,45f));
+        for(int i = 0 ; i <reportList.size(); i++){
+            entries.add(new Entry((float) i, (float) reportList.get(i).getTotal()));
+        }
+        UIChartUtility.configLineChar(lineChart,entries,timeLabels);
 
-        LineDataSet dataSet = new LineDataSet(entries,"Math");
 
-        dataSet.setColors(Color.WHITE);
-        dataSet.setLineWidth(5f);
-        dataSet.setCircleRadius(5f);
-        dataSet.setValueTextSize(20f);
-        dataSet.setValueTextColor(Color.WHITE);
-
-        LineData lineData = new LineData(dataSet);
-        lineChart.setData(lineData);
-        lineChart.getLegend().setEnabled(false);
         lineChart.invalidate();
     }
 
@@ -185,7 +147,7 @@ public class ViewReportActivity extends AppCompatActivity {
 
     private void handleChartCategory(List<CategoryReport> categoryStatisticsList){
         ArrayList<PieEntry> entries = new ArrayList<>();
-        Typeface boldTF = Typeface.defaultFromStyle(Typeface.BOLD);
+
         PieChart catChart = findViewById(R.id.piechart_category);
 
         for(CategoryReport categoryReport : categoryStatisticsList){
@@ -194,33 +156,7 @@ public class ViewReportActivity extends AppCompatActivity {
             }
         }
 
-        PieDataSet pieDataSet = new PieDataSet(entries,"");
-        pieDataSet.setValueFormatter(new PercentageValueFormatter());
-
-        PieData pieData = new PieData(pieDataSet);
-        catChart.setData(pieData);
-
-
-        //Styling pie chart
-        pieDataSet.setValueTextSize(20); // Set size of value text
-        pieDataSet.setValueTextColor(Color.WHITE);
-        pieDataSet.setColors(ColorTemplate.MATERIAL_COLORS);
-        pieDataSet.setValueTypeface(boldTF);
-
-        catChart.getDescription().setEnabled(false);
-        catChart.animateY(1000);
-
-        catChart.setHoleColor(R.drawable.background_dark_blue);
-        catChart.setEntryLabelTextSize(0);
-        catChart.setCenterTextColor(Color.WHITE);
-
-        Legend legend = catChart.getLegend();
-        legend.setTextSize(40); // Set text size of legend
-        legend.setHorizontalAlignment(Legend.LegendHorizontalAlignment.CENTER);
-        legend.setTextColor(Color.WHITE);
-        legend.setFormSize(20);
-        legend.setTypeface(boldTF);
-
+        UIChartUtility.configPieChar(catChart,entries);
         catChart.invalidate();
     }
 
@@ -287,12 +223,16 @@ public class ViewReportActivity extends AppCompatActivity {
     }
 
     private void handleTimebaseReport(){
+        List<Report> reportList = reportManager.reportBackOnLastYearByMonth(userID,currDate);
+        List<String> timeLabels = Arrays.asList(DateTime.MONTHS);
+
         ShimmerFrameLayout shimmerFrameLayout = findViewById(R.id.shimmer_timebase_report);
         ViewPager viewPagerCustom = findViewById(R.id.gridlayout_timebase_report);
         Spinner spinner = findViewById(R.id.spinner_timebase_report);
 
-        SliderAdapterTimeBase adapterCustom= new SliderAdapterTimeBase(this,reportManager.reportBackOnLastYearByMonth(userID,currDate),"Month");
+        SliderAdapterTimeBase adapterCustom= new SliderAdapterTimeBase(this,reportList,timeLabels);
         viewPagerCustom.setAdapter(adapterCustom);
+        handleLineChart(reportList, timeLabels);
 
 
         ArrayAdapter<String>adapter = new ArrayAdapter<>(this, R.layout.custom_snipper_report,time_base_option);
@@ -306,14 +246,23 @@ public class ViewReportActivity extends AppCompatActivity {
                 viewPagerCustom.setVisibility(View.INVISIBLE);
                 shimmerFrameLayout.setVisibility(View.VISIBLE);
                 shimmerFrameLayout.startShimmerAnimation();
+                List<Report>selectReport;
+                List<String>selectTime;
 
                 if (position == 0){
-                    SliderAdapterTimeBase adapterCustom= new SliderAdapterTimeBase(getApplicationContext(),reportManager.reportBackOnLastYearByMonth(userID,currDate),"Month");
-                    viewPagerCustom.setAdapter(adapterCustom);
+                    selectReport = reportManager.reportBackOnLastYearByMonth(userID,currDate);
+                    selectTime = Arrays.asList(DateTime.MONTHS);
+
                 }else {
-                    SliderAdapterTimeBase adapterCustom= new SliderAdapterTimeBase(getApplicationContext(),reportManager.reportBackOneMonthByWeek(userID,currDate),"Week");
-                    viewPagerCustom.setAdapter(adapterCustom);
+                    selectReport = reportManager.reportBackOneMonthByWeek(userID,currDate);
+                    selectTime = Arrays.asList(DateTime.WEEKS);
+
                 }
+                SliderAdapterTimeBase adapterCustom= new SliderAdapterTimeBase(getApplicationContext(),selectReport,selectTime);
+                viewPagerCustom.setAdapter(adapterCustom);
+                handleLineChart(selectReport,selectTime);
+
+
 
                 Handler handler = new Handler();
                 handler.postDelayed(()->{
