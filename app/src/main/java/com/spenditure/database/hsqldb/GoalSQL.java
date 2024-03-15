@@ -118,6 +118,6 @@ public class GoalSQL implements GoalPersistence {
         catch (final SQLException e) {
             throw new RuntimeException("An error occurred while processing the SQL operation5", e);
         }
-        
+
     }
 }
