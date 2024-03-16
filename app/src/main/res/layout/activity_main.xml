@@ -319,42 +319,70 @@
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="24dp" />
-                <RelativeLayout
+
+
+
+                <View
                     android:layout_width="match_parent"
-                    android:layout_height="400dp">
-                    <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_height="24dp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="900dp"
+                    android:layout_marginHorizontal="50dp"
+                    android:gravity="center"
+
+                    android:id="@+id/report_cat_chart"
+                    android:orientation="vertical"
+                    android:background="@drawable/background_dark_blue"
+                    android:padding="@dimen/space_2"
+
+
+                    >
+                    <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="400dp"
-                        android:layout_marginHorizontal="50dp"
-                        android:id="@+id/report_no_category_report"
-                        android:orientation="vertical"
-                        android:background="@drawable/background_dark_blue"
-                        android:visibility="invisible">
-
-                        <TextView
+                        android:layout_marginHorizontal="0dp">
+                        <androidx.constraintlayout.widget.ConstraintLayout
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginHorizontal="@dimen/space_6"
-                            android:paddingHorizontal="@dimen/space_2"
-                            android:text="Group transaction by Category to see this report"
-                            android:textAlignment="center"
-                            android:textColor="@color/white"
-                            android:textSize="@dimen/normal_size"
-                            android:textStyle="bold"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
-                    </androidx.constraintlayout.widget.ConstraintLayout>
+                            android:layout_height="400dp"
 
-                    <androidx.viewpager.widget.ViewPager
-                        android:id="@+id/viewpager_report"
+                            android:id="@+id/report_no_category_report"
+                            android:orientation="vertical"
+                            android:background="@drawable/background_dark_blue"
+                            android:visibility="invisible">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginHorizontal="@dimen/space_6"
+                                android:paddingHorizontal="@dimen/space_2"
+                                android:text="Group transaction by Category to see this report"
+                                android:textAlignment="center"
+                                android:textColor="@color/white"
+                                android:textSize="@dimen/normal_size"
+                                android:textStyle="bold"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+
+                        <androidx.viewpager.widget.ViewPager
+                            android:id="@+id/viewpager_report"
+                            android:layout_width="match_parent"
+                            android:layout_height="400dp"
+                            android:layout_marginHorizontal="0dp"
+                            />
+                    </RelativeLayout>
+
+                    <com.github.mikephil.charting.charts.PieChart
+                        android:id="@+id/piechart_category"
                         android:layout_width="match_parent"
-                        android:layout_height="400dp"
-                        android:layout_marginHorizontal="50dp"
+                        android:layout_height="match_parent"
                         />
-                </RelativeLayout>
 
+                </LinearLayout>
 
                 <View
                     android:layout_width="match_parent"
@@ -514,13 +542,13 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="500dp"
+                    android:layout_height="1000dp"
                     android:layout_marginHorizontal="50dp"
-
+                    android:background="@drawable/background_dark_blue"
                     android:orientation="vertical">
 
                     <Spinner
-
+                        android:layout_marginStart="@dimen/radius_2"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="24dp"
@@ -530,7 +558,8 @@
 
                     <RelativeLayout
                         android:layout_width="match_parent"
-                        android:layout_height="400dp">
+                        android:layout_height="400dp"
+                        android:paddingHorizontal="@dimen/space_2">
                         <com.facebook.shimmer.ShimmerFrameLayout
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
@@ -668,6 +697,30 @@
 
 
                     </RelativeLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="520dp"
+
+                        android:gravity="center"
+
+                        android:id="@+id/report_line_chart"
+                        android:orientation="vertical"
+                        android:background="@drawable/background_dark_blue"
+                        android:padding="@dimen/space_2"
+
+
+                        >
+
+
+                        <com.github.mikephil.charting.charts.LineChart
+
+                            android:id="@+id/lineChart_spending"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"/>
+
+
+
+                    </LinearLayout>
 
 
 
@@ -900,6 +953,13 @@
                     </LinearLayout>
 
                 </LinearLayout>
+
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="24dp" />
+
+
 
                 <!-- This is a holder -->
                 <View
