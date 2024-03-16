@@ -1,11 +1,9 @@
 package com.spenditure.presentation.category;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -14,14 +12,10 @@ import com.spenditure.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.spenditure.application.Services;
-import com.spenditure.database.utils.DBHelper;
 import com.spenditure.logic.CategoryHandler;
 import com.spenditure.logic.ICategoryHandler;
 import com.spenditure.logic.UserManager;
 import com.spenditure.presentation.BottomNavigationHandler;
-import com.spenditure.presentation.TouchHelper;
-import com.spenditure.presentation.transaction.CreateTransactionActivity;
-import com.spenditure.presentation.transaction.ViewTransactionsActivity;
 
 
 /**
@@ -33,7 +27,8 @@ public class ViewCategoryActivity extends AppCompatActivity {
 
     private ICategoryHandler categoryHandler = null;
     private RecyclerView recyclerView;
-    private FloatingActionButton mFab;
+    private FloatingActionButton addButton;
+    private FloatingActionButton refreshButton;
     private CategoryAdapter adapter;
 
 
@@ -44,7 +39,8 @@ public class ViewCategoryActivity extends AppCompatActivity {
         categoryHandler = new CategoryHandler(Services.DEVELOPING_STATUS);
         setContentView(R.layout.activity_view_category);
         recyclerView = findViewById(R.id.recyclerview_category);
-        mFab = findViewById(R.id.floatingActionButton_category);
+        addButton = findViewById(R.id.floatingActionButton_category);
+        refreshButton = findViewById(R.id.floatingActionButton_refresh);
 
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -52,13 +48,20 @@ public class ViewCategoryActivity extends AppCompatActivity {
         adapter = new CategoryAdapter(ViewCategoryActivity.this, categoryHandler.getAllCategory(UserManager.getUserID()));
         recyclerView.setAdapter(adapter);
 
-        mFab.setOnClickListener(new View.OnClickListener() {
+        refreshButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                adapter = new CategoryAdapter(ViewCategoryActivity.this, categoryHandler.getAllCategory(UserManager.getUserID()));
+                recyclerView.setAdapter(adapter);
+            }
+        });
+        addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
                 AddNewCategory.newInstance().show(getSupportFragmentManager(),AddNewCategory.TAG);
-                adapter.notifyDataSetChanged();
             }
+
         });
 
         //We are planning to let user remove category, but this react is unexpected, so we leave this for future work

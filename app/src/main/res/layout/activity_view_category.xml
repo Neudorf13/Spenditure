@@ -10,15 +10,15 @@
 
 
     <LinearLayout
+        android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:background="@color/background_color">
+        android:background="@color/background_color"
+        android:orientation="vertical">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/app_title_bar_height"
-            >
+            android:layout_height="@dimen/app_title_bar_height">
 
 
             <ImageView
@@ -116,6 +116,19 @@
         app:layout_constraintBottom_toTopOf="@+id/nav_view"
         app:layout_constraintEnd_toEndOf="parent"
         app:srcCompat="@drawable/symbol_add" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/floatingActionButton_refresh"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/light_blue"
+        android:clickable="true"
+        android:tint="@color/white"
+        app:layout_constraintBottom_toTopOf="@+id/nav_view"
+        android:layout_marginStart="24dp"
+        android:layout_marginBottom="24dp"
+        app:layout_constraintStart_toStartOf="@+id/linearLayout"
+        app:srcCompat="@drawable/symbol_refresh" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
