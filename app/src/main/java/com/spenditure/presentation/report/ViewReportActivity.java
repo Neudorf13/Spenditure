@@ -100,8 +100,8 @@ public class ViewReportActivity extends AppCompatActivity {
         this.userID = UserManager.getUserID();
         this.currDate = TimeBaseReportHandler.getCurrentDate();
 
-//        handleGeneralReport();
-//        handleCustomCategoryReport();
+        handleGeneralReport();
+        handleCustomCategoryReport();
 //        handleCategoriesReport();
 //        handleLastYearReport();
 //        handleTimebaseReport();
@@ -301,16 +301,12 @@ public class ViewReportActivity extends AppCompatActivity {
     private void handleGeneralReport(){
         String spendString = "You've spent " + UIUtility.cleanTotalString(generalReportHandler.totalSpending(userID));
         String makeTransactions = "You've made " + UIUtility.cleanTransactionNumberString(generalReportHandler.numTransactions(userID));
-        TextView short_text = findViewById(R.id.textview_summary_report_short);
-        TextView long_text = findViewById(R.id.textview_summary_report_long);
+        TextView totalSpending = findViewById(R.id.textview_general_total_spending);
+        TextView numTrans = findViewById(R.id.textview_summary_num_trans);
 
-        if (spendString.length() > makeTransactions.length()){
-            long_text.setText(spendString);
-            short_text.setText(makeTransactions);
-        }else{
-            long_text.setText(makeTransactions);
-            short_text.setText(spendString);
-        }
+        totalSpending.setText(spendString);
+        numTrans.setText(makeTransactions);
+
     }
 
     private void handleCustomCategoryReport(){
@@ -340,19 +336,16 @@ public class ViewReportActivity extends AppCompatActivity {
 
                 if(categories.size() == 0){
                     findViewById(R.id.imageView_check_custom).setVisibility(View.INVISIBLE);
-                    findViewById(R.id.textview_custom_report_short).setVisibility(View.INVISIBLE);
-                    ((TextView)findViewById(R.id.textview_custom_report_long)).setText("Group transactions to categories to see the report.");
+                    findViewById(R.id.textview_custom_report_most).setVisibility(View.INVISIBLE);
+                    ((TextView)findViewById(R.id.textview_custom_report_least)).setText("Group transactions to categories to see the report.");
                 }else{
-                    findViewById(R.id.textview_custom_report_short).setVisibility(View.VISIBLE);
+                    findViewById(R.id.textview_custom_report_most).setVisibility(View.VISIBLE);
                     spendMostString += categories.get(0).getName();
                     spendLeastString += categories.get(categories.size()-1).getName();
-                    if( spendMostString.length() > spendLeastString.length()){
-                        ((TextView)findViewById(R.id.textview_custom_report_long)).setText(spendMostString);
-                        ((TextView)findViewById(R.id.textview_custom_report_short)).setText(spendLeastString);
-                    }else{
-                        ((TextView)findViewById(R.id.textview_custom_report_long)).setText(spendLeastString);
-                        ((TextView)findViewById(R.id.textview_custom_report_short)).setText(spendMostString);
-                    }
+
+                    ((TextView)findViewById(R.id.textview_custom_report_most)).setText(spendMostString);
+                    ((TextView)findViewById(R.id.textview_custom_report_least)).setText(spendLeastString);
+
                 }
             }
 
