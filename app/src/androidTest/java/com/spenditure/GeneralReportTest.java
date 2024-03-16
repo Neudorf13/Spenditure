@@ -55,15 +55,7 @@ public class GeneralReportTest {
     public void setup(){
         ActivityScenario.launch(LoginActivity.class);
 
-        onView(withId(R.id.edittext_username)).perform(
-                typeText("Me"),
-                ViewActions.closeSoftKeyboard()
-        );
-        onView(withId(R.id.edittext_current_password)).perform(
-                typeText("123"),
-                ViewActions.closeSoftKeyboard()
-        );
-        onView(withId(R.id.button_login)).perform(click());
+        TestUtility.login();
 
         generalReportHandler = new GeneralReportHandler(Services.DEVELOPING_STATUS);
         double total = generalReportHandler.totalSpending(UserManager.getUserID());

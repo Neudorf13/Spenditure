@@ -102,9 +102,9 @@ public class ViewReportActivity extends AppCompatActivity {
 
         handleGeneralReport();
         handleCustomCategoryReport();
-//        handleCategoriesReport();
+        handleCategoriesReport();
 //        handleLastYearReport();
-//        handleTimebaseReport();
+        handleTimebaseReport();
 //        handleCustomDateReport();
         navBarHandling();
 

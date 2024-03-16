@@ -51,15 +51,7 @@ public class CategoryTest {
 
         ActivityScenario.launch(LoginActivity.class);
         categoryHandler = new CategoryHandler(Services.DEVELOPING_STATUS);
-        onView(withId(R.id.edittext_username)).perform(
-                typeText("Me"),
-                ViewActions.closeSoftKeyboard()
-        );
-        onView(withId(R.id.edittext_current_password)).perform(
-                typeText("123"),
-                ViewActions.closeSoftKeyboard()
-        );
-        onView(withId(R.id.button_login)).perform(click());
+        TestUtility.login();
         onView(withId(R.id.navigation_category)).perform(click());
 
 
