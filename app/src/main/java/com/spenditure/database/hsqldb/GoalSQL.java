@@ -4,7 +4,6 @@ import com.spenditure.database.GoalPersistence;
 import com.spenditure.logic.exceptions.InvalidUserInformationException;
 import com.spenditure.object.DateTime;
 import com.spenditure.object.Goal;
-import com.spenditure.object.Transaction;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -26,6 +25,7 @@ public class GoalSQL implements GoalPersistence {
         return DriverManager.getConnection("jdbc:hsqldb:file:" + dbPath + ";shutdown=true", "SA", "");
     }
 
+    //builds Goal object from query result data
     private Goal fromResultSet(final ResultSet rs) throws SQLException {
         final int goalID = rs.getInt("GOALID");
         final int userID = rs.getInt("USERID");
@@ -39,6 +39,7 @@ public class GoalSQL implements GoalPersistence {
         return new Goal(goalID, userID, goalName, dateTime, spendingGoal, categoryID);
     }
 
+    //adds goal to db, throws exception if error
     @Override
     public void addGoal(Goal goal) {
         try(final Connection connection = connection()) {
@@ -57,6 +58,7 @@ public class GoalSQL implements GoalPersistence {
         }
     }
 
+    //returns List of goals associated with a specific userID
     @Override
     public List<Goal> getGoalsForUser(int userID) {
         List<Goal> goalsForUser = new ArrayList<>();
@@ -83,6 +85,7 @@ public class GoalSQL implements GoalPersistence {
         }
     }
 
+    //deletes a goal based on goalID, returns true if success, false if no changes made, exception thrown if error
     @Override
     public boolean deleteGoal(int goalID) {
         try(final Connection connection = connection()) {
@@ -98,6 +101,7 @@ public class GoalSQL implements GoalPersistence {
         }
     }
 
+    //returns Goal based on goalID, throws exception if it does not exist or error with query
     @Override
     public Goal getGoalByID(int goalID) {
 

@@ -15,6 +15,7 @@ public class GoalStub implements GoalPersistence {
 
     private ArrayList<Goal> goalList;
 
+    //init GoalStub + adds 3 Goals to stub
     public GoalStub(){
         this.goalList = new ArrayList<>();
         this.goalList.add(new Goal(1,1,"eat less fast food", new DateTime(2024,11,5), 500, 2));
@@ -22,7 +23,7 @@ public class GoalStub implements GoalPersistence {
         this.goalList.add(new Goal(3,1,"less partying", new DateTime(2025,1,1), 750, 3));
     }
 
-
+    //adds goal to goalList or throws exception if error
     @Override
     public void addGoal(Goal goal) {
         if(goal != null) {
@@ -33,6 +34,7 @@ public class GoalStub implements GoalPersistence {
         }
     }
 
+    //returns List of Goals based on userID
     @Override
     public List<Goal> getGoalsForUser(int targetUID) {
         List<Goal> goalsForUser = new ArrayList<>();
@@ -44,6 +46,7 @@ public class GoalStub implements GoalPersistence {
         return goalsForUser;
     }
 
+    //deletes goal from goalList with target goalID, returns true if success, false if goalID does not exist
     @Override
     public boolean deleteGoal(int targetGID) {
 
@@ -57,6 +60,7 @@ public class GoalStub implements GoalPersistence {
         return false;
     }
 
+    //returns Goal based on goalID, null if Goal does not exist
     @Override
     public Goal getGoalByID(int targetGID) {
 
