@@ -14,13 +14,14 @@ import java.util.List;
 public class GoalStub implements GoalPersistence {
 
     private ArrayList<Goal> goalList;
+    int currentID = 1;
 
     //init GoalStub + adds 3 Goals to stub
     public GoalStub(){
         this.goalList = new ArrayList<>();
-        this.goalList.add(new Goal(1,1,"eat less fast food", new DateTime(2024,11,5), 500, 2));
-        this.goalList.add(new Goal(2,1,"less gems in clash of clans", new DateTime(2024,6,12), 200, 3));
-        this.goalList.add(new Goal(3,1,"less partying", new DateTime(2025,1,1), 750, 3));
+        this.goalList.add(new Goal(generateUniqueID(),1,"eat less fast food", new DateTime(2024,11,5), 500, 2));
+        this.goalList.add(new Goal(generateUniqueID(),1,"less gems in clash of clans", new DateTime(2024,6,12), 200, 3));
+        this.goalList.add(new Goal(generateUniqueID(),1,"less partying", new DateTime(2025,1,1), 750, 3));
     }
 
     //adds goal to goalList or throws exception if error
@@ -72,4 +73,10 @@ public class GoalStub implements GoalPersistence {
 
         return null;
     }
+
+    public int generateUniqueID()
+    {
+        return currentID++;
+    }
+
 }

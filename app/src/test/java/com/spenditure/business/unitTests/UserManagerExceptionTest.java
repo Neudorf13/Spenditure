@@ -162,7 +162,7 @@ public class UserManagerExceptionTest {
     public void testRegister(){
         caught = false;
         try{
-           userManager.register(null,"null");
+           userManager.register(null,"null", "", "", -1);
         }catch (InvalidUserInformationException e){
             caught = true;
         } catch (NoSuchAlgorithmException e) {
@@ -172,7 +172,7 @@ public class UserManagerExceptionTest {
 
         caught = false;
         try{
-            userManager.register("null",null);
+            userManager.register("null",null, null, null, 0);
         }catch (InvalidUserInformationException e){
             caught = true;
         } catch (NoSuchAlgorithmException e) {
@@ -182,7 +182,7 @@ public class UserManagerExceptionTest {
 
         caught = false;
         try{
-            userManager.register("null","");
+            userManager.register("null","", "null", "null", 0);
         }catch (InvalidUserInformationException | NoSuchAlgorithmException e){
             caught = true;
         }
@@ -190,7 +190,7 @@ public class UserManagerExceptionTest {
 
         caught = false;
         try{
-            userManager.register("","aaa");
+            userManager.register("","aaa", "", "anser", 1);
         }catch (InvalidUserInformationException | NoSuchAlgorithmException e){
             caught = true;
         }
@@ -198,7 +198,7 @@ public class UserManagerExceptionTest {
 
         caught = false;
         try{
-            userManager.register("Aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa","aaa");
+            userManager.register("Aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa","aaa", "aaaaaaaaaa", "aaaaaaa", 1);
         }catch (InvalidUserInformationException | NoSuchAlgorithmException e){
             caught = true;
         }

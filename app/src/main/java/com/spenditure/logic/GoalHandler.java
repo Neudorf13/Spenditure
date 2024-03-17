@@ -13,8 +13,6 @@ public class GoalHandler {
 
     private static GoalPersistence dataAccessGoal;
 
-    private static int currentID = 1;
-
     public GoalHandler(boolean getStubDB) {
 
         if(dataAccessGoal == null) {
@@ -39,17 +37,15 @@ public class GoalHandler {
         the data layer to add to the database.
 
      */
-    Goal createGoal(int userID, String name, DateTime completeBy, int goalAmount, int categoryID) {
+    public void createGoal(int userID, String name, DateTime completeBy, int goalAmount, int categoryID) {
 
-        Goal result = new Goal(userID, currentID, name, completeBy, goalAmount, categoryID);
+        Goal result = new Goal(1, userID, name, completeBy, goalAmount, categoryID);
 
         validateGoal(result);
 
+        result.setGoalID(dataAccessGoal.generateUniqueID());
+
         dataAccessGoal.addGoal(result);
-
-        currentID++;
-
-        return result;
 
     }
 
@@ -60,7 +56,7 @@ public class GoalHandler {
         Passes the Goal ID to the data layer and returns the resulting Goal.
 
      */
-    Goal getGoalByID(int goalID) {
+    public Goal getGoalByID(int goalID) {
 
         return dataAccessGoal.getGoalByID(goalID);
 
@@ -73,7 +69,7 @@ public class GoalHandler {
         Passes the User ID to the data layer, and returns all goals linked to that User ID.
 
      */
-    List<Goal> getGoalsForUserID(int userID) {
+    public List<Goal> getGoalsForUserID(int userID) {
 
         return dataAccessGoal.getGoalsForUser(userID);
 
@@ -86,7 +82,7 @@ public class GoalHandler {
         Passes the Goal ID to the data layer, which will delete any matching goal.
 
      */
-    void deleteGoal(int goalID) {
+    public void deleteGoal(int goalID) {
 
         dataAccessGoal.deleteGoal(goalID);
 

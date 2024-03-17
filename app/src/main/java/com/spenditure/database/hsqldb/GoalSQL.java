@@ -1,6 +1,7 @@
 package com.spenditure.database.hsqldb;
 
 import com.spenditure.database.GoalPersistence;
+import com.spenditure.logic.exceptions.InvalidGoalException;
 import com.spenditure.logic.exceptions.InvalidUserInformationException;
 import com.spenditure.object.DateTime;
 import com.spenditure.object.Goal;
@@ -10,6 +11,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -115,12 +117,38 @@ public class GoalSQL implements GoalPersistence {
                 return fromResultSet(resultSet);
             }
             else {
-                throw new InvalidUserInformationException("No goal with id: " + goalID);
+                throw new InvalidGoalException("No goal with id: " + goalID);
             }
 
         }
         catch (final SQLException e) {
             throw new RuntimeException("An error occurred while processing the SQL operation5", e);
+        }
+
+    }
+
+    public int generateUniqueID() {
+
+        int largestTransactionID = 1;
+        try(final Connection connection = connection()) {
+            final Statement st = connection.createStatement();
+            final ResultSet rs = st.executeQuery("SELECT * FROM goals");
+            while (rs.next())
+            {
+
+                int currTransactionID = rs.getInt("GOALID");
+                if(currTransactionID > largestTransactionID) {
+                    largestTransactionID = currTransactionID;
+                }
+            }
+            rs.close();
+            st.close();
+
+            return largestTransactionID+1;
+
+        }
+        catch (final SQLException e) {
+            throw new RuntimeException("An error occurred while processing the SQL operation", e);
         }
 
     }

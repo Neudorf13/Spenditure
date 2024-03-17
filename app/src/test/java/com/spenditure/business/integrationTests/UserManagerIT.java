@@ -81,7 +81,7 @@ public class UserManagerIT {
 
     @Test
     public void testRegister() throws NoSuchAlgorithmException {
-        int userID = accountManager.register("new user","testpassword123");
+        int userID = accountManager.register("new user","testpassword123", "test.email@domain.com", null, 0);
         assertEquals(6,userID);
         accountManager.logout();
         userID = accountManager.login("new user","testpassword123");

@@ -12,7 +12,8 @@ public interface IUserManager {
 
     public boolean changeUsername(int providedUserID, String newUsername);
 
-    public int register(String username, String password) throws NoSuchAlgorithmException;
+    public int register(String username, String password, String email, String securityAnswer, int securityQuestionID)
+            throws NoSuchAlgorithmException;
 
     public void logout();
 

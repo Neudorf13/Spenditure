@@ -13,4 +13,6 @@ public interface GoalPersistence {
     boolean deleteGoal(int goalID);
 
     Goal getGoalByID(int goalID);
+
+    int generateUniqueID();
 }

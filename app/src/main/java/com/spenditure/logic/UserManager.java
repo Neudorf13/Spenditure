@@ -112,20 +112,40 @@ public class UserManager implements IUserManager{
 
     /*
 
+        changeEmail
+
+        For a logged in user, enables user to change the account's associated email. The new
+        email is taken in as a String.
+
+     */
+//    public void changeEmail(int providedUserID, String newEmail) throws InvalidUserInformationException {
+//
+//        validateEmail(newEmail);
+//
+//        if(providedUserID < 0)
+//            throw new InvalidUserInformationException("No users are logged in; please log in before changing your email.");
+//
+//        accountPersistence.changeEmail(providedUserID, newEmail);
+//
+//    }
+
+    /*
+
         register
 
         Creates a new user account with the given Strings for username and password. Returns the
         new user's User ID.
 
      */
-    public int register(String username, String password) throws InvalidStringFormat, NoSuchAlgorithmException {
+    public int register(String username, String password, String email, String securityAnswer, int securityQID) throws InvalidStringFormat, NoSuchAlgorithmException {
 
         validateUsernameAndPassword(username, password);
 
+        validateEmail(email);
+
         String hashedPassword = hashPassword(password);
 
-        //int newUserID = accountPersistence.register(username,password,null);
-        int newUserID = accountPersistence.register(username,hashedPassword,null, null, -1);
+        int newUserID = accountPersistence.register(username,hashedPassword,email, securityAnswer, securityQID);
 
         UserManager.userID = newUserID;
 
@@ -175,6 +195,22 @@ public class UserManager implements IUserManager{
         UserManager.userID = -1;
     }
 
+    public String getSecurityQuestion(int securityQuestionID) {
+
+//        return accountPersistence.getSecurityQuestion(securityQuestionID);
+
+        return null;
+    }
+
+    public void checkSecurityAnswer(int userID, String answer) throws InvalidUserInformationException {
+
+//        String storedAnswer = accountPersistence.getSecurityAnswer(userID);
+
+//        if(!answer.equals(storedAnswer))
+//            throw new InvalidUserInformationException("The provided answer to the user's security question is incorrect.");
+
+    }
+
     private String hashPassword(String password) throws NoSuchAlgorithmException {
         MessageDigest digest = MessageDigest.getInstance("SHA-256");
         byte[] hash = digest.digest(password.getBytes());
@@ -186,6 +222,8 @@ public class UserManager implements IUserManager{
 
         return result.toString();
     }
+
+
 
 
 }

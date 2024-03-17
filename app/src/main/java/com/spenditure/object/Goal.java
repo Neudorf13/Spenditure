@@ -43,4 +43,6 @@ public class Goal {
     public int getCategoryID() {
         return categoryID;
     }
+
+    public void setGoalID(int newID) { goalID = newID; }
 }
