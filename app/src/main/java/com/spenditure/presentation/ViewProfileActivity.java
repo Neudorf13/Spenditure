@@ -27,6 +27,8 @@ import com.spenditure.application.Services;
 import com.spenditure.logic.UserManager;
 import com.spenditure.logic.exceptions.InvalidUserInformationException;
 
+import java.security.NoSuchAlgorithmException;
+
 public class ViewProfileActivity extends AppCompatActivity {
 
     // Instance variables
@@ -81,6 +83,8 @@ public class ViewProfileActivity extends AppCompatActivity {
                     Toast.makeText(ViewProfileActivity.this, "Unable to update credentials." + e.getMessage(),Toast.LENGTH_LONG).show();
                     usernameField.setText("");
                     currentPasswordField.setText("");
+                } catch (NoSuchAlgorithmException e) {
+                    throw new RuntimeException(e);
                 }
             }
         });

@@ -9,6 +9,8 @@ import org.junit.Test;
 import org.junit.After;
 import static org.junit.Assert.*;
 
+import java.security.NoSuchAlgorithmException;
+
 public class UserManagerExceptionTest {
 
     private UserManager userManager;
@@ -26,19 +28,21 @@ public class UserManagerExceptionTest {
     }
 
     @Test
-    public void testLogin(){
+    public void testLogin() throws NoSuchAlgorithmException {
         caught = false;
         try{
             userManager.login(null,"123");
         }catch (InvalidUserInformationException e){
             caught = true;
+        } catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException(e);
         }
         assertTrue(caught);
 
         caught = false;
         try{
             userManager.login("null",null);
-        }catch (InvalidUserInformationException e){
+        }catch (InvalidUserInformationException | NoSuchAlgorithmException e){
             caught = true;
         }
         assertTrue(caught);
@@ -46,7 +50,7 @@ public class UserManagerExceptionTest {
         caught = false;
         try{
             userManager.login("","123");
-        }catch (InvalidUserInformationException e){
+        }catch (InvalidUserInformationException | NoSuchAlgorithmException e){
             caught = true;
         }
         assertTrue(caught);
@@ -54,7 +58,7 @@ public class UserManagerExceptionTest {
         caught = false;
         try{
             userManager.login("Me","");
-        }catch (InvalidUserInformationException e){
+        }catch (InvalidUserInformationException | NoSuchAlgorithmException e){
             caught = true;
         }
         assertTrue(caught);
@@ -62,7 +66,7 @@ public class UserManagerExceptionTest {
         caught = false;
         try{
             userManager.login("Hehe","123");
-        }catch (InvalidUserInformationException e){
+        }catch (InvalidUserInformationException | NoSuchAlgorithmException e){
             caught = true;
         }
         assertTrue(caught);
@@ -70,7 +74,7 @@ public class UserManagerExceptionTest {
         caught = false;
         try{
             userManager.login("Me","12233");
-        }catch (InvalidUserInformationException e){
+        }catch (InvalidUserInformationException | NoSuchAlgorithmException e){
             caught = true;
         }
         assertTrue(caught);
@@ -109,8 +113,9 @@ public class UserManagerExceptionTest {
     }
 
     @Test
-    public void testChangePassword(){
+    public void testChangePassword() throws NoSuchAlgorithmException {
         int userID = userManager.login("Me","123");
+
 
         caught = false;
         try{
@@ -160,6 +165,8 @@ public class UserManagerExceptionTest {
            userManager.register(null,"null");
         }catch (InvalidUserInformationException e){
             caught = true;
+        } catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException(e);
         }
         assertTrue(caught);
 
@@ -168,13 +175,15 @@ public class UserManagerExceptionTest {
             userManager.register("null",null);
         }catch (InvalidUserInformationException e){
             caught = true;
+        } catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException(e);
         }
         assertTrue(caught);
 
         caught = false;
         try{
             userManager.register("null","");
-        }catch (InvalidUserInformationException e){
+        }catch (InvalidUserInformationException | NoSuchAlgorithmException e){
             caught = true;
         }
         assertTrue(caught);
@@ -182,7 +191,7 @@ public class UserManagerExceptionTest {
         caught = false;
         try{
             userManager.register("","aaa");
-        }catch (InvalidUserInformationException e){
+        }catch (InvalidUserInformationException | NoSuchAlgorithmException e){
             caught = true;
         }
         assertTrue(caught);
@@ -190,7 +199,7 @@ public class UserManagerExceptionTest {
         caught = false;
         try{
             userManager.register("Aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa","aaa");
-        }catch (InvalidUserInformationException e){
+        }catch (InvalidUserInformationException | NoSuchAlgorithmException e){
             caught = true;
         }
         assertTrue(caught);
@@ -208,7 +217,7 @@ public class UserManagerExceptionTest {
     }
 
     @Test
-    public void testChangeUsername(){
+    public void testChangeUsername() throws NoSuchAlgorithmException {
         int userID = userManager.login("Me","123");
         caught = false;
         try{

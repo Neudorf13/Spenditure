@@ -162,10 +162,10 @@ public class UserSQL implements UserPersistence {
     //attempts to insert new entry into user table
     //returns UID on sucess, throws exception on failure
     @Override
-    public int register( String username, String password,String email) {
+    public int register( String username, String password,String email, String securityQAnswer, int securityQID) {
         try(final Connection connection = connection()) {
 
-            String insertQuery = "INSERT INTO users (userid, username, password, email) VALUES (?, ?, ?, ?)";
+            String insertQuery = "INSERT INTO users (userid, username, password, email, securityquestionanswer, securityquestionid) VALUES (?, ?, ?, ?, ?, ?)";
 
             int newUserID = getNumberOfUsers() + 1;
             try (PreparedStatement preparedStatement = connection.prepareStatement(insertQuery)) {
@@ -173,6 +173,8 @@ public class UserSQL implements UserPersistence {
                 preparedStatement.setString(2, username);
                 preparedStatement.setString(3, password);
                 preparedStatement.setString(4, email);
+                preparedStatement.setString(5, securityQAnswer);
+                preparedStatement.setInt(6, securityQID);
 
                 int rowsAffected = preparedStatement.executeUpdate();
 

@@ -18,6 +18,7 @@ import org.junit.Test;
 
 import java.io.File;
 import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 
 public class GeneralReportHandlerIT {
@@ -26,7 +27,7 @@ public class GeneralReportHandlerIT {
     private File tempDB;
 
     @Before
-    public void setup() throws IOException {
+    public void setup() throws IOException, NoSuchAlgorithmException {
 
         this.tempDB = TestUtils.copyDB();
         this.generalReportHandler = new GeneralReportHandler(false);
