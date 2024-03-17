@@ -23,6 +23,7 @@ import org.junit.Test;
 
 import java.io.File;
 import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 
 public class TransactionHandlerIT {
@@ -35,7 +36,7 @@ public class TransactionHandlerIT {
     private static final int EXPECTED_SIZE = 14;
 
     @Before
-    public void setup() throws IOException {
+    public void setup() throws IOException, NoSuchAlgorithmException {
         this.tempDB = TestUtils.copyDB();
         this.transactionHandler = new TransactionHandler(false);
         userManager = new UserManager(false);

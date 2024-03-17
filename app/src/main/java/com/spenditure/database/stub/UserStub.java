@@ -3,6 +3,8 @@ package com.spenditure.database.stub;
 import com.spenditure.database.UserPersistence;
 import com.spenditure.logic.exceptions.InvalidUserInformationException;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -15,14 +17,20 @@ public class UserStub implements UserPersistence {
 
     public UserStub(){
         this.userTable = new ArrayList<>();
-        userTable.add(new UserRow("Me","123",autoIncrementID++,"aaa@gmail.com"));
-        userTable.add(new UserRow("You","1234",autoIncrementID++,"bbb@gmail.com"));
-        userTable.add(new UserRow("He","12345",autoIncrementID++,"ccc@gmail.com"));
+        userTable.add(new UserRow("Me","a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3",autoIncrementID++,"aaa@gmail.com"));
+        userTable.add(new UserRow("You","03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4",autoIncrementID++,"bbb@gmail.com"));
+        userTable.add(new UserRow("He","5994471abb01112afcc18159f6cc74b4f511b99806da59b3caf5a9c173cacfc5",autoIncrementID++,"ccc@gmail.com"));
     }
 
+
+
     @Override
-    public int login(String username, String password) throws InvalidUserInformationException {
+    public int login(String username, String password) throws InvalidUserInformationException, NoSuchAlgorithmException {
         for (UserRow user : userTable) {
+            //String hashedPassword = hashPassword(password);
+            System.out.println("Hashed Password: " + password);
+
+
             if(user.getUsername().equals( username)){
                 if(password.equals(user.getPassword())){
                     return user.getUserID();
@@ -30,6 +38,7 @@ public class UserStub implements UserPersistence {
                     throw new InvalidUserInformationException("Wrong username or password");
                 }
             }
+
         }
         throw new InvalidUserInformationException("Wrong password or username");
     }
