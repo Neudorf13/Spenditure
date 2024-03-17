@@ -125,7 +125,7 @@ public class UserManager implements IUserManager{
         String hashedPassword = hashPassword(password);
 
         //int newUserID = accountPersistence.register(username,password,null);
-        int newUserID = accountPersistence.register(username,hashedPassword,null);
+        int newUserID = accountPersistence.register(username,hashedPassword,null, null, -1);
 
         UserManager.userID = newUserID;
 

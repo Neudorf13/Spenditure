@@ -17,9 +17,9 @@ public class UserStub implements UserPersistence {
 
     public UserStub(){
         this.userTable = new ArrayList<>();
-        userTable.add(new UserRow("Me","a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3",autoIncrementID++,"aaa@gmail.com"));
-        userTable.add(new UserRow("You","03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4",autoIncrementID++,"bbb@gmail.com"));
-        userTable.add(new UserRow("He","5994471abb01112afcc18159f6cc74b4f511b99806da59b3caf5a9c173cacfc5",autoIncrementID++,"ccc@gmail.com"));
+        userTable.add(new UserRow("Me","a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3",autoIncrementID++,"aaa@gmail.com", "billy", 1));
+        userTable.add(new UserRow("You","03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4",autoIncrementID++,"bbb@gmail.com", "Neudorf", 2));
+        userTable.add(new UserRow("He","5994471abb01112afcc18159f6cc74b4f511b99806da59b3caf5a9c173cacfc5",autoIncrementID++,"ccc@gmail.com", "3010", 3));
     }
 
 
@@ -27,10 +27,6 @@ public class UserStub implements UserPersistence {
     @Override
     public int login(String username, String password) throws InvalidUserInformationException, NoSuchAlgorithmException {
         for (UserRow user : userTable) {
-            //String hashedPassword = hashPassword(password);
-            System.out.println("Hashed Password: " + password);
-
-
             if(user.getUsername().equals( username)){
                 if(password.equals(user.getPassword())){
                     return user.getUserID();
@@ -84,7 +80,7 @@ public class UserStub implements UserPersistence {
     }
 
     @Override
-    public int register(String username, String password, String email) throws InvalidUserInformationException {
+    public int register(String username, String password, String email, String securityQAnswer, int securityQID) throws InvalidUserInformationException {
         System.out.println("test in register");
         for (UserRow user : userTable) {
             if(user.getUsername().equals(username)){
@@ -92,7 +88,7 @@ public class UserStub implements UserPersistence {
             }
         }
         int userID = autoIncrementID++;
-        userTable.add(new UserRow(username,password,userID, email));
+        userTable.add(new UserRow(username,password,userID, email, securityQAnswer, securityQID));
         return userID;
     }
 
@@ -103,11 +99,15 @@ public class UserStub implements UserPersistence {
         private String password;
         private int userID;
         private String email;
-        public UserRow(String username,String password,int userID, String email){
+        private String securityQuestionAnswer;
+        private int securityQID;
+        public UserRow(String username,String password,int userID, String email, String securityQuestionAnswer, int securityQID){
             this.username = username;
             this.password = password;
             this.userID = userID;
             this.email = email;
+            this.securityQuestionAnswer = securityQuestionAnswer;
+            this.securityQID = securityQID;
         }
 
         private void updateUserName(String newUsername){

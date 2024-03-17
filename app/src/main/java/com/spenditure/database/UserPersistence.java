@@ -7,5 +7,5 @@ public interface UserPersistence {
     String getUserName(int userID);
     boolean changePassword(int userID, String oldPassword, String newPassword);
     boolean changeUsername(int userID, String newUsername);
-    int register(String username, String password,String email);
+    int register(String username, String password,String email, String securityQAnswer, int securityQID);
 }
