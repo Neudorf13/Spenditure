@@ -2,14 +2,17 @@ package com.spenditure.application;
 
 import com.spenditure.database.CategoryPersistence;
 import com.spenditure.database.GoalPersistence;
+import com.spenditure.database.SecurityQuestionPersistence;
 import com.spenditure.database.TransactionPersistence;
 import com.spenditure.database.UserPersistence;
 import com.spenditure.database.hsqldb.CategorySQL;
 import com.spenditure.database.hsqldb.GoalSQL;
+import com.spenditure.database.hsqldb.SecurityQuestionSQL;
 import com.spenditure.database.hsqldb.TransactionSQL;
 import com.spenditure.database.hsqldb.UserSQL;
 import com.spenditure.database.stub.CategoryStub;
 import com.spenditure.database.stub.GoalStub;
+import com.spenditure.database.stub.SecurityQuestionStub;
 import com.spenditure.database.stub.TransactionStub;
 import com.spenditure.database.stub.UserStub;
 import com.spenditure.presentation.report.ViewReportActivity;
@@ -29,6 +32,7 @@ public class Services {
     private static TransactionPersistence transactionPersistence = null;
     private static UserPersistence userPersistence = null;
     private static GoalPersistence goalPersistence = null;
+    private static SecurityQuestionPersistence securityQuestionPersistence = null;
 
 
     public static synchronized CategoryPersistence getCategoryPersistence(boolean inDeveloping){
@@ -83,6 +87,19 @@ public class Services {
         return goalPersistence;
     }
 
+    public static synchronized SecurityQuestionPersistence getSecurityQuestionPersistence(boolean inDeveloping){
+        if(securityQuestionPersistence == null) {
+            if(inDeveloping){
+                securityQuestionPersistence = new SecurityQuestionStub();
+            }else {
+                //Handle connect to DB
+                securityQuestionPersistence = new SecurityQuestionSQL(ViewReportActivity.getDBPathName());
+            }
+        }
+
+        return securityQuestionPersistence;
+    }
+
     // This method is for the shake of testing with stub database
     public static void restartCategoryDB(boolean getStubDB){
         if(getStubDB){
@@ -98,7 +115,7 @@ public class Services {
         if(getStubDB){
             transactionPersistence = new TransactionStub();
         }else{
-            //Hanlde re-connect to DB
+            //Handle re-connect to DB
             transactionPersistence = new TransactionSQL(ViewReportActivity.getDBPathName());
         }
     }
@@ -108,7 +125,7 @@ public class Services {
         if(getStubDB){
             userPersistence = new UserStub();
         }else{
-            //Hanlde re-connect to DB
+            //Handle re-connect to DB
             userPersistence = new UserSQL(ViewReportActivity.getDBPathName());
         }
     }
@@ -117,8 +134,17 @@ public class Services {
         if(getStubDB){
             goalPersistence = new GoalStub();
         }else{
-            //Hanlde re-connect to DB
+            //Handle re-connect to DB
             goalPersistence = new GoalSQL(ViewReportActivity.getDBPathName());
+        }
+    }
+
+    public static void restartSecurityQuestionDB(boolean getStubDB){
+        if(getStubDB){
+            securityQuestionPersistence = new SecurityQuestionStub();
+        }else{
+            //Handle re-connect to DB
+            securityQuestionPersistence = new SecurityQuestionSQL(ViewReportActivity.getDBPathName());
         }
     }
 

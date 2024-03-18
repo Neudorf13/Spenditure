@@ -44,12 +44,30 @@ public class UserStub implements UserPersistence {
         for (UserRow user : userTable) {
             if(user.getUserID() == userID){
                 return user.getUsername();
-
             }
         }
         throw new InvalidUserInformationException("User ID not exist.");
     }
 
+    @Override
+    public String getSecurityQuestionAnswer(int userID) {
+        for (UserRow user : userTable) {
+            if(user.getUserID() == userID){
+                return user.getSecurityQuestionAnswer();
+            }
+        }
+        throw new InvalidUserInformationException("User ID not exist.");
+    }
+
+    @Override
+    public int getSecurityQuestionID(int userID) {
+        for (UserRow user : userTable) {
+            if(user.getUserID() == userID){
+                return user.getSecurityQID();
+            }
+        }
+        throw new InvalidUserInformationException("User ID not exist.");
+    }
 
 
     @Override
@@ -134,7 +152,13 @@ public class UserStub implements UserPersistence {
             return this.userID;
         }
 
+        public String getSecurityQuestionAnswer() {
+            return securityQuestionAnswer;
+        }
 
+        public int getSecurityQID() {
+            return securityQID;
+        }
     }
 
 }

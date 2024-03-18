@@ -197,6 +197,7 @@ public class UserManager implements IUserManager{
 
     public String getSecurityQuestion(int securityQuestionID) {
 
+        //need to use an instance of securityQuestionPersistence to get securityQuestion
 //        return accountPersistence.getSecurityQuestion(securityQuestionID);
 
         return null;
