@@ -59,5 +59,5 @@ public class IllustrativeReportTest {
         onView(withId(R.id.lineChart_spending)).perform(ViewActions.scrollTo());
         onView(withId(R.id.lineChart_spending)).check(matches(isDisplayed()));
     }
-    
+
 }
