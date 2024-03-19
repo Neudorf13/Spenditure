@@ -21,6 +21,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.spenditure.R;
 import com.spenditure.application.Services;
 import com.spenditure.database.utils.DBHelper;
@@ -36,6 +37,7 @@ public class LoginActivity extends AppCompatActivity {
     private String username;
     private String password;
     private UserManager userManager;
+    private FloatingActionButton registerButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +50,7 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
         setUpLoginButton();
+        setUpRegisterButton();
     }
 
     // Set up the login button
@@ -76,6 +79,20 @@ public class LoginActivity extends AppCompatActivity {
                 } catch (NoSuchAlgorithmException e) {
                     throw new RuntimeException(e);
                 }
+            }
+        });
+    }
+
+    // Set up the registration button to open the registration window
+    private void setUpRegisterButton() {
+        registerButton = findViewById(R.id.floatingActionButton_register);
+
+        registerButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Open a registration window
+                Intent registrationActivity = new Intent(getApplicationContext(), RegistrationActivity.class);
+                startActivity(registrationActivity);
             }
         });
     }
