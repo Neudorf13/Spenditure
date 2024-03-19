@@ -2,6 +2,7 @@ package com.spenditure.logic;
 
 import com.spenditure.application.Services;
 import com.spenditure.database.SecurityQuestionPersistence;
+import com.spenditure.object.SecurityQuestion;
 
 import java.util.ArrayList;
 
@@ -32,7 +33,7 @@ public class SecurityQuestionHandler implements ISecurityQuestionHandler {
 
      */
     @Override
-    public String getSecurityQuestion(int securityQuestionID) {
+    public SecurityQuestion getSecurityQuestion(int securityQuestionID) {
 
         assert( securityQuestionID > 0 );
 
@@ -48,7 +49,7 @@ public class SecurityQuestionHandler implements ISecurityQuestionHandler {
 
      */
     @Override
-    public ArrayList<String> getAllSecurityQuestions() {
+    public ArrayList<SecurityQuestion> getAllSecurityQuestions() {
 
         return dataAccessSecurityQuestion.getAllSecurityQuestions();
 

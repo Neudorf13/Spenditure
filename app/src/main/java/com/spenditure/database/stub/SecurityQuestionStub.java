@@ -18,22 +18,18 @@ public class SecurityQuestionStub implements SecurityQuestionPersistence {
     }
 
     @Override
-    public String getSecurityQuestion(int sid) {
+    public SecurityQuestion getSecurityQuestion(int sid) {
         for (SecurityQuestion question : securityQuestionList) {
             if(question.getSid() == sid) {
-                return question.getSecurityQuestion();
+                return question;
             }
         }
         return null;
     }
 
     @Override
-    public ArrayList<String> getAllSecurityQuestions() {
-        ArrayList<String> questions = new ArrayList<>();
-        for (SecurityQuestion question : securityQuestionList) {
-            questions.add(question.getSecurityQuestion());
-        }
-        return questions;
+    public ArrayList<SecurityQuestion> getAllSecurityQuestions() {
+        return securityQuestionList;
     }
 
 

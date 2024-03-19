@@ -2,6 +2,8 @@ package com.spenditure.database.hsqldb;
 
 import com.spenditure.database.SecurityQuestionPersistence;
 import com.spenditure.logic.exceptions.InvalidGoalException;
+import com.spenditure.object.MainCategory;
+import com.spenditure.object.SecurityQuestion;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -23,8 +25,14 @@ public class SecurityQuestionSQL implements SecurityQuestionPersistence {
         return DriverManager.getConnection("jdbc:hsqldb:file:" + dbPath + ";shutdown=true", "SA", "");
     }
 
+    private SecurityQuestion fromResultSet(final ResultSet rs) throws SQLException {
+        final String securityQuestion = rs.getString("SECURITYQUESTION");
+        final int sid = rs.getInt("SECURITYQID");
+        return new SecurityQuestion(sid, securityQuestion);
+    }
+
     @Override
-    public String getSecurityQuestion(int sid) {
+    public SecurityQuestion getSecurityQuestion(int sid) {
         try(final Connection connection = connection()) {
             final PreparedStatement statement = connection.prepareStatement("SELECT * FROM SECURITYQUESTIONS\nWHERE SECURITYQID=?");
             statement.setInt(1,sid);
@@ -32,7 +40,8 @@ public class SecurityQuestionSQL implements SecurityQuestionPersistence {
             final ResultSet resultSet = statement.executeQuery();
 
             if(resultSet.next()) {
-                return resultSet.getString("SECURITYQUESTION");
+                //return resultSet.getString("SECURITYQUESTION");
+                return fromResultSet(resultSet);
             }
             else {
                 throw new InvalidGoalException("No securityQuestion with sid: " + sid);
@@ -45,17 +54,17 @@ public class SecurityQuestionSQL implements SecurityQuestionPersistence {
     }
 
     @Override
-    public ArrayList<String> getAllSecurityQuestions() {
+    public ArrayList<SecurityQuestion> getAllSecurityQuestions() {
 
-        ArrayList<String> questions = new ArrayList<>();
-        String question = "";
+        ArrayList<SecurityQuestion> questions = new ArrayList<>();
+        SecurityQuestion question;
         try(final Connection connection = connection()) {
             final Statement st = connection.createStatement();
             final ResultSet rs = st.executeQuery("SELECT * FROM transactions");
 
 
             while(rs.next()) {
-                question = rs.getString("SECURITYQUESTION");
+                question = fromResultSet(rs);
                 questions.add(question);
             }
 
