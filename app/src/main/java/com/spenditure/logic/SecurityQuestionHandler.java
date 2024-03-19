@@ -5,7 +5,7 @@ import com.spenditure.database.SecurityQuestionPersistence;
 
 import java.util.ArrayList;
 
-public class SecurityQuestionHandler {
+public class SecurityQuestionHandler implements ISecurityQuestionHandler {
 
     private SecurityQuestionPersistence dataAccessSecurityQuestion;
 
@@ -31,6 +31,7 @@ public class SecurityQuestionHandler {
         Given a Security Question ID, retrieves that Security Question (if any).
 
      */
+    @Override
     public String getSecurityQuestion(int securityQuestionID) {
 
         assert( securityQuestionID > 0 );
@@ -46,6 +47,7 @@ public class SecurityQuestionHandler {
         Returns an ArrayList with all the Security Questions.
 
      */
+    @Override
     public ArrayList<String> getAllSecurityQuestions() {
 
         return dataAccessSecurityQuestion.getAllSecurityQuestions();
