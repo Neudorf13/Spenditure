@@ -3,6 +3,7 @@ package com.spenditure.business.unitTests;
 import static org.junit.Assert.*;
 
 import com.spenditure.logic.SecurityQuestionHandler;
+import com.spenditure.object.SecurityQuestion;
 
 import org.junit.After;
 import org.junit.Before;
@@ -32,17 +33,17 @@ public class SecurityQuestionHandlerTest {
     @Test
     public void testGetSecurityQuestionValidCase() {
 
-        String securityQuestion = securityQuestionHandler.getSecurityQuestion(1);
+        SecurityQuestion securityQuestion = securityQuestionHandler.getSecurityQuestion(1);
 
-        assertEquals("name of childhood pet", securityQuestion);
+        assertEquals("name of childhood pet", securityQuestion.getSecurityQuestion());
 
         securityQuestion = securityQuestionHandler.getSecurityQuestion(2);
 
-        assertEquals("fathers bachelors name", securityQuestion);
+        assertEquals("fathers bachelors name", securityQuestion.getSecurityQuestion());
 
         securityQuestion = securityQuestionHandler.getSecurityQuestion(3);
 
-        assertEquals("favorite UofM comp class course number", securityQuestion);
+        assertEquals("favorite UofM comp class course number", securityQuestion.getSecurityQuestion());
 
     }
 
@@ -50,7 +51,7 @@ public class SecurityQuestionHandlerTest {
     public void testGetSecurityQuestionInvalidCase() {
 
         boolean caught = false;
-        String securityQuestion;
+        SecurityQuestion securityQuestion;
 
         try {
 
@@ -73,13 +74,13 @@ public class SecurityQuestionHandlerTest {
     @Test
     public void testGetAllSecurityQuestions() {
 
-        ArrayList<String> questions = securityQuestionHandler.getAllSecurityQuestions();
+        ArrayList<SecurityQuestion> questions = securityQuestionHandler.getAllSecurityQuestions();
 
         assert(questions.size() == 3);
 
-        assertEquals("name of childhood pet", questions.get(0));
-        assertEquals("fathers bachelors name", questions.get(1));
-        assertEquals("favorite UofM comp class course number", questions.get(2));
+        assertEquals("name of childhood pet", questions.get(0).getSecurityQuestion());
+        assertEquals("fathers bachelors name", questions.get(1).getSecurityQuestion());
+        assertEquals("favorite UofM comp class course number", questions.get(2).getSecurityQuestion());
 
     }
 

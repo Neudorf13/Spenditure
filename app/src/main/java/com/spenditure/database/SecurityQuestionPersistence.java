@@ -6,6 +6,6 @@ import java.util.ArrayList;
 
 public interface SecurityQuestionPersistence {
 
-    String getSecurityQuestion(int sid);
-    ArrayList<String> getAllSecurityQuestions();
+    SecurityQuestion getSecurityQuestion(int sid);
+    ArrayList<SecurityQuestion> getAllSecurityQuestions();
 }

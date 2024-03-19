@@ -1,5 +1,7 @@
 package com.spenditure.logic;
 
+import com.spenditure.object.SecurityQuestion;
+
 import java.util.ArrayList;
 
 public interface ISecurityQuestionHandler {
@@ -9,11 +11,11 @@ public interface ISecurityQuestionHandler {
         getSecurityQuestion
         Given a Security Question ID, retrieves that Security Question (if any).
      */
-    String getSecurityQuestion(int securityQuestionID);
+    SecurityQuestion getSecurityQuestion(int securityQuestionID);
 
     /*
         getAllSecurityQuestions
         Returns an ArrayList with all the Security Questions.
      */
-    ArrayList<String> getAllSecurityQuestions();
+    ArrayList<SecurityQuestion> getAllSecurityQuestions();
 }
