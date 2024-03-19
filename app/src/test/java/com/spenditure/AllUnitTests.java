@@ -2,6 +2,7 @@ package com.spenditure;
 
 import com.spenditure.business.unitTests.GoalExceptionTest;
 import com.spenditure.business.unitTests.GoalHandlerTest;
+import com.spenditure.business.unitTests.SecurityQuestionHandlerTest;
 import com.spenditure.business.unitTests.UserManagerExceptionTest;
 import com.spenditure.business.unitTests.UserManagerTest;
 import com.spenditure.business.unitTests.CategoryHandlerTest;
@@ -36,7 +37,8 @@ import org.junit.runners.Suite;
         UserManagerExceptionTest.class,
         DateTimeAdjusterTest.class,
         GoalExceptionTest.class,
-        GoalHandlerTest.class
+        GoalHandlerTest.class,
+        SecurityQuestionHandlerTest.class
 })
 public class AllUnitTests {
 }
