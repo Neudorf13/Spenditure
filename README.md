@@ -131,7 +131,7 @@ Spenditure will be considered a success if a majority of users, measured by surv
 
 2. User Authentication
 
-    **Description:** A feature that allows users to increase account security by verifying their email addresses.
+    **Description:** A feature that allows users to increase account security by adding security questions.
 
     **Priority:** Low
 
