@@ -129,14 +129,6 @@ public class GeneralReportTest {
 
     }
 
-    @After
-    public void teardown(){
-//        for (Transaction currTra : transactionList){
-//            transactionHandler.addTransaction(currTra.getUserID(),currTra.getName(),currTra.getDateTime(),
-//                    currTra.getPlace(),currTra.getAmount(),currTra.getComments(),currTra.getWithdrawal(),currTra.getImage(),currTra.getCategoryID());
-//
-//        }
-    }
 
 //    @Test
 //    public void testGeneralReport(){
@@ -181,7 +173,7 @@ public class GeneralReportTest {
     public void testGeneralReport() {
         assertEquals(4,UserManager.getUserID());
         SystemClock.sleep(1000);
-//        onView(withId(R.id.navigation_category)).perform(click());
+
         onView(withId(R.id.textview_general_total_spending)).check(matches(isDisplayed()));
         onView(withId(R.id.textview_summary_num_trans)).check(matches(isDisplayed()));
 
@@ -193,14 +185,13 @@ public class GeneralReportTest {
         SystemClock.sleep(1000);
         onView(withId(R.id.textview_custom_report_most)).check(matches(withText(containsString("Food"))));
         onView(withId(R.id.textview_custom_report_least)).check(matches(withText(containsString("Grocery"))));
-//
+
         onView(withId(R.id.spinner_report)).perform(click());
         onData(allOf(is(instanceOf(String.class)), is("Report by total"))).perform(click());
         SystemClock.sleep(sleepTime);
         onView(withId(R.id.textview_custom_report_most)).check(matches(withText(containsString("Food"))));
         onView(withId(R.id.textview_custom_report_least)).check(matches(withText(containsString("Grocery"))));
-////
-//
+
         onView(withId(R.id.spinner_report)).perform(click());
         onData(allOf(is(instanceOf(String.class)), is("Report by percentage"))).perform(click());
         SystemClock.sleep(sleepTime);

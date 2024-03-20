@@ -141,10 +141,11 @@ public class TimeBaseReportHandler implements ITimeBaseReportHandler {
         validateDateTime(end);
         assert(userID >= 0);
 
-        double averageTransactionSize = getAverageTransactionSizeByDate(userID, start, end);
-        int numTransactions = countAllTransactionsByDate(userID, start, end);
-        double standardDeviation = getStandardDeviationByDate(userID, start, end);
-        double percent = getPercentForReport(userID, start, end);
+        List<Transaction> transactions = dataAccessTransaction.getTransactionsByDateTime(userID, start, end);
+        double averageTransactionSize = calculateAverage(transactions);
+        int numTransactions = transactions.size();
+        double standardDeviation = calculateStd(transactions);
+        double percent = calculatePercentage(transactions,userID);
 
         ArrayList<CategoryStatistics> categoryStatistics = buildCategoryList(userID, start, end);
 
@@ -177,7 +178,11 @@ public class TimeBaseReportHandler implements ITimeBaseReportHandler {
     private double getAverageTransactionSizeByDate(int userID, DateTime startDate, DateTime endDate) {
 
         List<Transaction> transactions = dataAccessTransaction.getTransactionsByDateTime(userID, startDate, endDate);
+        return calculateAverage(transactions);
 
+    }
+
+    private double calculateAverage(List<Transaction>transactions ){
         double total = 0.00;
 
         for( int i = 0; i < transactions.size(); i ++ ) {
@@ -204,7 +209,12 @@ public class TimeBaseReportHandler implements ITimeBaseReportHandler {
 
         List<Transaction> transactions = dataAccessTransaction.getTransactionsByDateTime(userID, startDate, endDate);
 
-        double mean = getAverageTransactionSizeByDate(userID, startDate, endDate);
+        return calculateStd(transactions);
+
+    }
+
+    private double calculateStd(List<Transaction>transactions){
+        double mean = calculateAverage(transactions);
         double sum = 0.00;
         double variance = 0.00;
         double standardDeviation = 0.00;
@@ -227,7 +237,6 @@ public class TimeBaseReportHandler implements ITimeBaseReportHandler {
             return standardDeviation;
         else
             return 0;
-
     }
 
     /*
@@ -294,6 +303,10 @@ public class TimeBaseReportHandler implements ITimeBaseReportHandler {
 
         List<Transaction> transactions = dataAccessTransaction.getTransactionsByDateTime(userID, startDate, endDate);
 
+        return getTotal(transactions);
+    }
+
+    private double getTotal(List<Transaction>transactions){
         double total = 0.0;
 
         for(Transaction element : transactions) {
@@ -404,6 +417,18 @@ public class TimeBaseReportHandler implements ITimeBaseReportHandler {
         double reportTotal = getTotalForAllTransactionsByDate(userID, startDate, endDate);
 
         return (reportTotal / allTotal) * 100;
+
+    }
+
+    private double calculatePercentage(List<Transaction>transactions,int userID){
+        double allTotal = getTotalForAllTransactions(userID);
+
+        double reportTotal = getTotal(transactions);
+        if(allTotal > 0){
+            return (reportTotal / allTotal) * 100;
+        }else{
+            return 0;
+        }
 
     }
 
