@@ -60,7 +60,7 @@ public class SecurityQuestionSQL implements SecurityQuestionPersistence {
         SecurityQuestion question;
         try(final Connection connection = connection()) {
             final Statement st = connection.createStatement();
-            final ResultSet rs = st.executeQuery("SELECT * FROM transactions");
+            final ResultSet rs = st.executeQuery("SELECT * FROM SECURITYQUESTIONS");
 
 
             while(rs.next()) {
