@@ -174,17 +174,17 @@
                     android:id="@+id/spinner_security_question"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:backgroundTint="@color/light_blue"
+                    android:minWidth="150dp"
+                    android:minHeight="30dp"
+                    android:spinnerMode="dropdown"
                     android:textColor="@color/white"
                     android:textSize="@dimen/small_size"
-                    android:width="200dp"
-                    android:minHeight="30dp"
-                    android:backgroundTint="@color/light_blue"
                     app:layout_constraintBottom_toTopOf="@+id/edittext_question_answer"
                     app:layout_constraintEnd_toEndOf="@+id/imageview_edit_credentials"
                     app:layout_constraintStart_toEndOf="@+id/textview_security_question"
                     app:layout_constraintTop_toBottomOf="@+id/edittext_email"
-                    app:layout_constraintVertical_bias="0.85"
-                    />
+                    app:layout_constraintVertical_bias="0.85" />
 
                 <TextView
                     android:id="@+id/textview_question_answer"

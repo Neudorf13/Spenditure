@@ -22,19 +22,21 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.example.spenditure.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.spenditure.R;
 import com.spenditure.application.Services;
 import com.spenditure.logic.IUserManager;
 
+import com.spenditure.logic.SecurityQuestionHandler;
 import com.spenditure.logic.UserManager;
 import com.spenditure.logic.exceptions.InvalidUserInformationException;
+import com.spenditure.object.SecurityQuestion;
 
 import java.security.NoSuchAlgorithmException;
 
 public class RegistrationActivity extends AppCompatActivity {
     private IUserManager userManager;
+    private SecurityQuestionHandler securityQuestionHandler;
     private FloatingActionButton backButton;
     private Button registerButton;
     private CustomSecurityQuestionSpinnerActivity adapter;
@@ -45,6 +47,7 @@ public class RegistrationActivity extends AppCompatActivity {
         setContentView(R.layout.activity_registration);
 
         userManager = new UserManager(Services.DEVELOPING_STATUS);
+        securityQuestionHandler = new SecurityQuestionHandler(Services.DEVELOPING_STATUS);
 
         setupSecurityQuestions();
         setupRegisterButton();
@@ -54,15 +57,14 @@ public class RegistrationActivity extends AppCompatActivity {
     private void setupSecurityQuestions() {
         Spinner questions = findViewById(R.id.spinner_security_question);
 
-        // TODO: populate the possible security questions
         // Create adapter to display the categories
-//        adapter = new CustomSecurityQuestionSpinnerActivity(userManager.getSecurityQuestions(), this);
+        adapter = new CustomSecurityQuestionSpinnerActivity(securityQuestionHandler.getAllSecurityQuestions(), this);
         questions.setAdapter(adapter);
     }
 
     // Set up the Registration button
     private void setupRegisterButton() {
-        registerButton = findViewById(R.id.floatingActionButton_register);
+        registerButton = findViewById(R.id.button_register);
 
         registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -77,7 +79,7 @@ public class RegistrationActivity extends AppCompatActivity {
     }
 
     private void setupBackButton() {
-        backButton = findViewById(R.id.floatingActionButton_register);
+        backButton = findViewById(R.id.floatingActionButton_back);
 
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -93,8 +95,8 @@ public class RegistrationActivity extends AppCompatActivity {
         EditText username = findViewById(R.id.edittext_username);
         EditText password = findViewById(R.id.edittext_current_password);
         EditText email = findViewById(R.id.edittext_email);
-        // TODO: gather the selected security question
-        int questionID = 1;
+        Spinner question = findViewById(R.id.spinner_security_question);
+        SecurityQuestion securityQuestion = adapter.getItem(question.getSelectedItemPosition());
         EditText questionAnswer = findViewById(R.id.edittext_question_answer);
 
         try {
@@ -103,7 +105,7 @@ public class RegistrationActivity extends AppCompatActivity {
                     password.getText().toString(),
                     email.getText().toString(),
                     questionAnswer.getText().toString(),
-                    questionID);
+                    securityQuestion.getSid());
         } catch (InvalidUserInformationException e) {
             Toast.makeText(RegistrationActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
         } catch (NoSuchAlgorithmException e) {
