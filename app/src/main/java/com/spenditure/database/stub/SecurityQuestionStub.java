@@ -12,9 +12,9 @@ public class SecurityQuestionStub implements SecurityQuestionPersistence {
 
     public SecurityQuestionStub() {
         this.securityQuestionList = new ArrayList<>();
-        securityQuestionList.add(new SecurityQuestion(1,"name of childhood pet"));
-        securityQuestionList.add(new SecurityQuestion(2,"fathers bachelors name"));
-        securityQuestionList.add(new SecurityQuestion(3,"best comp class"));
+        securityQuestionList.add(new SecurityQuestion(1, "name of childhood pet"));
+        securityQuestionList.add(new SecurityQuestion(2, "fathers bachelors name"));
+        securityQuestionList.add(new SecurityQuestion(3, "best comp class"));
     }
 
     @Override

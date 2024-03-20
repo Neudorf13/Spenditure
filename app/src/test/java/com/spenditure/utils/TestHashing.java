@@ -11,7 +11,7 @@ public class TestHashing {
     @Test
     public void testHash() throws NoSuchAlgorithmException {
 
-        String input = "12345";
+        String input = "Guderian";
 
         MessageDigest digest = MessageDigest.getInstance("SHA-256");
         byte[] hash = digest.digest(input.getBytes());
