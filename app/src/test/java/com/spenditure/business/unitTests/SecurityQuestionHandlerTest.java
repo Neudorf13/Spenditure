@@ -43,7 +43,7 @@ public class SecurityQuestionHandlerTest {
 
         securityQuestion = securityQuestionHandler.getSecurityQuestion(3);
 
-        assertEquals("favorite UofM comp class course number", securityQuestion.getSecurityQuestion());
+        assertEquals("best comp class", securityQuestion.getSecurityQuestion());
 
     }
 
@@ -80,7 +80,7 @@ public class SecurityQuestionHandlerTest {
 
         assertEquals("name of childhood pet", questions.get(0).getSecurityQuestion());
         assertEquals("fathers bachelors name", questions.get(1).getSecurityQuestion());
-        assertEquals("favorite UofM comp class course number", questions.get(2).getSecurityQuestion());
+        assertEquals("best comp class", questions.get(2).getSecurityQuestion());
 
     }
 
