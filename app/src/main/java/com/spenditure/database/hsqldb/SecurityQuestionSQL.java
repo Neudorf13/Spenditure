@@ -34,7 +34,7 @@ public class SecurityQuestionSQL implements SecurityQuestionPersistence {
     @Override
     public SecurityQuestion getSecurityQuestion(int sid) {
         try(final Connection connection = connection()) {
-            final PreparedStatement statement = connection.prepareStatement("SELECT * FROM SECURITYQUESTIONS\nWHERE SECURITYQID=?");
+            final PreparedStatement statement = connection.prepareStatement("SELECT * FROM securityquestions\nWHERE SECURITYQID=?");
             statement.setInt(1,sid);
 
             final ResultSet resultSet = statement.executeQuery();
@@ -60,7 +60,7 @@ public class SecurityQuestionSQL implements SecurityQuestionPersistence {
         SecurityQuestion question;
         try(final Connection connection = connection()) {
             final Statement st = connection.createStatement();
-            final ResultSet rs = st.executeQuery("SELECT * FROM SECURITYQUESTIONS");
+            final ResultSet rs = st.executeQuery("SELECT * FROM securityquestions");
 
 
             while(rs.next()) {
