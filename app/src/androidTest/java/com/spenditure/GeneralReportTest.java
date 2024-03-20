@@ -7,7 +7,6 @@ import static androidx.test.espresso.action.ViewActions.scrollTo;
 import static androidx.test.espresso.action.ViewActions.swipeLeft;
 import static androidx.test.espresso.action.ViewActions.typeText;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
-import static androidx.test.espresso.matcher.ViewMatchers.isDescendantOfA;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
@@ -19,8 +18,6 @@ import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertEquals;
 
 import android.os.SystemClock;
-import android.view.View;
-import android.view.ViewGroup;
 
 import androidx.test.core.app.ActivityScenario;
 import androidx.test.espresso.action.ViewActions;
@@ -28,23 +25,13 @@ import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import com.spenditure.application.Services;
 import com.spenditure.logic.CategoryHandler;
-import com.spenditure.logic.GeneralReportHandler;
 import com.spenditure.logic.ICategoryHandler;
 import com.spenditure.logic.ITransactionHandler;
 import com.spenditure.logic.TransactionHandler;
 import com.spenditure.logic.UserManager;
-import com.spenditure.logic.exceptions.InvalidTransactionException;
-import com.spenditure.object.CategoryReport;
-import com.spenditure.object.DateTime;
-import com.spenditure.object.MainCategory;
 import com.spenditure.object.Transaction;
-import com.spenditure.object.User;
 import com.spenditure.presentation.LoginActivity;
-import com.spenditure.presentation.UIUtility;
 
-import org.hamcrest.Description;
-import org.hamcrest.Matcher;
-import org.hamcrest.TypeSafeMatcher;
 import org.junit.After;
 import org.junit.Before;
 
@@ -56,133 +43,44 @@ import java.util.List;
 
 @RunWith(AndroidJUnit4.class)
 public class GeneralReportTest {
-    private final int sleepTime = 1000;
-    private GeneralReportHandler generalReportHandler;
-    private String expectedTotal;
-    private String expectedCount;
-
-    private String expectedSpendMostAverage;
-    private String expectedSpendLeastAverage;
-
-    private String expectedSpendMostTotal;
-    private String expectedSpendLeastTotal;
-
-    private String expectedSpendPercentage;
-    private String expectedLeastPercentage;
-
-    private List<CategoryReport>categoryReportList;
-    private List<Transaction>transactionList;
+    private final int sleepTime = 10000;
     private ITransactionHandler transactionHandler;
+    private ICategoryHandler categoryHandler;
+
 
     @Before
     public void setup(){
         ActivityScenario.launch(LoginActivity.class);
-
-//        TestUtility.login();
-
-
-
-//        generalReportHandler = new GeneralReportHandler(Services.DEVELOPING_STATUS);
-//        categoryReportList = generalReportHandler.getAllCategoryReport(1);
-//        double total = generalReportHandler.totalSpending(1);
-//        expectedTotal =  UIUtility.cleanTotalString(total) ;
-//        int numbersTransaction = generalReportHandler.numTransactions(1);
-//        expectedCount = UIUtility.cleanTransactionNumberString(numbersTransaction);
-//
-//        List<MainCategory> sortedListCat = generalReportHandler.sortByAverage(1, true);
-//
-//        expectedSpendMostAverage = sortedListCat.get(0).getName();
-//        expectedSpendLeastAverage = sortedListCat.get(sortedListCat.size() - 1).getName();
-//
-//        sortedListCat = generalReportHandler.sortByTotal(1, true);
-//
-//        expectedSpendMostTotal = sortedListCat.get(0).getName();
-//        expectedSpendLeastTotal = sortedListCat.get(sortedListCat.size() - 1).getName();
-//
-//        sortedListCat = generalReportHandler.sortByPercent(1, true);
-//
-//        expectedSpendPercentage = sortedListCat.get(0).getName();
-//        expectedLeastPercentage = sortedListCat.get(sortedListCat.size() - 1).getName();
-
         SystemClock.sleep(sleepTime);
 
         transactionHandler = new TransactionHandler(Services.DEVELOPING_STATUS);
-        List<Transaction>transactionList = transactionHandler.getAllTransactions(4);
+        categoryHandler = new CategoryHandler(Services.DEVELOPING_STATUS);
+        TestUtility.setUpEnvirForReportTest(categoryHandler,transactionHandler,4);
 
-        for (Transaction currTra : transactionList){
-            transactionHandler.deleteTransaction(currTra);
-
-        }
-
-        ICategoryHandler categoryHandler = new CategoryHandler(Services.DEVELOPING_STATUS);
-        TestUtility.setUpTestDBForUser(categoryHandler,transactionHandler,4);
-
-        onView(withId(R.id.edittext_username)).perform(
-                typeText("TestingUser1"),
-                ViewActions.closeSoftKeyboard()
-        );
-        onView(withId(R.id.edittext_current_password)).perform(
-                typeText("12345"),
-                ViewActions.closeSoftKeyboard()
-        );
-        onView(withId(R.id.button_login)).perform(click());
-
+        TestUtility.login("TestingUser1","12345");
     }
 
 
-//    @Test
-//    public void testGeneralReport(){
-//        onView(withId(R.id.textview_general_total_spending)).check(matches(isDisplayed()));
-//        onView(withId(R.id.textview_summary_num_trans)).check(matches(isDisplayed()));
-//
-//
-//
-//        onView(withId(R.id.textview_general_total_spending)).check(matches(withText(containsString(expectedTotal))));
-//        onView(withId(R.id.textview_summary_num_trans)).check(matches(withText(containsString(expectedCount))));
-//
-//        onView(withId(R.id.textview_custom_report_most)).check(matches(withText(containsString(expectedSpendMostAverage))));
-//        onView(withId(R.id.textview_custom_report_least)).check(matches(withText(containsString(expectedSpendLeastAverage))));
-//
-//        onView(withId(R.id.spinner_report)).perform(click());
-//        onData(allOf(is(instanceOf(String.class)), is("Report by total"))).perform(click());
-//        SystemClock.sleep(sleepTime);
-//        onView(withId(R.id.textview_custom_report_most)).check(matches(withText(containsString(expectedSpendMostTotal))));
-//        onView(withId(R.id.textview_custom_report_least)).check(matches(withText(containsString(expectedSpendLeastTotal))));
-//
-//
-//        onView(withId(R.id.spinner_report)).perform(click());
-//        onData(allOf(is(instanceOf(String.class)), is("Report by percentage"))).perform(click());
-//        SystemClock.sleep(sleepTime);
-//        onView(withId(R.id.textview_custom_report_most)).check(matches(withText(containsString(expectedSpendPercentage))));
-//        onView(withId(R.id.textview_custom_report_least)).check(matches(withText(containsString(expectedLeastPercentage))));
-//
-//
-//        onView(withId(R.id.viewpager_report)).perform(scrollTo());
-//        onView(withId(R.id.viewpager_report)).check(matches(isDisplayed()));
-//
-//        for(int i = 0; i < categoryReportList.size() ; i ++){
-//
-//            onView(withId(R.id.viewpager_report)).check(matches(isDisplayed()));
-//            onView(withId(R.id.viewpager_report)).perform(swipeLeft());
-//
-//        }
-//
-//    }
 
     @Test
     public void testGeneralReport() {
-        assertEquals(4,UserManager.getUserID());
-        SystemClock.sleep(1000);
+        SystemClock.sleep(sleepTime);
 
+        assertEquals(4,UserManager.getUserID());
         onView(withId(R.id.textview_general_total_spending)).check(matches(isDisplayed()));
         onView(withId(R.id.textview_summary_num_trans)).check(matches(isDisplayed()));
-
-
 
         onView(withId(R.id.textview_general_total_spending)).check(matches(withText(containsString("757.44"))));
         onView(withId(R.id.textview_summary_num_trans)).check(matches(withText(containsString("3"))));
 
-        SystemClock.sleep(1000);
+        //This function called should be placed in @After, but is it because the library I used, @After function is called before @Before?
+        TestUtility.cleanUpEnvir(categoryHandler,transactionHandler,4);
+    }
+
+    @Test
+    public void testCustomGenerral(){
+        SystemClock.sleep(sleepTime);
+
         onView(withId(R.id.textview_custom_report_most)).check(matches(withText(containsString("Food"))));
         onView(withId(R.id.textview_custom_report_least)).check(matches(withText(containsString("Grocery"))));
 
@@ -198,6 +96,11 @@ public class GeneralReportTest {
         onView(withId(R.id.textview_custom_report_most)).check(matches(withText(containsString("Food"))));
         onView(withId(R.id.textview_custom_report_least)).check(matches(withText(containsString("Grocery"))));
 
+        TestUtility.cleanUpEnvir(categoryHandler,transactionHandler,4);
+    }
+
+    @Test
+    public void testCategoriesReport(){
         onView(withId(R.id.viewpager_report)).perform(scrollTo());
         onView(withId(R.id.viewpager_report)).check(matches(isDisplayed()));
 
@@ -208,7 +111,10 @@ public class GeneralReportTest {
             SystemClock.sleep(sleepTime);
 
         }
+        TestUtility.cleanUpEnvir(categoryHandler,transactionHandler,4);
     }
+
+
 
 
 }

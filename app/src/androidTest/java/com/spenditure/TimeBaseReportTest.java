@@ -4,9 +4,8 @@ import static androidx.test.espresso.Espresso.onData;
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.swipeLeft;
+import static androidx.test.espresso.action.ViewActions.typeText;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
-import static androidx.test.espresso.matcher.ViewMatchers.isAssignableFrom;
-import static androidx.test.espresso.matcher.ViewMatchers.isDescendantOfA;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
@@ -18,25 +17,23 @@ import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertEquals;
 
 import android.os.SystemClock;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.DatePicker;
 
 import androidx.test.core.app.ActivityScenario;
 import androidx.test.espresso.action.ViewActions;
-import androidx.test.espresso.contrib.PickerActions;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import com.spenditure.application.Services;
-import com.spenditure.logic.ITimeBaseReportHandler;
-import com.spenditure.logic.IUserManager;
+import com.spenditure.logic.CategoryHandler;
+import com.spenditure.logic.ICategoryHandler;
+import com.spenditure.logic.ITransactionHandler;
 import com.spenditure.logic.TimeBaseReportHandler;
-import com.spenditure.logic.UserManager;
+import com.spenditure.logic.TransactionHandler;
 import com.spenditure.object.DateTime;
 import com.spenditure.object.Report;
+import com.spenditure.object.Transaction;
 import com.spenditure.presentation.LoginActivity;
-import com.spenditure.presentation.UIUtility;
 import com.spenditure.presentation.report.ViewReportActivity;
 
 import org.hamcrest.Description;
@@ -47,74 +44,36 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import java.util.List;
+
 @RunWith(AndroidJUnit4.class)
 public class TimeBaseReportTest {
-    private final int sleepTime = 1000;
-
-    private String lastYearNumTransactionsExpected ;
-    private String lastYearTotalExpected;
-    private String lastYearAverageExpected;
-    private String lastYearPercentageExpected;
-    private String[] expectedMonthLabels;
-    private String [] expectedWeekLabels;
-    private String customNumTransactionsExpected ;
-    private String customTotalExpected;
-    private String customAverageExpected;
-    private String customPercentageExpected;
+    private final int sleepTime = 5000;
+    private ITransactionHandler transactionHandler;
+    private ICategoryHandler categoryHandler;
 
     @Before
     public void setup(){
         ActivityScenario.launch(LoginActivity.class);
-        TestUtility.login();
-        ITimeBaseReportHandler timeBaseReportHandler = new TimeBaseReportHandler(Services.DEVELOPING_STATUS);
-        Report lastYearReport = timeBaseReportHandler.reportBackOneYear(1,TimeBaseReportHandler.getCurrentDate());
+        SystemClock.sleep(sleepTime);
 
-        lastYearNumTransactionsExpected = UIUtility.cleanTransactionNumberString(lastYearReport.getNumTrans());
-        lastYearTotalExpected = UIUtility.cleanTotalString(lastYearReport.getTotal());
-        lastYearAverageExpected = UIUtility.cleanAverageString(lastYearReport.getAvgTransSize());
-        lastYearPercentageExpected = UIUtility.cleanPercentageString(lastYearReport.getPercent());
+        transactionHandler = new TransactionHandler(Services.DEVELOPING_STATUS);
+        categoryHandler = new CategoryHandler(Services.DEVELOPING_STATUS);
+        TestUtility.setUpEnvirForReportTest(categoryHandler,transactionHandler,4);
 
-        expectedMonthLabels = DateTime.MONTHS;
-        expectedWeekLabels = DateTime.WEEKS;
-
-        DateTime start = new DateTime(2023, 9, 5);
-        DateTime end = new DateTime(2024, 3, 4);
-
-        Report custom = timeBaseReportHandler.reportOnUserProvidedDates(1, start, end);
-        customNumTransactionsExpected = UIUtility.cleanTransactionNumberString(custom.getNumTrans());
-        customTotalExpected = UIUtility.cleanTotalString(custom.getTotal());
-        customAverageExpected = UIUtility.cleanAverageString(custom.getAvgTransSize());
-        customPercentageExpected = UIUtility.cleanPercentageString(custom.getPercent());
+        TestUtility.login("TestingUser1","12345");
     }
 
-    @After
-    public void tearDown(){
-        IUserManager userManager = new UserManager(Services.DEVELOPING_STATUS);
-        userManager.logout();
-    }
 
     @Test
     public void testTimeBaseReport(){
-        onView(withId(R.id.button_report_from)).perform(ViewActions.scrollTo());
-        onView(withId(R.id.button_report_from)).check(matches(isDisplayed()));
-        onView(withId(R.id.button_report_from)).perform(click());
-
-        SystemClock.sleep(4000);
-
-
-        onView(withId(R.id.report_last_year)).perform(ViewActions.scrollTo());
-
-        onView(withId(R.id.textview_lastYear_total)).check(matches(withText(containsString(lastYearTotalExpected))));
-        onView(withId(R.id.textview_lastYear_percentage)).check(matches(withText(containsString(lastYearPercentageExpected))));
-        onView(withId(R.id.textview_lastYear_transactionsCount)).check(matches(withText(containsString(lastYearNumTransactionsExpected))));
-        onView(withId(R.id.textview_lastYear_average)).check(matches(withText(containsString(lastYearAverageExpected))));
-
+        SystemClock.sleep(5000);
         SystemClock.sleep(4000);
         onView(withId(R.id.gridlayout_timebase_report)).perform(ViewActions.scrollTo());
         onView(withId(R.id.gridlayout_timebase_report)).check(matches(isDisplayed()));
 
 
-        for(int i = 0; i < expectedMonthLabels.length ; i ++){
+        for(int i = 0; i < 12 ; i ++){
 
 //            onView(allOf(withId(R.id.slide_tittle), isDescendantOfA(firstChildOf(withId(R.id.gridlayout_timebase_report),i))))
 //                    .check(matches(withText(expectedMonthLabels[i])));
@@ -127,23 +86,23 @@ public class TimeBaseReportTest {
         onView(withId(R.id.spinner_timebase_report)).perform(click());
         onData(allOf(is(instanceOf(String.class)), is(ViewReportActivity.TIME_BASE_OPTION[1]))).perform(click());
         SystemClock.sleep(3000);
-        for(int i = 0; i < expectedWeekLabels.length ; i ++){
+        for(int i = 0; i < 4 ; i ++){
             SystemClock.sleep(500);
             onView(withId(R.id.gridlayout_timebase_report)).check(matches(isDisplayed()));
             onView(withId(R.id.gridlayout_timebase_report)).perform(swipeLeft());
         }
-
     }
 
     @Test
     public void testSelectDate(){
+        SystemClock.sleep(sleepTime);
         onView(withId(R.id.textview_customTime_percentage)).perform(ViewActions.scrollTo());
         onView(withId(R.id.button_report_from)).check(matches(isDisplayed()));
 
         TestUtility.setDate(R.id.button_report_from,2023,9,5);
         onView(withId(R.id.button_report_from)).check(matches(withText(containsString("9/5/2023"))));
 
-        SystemClock.sleep(1000);
+        SystemClock.sleep(sleepTime);
 
         onView(withId(R.id.button_report_to)).check(matches(isDisplayed()));
         TestUtility.setDate(R.id.button_report_to,2024,3,4);
@@ -154,18 +113,36 @@ public class TimeBaseReportTest {
 
 
 
-        SystemClock.sleep(5000);
+        SystemClock.sleep(sleepTime);
 
-        onView(withId(R.id.textview_customTime_totalAmount)).check(matches(withText(containsString(customTotalExpected))));
-        onView(withId(R.id.textview_customTime_percentage)).check(matches(withText(containsString(customPercentageExpected))));
-        onView(withId(R.id.textview_customTime_totalTrans)).check(matches(withText(containsString(customNumTransactionsExpected))));
-        onView(withId(R.id.textview_customTime_average)).check(matches(withText(containsString(customAverageExpected))));
+        onView(withId(R.id.textview_customTime_totalAmount)).check(matches(withText(containsString("500.95"))));
+        onView(withId(R.id.textview_customTime_percentage)).check(matches(withText(containsString("66.14"))));
+        onView(withId(R.id.textview_customTime_totalTrans)).check(matches(withText(containsString("1"))));
+        onView(withId(R.id.textview_customTime_average)).check(matches(withText(containsString("500.95"))));
 
+        //This function called should be placed in @After, but is it because the library I used, @After function is called before @Before?
+        TestUtility.cleanUpEnvir(categoryHandler,transactionHandler,4);
+    }
+
+    @Test
+    public void testLastYearReport(){
+        onView(withId(R.id.report_last_year)).perform(ViewActions.scrollTo());
+        SystemClock.sleep(sleepTime);
+
+        onView(withId(R.id.textview_lastYear_total)).check(matches(withText(containsString("751.4"))));
+        onView(withId(R.id.textview_lastYear_percentage)).check(matches(withText(containsString("99.21"))));
+        onView(withId(R.id.textview_lastYear_transactionsCount)).check(matches(withText(containsString("2"))));
+        onView(withId(R.id.textview_lastYear_average)).check(matches(withText(containsString("375.7"))));
+
+        //This function called should be placed in @After, but is it because the library I used, @After function is called before @Before?
+        TestUtility.cleanUpEnvir(categoryHandler,transactionHandler,4);
     }
 
 
 
-    public static Matcher<View> firstChildOf(final Matcher<View> parentMatcher,int index) {
+
+
+    private static Matcher<View> firstChildOf(final Matcher<View> parentMatcher,int index) {
         return new TypeSafeMatcher<View>() {
             @Override
             public void describeTo(Description description) {

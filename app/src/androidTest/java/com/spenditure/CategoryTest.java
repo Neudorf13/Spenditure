@@ -51,7 +51,7 @@ public class CategoryTest {
 
         ActivityScenario.launch(LoginActivity.class);
         categoryHandler = new CategoryHandler(Services.DEVELOPING_STATUS);
-        TestUtility.login();
+        TestUtility.login("Me","123");
         onView(withId(R.id.navigation_category)).perform(click());
 
 
