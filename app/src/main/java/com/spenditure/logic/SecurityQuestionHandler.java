@@ -12,8 +12,8 @@ public class SecurityQuestionHandler implements ISecurityQuestionHandler {
 
     public SecurityQuestionHandler(boolean getStubDB) {
 
-        if(dataAccessSecurityQuestion == null)
-            dataAccessSecurityQuestion = Services.getSecurityQuestionPersistence(getStubDB);
+        //if(dataAccessSecurityQuestion == null)
+        dataAccessSecurityQuestion = Services.getSecurityQuestionPersistence(getStubDB);
 
     }
 

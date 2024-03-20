@@ -1,5 +1,7 @@
 package com.spenditure.object;
 
+import androidx.annotation.NonNull;
+
 public class SecurityQuestion {
 
     private int sid;
@@ -16,5 +18,10 @@ public class SecurityQuestion {
 
     public String getSecurityQuestion() {
         return securityQuestion;
+    }
+
+
+    public String toString() {
+        return "sid: " + sid + ", SecurityQuestion: " + securityQuestion;
     }
 }
