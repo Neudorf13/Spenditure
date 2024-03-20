@@ -15,6 +15,7 @@ package com.spenditure.presentation;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -31,6 +32,7 @@ import com.spenditure.logic.SecurityQuestionHandler;
 import com.spenditure.logic.UserManager;
 import com.spenditure.logic.exceptions.InvalidUserInformationException;
 import com.spenditure.object.SecurityQuestion;
+import com.spenditure.presentation.report.ViewReportActivity;
 
 import java.security.NoSuchAlgorithmException;
 
@@ -69,11 +71,11 @@ public class RegistrationActivity extends AppCompatActivity {
         registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Register the new user
-                registerNewUser();
-
-                // Return to the calling activity
-                finish();
+                // Attempt to register the new user
+                if (registerNewUser()) {
+                    Intent newIntent = new Intent(getApplicationContext(), ViewReportActivity.class);
+                    startActivity(newIntent);
+                }
             }
         });
     }
@@ -91,7 +93,9 @@ public class RegistrationActivity extends AppCompatActivity {
     }
 
     // Collect all the new user information and pass it to the user handler
-    private void registerNewUser() {
+    private Boolean registerNewUser() {
+        Boolean successful = false;
+
         EditText username = findViewById(R.id.edittext_username);
         EditText password = findViewById(R.id.edittext_current_password);
         EditText email = findViewById(R.id.edittext_email);
@@ -106,10 +110,13 @@ public class RegistrationActivity extends AppCompatActivity {
                     email.getText().toString(),
                     questionAnswer.getText().toString(),
                     securityQuestion.getSid());
+            successful = true;
         } catch (InvalidUserInformationException e) {
             Toast.makeText(RegistrationActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
         } catch (NoSuchAlgorithmException e) {
             Toast.makeText(RegistrationActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
         }
+
+        return successful;
     }
 }
