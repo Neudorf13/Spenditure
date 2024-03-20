@@ -40,11 +40,11 @@ public class SecurityQuestionSQL implements SecurityQuestionPersistence {
             final ResultSet resultSet = statement.executeQuery();
 
             if(resultSet.next()) {
-                //return resultSet.getString("SECURITYQUESTION");
                 return fromResultSet(resultSet);
             }
             else {
-                throw new InvalidGoalException("No securityQuestion with sid: " + sid);
+                //throw new InvalidGoalException("No securityQuestion with sid: " + sid);
+                return null;
             }
 
         }
@@ -57,7 +57,7 @@ public class SecurityQuestionSQL implements SecurityQuestionPersistence {
     public ArrayList<SecurityQuestion> getAllSecurityQuestions() {
 
         ArrayList<SecurityQuestion> questions = new ArrayList<>();
-        SecurityQuestion question;
+        SecurityQuestion question = null;
         try(final Connection connection = connection()) {
             final Statement st = connection.createStatement();
             final ResultSet rs = st.executeQuery("SELECT * FROM securityquestions");

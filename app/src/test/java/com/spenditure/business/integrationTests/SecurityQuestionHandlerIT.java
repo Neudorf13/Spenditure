@@ -95,4 +95,10 @@ public class SecurityQuestionHandlerIT {
         assertEquals("best comp class", questions.get(2).getSecurityQuestion());
 
     }
+
+    @Test
+    public void testTest() {
+        ArrayList<SecurityQuestion> list =  securityQuestionHandler.getAllSecurityQuestions();
+        System.out.println(list.size());
+    }
 }
