@@ -26,6 +26,7 @@ import android.widget.Toast;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.spenditure.R;
 import com.spenditure.application.Services;
+import com.spenditure.logic.ISecurityQuestionHandler;
 import com.spenditure.logic.IUserManager;
 
 import com.spenditure.logic.SecurityQuestionHandler;
@@ -38,7 +39,7 @@ import java.security.NoSuchAlgorithmException;
 
 public class RegistrationActivity extends AppCompatActivity {
     private IUserManager userManager;
-    private SecurityQuestionHandler securityQuestionHandler;
+    private ISecurityQuestionHandler securityQuestionHandler;
     private FloatingActionButton backButton;
     private Button registerButton;
     private CustomSecurityQuestionSpinnerActivity adapter;
