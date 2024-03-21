@@ -24,6 +24,8 @@ import android.widget.Toast;
 import com.spenditure.R;
 import com.spenditure.application.Services;
 import com.spenditure.database.utils.DBHelper;
+import com.spenditure.logic.GoalHandler;
+import com.spenditure.logic.IGoalHandler;
 import com.spenditure.logic.UserManager;
 import com.spenditure.logic.exceptions.InvalidUserInformationException;
 import com.spenditure.presentation.report.ViewReportActivity;
