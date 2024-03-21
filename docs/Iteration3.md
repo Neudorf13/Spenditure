@@ -1,12 +1,5 @@
 # Iteration 3
 
-## *Related documents*
-The updated architecture for iteration 3 can be found [here](./docs/Architecture_Diagram_Iteration3.pdf).
-
-The RETROSPECTIVE for iteration e can be found [here]().
-
-
-## Purpose of the project:
 
 
 
