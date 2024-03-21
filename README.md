@@ -1,7 +1,7 @@
 ## Related Documents
-* [Vision statements](url)
-* [Architecture](url)
-* [Retrospective](url)
+* [Vision statements](./docs/VISION.md)
+* [Architecture](./docs/Architecture.md)
+* [Retrospective](./docs/Retrospective.md)
 
 ## Iteration Documents
 * [Iteration 1](./docs/Iteration1.md)
