@@ -15,7 +15,7 @@
 Features and user stories can be found [here](./docs/Features&User stories.md)
 
 ## Architecture
-* Our planned [Architecture](](./docs/Architecture.md) for our project
+* Our planned [Architecture](./docs/Architecture.md) for our project
 
 ## Retrospective
 * Our document for [Retrospective](./docs/Retrospective.md)
