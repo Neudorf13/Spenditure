@@ -1,3 +1,5 @@
+## Purpose of the project:
+
 ## Related Documents
 * [Vision statements](./docs/VISION.md)
 * [Architecture](./docs/Architecture.md)
