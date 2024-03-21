@@ -1,5 +1,7 @@
 ## Spenditure:
 
+Spenditure is a personal finance tool that will allow users to track, record, and analyze their financial transactions. Unlike a banking app, Spenditure is focused on helping users track where their money goes and better understand their spending habits.
+
 ## Instructions:
 
 
