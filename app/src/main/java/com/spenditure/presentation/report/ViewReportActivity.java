@@ -25,8 +25,10 @@ import com.spenditure.application.Services;
 import com.spenditure.database.utils.DBHelper;
 import com.spenditure.logic.CategoryHandler;
 import com.spenditure.logic.GeneralReportHandler;
+import com.spenditure.logic.GoalHandler;
 import com.spenditure.logic.ICategoryHandler;
 import com.spenditure.logic.IGeneralReportHandler;
+import com.spenditure.logic.IGoalHandler;
 import com.spenditure.logic.ITimeBaseReportHandler;
 import com.spenditure.logic.ITransactionHandler;
 import com.spenditure.logic.TimeBaseReportHandler;
@@ -79,13 +81,13 @@ public class ViewReportActivity extends AppCompatActivity {
         this.userID = UserManager.getUserID();
         this.currDate = TimeBaseReportHandler.getCurrentDate();
 
-        handleGeneralReport();
-        handleCustomCategoryReport();
-        handleCategoriesReport();
-        handleTimebaseReport();
-        handleCustomDateReport();
+//        handleGeneralReport();
+//        handleCustomCategoryReport();
+//        handleCategoriesReport();
+//        handleTimebaseReport();
+//        handleCustomDateReport();
         navBarHandling();
-        handleLastYearReport();
+//        handleLastYearReport();
     }
 
     private void handleLastYearReport(){
