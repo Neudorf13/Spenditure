@@ -12,6 +12,7 @@
 * Our [Vision Statement](./docs/VISION.md)
 
 ## Features & User Stories
+Features and user stories can be found [here](./docs/Features&User stories.md)
 
 ## Architecture
 * Our planned [Architecture](](./docs/Architecture.md) for our project
