@@ -74,6 +74,7 @@ public class CreateGoalActivity extends AppCompatActivity {
         // Parse all the user fields
         EditText goalName = findViewById(R.id.edittext_goal_name);
         EditText amount = findViewById(R.id.edittext_amount);
+        int intAmount = (amount.getText().length() == 0) ? -1 : Integer.parseInt(amount.getText().toString());
         Spinner category = findViewById(R.id.spinner_categories);
         MainCategory cat = adapter.getItem(category.getSelectedItemPosition());
 
@@ -82,7 +83,7 @@ public class CreateGoalActivity extends AppCompatActivity {
                 userID,
                 goalName.getText().toString(),
                 selectedDate,
-                Integer.parseInt(amount.getText().toString()),
+                intAmount,
                 cat.getCategoryID());
     }
 

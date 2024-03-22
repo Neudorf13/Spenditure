@@ -25,7 +25,7 @@ import java.util.List;
 public class ViewGoalsActivity extends AppCompatActivity {
     private static IGoalHandler goalHandler = null;
     private List<Goal> goals;
-    private int currentIdSelected;
+    private int currentIdSelected = -1;
     private CustomGoalAdapter adaptor; // TODO
     private ListView goalsListView;
 
@@ -50,9 +50,6 @@ public class ViewGoalsActivity extends AppCompatActivity {
         goalsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                // Enable the delete button
-                deleteButtonChangeState(true);
-
                 currentIdSelected = (int) id;
             }
         });
@@ -60,17 +57,6 @@ public class ViewGoalsActivity extends AppCompatActivity {
         setUpAddButton();
         setUpDeleteButton();
         navBarHandling();
-    }
-
-    // Change the state of the delete button
-    private void deleteButtonChangeState(boolean enabled){
-        FloatingActionButton deleteButton = findViewById(R.id.floatingActionButton_delete);
-        deleteButton.setEnabled(enabled);
-
-        if (!enabled) {
-            goalsListView.setSelection(-1);
-            currentIdSelected = -1;
-        }
     }
 
     private void setUpAddButton() {
@@ -91,6 +77,12 @@ public class ViewGoalsActivity extends AppCompatActivity {
         FloatingActionButton button = findViewById(R.id.floatingActionButton_delete);
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+                if (currentIdSelected < 0) {
+                    // No item selected
+                    Toast.makeText(ViewGoalsActivity.this, "No Goal selected",Toast.LENGTH_LONG).show();
+                    return;
+                }
+
                 // Deselect any items
                 goalsListView.clearChoices();
 
@@ -102,7 +94,6 @@ public class ViewGoalsActivity extends AppCompatActivity {
                 adaptor = new CustomGoalAdapter(goalHandler.getGoalsForUserID(UserManager.getUserID()), getBaseContext());
                 goalsListView.setAdapter(adaptor);
 
-                deleteButtonChangeState(false);
                 currentIdSelected = -1;
             }
         });
