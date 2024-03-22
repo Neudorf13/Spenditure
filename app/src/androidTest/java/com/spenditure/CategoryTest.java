@@ -30,13 +30,17 @@ import org.junit.runner.RunWith;
 
 import java.util.List;
 
+/**
+ * Category handler system test (Feature 2)
+ * @author Bao Ngo
+ * @version 22 Mar 2024
+ */
 @RunWith(AndroidJUnit4.class)
 public class CategoryTest {
     private CategoryHandler categoryHandler;
     private ITransactionHandler transactionHandler;
     @Before
     public void setup(){
-
 
         ActivityScenario.launch(LoginActivity.class);
         categoryHandler = new CategoryHandler(Services.DEVELOPING_STATUS);

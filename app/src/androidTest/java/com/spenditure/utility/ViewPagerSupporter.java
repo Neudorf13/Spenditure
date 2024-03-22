@@ -7,6 +7,12 @@ import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
 
+/**
+ * Description: For testing purose, this supports to retrieve an element at index from
+ * ViewPager(UI component)
+ * @author Bao Ngo
+ * @version 22 Mar 2024
+ */
 public abstract class ViewPagerSupporter {
     public static Matcher<View> getChildOf(final Matcher<View> parentMatcher, int index) {
         return new TypeSafeMatcher<View>() {

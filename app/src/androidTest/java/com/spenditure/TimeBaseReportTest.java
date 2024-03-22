@@ -5,6 +5,7 @@ import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.swipeLeft;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
+import static androidx.test.espresso.matcher.ViewMatchers.isDescendantOfA;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
@@ -31,6 +32,7 @@ import com.spenditure.logic.TransactionHandler;
 import com.spenditure.presentation.LoginActivity;
 import com.spenditure.presentation.report.ViewReportActivity;
 import com.spenditure.utility.TestUtility;
+import com.spenditure.utility.ViewPagerSupporter;
 
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
@@ -39,6 +41,12 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
+/**
+ * Timebase report system test (Feature 4)
+ * @author Bao Ngo
+ * @version 22 Mar 2024
+ */
 
 @RunWith(AndroidJUnit4.class)
 public class TimeBaseReportTest {
@@ -105,26 +113,34 @@ public class TimeBaseReportTest {
 
     @Test
     public void testTimeBaseReport(){
-        SystemClock.sleep(5000);
-        SystemClock.sleep(4000);
+        SystemClock.sleep(3000);
         onView(withId(R.id.gridlayout_timebase_report)).perform(ViewActions.scrollTo());
         onView(withId(R.id.gridlayout_timebase_report)).check(matches(isDisplayed()));
 
-
-        for(int i = 0; i < 12 ; i ++){
+//        Test with report on last year breaking down into 12 months
+        for(int i = 0; i < 4 ; i ++){
             onView(withId(R.id.gridlayout_timebase_report)).check(matches(isDisplayed()));
             onView(withId(R.id.gridlayout_timebase_report)).perform(swipeLeft());
 
         }
 
+        //Check the report of May
+        TestUtility.testSlideCard(R.id.gridlayout_timebase_report,"May","1 transactions","$250.5 CAD","$250.5 CAD","33.08%",2);
+        //Check whether is all zero report of June
+        onView(withId(R.id.gridlayout_timebase_report)).perform(swipeLeft());
+        TestUtility.testSlideCard(R.id.gridlayout_timebase_report,"Jun","0 transactions","$0.0 CAD","$0.0 CAD","0.0%",2);
 
+
+        //Test with report on last month breaking down into 4 weeks
         onView(withId(R.id.spinner_timebase_report)).perform(click());
         onData(allOf(is(instanceOf(String.class)), is(ViewReportActivity.TIME_BASE_OPTION[1]))).perform(click());
-        SystemClock.sleep(3000);
-        for(int i = 0; i < 4 ; i ++){
-            SystemClock.sleep(500);
-            onView(withId(R.id.gridlayout_timebase_report)).check(matches(isDisplayed()));
-            onView(withId(R.id.gridlayout_timebase_report)).perform(swipeLeft());
-        }
+        SystemClock.sleep(5000);
+
+        TestUtility.testSlideCard(R.id.gridlayout_timebase_report,"1st Week","0 transactions","$0.0 CAD","$0.0 CAD","0.0%",0);
+        onView(withId(R.id.gridlayout_timebase_report)).perform(swipeLeft());
+        TestUtility.testSlideCard(R.id.gridlayout_timebase_report,"2nd Week","0 transactions","$0.0 CAD","$0.0 CAD","0.0%",1);
+        onView(withId(R.id.gridlayout_timebase_report)).perform(swipeLeft());
+        TestUtility.testSlideCard(R.id.gridlayout_timebase_report,"3rd Week","0 transactions","$0.0 CAD","$0.0 CAD","0.0%",2);
+
     }
 }

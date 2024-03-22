@@ -3,9 +3,13 @@ package com.spenditure.utility;
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.typeText;
+import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isAssignableFrom;
+import static androidx.test.espresso.matcher.ViewMatchers.isDescendantOfA;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
+import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
+import static org.hamcrest.Matchers.allOf;
 import static org.junit.Assert.assertEquals;
 
 import android.os.SystemClock;
@@ -24,6 +28,12 @@ import com.spenditure.object.MainCategory;
 import com.spenditure.object.Transaction;
 
 import java.util.List;
+
+/**
+ * Description: Testing utility
+ * @author Bao Ngo
+ * @version 22 Mar 2024
+ */
 
 public abstract class TestUtility {
     public static void login(String username,String password){
@@ -95,5 +105,22 @@ public abstract class TestUtility {
 
         //Log-out to refresh the application
         logout();
+    }
+
+    public static void testSlideCard(int parent,String title,String transCount,String total,String average, String percentage,int index){
+        onView(allOf(withId(R.id.slide_tittle), isDescendantOfA(ViewPagerSupporter.getChildOf(withId(parent),index))))
+                .check(matches(withText(title)));
+        onView(allOf(withId(R.id.textview_catReport_transactionsCount), isDescendantOfA(ViewPagerSupporter.getChildOf(withId(parent),index))))
+                .check(matches(withText(transCount)));
+
+        onView(allOf(withId(R.id.textview_catReport_total), isDescendantOfA(ViewPagerSupporter.getChildOf(withId(parent),index))))
+                .check(matches(withText(total)));
+
+        onView(allOf(withId(R.id.textview_catReport_percentage), isDescendantOfA(ViewPagerSupporter.getChildOf(withId(parent),index))))
+                .check(matches(withText(percentage)));
+
+        onView(allOf(withId(R.id.textview_catReport_average), isDescendantOfA(ViewPagerSupporter.getChildOf(withId(parent),index))))
+                .check(matches(withText(average)));
+
     }
 }

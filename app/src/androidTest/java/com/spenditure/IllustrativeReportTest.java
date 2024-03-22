@@ -24,6 +24,11 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+/**
+ * Illustrative report system test (Feature 9)
+ * @author Bao Ngo
+ * @version 22 Mar 2024
+ */
 @RunWith(AndroidJUnit4.class)
 public class IllustrativeReportTest {
     private final int sleepTime = 1000;

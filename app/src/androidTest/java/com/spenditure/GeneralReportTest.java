@@ -43,10 +43,15 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+/**
+ * General report system test (Feature 3)
+ * @author Bao Ngo
+ * @version 22 Mar 2024
+ */
 
 @RunWith(AndroidJUnit4.class)
 public class GeneralReportTest {
-    private final int sleepTime = 10000;
+    private final int sleepTime = 2000;
     private ITransactionHandler transactionHandler;
     private ICategoryHandler categoryHandler;
 
@@ -110,71 +115,21 @@ public class GeneralReportTest {
         onView(withId(R.id.viewpager_report)).perform(scrollTo());
         onView(withId(R.id.viewpager_report)).check(matches(isDisplayed()));
 
-
-
         //Check the first item of viewpager
-        onView(allOf(withId(R.id.slide_tittle), isDescendantOfA(ViewPagerSupporter.getChildOf(withId(R.id.viewpager_report),0))))
-                    .check(matches(withText("Grocery")));
-        onView(allOf(withId(R.id.textview_catReport_transactionsCount), isDescendantOfA(ViewPagerSupporter.getChildOf(withId(R.id.viewpager_report),0))))
-                .check(matches(withText("1 transactions")));
-
-        onView(allOf(withId(R.id.textview_catReport_total), isDescendantOfA(ViewPagerSupporter.getChildOf(withId(R.id.viewpager_report),0))))
-                .check(matches(withText("$5.99 CAD")));
-
-        onView(allOf(withId(R.id.textview_catReport_percentage), isDescendantOfA(ViewPagerSupporter.getChildOf(withId(R.id.viewpager_report),0))))
-                .check(matches(withText("0.8%")));
-
-        onView(allOf(withId(R.id.textview_catReport_average), isDescendantOfA(ViewPagerSupporter.getChildOf(withId(R.id.viewpager_report),0))))
-                .check(matches(withText("$5.99 CAD")));
+        TestUtility.testSlideCard(R.id.viewpager_report,"Grocery","1 transactions","$5.99 CAD","$5.99 CAD","0.8%",0);
 
         //Check the second item of viewpager
         onView(withId(R.id.viewpager_report)).check(matches(isDisplayed()));
         onView(withId(R.id.viewpager_report)).perform(swipeLeft());
         SystemClock.sleep(sleepTime);
 
-        onView(allOf(withId(R.id.slide_tittle), isDescendantOfA(firstChildOf(withId(R.id.viewpager_report),1))))
-                .check(matches(withText("Food")));
-
-
-        onView(allOf(withId(R.id.textview_catReport_transactionsCount), isDescendantOfA(ViewPagerSupporter.getChildOf(withId(R.id.viewpager_report),1))))
-                .check(matches(withText("1 transactions")));
-
-        onView(allOf(withId(R.id.textview_catReport_total), isDescendantOfA(ViewPagerSupporter.getChildOf(withId(R.id.viewpager_report),1))))
-                .check(matches(withText("$500.95 CAD")));
-
-        onView(allOf(withId(R.id.textview_catReport_percentage), isDescendantOfA(ViewPagerSupporter.getChildOf(withId(R.id.viewpager_report),1))))
-                .check(matches(withText("66.14%")));
-
-        onView(allOf(withId(R.id.textview_catReport_average), isDescendantOfA(ViewPagerSupporter.getChildOf(withId(R.id.viewpager_report),1))))
-                .check(matches(withText("$500.95 CAD")));
+        TestUtility.testSlideCard(R.id.viewpager_report,"Food","1 transactions","$500.95 CAD","$500.95 CAD","66.14%",1);
 
         onView(withId(R.id.viewpager_report)).check(matches(isDisplayed()));
         onView(withId(R.id.viewpager_report)).perform(swipeLeft());
         SystemClock.sleep(sleepTime);
 
     }
-
-    private static Matcher<View> firstChildOf(final Matcher<View> parentMatcher, int index) {
-        return new TypeSafeMatcher<View>() {
-            @Override
-            public void describeTo(Description description) {
-                description.appendText("with first child view of type parentMatcher");
-            }
-
-            @Override
-            public boolean matchesSafely(View view) {
-
-                if (!(view.getParent() instanceof ViewGroup)) {
-                    return parentMatcher.matches(view.getParent());
-                }
-                ViewGroup group = (ViewGroup) view.getParent();
-                return parentMatcher.matches(view.getParent()) && group.getChildAt(index).equals(view);
-
-            }
-        };
-    }
-
-
 
 
 }
