@@ -1,4 +1,4 @@
-package com.spenditure.presentation;
+package com.spenditure.presentation.Goals;
 
 import android.content.Context;
 import android.view.LayoutInflater;

@@ -1,4 +1,4 @@
-package com.spenditure.presentation;
+package com.spenditure.presentation.Goals;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -18,6 +18,7 @@ import com.spenditure.logic.IGoalHandler;
 import com.spenditure.logic.UserManager;
 import com.spenditure.logic.exceptions.InvalidGoalException;
 import com.spenditure.object.Goal;
+import com.spenditure.presentation.BottomNavigationHandler;
 
 import java.util.List;
 
