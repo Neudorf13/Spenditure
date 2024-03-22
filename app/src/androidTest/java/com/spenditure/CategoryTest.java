@@ -32,7 +32,6 @@ import java.util.List;
 
 @RunWith(AndroidJUnit4.class)
 public class CategoryTest {
-    private int numberCategory;
     private CategoryHandler categoryHandler;
     private ITransactionHandler transactionHandler;
     @Before
@@ -47,16 +46,6 @@ public class CategoryTest {
         TestUtility.login("TestingUser1","12345");
         onView(withId(R.id.navigation_category)).perform(click());
 
-
-
-        List<MainCategory> currListCats = categoryHandler.getAllCategory(UserManager.getUserID());
-        numberCategory = currListCats.size();
-        for (MainCategory currCat : currListCats){
-            if(currCat.getName().equals("New test category")){
-                categoryHandler.deleteCategory(currCat.getCategoryID());
-                numberCategory--;
-            }
-        }
     }
     @Test
     public void createCategory(){

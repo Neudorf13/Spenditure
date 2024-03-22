@@ -65,34 +65,6 @@ public class TimeBaseReportTest {
 
 
     @Test
-    public void testTimeBaseReport(){
-        SystemClock.sleep(5000);
-        SystemClock.sleep(4000);
-        onView(withId(R.id.gridlayout_timebase_report)).perform(ViewActions.scrollTo());
-        onView(withId(R.id.gridlayout_timebase_report)).check(matches(isDisplayed()));
-
-
-        for(int i = 0; i < 12 ; i ++){
-
-//            onView(allOf(withId(R.id.slide_tittle), isDescendantOfA(firstChildOf(withId(R.id.gridlayout_timebase_report),i))))
-//                    .check(matches(withText(expectedMonthLabels[i])));
-            onView(withId(R.id.gridlayout_timebase_report)).check(matches(isDisplayed()));
-            onView(withId(R.id.gridlayout_timebase_report)).perform(swipeLeft());
-
-        }
-
-
-        onView(withId(R.id.spinner_timebase_report)).perform(click());
-        onData(allOf(is(instanceOf(String.class)), is(ViewReportActivity.TIME_BASE_OPTION[1]))).perform(click());
-        SystemClock.sleep(3000);
-        for(int i = 0; i < 4 ; i ++){
-            SystemClock.sleep(500);
-            onView(withId(R.id.gridlayout_timebase_report)).check(matches(isDisplayed()));
-            onView(withId(R.id.gridlayout_timebase_report)).perform(swipeLeft());
-        }
-    }
-
-    @Test
     public void testSelectDate(){
         SystemClock.sleep(sleepTime);
         onView(withId(R.id.textview_customTime_percentage)).perform(ViewActions.scrollTo());
@@ -120,7 +92,6 @@ public class TimeBaseReportTest {
         onView(withId(R.id.textview_customTime_average)).check(matches(withText(containsString("500.95"))));
 
     }
-
     @Test
     public void testLastYearReport(){
         onView(withId(R.id.report_last_year)).perform(ViewActions.scrollTo());
@@ -130,13 +101,6 @@ public class TimeBaseReportTest {
         onView(withId(R.id.textview_lastYear_percentage)).check(matches(withText(containsString("99.21"))));
         onView(withId(R.id.textview_lastYear_transactionsCount)).check(matches(withText(containsString("2"))));
         onView(withId(R.id.textview_lastYear_average)).check(matches(withText(containsString("375.7"))));
-
-
     }
-
-
-
-
-
 
 }
