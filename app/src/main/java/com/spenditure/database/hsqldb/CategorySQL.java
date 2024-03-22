@@ -1,9 +1,6 @@
 package com.spenditure.database.hsqldb;
 
-import android.annotation.SuppressLint;
-
 import com.spenditure.database.CategoryPersistence;
-import com.spenditure.logic.UserManager;
 import com.spenditure.logic.exceptions.InvalidCategoryException;
 import com.spenditure.logic.exceptions.InvalidUserInformationException;
 import com.spenditure.object.MainCategory;

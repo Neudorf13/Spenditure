@@ -106,8 +106,9 @@
                     <ImageView
 
 
-                        android:layout_width="70dp"
+                        android:id="@+id/imageView4"
 
+                        android:layout_width="70dp"
                         android:layout_height="70dp"
                         android:layout_marginStart="8dp"
                         android:layout_marginTop="8dp"
@@ -138,7 +139,7 @@
                         android:layout_height="40dp"
 
                         app:layout_constraintBottom_toBottomOf="@+id/imageview_summary_report"
-                        app:layout_constraintEnd_toEndOf="@+id/imageView_report_summary_check"
+                        app:layout_constraintEnd_toStartOf="@+id/textview_general_total_spending"
                         app:layout_constraintTop_toTopOf="@+id/imageview_summary_report"
                         app:layout_constraintVertical_bias="0.309"
                         app:srcCompat="@drawable/symbol_check" />
@@ -149,15 +150,14 @@
                         android:layout_width="40dp"
 
                         android:layout_height="40dp"
-                        android:layout_marginEnd="24dp"
                         app:layout_constraintBottom_toBottomOf="@+id/imageview_summary_report"
-                        app:layout_constraintEnd_toStartOf="@+id/textview_summary_report_long"
+                        app:layout_constraintEnd_toStartOf="@+id/textview_summary_num_trans"
                         app:layout_constraintTop_toTopOf="@+id/imageview_summary_report"
                         app:layout_constraintVertical_bias="0.681"
                         app:srcCompat="@drawable/symbol_check" />
 
                     <TextView
-                        android:id="@+id/textview_summary_report_short"
+                        android:id="@+id/textview_general_total_spending"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
 
@@ -173,7 +173,7 @@
                         app:layout_constraintVertical_bias="0.311" />
 
                     <TextView
-                        android:id="@+id/textview_summary_report_long"
+                        android:id="@+id/textview_summary_num_trans"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
 
@@ -242,7 +242,7 @@
                         app:layout_constraintVertical_bias="0.045" />
 
                     <TextView
-                        android:id="@+id/textview_custom_report_short"
+                        android:id="@+id/textview_custom_report_most"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
 
@@ -256,8 +256,9 @@
                         app:layout_constraintTop_toTopOf="@+id/imageview_customize_report"
                         app:layout_constraintVertical_bias="0.37" />
 
+
                     <TextView
-                        android:id="@+id/textview_custom_report_long"
+                        android:id="@+id/textview_custom_report_least"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
 
@@ -267,11 +268,10 @@
                         android:textStyle="bold"
                         app:layout_constraintBottom_toBottomOf="@+id/imageview_customize_report"
                         app:layout_constraintEnd_toEndOf="@+id/imageview_customize_report"
+                        app:layout_constraintHorizontal_bias="0.501"
                         app:layout_constraintStart_toStartOf="@+id/imageview_customize_report"
                         app:layout_constraintTop_toTopOf="@+id/imageview_customize_report"
-                        app:layout_constraintVertical_bias="0.68" />
-
-
+                        app:layout_constraintVertical_bias="0.679" />
 
                     <ImageView
 
@@ -280,7 +280,7 @@
 
                         android:layout_height="40dp"
                         app:layout_constraintBottom_toBottomOf="@+id/imageview_customize_report"
-                        app:layout_constraintEnd_toEndOf="@+id/imageView_report_summary_check_custom"
+                        app:layout_constraintEnd_toStartOf="@+id/textview_custom_report_most"
                         app:layout_constraintTop_toTopOf="@+id/imageview_customize_report"
                         app:layout_constraintVertical_bias="0.375"
                         app:srcCompat="@drawable/symbol_check" />
@@ -291,9 +291,8 @@
                         android:layout_width="40dp"
 
                         android:layout_height="40dp"
-                        android:layout_marginEnd="40dp"
                         app:layout_constraintBottom_toBottomOf="@+id/imageview_customize_report"
-                        app:layout_constraintEnd_toStartOf="@+id/textview_custom_report_long"
+                        app:layout_constraintEnd_toStartOf="@+id/textview_custom_report_least"
                         app:layout_constraintTop_toTopOf="@+id/imageview_customize_report"
                         app:layout_constraintVertical_bias="0.687"
                         app:srcCompat="@drawable/symbol_check" />
@@ -319,42 +318,70 @@
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="24dp" />
-                <RelativeLayout
+
+
+
+                <View
                     android:layout_width="match_parent"
-                    android:layout_height="400dp">
-                    <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_height="24dp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="900dp"
+                    android:layout_marginHorizontal="50dp"
+                    android:gravity="center"
+
+                    android:id="@+id/report_cat_chart"
+                    android:orientation="vertical"
+                    android:background="@drawable/background_dark_blue"
+                    android:padding="@dimen/space_2"
+
+
+                    >
+                    <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="400dp"
-                        android:layout_marginHorizontal="50dp"
-                        android:id="@+id/report_no_category_report"
-                        android:orientation="vertical"
-                        android:background="@drawable/background_dark_blue"
-                        android:visibility="invisible">
-
-                        <TextView
+                        android:layout_marginHorizontal="0dp">
+                        <androidx.constraintlayout.widget.ConstraintLayout
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginHorizontal="@dimen/space_6"
-                            android:paddingHorizontal="@dimen/space_2"
-                            android:text="Group transaction by Category to see this report"
-                            android:textAlignment="center"
-                            android:textColor="@color/white"
-                            android:textSize="@dimen/normal_size"
-                            android:textStyle="bold"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
-                    </androidx.constraintlayout.widget.ConstraintLayout>
+                            android:layout_height="400dp"
 
-                    <androidx.viewpager.widget.ViewPager
-                        android:id="@+id/viewpager_report"
+                            android:id="@+id/report_no_category_report"
+                            android:orientation="vertical"
+                            android:background="@drawable/background_dark_blue"
+                            android:visibility="invisible">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginHorizontal="@dimen/space_6"
+                                android:paddingHorizontal="@dimen/space_2"
+                                android:text="Group transaction by Category to see this report"
+                                android:textAlignment="center"
+                                android:textColor="@color/white"
+                                android:textSize="@dimen/normal_size"
+                                android:textStyle="bold"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+
+                        <androidx.viewpager.widget.ViewPager
+                            android:id="@+id/viewpager_report"
+                            android:layout_width="match_parent"
+                            android:layout_height="400dp"
+                            android:layout_marginHorizontal="0dp"
+                            />
+                    </RelativeLayout>
+
+                    <com.github.mikephil.charting.charts.PieChart
+                        android:id="@+id/piechart_category"
                         android:layout_width="match_parent"
-                        android:layout_height="400dp"
-                        android:layout_marginHorizontal="50dp"
+                        android:layout_height="match_parent"
                         />
-                </RelativeLayout>
 
+                </LinearLayout>
 
                 <View
                     android:layout_width="match_parent"
@@ -398,8 +425,8 @@
                             android:layout_height="0dp"
                             android:layout_rowWeight="1"
                             android:layout_columnWeight="1"
-                            android:orientation="vertical"
-                            android:gravity="center">
+                            android:gravity="center"
+                            android:orientation="vertical">
 
                             <ImageView
                                 android:layout_width="100dp"
@@ -412,9 +439,9 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="20 transactions"
-                                android:textSize="@dimen/normal_size"
                                 android:textColor="@color/white"
-                                android:textStyle="bold"/>
+                                android:textSize="@dimen/normal_size"
+                                android:textStyle="bold" />
 
                         </LinearLayout>
 
@@ -514,13 +541,14 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="500dp"
+                    android:layout_height="1000dp"
                     android:layout_marginHorizontal="50dp"
-
-                    android:orientation="vertical">
+                    android:background="@drawable/background_dark_blue"
+                    android:orientation="vertical"
+                    android:id="@+id/linearLayout_custom_report">
 
                     <Spinner
-
+                        android:layout_marginStart="@dimen/radius_2"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="24dp"
@@ -530,7 +558,8 @@
 
                     <RelativeLayout
                         android:layout_width="match_parent"
-                        android:layout_height="400dp">
+                        android:layout_height="400dp"
+                        android:paddingHorizontal="@dimen/space_2">
                         <com.facebook.shimmer.ShimmerFrameLayout
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
@@ -668,6 +697,30 @@
 
 
                     </RelativeLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="520dp"
+
+                        android:gravity="center"
+
+                        android:id="@+id/report_line_chart"
+                        android:orientation="vertical"
+                        android:background="@drawable/background_dark_blue"
+                        android:padding="@dimen/space_2"
+
+
+                        >
+
+
+                        <com.github.mikephil.charting.charts.LineChart
+
+                            android:id="@+id/lineChart_spending"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"/>
+
+
+
+                    </LinearLayout>
 
 
 
@@ -900,6 +953,13 @@
                     </LinearLayout>
 
                 </LinearLayout>
+
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="24dp" />
+
+
 
                 <!-- This is a holder -->
                 <View

@@ -18,6 +18,7 @@ import com.spenditure.object.CategoryReport;
 import com.spenditure.object.MainCategory;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public interface IGeneralReportHandler {
 
@@ -42,4 +43,6 @@ public interface IGeneralReportHandler {
     public ArrayList<MainCategory> sortByPercent(int userID, boolean descending);
 
     public ArrayList<MainCategory> sortByAverage(int userID, boolean descending);
+
+    public List<CategoryReport> getAllCategoryReport(int userID);
 }

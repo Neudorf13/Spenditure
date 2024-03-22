@@ -48,11 +48,7 @@ public class Report {
     }
 
     public double getTotal(){
-        double total = 0;
-        for(CategoryStatistics categoryStatistics: this.categoryStatisticsList){
-            total += categoryStatistics.getTotal();
-        }
-        return total;
+        return numTrans * avgTransSize;
     }
 
 //    public double getPercentage(){

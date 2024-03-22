@@ -134,8 +134,8 @@ public class TimeBaseReportHandlerTest {
         assertEquals("It was $75", 75, week.getAvgTransSize(), 0.1);
 
         week = reports.get(2);
-        assertEquals("There is 1 here", 1, week.getNumTrans());
-        assertEquals("It is $60", 60, week.getAvgTransSize(), 0.1);
+        assertEquals("There are 2 here since all transactions are at 00H00M", 2, week.getNumTrans());
+        assertEquals("Average between these 2 is 75.25", 75.25, week.getAvgTransSize(), 0.1);
 
         week = reports.get(3);
         assertEquals("There are 2 here", 2, week.getNumTrans());
@@ -162,8 +162,5 @@ public class TimeBaseReportHandlerTest {
         assertEquals("Total for cat. 3 transactions is 325", 325, categoryStatistics.getTotal(), 0.1);
 
     }
-
-
-
 
 }

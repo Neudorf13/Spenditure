@@ -1,13 +1,14 @@
 package com.spenditure.logic;
 
 import static com.spenditure.logic.DateTimeAdjuster.*;
-import static com.spenditure.logic.DateTimeValidator.validateDateTime;
+import static com.spenditure.logic.DateTimeValidator.*;
 import static java.lang.Math.abs;
 import static java.lang.Math.sqrt;
 
 import com.spenditure.application.Services;
 import com.spenditure.database.CategoryPersistence;
 import com.spenditure.database.TransactionPersistence;
+import com.spenditure.logic.exceptions.InvalidCategoryException;
 import com.spenditure.object.DateTime;
 import com.spenditure.object.Report;
 import com.spenditure.object.CategoryStatistics;
@@ -42,6 +43,9 @@ public class TimeBaseReportHandler implements ITimeBaseReportHandler {
     private TransactionPersistence dataAccessTransaction;
     private CategoryPersistence dataAccessCategory;
 
+    //Stores all transactions so that the data layer doesn't need to be unnecessarily called
+    private List<Transaction> allTransactions;
+
     public TimeBaseReportHandler(boolean getStubDB) {
         this.dataAccessTransaction = Services.getTransactionPersistence(getStubDB);
         this.dataAccessCategory = Services.getCategoryPersistence(getStubDB);
@@ -57,7 +61,7 @@ public class TimeBaseReportHandler implements ITimeBaseReportHandler {
      */
     public Report reportBackOneYear(int userID, DateTime yearEnd) {
 
-        setEndOfDay((DateTime) yearEnd);
+        setEndOfDay(yearEnd);
 
         validateDateTime(yearEnd);
         assert(userID >= 0);
@@ -85,11 +89,18 @@ public class TimeBaseReportHandler implements ITimeBaseReportHandler {
 
         ArrayList<Report> monthReports = new ArrayList<>();
 
-        for(int i = 1; i <= 12; i++) {
-            monthReports.add(reportOnUserProvidedDates(
-                    userID, new DateTime(today.getYear()-1, i, 1),
-                    correctDateTime( new DateTime(today.getYear()-1, i, 31, 23, 59, 59)) )
-            );
+        List<Transaction> transactions = getTransactions(userID,
+                new DateTime(today.getYear()-1, 1, 1),
+                new DateTime(today.getYear()-1, MAX_MONTHS, MAX_DAYS));
+
+        for(int i = 1; i <= 12; i ++) {
+
+            List<Transaction> month = getTimeSegmentFromList( transactions,
+                    new DateTime(today.getYear()-1, i, 1),
+                    new DateTime(today.getYear()-1, i, MAX_DAYS));
+
+            monthReports.add(reportOnProvidedTransactionList(userID, month));
+
         }
 
         return monthReports;
@@ -103,25 +114,38 @@ public class TimeBaseReportHandler implements ITimeBaseReportHandler {
     ending at the provided date.
 
      */
-    public ArrayList<Report> reportBackOneMonthByWeek(int userID, DateTime start) {
+    public ArrayList<Report> reportBackOneMonthByWeek(int userID, DateTime end) {
 
-        setEndOfDay(start);
-        validateDateTime(start);
+        setEndOfDay(end);
+        validateDateTime(end);
         assert(userID >= 0);
 
         DateTime[] weekDates = new DateTime[WEEKS_IN_MONTH + 1];
         ArrayList<Report> result = new ArrayList<>();
 
-        weekDates[0] = start;
+        DateTime start = end.copy();
+        start.adjust(0, 0, -DAYS_IN_WEEK * weekDates.length, 0, 0, 0);
+        setBeginningOfDay(start);
+
+        List<Transaction> transactions = getTransactions(userID, start, end);
+
+        weekDates[0] = end;
 
         for( int i = 1; i < weekDates.length; i ++ ) {
 
             DateTime week = weekDates[i - 1].copy();
             week.adjust(0, 0, -DAYS_IN_WEEK, 0, 0, 0);
 
+
             weekDates[i] = week;
 
-            result.add(reportOnUserProvidedDates(userID, weekDates[i], weekDates[i - 1]));
+            DateTime startPoint = week.copy();
+            setBeginningOfDay(startPoint);
+
+            List<Transaction> transactionsInWeek = getTimeSegmentFromList(transactions, startPoint, weekDates[i-1]);
+
+            result.add(reportOnProvidedTransactionList(userID, transactionsInWeek));
+
         }
 
         return result;
@@ -136,19 +160,15 @@ public class TimeBaseReportHandler implements ITimeBaseReportHandler {
      */
     public Report reportOnUserProvidedDates(int userID, DateTime start, DateTime end) {
 
-        setEndOfDay((DateTime) end);
+        setEndOfDay(end);
         validateDateTime(start);
         validateDateTime(end);
         assert(userID >= 0);
 
-        double averageTransactionSize = getAverageTransactionSizeByDate(userID, start, end);
-        int numTransactions = countAllTransactionsByDate(userID, start, end);
-        double standardDeviation = getStandardDeviationByDate(userID, start, end);
-        double percent = getPercentForReport(userID, start, end);
+        List<Transaction> transactions = getTransactions(userID, start, end);
 
-        ArrayList<CategoryStatistics> categoryStatistics = buildCategoryList(userID, start, end);
+        return reportOnProvidedTransactionList(userID, transactions);
 
-        return new Report( averageTransactionSize, numTransactions, standardDeviation, percent, categoryStatistics );
     }
 
     /*
@@ -163,10 +183,88 @@ public class TimeBaseReportHandler implements ITimeBaseReportHandler {
      */
     public static DateTime getCurrentDate() {
         LocalDate javaDateObject = LocalDate.now(); // Create a date object
+
         return new DateTime(javaDateObject.getYear(), javaDateObject.getMonthValue(), javaDateObject.getDayOfMonth());
     }
 
-    // ### PRIVATE METHODS ###
+    // ################ PRIVATE METHODS #################
+    /*
+
+    reportOnProvidedTransactionList
+
+    Generates a Report for the given User ID and pre-provided list of Transactions.
+
+     */
+    private Report reportOnProvidedTransactionList(int userID, List<Transaction> transactions) {
+
+        double averageTransactionSize = getAverageTransactionSizeByDate(transactions);
+        int numTransactions = transactions.size();
+        double standardDeviation = getStandardDeviationByDate(transactions);
+        double percent = getPercentForReport(userID, transactions);
+
+        ArrayList<CategoryStatistics> categoryStatistics = buildCategoryList(userID, transactions);
+
+        return new Report( averageTransactionSize, numTransactions, standardDeviation, percent, categoryStatistics );
+
+    }
+
+    /*
+
+    getTimeSegmentFromList
+
+    Given a list of Transactions and an upper and lower bound, returns a list containing only the Transactions
+    which occur within those bounds (inclusive).
+
+     */
+    private List<Transaction> getTimeSegmentFromList(List<Transaction> transactions, DateTime lower, DateTime upper) {
+
+        List<Transaction> result = new ArrayList<>();
+
+        for(int i = 0; i < transactions.size(); i ++) {
+
+            DateTime timestamp = transactions.get(i).getDateTime();
+
+            if(timestamp.compare(lower) >= 0 && timestamp.compare(upper) <= 0) {
+
+                result.add(transactions.get(i));
+
+            }
+
+        }
+
+        return result;
+
+    }
+
+    /*
+
+    getTransactions
+
+    Updates the allTransactions variable with the database, then selects the specified portion according
+    to the given DateTimes and returns all Transactions within that.
+
+     */
+    private List<Transaction> getTransactions(int userID, DateTime start, DateTime end) {
+
+        allTransactions = dataAccessTransaction.getAllTransactionsForUser(userID);
+
+        return getTimeSegmentFromList(allTransactions, start, end);
+
+    }
+
+    /*
+
+    getCategories
+
+    Returns a list of all categories associeated with a provided userID.
+
+     */
+    private List<MainCategory> getCategories(int userID) {
+
+        return dataAccessCategory.getAllCategory(userID);
+
+    }
+
     /*
 
     getAverageTransactionSizeByDate
@@ -174,9 +272,7 @@ public class TimeBaseReportHandler implements ITimeBaseReportHandler {
     Returns the average transaction size between the two provided dates.
 
      */
-    private double getAverageTransactionSizeByDate(int userID, DateTime startDate, DateTime endDate) {
-
-        List<Transaction> transactions = dataAccessTransaction.getTransactionsByDateTime(userID, startDate, endDate);
+    private double getAverageTransactionSizeByDate(List<Transaction> transactions) {
 
         double total = 0.00;
 
@@ -186,7 +282,7 @@ public class TimeBaseReportHandler implements ITimeBaseReportHandler {
 
         }
 
-        if(transactions.size() > 0)
+        if(!transactions.isEmpty())
             return total / transactions.size();
         else
             return 0;
@@ -200,14 +296,12 @@ public class TimeBaseReportHandler implements ITimeBaseReportHandler {
     Returns the standard deviation value for transactions between the two specified dates.
 
      */
-    private double getStandardDeviationByDate(int userID, DateTime startDate, DateTime endDate) {
+    private double getStandardDeviationByDate(List<Transaction> transactions) {
 
-        List<Transaction> transactions = dataAccessTransaction.getTransactionsByDateTime(userID, startDate, endDate);
-
-        double mean = getAverageTransactionSizeByDate(userID, startDate, endDate);
+        double mean = getAverageTransactionSizeByDate(transactions);
         double sum = 0.00;
-        double variance = 0.00;
-        double standardDeviation = 0.00;
+        double variance;
+        double standardDeviation;
 
         for( int i = 0; i < transactions.size(); i ++ ) {
 
@@ -223,7 +317,7 @@ public class TimeBaseReportHandler implements ITimeBaseReportHandler {
 
         standardDeviation = sqrt(variance);
 
-        if(transactions.size() > 0)
+        if(!transactions.isEmpty())
             return standardDeviation;
         else
             return 0;
@@ -232,46 +326,14 @@ public class TimeBaseReportHandler implements ITimeBaseReportHandler {
 
     /*
 
-    countAllTransactionsByDate
-
-    Returns the number of transactions that occured betweent the given dates.
-
-     */
-    private int countAllTransactionsByDate(int userID, DateTime startDate, DateTime endDate) {
-
-        List<Transaction> transactions = dataAccessTransaction.getTransactionsByDateTime(userID, startDate, endDate);
-
-        return transactions.size();
-
-    }
-
-    /*
-
-    countAllCategories
-
-    Returns the number of categories present for the given user.
-
-     */
-    public int countAllCategories(int userID) {
-
-        List<MainCategory> categories = dataAccessCategory.getAllCategory(userID);
-
-        return categories.size();
-
-    }
-
-    /*
-
     countTransactionsByCategoryByDate
 
-    Returns the number of transactions of a given category that occured between the given dates.
+    Returns the number of transactions of a given category that occurred between the given dates.
 
      */
-    private int countTransactionsByCategoryByDate(int userID, int categoryID, DateTime startDate, DateTime endDate) {
+    private int countTransactionsByCategoryByDate(int categoryID, List<Transaction> transactionsInTimeframe) {
 
         ArrayList<Transaction> categoryTransactions = new ArrayList<>();
-
-        ArrayList<Transaction> transactionsInTimeframe = dataAccessTransaction.getTransactionsByDateTime(userID, startDate, endDate);
 
         for(int i = 0; i < transactionsInTimeframe.size(); i ++) {
 
@@ -287,12 +349,10 @@ public class TimeBaseReportHandler implements ITimeBaseReportHandler {
 
     getTotalForAllTransactionsByDate
 
-    Returns the total value of all the transactions that occured between the given dates.
+    Returns the total value of all the transactions that occurred between the given dates.
 
      */
-    private double getTotalForAllTransactionsByDate(int userID, DateTime startDate, DateTime endDate) {
-
-        List<Transaction> transactions = dataAccessTransaction.getTransactionsByDateTime(userID, startDate, endDate);
+    private double getTotalForAllTransactionsByDate(List<Transaction> transactions) {
 
         double total = 0.0;
 
@@ -305,37 +365,12 @@ public class TimeBaseReportHandler implements ITimeBaseReportHandler {
 
     /*
 
-    getTotalForAllTransactions
-
-    Returns the total value of all transactions for a given user ID, irrespective of time.
-
-     */
-    private double getTotalForAllTransactions(int userID) {
-
-        List<Transaction> transactions = dataAccessTransaction.getAllTransactionsForUser(userID);
-
-        double result = 0.00;
-
-        for(int i = 0; i < transactions.size(); i ++) {
-
-            result += transactions.get(i).getAmount();
-
-        }
-
-        return result;
-
-    }
-
-    /*
-
     getTotalForCategoryByDate
 
     Returns the total value of all transactions in a category over a given time.
 
      */
-    private double getTotalForCategoryByDate(int userID, int categoryID, DateTime startDate, DateTime endDate) {
-
-        ArrayList<Transaction> transactionsInTimeframe = dataAccessTransaction.getTransactionsByDateTime(userID, startDate, endDate);
+    private double getTotalForCategoryByDate(int categoryID, List<Transaction> transactionsInTimeframe) {
 
         double total = 0.0;
 
@@ -359,11 +394,11 @@ public class TimeBaseReportHandler implements ITimeBaseReportHandler {
     Returns the average value of each transaction in a given category for given dates.
 
      */
-    private double getAverageForCategoryByDate(int userID, int categoryID, DateTime startDate, DateTime endDate) {
+    private double getAverageForCategoryByDate(int categoryID, List<Transaction> transactions) {
 
-        double total = getTotalForCategoryByDate(userID, categoryID, startDate, endDate);
+        double total = getTotalForCategoryByDate(categoryID, transactions);
 
-        int count = countTransactionsByCategoryByDate(userID, categoryID, startDate, endDate);
+        int count = countTransactionsByCategoryByDate(categoryID, transactions);
 
         if(count > 0)
             return (total / count);
@@ -378,11 +413,11 @@ public class TimeBaseReportHandler implements ITimeBaseReportHandler {
     Returns the percentage of transactions in a given category out of all transactions, for given dates
 
      */
-    private double getPercentForCategoryByDate(int userID, int categoryID, DateTime startDate, DateTime endDate) {
+    private double getPercentForCategoryByDate(int categoryID, List<Transaction> transactions) {
 
-        double totalAllTransactions = getTotalForAllTransactionsByDate(userID, startDate, endDate);
+        double totalAllTransactions = getTotalForAllTransactionsByDate(transactions);
 
-        double totalForCategory = getTotalForCategoryByDate(userID, categoryID, startDate, endDate);
+        double totalForCategory = getTotalForCategoryByDate(categoryID, transactions);
 
         if(totalAllTransactions > 0)
             return ((totalForCategory / totalAllTransactions) * 100);
@@ -397,11 +432,11 @@ public class TimeBaseReportHandler implements ITimeBaseReportHandler {
     Returns the percentage of all transactions in the report out of all transactions in total
 
      */
-    private double getPercentForReport(int userID, DateTime startDate, DateTime endDate) {
+    private double getPercentForReport(int userID, List<Transaction> transactions) {
 
-        double allTotal = getTotalForAllTransactions(userID);
+        double allTotal = getTotalForAllTransactionsByDate(allTransactions);
 
-        double reportTotal = getTotalForAllTransactionsByDate(userID, startDate, endDate);
+        double reportTotal = getTotalForAllTransactionsByDate(transactions);
 
         return (reportTotal / allTotal) * 100;
 
@@ -416,19 +451,19 @@ public class TimeBaseReportHandler implements ITimeBaseReportHandler {
     itself.
 
      */
-    private ArrayList<CategoryStatistics> buildCategoryList(int userID, DateTime startDate, DateTime endDate) {
+    private ArrayList<CategoryStatistics> buildCategoryList(int userID, List<Transaction> transactions) {
 
         ArrayList<CategoryStatistics> categoryList = new ArrayList<>();
-        int numCategories = countAllCategories(userID);
+        List<MainCategory> categories = getCategories(userID);
 
-        for(int i = 1; i < numCategories+1; i++) {
+        for(int i = 1; i < categories.size() + 1; i++) {
 
             //for each Category calculate -> total, average, %
-            MainCategory category = dataAccessCategory.getCategoryByID(i);
+            MainCategory category = getCategoryByID(categories, categories.get(i-1).getCategoryID());
 
-            double total = getTotalForCategoryByDate(userID, i, startDate, endDate);
-            double average = getAverageForCategoryByDate(userID, i, startDate, endDate);
-            double percent = getPercentForCategoryByDate(userID, i, startDate, endDate);
+            double total = getTotalForCategoryByDate(i, transactions);
+            double average = getAverageForCategoryByDate(i, transactions);
+            double percent = getPercentForCategoryByDate(i, transactions);
 
             CategoryStatistics node = new CategoryStatistics(category,total,average,percent);
             categoryList.add(node);
@@ -436,6 +471,37 @@ public class TimeBaseReportHandler implements ITimeBaseReportHandler {
         }
 
         return categoryList;
+
+    }
+
+    /*
+
+    getCategoryByID
+
+    Given a list of Categories, searches it for a Category with an ID matching that which was provided,
+    and returns it.
+
+     */
+    private MainCategory getCategoryByID(List<MainCategory> categories, int id) throws InvalidCategoryException {
+
+        MainCategory result = null;
+
+        for(int i = 0; i < categories.size(); i ++) {
+
+            if(categories.get(i).getCategoryID() == id) {
+
+                result = categories.get(i);
+
+                break;
+
+            }
+
+        }
+
+        if(result == null)
+            throw new InvalidCategoryException("Cannot produce a report for Category "+id+" because no such category exists.");
+
+        return result;
 
     }
 

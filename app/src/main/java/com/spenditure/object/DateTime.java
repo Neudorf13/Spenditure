@@ -35,19 +35,26 @@ public class DateTime {
     private int seconds;
 
     //Relates month names to month value; names correlate to month-1
-    private static final String[] MONTHS = {
-            "January",
-            "February",
-            "March",
-            "April",
+    public static final String[] MONTHS = {
+            "Jan",
+            "Feb",
+            "Mar",
+            "Apr",
             "May",
-            "June",
-            "July",
-            "August",
-            "September",
-            "October",
-            "November",
-            "December"
+            "Jun",
+            "Jul",
+            "Aug",
+            "Sep",
+            "Oct",
+            "Nov",
+            "Dec"
+    };
+
+    public static final String [] WEEKS = {
+            "1st Week",
+            "2nd Week",
+            "3rd Week",
+            "4th Week"
     };
 
     public DateTime(int year, int month, int day, int hour, int minute, int seconds)

@@ -67,6 +67,13 @@ public class DateTimeAdjuster {
 
     }
 
+    /*
+
+        setEndOfDay
+
+        Given a DateTime, sets that DateTime to the last second of that day (23h, 59m, 59s).
+
+     */
     public static void setEndOfDay(DateTime dateTime) {
 
         int h = dateTime.getHour();
@@ -75,6 +82,24 @@ public class DateTimeAdjuster {
 
         dateTime.adjust(0, 0, 0,
                 -h + MAX_HOURS-1, -m + MAX_MINUTES-1, -s + MAX_SECONDS-1);
+
+    }
+
+    /*
+
+        setBeginningOfDay
+
+        Given a DateTime, sets that DateTime to the first second of that day (0h, 0m, 0s).
+
+     */
+    public static void setBeginningOfDay(DateTime dateTime) {
+
+        int h = dateTime.getHour();
+        int m = dateTime.getMinute();
+        int s = dateTime.getSeconds();
+
+        dateTime.adjust( 0, 0, 0,
+                -h, -m, -s);
 
     }
 
