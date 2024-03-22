@@ -21,6 +21,10 @@ import java.time.LocalDate;
 
 public class DateTimeValidator {
 
+    //Maximum number of months in a year.
+    public static final int MAX_MONTHS = 12;
+    //Maximum number of days in a month.
+    public static final int MAX_DAYS = 31;
     //Number of hours in a day, can be changed to 12 if only 12-hour time is used
     public static final int MAX_HOURS = 24;
     //Number of minutes in an hour
@@ -146,7 +150,7 @@ public class DateTimeValidator {
      */
     private static void validateMonth(int month) throws InvalidDateException {
 
-        if( month > 12 || month <= 0 )
+        if( month > MAX_MONTHS || month <= 0 )
             throw new InvalidDateException("Provided month value (" + month + ") must be at least 1 and at most 12.");
 
     }
@@ -158,7 +162,7 @@ public class DateTimeValidator {
      */
     private static void validateDay(int day) throws InvalidDateException {
 
-        if( day > 31 || day <= 0 )
+        if( day > MAX_DAYS || day <= 0 )
             throw new InvalidDateException("Provided day value (" + day + ") must be at least 1 and at most 31.");
 
     }

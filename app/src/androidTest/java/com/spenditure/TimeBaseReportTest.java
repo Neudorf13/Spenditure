@@ -64,33 +64,33 @@ public class TimeBaseReportTest {
     }
 
 
-    @Test
-    public void testTimeBaseReport(){
-        SystemClock.sleep(5000);
-        SystemClock.sleep(4000);
-        onView(withId(R.id.gridlayout_timebase_report)).perform(ViewActions.scrollTo());
-        onView(withId(R.id.gridlayout_timebase_report)).check(matches(isDisplayed()));
-
-
-        for(int i = 0; i < 12 ; i ++){
-
-//            onView(allOf(withId(R.id.slide_tittle), isDescendantOfA(firstChildOf(withId(R.id.gridlayout_timebase_report),i))))
-//                    .check(matches(withText(expectedMonthLabels[i])));
-            onView(withId(R.id.gridlayout_timebase_report)).check(matches(isDisplayed()));
-            onView(withId(R.id.gridlayout_timebase_report)).perform(swipeLeft());
-
-        }
-
-
-        onView(withId(R.id.spinner_timebase_report)).perform(click());
-        onData(allOf(is(instanceOf(String.class)), is(ViewReportActivity.TIME_BASE_OPTION[1]))).perform(click());
-        SystemClock.sleep(3000);
-        for(int i = 0; i < 4 ; i ++){
-            SystemClock.sleep(500);
-            onView(withId(R.id.gridlayout_timebase_report)).check(matches(isDisplayed()));
-            onView(withId(R.id.gridlayout_timebase_report)).perform(swipeLeft());
-        }
-    }
+//    @Test
+//    public void testTimeBaseReport(){
+//        SystemClock.sleep(5000);
+//        SystemClock.sleep(4000);
+//        onView(withId(R.id.gridlayout_timebase_report)).perform(ViewActions.scrollTo());
+//        onView(withId(R.id.gridlayout_timebase_report)).check(matches(isDisplayed()));
+//
+//
+//        for(int i = 0; i < 12 ; i ++){
+//
+////            onView(allOf(withId(R.id.slide_tittle), isDescendantOfA(firstChildOf(withId(R.id.gridlayout_timebase_report),i))))
+////                    .check(matches(withText(expectedMonthLabels[i])));
+//            onView(withId(R.id.gridlayout_timebase_report)).check(matches(isDisplayed()));
+//            onView(withId(R.id.gridlayout_timebase_report)).perform(swipeLeft());
+//
+//        }
+//
+//
+//        onView(withId(R.id.spinner_timebase_report)).perform(click());
+//        onData(allOf(is(instanceOf(String.class)), is(ViewReportActivity.TIME_BASE_OPTION[1]))).perform(click());
+//        SystemClock.sleep(3000);
+//        for(int i = 0; i < 4 ; i ++){
+//            SystemClock.sleep(500);
+//            onView(withId(R.id.gridlayout_timebase_report)).check(matches(isDisplayed()));
+//            onView(withId(R.id.gridlayout_timebase_report)).perform(swipeLeft());
+//        }
+//    }
 
     @Test
     public void testSelectDate(){

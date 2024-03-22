@@ -87,11 +87,11 @@ public class ViewReportActivity extends AppCompatActivity {
         this.userID = UserManager.getUserID();
         this.currDate = TimeBaseReportHandler.getCurrentDate();
 
-        handleGeneralReport();
-        handleCustomCategoryReport();
-        handleCategoriesReport();
+//        handleGeneralReport();
+//        handleCustomCategoryReport();
+//        handleCategoriesReport();
         handleLastYearReport();
-        handleTimebaseReport();
+//        handleTimebaseReport();
         handleCustomDateReport();
         navBarHandling();
 

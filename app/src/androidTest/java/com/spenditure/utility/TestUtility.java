@@ -36,6 +36,7 @@ public abstract class TestUtility {
                 ViewActions.closeSoftKeyboard()
         );
         onView(withId(R.id.button_login)).perform(click());
+        SystemClock.sleep(10000);
     }
 
     public static void logout(){
