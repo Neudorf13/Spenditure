@@ -65,71 +65,61 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
+        <LinearLayout
+            android:id="@+id/linearlayout_controls"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="24dp">
+            android:orientation="horizontal"
+            android:layout_gravity="center"
+            app:layout_constraintBottom_toTopOf="@+id/scrollview_list"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
-            <LinearLayout
-                android:id="@+id/linearlayout_controls"
+            <androidx.appcompat.widget.AppCompatToggleButton
+                android:id="@+id/togglebutton_transaction_date_sort"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                app:layout_constraintBottom_toTopOf="@+id/listview_transactions"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+                android:layout_margin="50dp"
+                android:backgroundTint="@color/light_blue"
+                android:checked="true"
+                android:textColor="@color/white"
+                android:textOff="Oldest First"
+                android:textOn="Newest First" />
 
-                <androidx.appcompat.widget.AppCompatToggleButton
-                    android:id="@+id/togglebutton_transaction_date_sort"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="50dp"
-                    android:backgroundTint="@color/light_blue"
-                    android:checked="true"
-                    android:textColor="@color/white"
-                    android:textOff="Oldest First"
-                    android:textOn="Newest First" />
-
-                <Button
-                    android:id="@+id/button_edit"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="50dp"
-                    android:backgroundTint="@color/light_blue"
-                    android:enabled="false"
-                    android:onClick="editTransactionClicked"
-                    android:text="@string/label_edit"
-                    android:textColor="@color/white" />
-
-                <Button
-                    android:id="@+id/button_delete"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="50dp"
-                    android:backgroundTint="@color/light_blue"
-                    android:enabled="false"
-                    android:onClick="deleteTransactionClicked"
-                    android:text="@string/label_delete"
-                    android:textColor="@color/white" />
-
-            </LinearLayout>
-
-            <ListView
-                android:id="@+id/listview_transactions"
-                android:layout_width="fill_parent"
+            <Button
+                android:id="@+id/button_edit"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:choiceMode="singleChoice"
-                android:listSelector="@color/dark_blue"
-                android:text="@string/title_view_transactions"
-                android:textSize="40dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/linearlayout_controls" />
+                android:layout_margin="50dp"
+                android:backgroundTint="@color/light_blue"
+                android:enabled="false"
+                android:onClick="editTransactionClicked"
+                android:text="@string/label_edit"
+                android:textColor="@color/white" />
 
+            <Button
+                android:id="@+id/button_delete"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="50dp"
+                android:backgroundTint="@color/light_blue"
+                android:enabled="false"
+                android:onClick="deleteTransactionClicked"
+                android:text="@string/label_delete"
+                android:textColor="@color/white" />
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+        </LinearLayout>
+
+        <ListView
+            android:id="@+id/listview_transactions"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_marginBottom="100dp"
+            android:choiceMode="singleChoice"
+            android:listSelector="@color/dark_blue"
+            android:text="@string/title_view_transactions"
+            android:textSize="40dp" />
 
     </LinearLayout>
 
