@@ -1,9 +1,6 @@
 package com.spenditure.database.hsqldb;
 
-import android.annotation.SuppressLint;
-
 import com.spenditure.database.CategoryPersistence;
-import com.spenditure.logic.UserManager;
 import com.spenditure.logic.exceptions.InvalidCategoryException;
 import com.spenditure.logic.exceptions.InvalidUserInformationException;
 import com.spenditure.object.MainCategory;
@@ -152,12 +149,6 @@ public class CategorySQL implements CategoryPersistence {
         catch (final SQLException e) {
             throw new RuntimeException("An error occurred while processing the SQL operation5", e);
         }
-
-    }
-
-    public int getCurrentCategoryCount() {
-
-        return currentCategoryID;
 
     }
 

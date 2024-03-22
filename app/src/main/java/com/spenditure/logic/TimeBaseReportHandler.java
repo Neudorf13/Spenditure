@@ -455,12 +455,11 @@ public class TimeBaseReportHandler implements ITimeBaseReportHandler {
 
         ArrayList<CategoryStatistics> categoryList = new ArrayList<>();
         List<MainCategory> categories = getCategories(userID);
-        int numCategories = dataAccessCategory.getTotalCategoryCount();
 
-        for(int i = 1; i < numCategories+1; i++) {
+        for(int i = 1; i < categories.size() + 1; i++) {
 
             //for each Category calculate -> total, average, %
-            MainCategory category = getCategoryByID(categories, i);
+            MainCategory category = getCategoryByID(categories, categories.get(i-1).getCategoryID());
 
             double total = getTotalForCategoryByDate(i, transactions);
             double average = getAverageForCategoryByDate(i, transactions);
@@ -487,10 +486,15 @@ public class TimeBaseReportHandler implements ITimeBaseReportHandler {
 
         MainCategory result = null;
 
-        for(int i = 0; i < dataAccessCategory.getTotalCategoryCount(); i ++) {
+        for(int i = 0; i < categories.size(); i ++) {
 
-            if(categories.get(i).getCategoryID() == id)
+            if(categories.get(i).getCategoryID() == id) {
+
                 result = categories.get(i);
+
+                break;
+
+            }
 
         }
 

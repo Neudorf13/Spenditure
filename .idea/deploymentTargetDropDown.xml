@@ -2,25 +2,6 @@
 <project version="4">
   <component name="deploymentTargetDropDown">
     <value>
-      <entry key="GeneralReportTest">
-        <State>
-          <targetSelectedWithDropDown>
-            <Target>
-              <type value="QUICK_BOOT_TARGET" />
-              <deviceKey>
-                <Key>
-                  <type value="VIRTUAL_DEVICE_PATH" />
-                  <value value="C:\Users\ngotr\.android\avd\Pixel_Tablet_API_UpsideDownCakePrivacySandbox_2.avd" />
-                </Key>
-              </deviceKey>
-            </Target>
-          </targetSelectedWithDropDown>
-          <timeTargetWasSelectedWithDropDown value="2024-03-19T19:46:33.114104Z" />
-        </State>
-      </entry>
-      <entry key="IllustrativeReportTest">
-        <State />
-      </entry>
       <entry key="TimeBaseReportTest">
         <State />
       </entry>
