@@ -31,6 +31,10 @@ public class GeneralReportHandler implements IGeneralReportHandler {
     private TransactionPersistence dataAccessTransaction;
     private CategoryPersistence dataAccessCategory;
 
+    //Store a save state of the Transaction and Category tables
+    private List<Transaction> allTransactions = null;
+    private List<MainCategory> allCategories = null;
+
     /**
      * constructor
      *
@@ -54,14 +58,12 @@ public class GeneralReportHandler implements IGeneralReportHandler {
      */
     public int numTransactions(int userID, int categoryID) throws InvalidLogInException, InvalidCategoryException
     {
-        if(userID == -1 )
-            throw new InvalidLogInException();
+        checkSaveState(userID);
 
         if(categoryID < 0)
-            throw new InvalidCategoryException("That category does not exist");
+            throw new InvalidCategoryException("Could not get Transactions from the Category; the provided Category ID ("+categoryID+") is not associated with any existing Categories.");
 
-
-        return dataAccessTransaction.getTransactionsByCategoryID(categoryID).size();
+        return getTransactionsByCategoryID(categoryID).size();
     }
 
     /**
@@ -74,24 +76,21 @@ public class GeneralReportHandler implements IGeneralReportHandler {
      */
     public double totalSpending(int userID, int categoryID) throws InvalidLogInException, InvalidCategoryException
     {
-        List<Transaction> allTransactions;
+        checkSaveState(userID);
 
-        if(userID == -1 )
-            throw new InvalidLogInException();
+        List<Transaction> transactions;
 
         if(categoryID < 0)
-            throw new InvalidCategoryException("That category does not exist" + categoryID);
+            throw new InvalidCategoryException("Could not calculate statistics for the Category; the provided Category ID ("+categoryID+") is not associated with any existing Categories.");
 
         double total = 0;
 
-
-
-        allTransactions = dataAccessTransaction.getTransactionsByCategoryID(categoryID);
+        transactions = getTransactionsByCategoryID(categoryID);
 
         // calculate total
-        for(int i = 0; i < allTransactions.size(); i++)
+        for(int i = 0; i < transactions.size(); i++)
         {
-            total += allTransactions.get(i).getAmount();
+            total += transactions.get(i).getAmount();
         }
 
         return total;
@@ -108,14 +107,12 @@ public class GeneralReportHandler implements IGeneralReportHandler {
      */
     public double averageSpending(int userID, int categoryID) throws InvalidLogInException, InvalidCategoryException
     {
+        checkSaveState(userID);
 
         double average;
 
-        if(userID == -1 )
-            throw new InvalidLogInException();
-
         if(categoryID < 0)
-            throw new InvalidCategoryException("That category does not exist");
+            throw new InvalidCategoryException("Could not calculate statistics for the Category; the provided Category ID ("+categoryID+") is not associated with any existing Categories.");
 
         // to avoid dividing by 0 check if there are no transactions
         if(numTransactions(userID, categoryID) == 0)
@@ -141,14 +138,12 @@ public class GeneralReportHandler implements IGeneralReportHandler {
      */
     public double percentage(int userID, int categoryID) throws InvalidLogInException, InvalidCategoryException
     {
+        checkSaveState(userID);
 
         double percentage;
 
-        if(userID == -1 )
-            throw new InvalidLogInException();
-
         if(categoryID < 0)
-            throw new InvalidCategoryException("That category does not exist");
+            throw new InvalidCategoryException("Could not calculate statistics for the Category; the provided Category ID ("+categoryID+") is not associated with any existing Categories.");
 
         // to avoid dividing by 0 check if there are no transactions
         if(numTransactions(userID, categoryID) == 0)
@@ -173,11 +168,9 @@ public class GeneralReportHandler implements IGeneralReportHandler {
      */
     public int numTransactions(int userID) throws InvalidLogInException
     {
-        if(userID < 0 )
-            throw new InvalidLogInException();
+        checkSaveState(userID);
 
-
-        return dataAccessTransaction.getAllTransactionsForUser(userID).size();
+        return allTransactions.size();
     }
 
     /**
@@ -189,15 +182,9 @@ public class GeneralReportHandler implements IGeneralReportHandler {
      */
     public double totalSpending(int userID) throws InvalidLogInException
     {
-        List<Transaction> allTransactions;
+        checkSaveState(userID);
+
         double total = 0;
-
-        if(userID == -1 )
-            throw new InvalidLogInException();
-
-
-        allTransactions = dataAccessTransaction.getAllTransactionsForUser(userID);
-
 
         // calculate total
         for(int i = 0; i < allTransactions.size(); i++)
@@ -218,11 +205,9 @@ public class GeneralReportHandler implements IGeneralReportHandler {
      */
     public double averageSpending(int userID) throws InvalidLogInException
     {
+        checkSaveState(userID);
 
         double average;
-
-        if(userID == -1 )
-            throw new InvalidLogInException();
 
         // to avoid dividing by 0 check if there are no transactions
         if(numTransactions(userID) == 0)
@@ -249,29 +234,30 @@ public class GeneralReportHandler implements IGeneralReportHandler {
      */
     public CategoryReport getCategoryReport(int userID, int categoryID) throws InvalidLogInException, InvalidCategoryException
     {
+        checkSaveState(userID);
+
         double totalSpending;
         int numTransactions;
         double average;
         double percentage;
 
-        if(userID == -1 )
-            throw new InvalidLogInException();
-
         if(categoryID < 0)
-            throw new InvalidCategoryException("That category does not exist");
+            throw new InvalidCategoryException("Could not provide a Report for the Category; the provided Category ID ("+categoryID+") is not associated with any existing Categories.");
 
         totalSpending = totalSpending(userID, categoryID);
         numTransactions = numTransactions(userID, categoryID);
         average = averageSpending(userID, categoryID);
         percentage = percentage(userID, categoryID);
 
-        return new CategoryReport(dataAccessCategory.getCategoryByID(categoryID), totalSpending, numTransactions, average, percentage);
+        return new CategoryReport(getCategoryByID(categoryID), totalSpending, numTransactions, average, percentage);
     }
 
     //Bao new function
     public List<CategoryReport> getAllCategoryReport(int userID){
-        List<CategoryReport> categoryReportList = new ArrayList<CategoryReport>();
-        List<MainCategory> mainCategoryList = dataAccessCategory.getAllCategory(userID);
+        checkSaveState(userID);
+
+        List<CategoryReport> categoryReportList = new ArrayList<>();
+        List<MainCategory> mainCategoryList = allCategories;
         for (MainCategory mainCategory : mainCategoryList){
             categoryReportList.add(getCategoryReport(userID,mainCategory.getCategoryID()));
         }
@@ -290,19 +276,13 @@ public class GeneralReportHandler implements IGeneralReportHandler {
      */
     public ArrayList<MainCategory> sortByTotal(int userID, boolean descending) throws InvalidLogInException
     {
-        ArrayList<CategoryReport> categoryReportList = new ArrayList<CategoryReport>();
-        List<MainCategory> mainCategoryList;
-        ArrayList<MainCategory> sortedCategories = new ArrayList<MainCategory>();
+        checkSaveState(userID);
 
-        // ensure someone is logged in
-        if(userID == -1 )
-            throw new InvalidLogInException();
-
-        // get all categories for a user
-        mainCategoryList = dataAccessCategory.getAllCategory(userID);
+        ArrayList<CategoryReport> categoryReportList = new ArrayList<>();
+        ArrayList<MainCategory> sortedCategories = new ArrayList<>();
 
         // generate report for each category user has
-        for(MainCategory node : mainCategoryList)
+        for(MainCategory node : allCategories)
         {
             categoryReportList.add(getCategoryReport(userID, node.getCategoryID()));
         }
@@ -337,19 +317,13 @@ public class GeneralReportHandler implements IGeneralReportHandler {
      */
     public ArrayList<MainCategory> sortByPercent(int userID, boolean descending) throws InvalidLogInException
     {
+        checkSaveState(userID);
+
         ArrayList<CategoryReport> categoryReportList = new ArrayList<CategoryReport>();
-        List<MainCategory> mainCategoryList;
         ArrayList<MainCategory> sortedCategories = new ArrayList<MainCategory>();
 
-        // ensure someone is logged in
-        if(userID == -1 )
-            throw new InvalidLogInException();
-
-        // get all categories for a user
-        mainCategoryList = dataAccessCategory.getAllCategory(userID);
-
         // generate report for each category user has
-        for(MainCategory node : mainCategoryList)
+        for(MainCategory node : allCategories)
         {
             categoryReportList.add(getCategoryReport(userID, node.getCategoryID()));
         }
@@ -384,20 +358,13 @@ public class GeneralReportHandler implements IGeneralReportHandler {
      */
     public ArrayList<MainCategory> sortByAverage(int userID, boolean descending) throws InvalidLogInException
     {
+        checkSaveState(userID);
+
         ArrayList<CategoryReport> categoryReportList = new ArrayList<CategoryReport>();
-        List<MainCategory> mainCategoryList;
         ArrayList<MainCategory> sortedCategories = new ArrayList<MainCategory>();
 
-        // ensure someone is logged in
-        if(userID == -1 )
-            throw new InvalidLogInException();
-
-        // get all categories for a user
-        mainCategoryList = dataAccessCategory.getAllCategory(userID);
-
-
         // generate report for each category user has
-        for(MainCategory node : mainCategoryList)
+        for(MainCategory node : allCategories)
         {
             categoryReportList.add(getCategoryReport(userID, node.getCategoryID()));
         }
@@ -422,8 +389,82 @@ public class GeneralReportHandler implements IGeneralReportHandler {
         return sortedCategories;
     }
 
+    /**
+     * checkSaveState
+     *
+     * Checks the User ID's validity, then checks to ensure that there is a valid save state (not null).
+     *
+     * @param userID
+     * @throws InvalidLogInException
+     */
+    private void checkSaveState(int userID) throws InvalidLogInException{
 
+        if(userID < 0)
+            throw new InvalidLogInException();
 
+        if(allTransactions == null) {
+            allTransactions = dataAccessTransaction.getAllTransactionsForUser(userID);
+            allCategories = dataAccessCategory.getAllCategory(userID);
+        }
+
+    }
+
+    /**
+     * getTransactionsByCategoryID
+     *
+     * Given a Category ID, returns a List of all Transactions in the allTransactions
+     * List which are associated with that Category ID.
+     *
+     * @param categoryID
+     * @return List of Transactions
+     */
+    private List<Transaction> getTransactionsByCategoryID(int categoryID) {
+
+        List<Transaction> result = new ArrayList<>();
+
+        for(int i = 0; i < allTransactions.size(); i++) {
+
+            if(allTransactions.get(i).getCategoryID() == categoryID) {
+
+                result.add(allTransactions.get(i));
+
+            }
+
+        }
+
+        return result;
+
+    }
+
+    /**
+     *
+     * getCategoryByID
+     *
+     * Given a Category ID, returns the corresponding Category in the allCategories List.
+     *
+     * @param categoryID
+     * @return MainCategory
+     */
+    private MainCategory getCategoryByID(int categoryID) {
+
+        MainCategory result = null;
+
+        for(int i = 0; i < allCategories.size(); i++ ) {
+
+            if(allCategories.get(i).getCategoryID() == categoryID) {
+
+                result = allCategories.get(i);
+
+                break;
+            }
+
+        }
+
+        if(result == null)
+            throw new InvalidCategoryException("Could not fetch category with ID of "+categoryID+", because no such category exists.");
+
+        return result;
+    }
 
 
 }
