@@ -56,6 +56,7 @@ public class ViewGoalsActivity extends AppCompatActivity {
 
         setUpAddButton();
         setUpDeleteButton();
+        setupBackButton();
         navBarHandling();
     }
 
@@ -95,6 +96,18 @@ public class ViewGoalsActivity extends AppCompatActivity {
                 goalsListView.setAdapter(adaptor);
 
                 currentIdSelected = -1;
+            }
+        });
+    }
+
+    private void setupBackButton() {
+        FloatingActionButton backButton = findViewById(R.id.floatingActionButton_back);
+
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Return to the calling activity
+                finish();
             }
         });
     }

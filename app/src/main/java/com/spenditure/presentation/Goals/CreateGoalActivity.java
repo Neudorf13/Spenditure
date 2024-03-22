@@ -13,6 +13,7 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.spenditure.R;
 import com.spenditure.application.Services;
 import com.spenditure.logic.CategoryHandler;
@@ -47,6 +48,7 @@ public class CreateGoalActivity extends AppCompatActivity {
         setUpCreateButton();
         setUpCategories();
         setUpDatePicker();
+        setupBackButton();
         navBarHandling();
     }
 
@@ -125,6 +127,18 @@ public class CreateGoalActivity extends AppCompatActivity {
                 );
 
                 dialog.show();
+            }
+        });
+    }
+
+    private void setupBackButton() {
+        FloatingActionButton backButton = findViewById(R.id.floatingActionButton_back);
+
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Return to the calling activity
+                finish();
             }
         });
     }

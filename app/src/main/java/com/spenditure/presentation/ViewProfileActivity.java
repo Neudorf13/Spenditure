@@ -26,6 +26,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.spenditure.application.Services;
 import com.spenditure.logic.UserManager;
 import com.spenditure.logic.exceptions.InvalidUserInformationException;
+import com.spenditure.presentation.Goals.ViewGoalsActivity;
 
 import java.security.NoSuchAlgorithmException;
 
@@ -46,6 +47,8 @@ public class ViewProfileActivity extends AppCompatActivity {
         setUpFields();
         setUpSaveButton();
         setUpLogoutButton();
+
+        setUpViewGoalsButton();
 
         navBarHandling();
     }
@@ -126,5 +129,19 @@ public class ViewProfileActivity extends AppCompatActivity {
 
         // Set the selected item if needed
         navView.setSelectedItemId(R.id.navigation_user);
+    }
+
+    private void setUpViewGoalsButton(){
+        Button button = findViewById(R.id.button_goals);
+        button.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                try {
+                    Intent newIntent = new Intent(getApplicationContext(), ViewGoalsActivity.class);
+                    startActivity(newIntent);
+                } catch (InvalidUserInformationException e){
+                    Toast.makeText(ViewProfileActivity.this, e.getMessage(),Toast.LENGTH_LONG).show();
+                }
+            }
+        });
     }
 }

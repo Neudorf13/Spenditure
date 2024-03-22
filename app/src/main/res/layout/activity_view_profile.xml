@@ -194,6 +194,20 @@
     </LinearLayout>
 
     <Button
+        android:id="@+id/button_goals"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/light_blue"
+        android:textSize="@dimen/small_size"
+        android:text="@string/title_view_goals"
+        android:layout_marginTop="100dp"
+        android:layout_marginBottom="60dp"
+        android:layout_gravity="center"
+        app:layout_constraintBottom_toTopOf="@+id/button_logout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+    <Button
         android:id="@+id/button_logout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
