@@ -35,6 +35,7 @@ import com.spenditure.utility.TestUtility;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -55,6 +56,11 @@ public class TimeBaseReportTest {
         TestUtility.setUpEnvirForReportTest(categoryHandler,transactionHandler,4);
 
         TestUtility.login("TestingUser1","12345");
+    }
+
+    @After
+    public void teardown(){
+        TestUtility.cleanUpEnvir(categoryHandler,transactionHandler,4);
     }
 
 
@@ -113,8 +119,6 @@ public class TimeBaseReportTest {
         onView(withId(R.id.textview_customTime_totalTrans)).check(matches(withText(containsString("1"))));
         onView(withId(R.id.textview_customTime_average)).check(matches(withText(containsString("500.95"))));
 
-        //This function called should be placed in @After, but is it because the library I used, @After function is called before @Before?
-        TestUtility.cleanUpEnvir(categoryHandler,transactionHandler,4);
     }
 
     @Test
@@ -127,31 +131,12 @@ public class TimeBaseReportTest {
         onView(withId(R.id.textview_lastYear_transactionsCount)).check(matches(withText(containsString("2"))));
         onView(withId(R.id.textview_lastYear_average)).check(matches(withText(containsString("375.7"))));
 
-        //This function called should be placed in @After, but is it because the library I used, @After function is called before @Before?
-//        TestUtility.cleanUpEnvir(categoryHandler,transactionHandler,4);
+
     }
 
 
 
 
 
-    private static Matcher<View> firstChildOf(final Matcher<View> parentMatcher,int index) {
-        return new TypeSafeMatcher<View>() {
-            @Override
-            public void describeTo(Description description) {
-                description.appendText("with first child view of type parentMatcher");
-            }
 
-            @Override
-            public boolean matchesSafely(View view) {
-
-                if (!(view.getParent() instanceof ViewGroup)) {
-                    return parentMatcher.matches(view.getParent());
-                }
-                ViewGroup group = (ViewGroup) view.getParent();
-                return parentMatcher.matches(view.getParent()) && group.getChildAt(index).equals(view);
-
-            }
-        };
-    }
 }
