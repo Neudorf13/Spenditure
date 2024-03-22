@@ -107,6 +107,35 @@ public class AccountManagementTest
         );
         onView(withId(R.id.button_login)).perform(click());
 
+
+        // now change password back to what it was before
+
+
+        // move to profile management section
+        onView(withId(R.id.navigation_user)).perform(click());
+
+        // edit username
+        onView(withId(R.id.edittext_username)).perform(
+                replaceText("TestingUser1"),
+                ViewActions.closeSoftKeyboard()
+        );
+
+        // enter old password
+        onView(withId(R.id.edittext_current_password)).perform(
+                replaceText("54321"),
+                ViewActions.closeSoftKeyboard()
+        );
+
+        // enter new password
+        onView(withId(R.id.edittext_new_password)).perform(
+                typeText("12345"),
+                ViewActions.closeSoftKeyboard()
+        );
+
+        // save changes
+        onView(withId(R.id.button_save_changes)).perform(click());
+
+
     }
 
     @Test
@@ -166,6 +195,7 @@ public class AccountManagementTest
                 ViewActions.closeSoftKeyboard()
         );
         onView(withId(R.id.button_login)).perform(click());
+
     }
 
 

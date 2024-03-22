@@ -19,6 +19,8 @@ import androidx.appcompat.widget.AppCompatToggleButton;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -124,7 +126,15 @@ public class ViewTransactionsActivity extends AppCompatActivity {
 
         // Update the list view with the new order
         transactions = updatedList;
-        adaptor.notifyDataSetChanged();
+
+        final Handler handler = new Handler(Looper.getMainLooper());
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                //Do something after 100ms
+                adaptor.notifyDataSetChanged();
+            }
+        }, 2000);
     }
 
     // Change the state of the edit and delete button

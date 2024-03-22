@@ -173,11 +173,11 @@ public class TransactionTest {
         onView(withId(R.id.togglebutton_transaction_date_sort)).perform(click());
 
         // check to see if the new top transaction contains what we want it to contain
-        onData(anything()).inAdapterView(withId(R.id.listview_transactions)).atPosition(2).
+        onData(anything()).inAdapterView(withId(R.id.listview_transactions)).atPosition(0).
                 onChildView(withId(R.id.textview_list_what_the_heck)).
                 check(matches(withText("Star Wars Rebels merch")));
 
-        onData(anything()).inAdapterView(withId(R.id.listview_transactions)).atPosition(2).
+        onData(anything()).inAdapterView(withId(R.id.listview_transactions)).atPosition(0).
                 onChildView(withId(R.id.textview_list_amount)).
                 check(matches(withText("$500.95")));
 
