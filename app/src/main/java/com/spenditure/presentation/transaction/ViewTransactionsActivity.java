@@ -55,7 +55,7 @@ public class ViewTransactionsActivity extends AppCompatActivity {
         if( transactionHandler == null){
             transactionHandler = new TransactionHandler(Services.DEVELOPING_STATUS);
         }
-        transactions = transactionHandler.getAllByNewestFirst(UserManager.getUserID());
+        transactions = transactionHandler.getAllByOldestFirst(UserManager.getUserID());
 
         ListView transactionsListView = (ListView)findViewById(R.id.listview_transactions);
 
