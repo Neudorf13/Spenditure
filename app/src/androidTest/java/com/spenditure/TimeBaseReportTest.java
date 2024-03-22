@@ -4,7 +4,6 @@ import static androidx.test.espresso.Espresso.onData;
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.swipeLeft;
-import static androidx.test.espresso.action.ViewActions.typeText;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
@@ -28,23 +27,17 @@ import com.spenditure.application.Services;
 import com.spenditure.logic.CategoryHandler;
 import com.spenditure.logic.ICategoryHandler;
 import com.spenditure.logic.ITransactionHandler;
-import com.spenditure.logic.TimeBaseReportHandler;
 import com.spenditure.logic.TransactionHandler;
-import com.spenditure.object.DateTime;
-import com.spenditure.object.Report;
-import com.spenditure.object.Transaction;
 import com.spenditure.presentation.LoginActivity;
 import com.spenditure.presentation.report.ViewReportActivity;
+import com.spenditure.utility.TestUtility;
 
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-
-import java.util.List;
 
 @RunWith(AndroidJUnit4.class)
 public class TimeBaseReportTest {
@@ -135,7 +128,7 @@ public class TimeBaseReportTest {
         onView(withId(R.id.textview_lastYear_average)).check(matches(withText(containsString("375.7"))));
 
         //This function called should be placed in @After, but is it because the library I used, @After function is called before @Before?
-        TestUtility.cleanUpEnvir(categoryHandler,transactionHandler,4);
+//        TestUtility.cleanUpEnvir(categoryHandler,transactionHandler,4);
     }
 
 

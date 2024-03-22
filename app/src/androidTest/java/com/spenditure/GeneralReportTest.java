@@ -5,8 +5,8 @@ import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.scrollTo;
 import static androidx.test.espresso.action.ViewActions.swipeLeft;
-import static androidx.test.espresso.action.ViewActions.typeText;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
+import static androidx.test.espresso.matcher.ViewMatchers.isDescendantOfA;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
@@ -18,9 +18,10 @@ import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertEquals;
 
 import android.os.SystemClock;
+import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.test.core.app.ActivityScenario;
-import androidx.test.espresso.action.ViewActions;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import com.spenditure.application.Services;
@@ -29,16 +30,18 @@ import com.spenditure.logic.ICategoryHandler;
 import com.spenditure.logic.ITransactionHandler;
 import com.spenditure.logic.TransactionHandler;
 import com.spenditure.logic.UserManager;
-import com.spenditure.object.Transaction;
 import com.spenditure.presentation.LoginActivity;
+import com.spenditure.utility.TestUtility;
+import com.spenditure.utility.ViewPagerSupporter;
 
+import org.hamcrest.Description;
+import org.hamcrest.Matcher;
+import org.hamcrest.TypeSafeMatcher;
 import org.junit.After;
 import org.junit.Before;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
-
-import java.util.List;
 
 
 @RunWith(AndroidJUnit4.class)
@@ -60,6 +63,11 @@ public class GeneralReportTest {
         TestUtility.login("TestingUser1","12345");
     }
 
+    @After
+    public void teardown(){
+        TestUtility.cleanUpEnvir(categoryHandler,transactionHandler,4);
+    }
+
 
 
     @Test
@@ -73,8 +81,7 @@ public class GeneralReportTest {
         onView(withId(R.id.textview_general_total_spending)).check(matches(withText(containsString("757.44"))));
         onView(withId(R.id.textview_summary_num_trans)).check(matches(withText(containsString("3"))));
 
-        //This function called should be placed in @After, but is it because the library I used, @After function is called before @Before?
-        TestUtility.cleanUpEnvir(categoryHandler,transactionHandler,4);
+
     }
 
     @Test
@@ -96,7 +103,6 @@ public class GeneralReportTest {
         onView(withId(R.id.textview_custom_report_most)).check(matches(withText(containsString("Food"))));
         onView(withId(R.id.textview_custom_report_least)).check(matches(withText(containsString("Grocery"))));
 
-        TestUtility.cleanUpEnvir(categoryHandler,transactionHandler,4);
     }
 
     @Test
@@ -104,14 +110,68 @@ public class GeneralReportTest {
         onView(withId(R.id.viewpager_report)).perform(scrollTo());
         onView(withId(R.id.viewpager_report)).check(matches(isDisplayed()));
 
-        for(int i = 0; i < 3 ; i ++){
 
-            onView(withId(R.id.viewpager_report)).check(matches(isDisplayed()));
-            onView(withId(R.id.viewpager_report)).perform(swipeLeft());
-            SystemClock.sleep(sleepTime);
 
-        }
-        TestUtility.cleanUpEnvir(categoryHandler,transactionHandler,4);
+        //Check the first item of viewpager
+        onView(allOf(withId(R.id.slide_tittle), isDescendantOfA(ViewPagerSupporter.getChildOf(withId(R.id.viewpager_report),0))))
+                    .check(matches(withText("Grocery")));
+        onView(allOf(withId(R.id.textview_catReport_transactionsCount), isDescendantOfA(ViewPagerSupporter.getChildOf(withId(R.id.viewpager_report),0))))
+                .check(matches(withText("1 transactions")));
+
+        onView(allOf(withId(R.id.textview_catReport_total), isDescendantOfA(ViewPagerSupporter.getChildOf(withId(R.id.viewpager_report),0))))
+                .check(matches(withText("$5.99 CAD")));
+
+        onView(allOf(withId(R.id.textview_catReport_percentage), isDescendantOfA(ViewPagerSupporter.getChildOf(withId(R.id.viewpager_report),0))))
+                .check(matches(withText("0.8%")));
+
+        onView(allOf(withId(R.id.textview_catReport_average), isDescendantOfA(ViewPagerSupporter.getChildOf(withId(R.id.viewpager_report),0))))
+                .check(matches(withText("$5.99 CAD")));
+
+        //Check the second item of viewpager
+        onView(withId(R.id.viewpager_report)).check(matches(isDisplayed()));
+        onView(withId(R.id.viewpager_report)).perform(swipeLeft());
+        SystemClock.sleep(sleepTime);
+
+        onView(allOf(withId(R.id.slide_tittle), isDescendantOfA(firstChildOf(withId(R.id.viewpager_report),1))))
+                .check(matches(withText("Food")));
+
+
+        onView(allOf(withId(R.id.textview_catReport_transactionsCount), isDescendantOfA(ViewPagerSupporter.getChildOf(withId(R.id.viewpager_report),1))))
+                .check(matches(withText("1 transactions")));
+
+        onView(allOf(withId(R.id.textview_catReport_total), isDescendantOfA(ViewPagerSupporter.getChildOf(withId(R.id.viewpager_report),1))))
+                .check(matches(withText("$500.95 CAD")));
+
+        onView(allOf(withId(R.id.textview_catReport_percentage), isDescendantOfA(ViewPagerSupporter.getChildOf(withId(R.id.viewpager_report),1))))
+                .check(matches(withText("66.14%")));
+
+        onView(allOf(withId(R.id.textview_catReport_average), isDescendantOfA(ViewPagerSupporter.getChildOf(withId(R.id.viewpager_report),1))))
+                .check(matches(withText("$500.95 CAD")));
+
+        onView(withId(R.id.viewpager_report)).check(matches(isDisplayed()));
+        onView(withId(R.id.viewpager_report)).perform(swipeLeft());
+        SystemClock.sleep(sleepTime);
+
+    }
+
+    private static Matcher<View> firstChildOf(final Matcher<View> parentMatcher, int index) {
+        return new TypeSafeMatcher<View>() {
+            @Override
+            public void describeTo(Description description) {
+                description.appendText("with first child view of type parentMatcher");
+            }
+
+            @Override
+            public boolean matchesSafely(View view) {
+
+                if (!(view.getParent() instanceof ViewGroup)) {
+                    return parentMatcher.matches(view.getParent());
+                }
+                ViewGroup group = (ViewGroup) view.getParent();
+                return parentMatcher.matches(view.getParent()) && group.getChildAt(index).equals(view);
+
+            }
+        };
     }
 
 

@@ -1,4 +1,4 @@
-package com.spenditure;
+package com.spenditure.utility;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
@@ -13,7 +13,9 @@ import android.widget.DatePicker;
 
 import androidx.test.espresso.action.ViewActions;
 import androidx.test.espresso.contrib.PickerActions;
+import androidx.test.espresso.matcher.ViewMatchers;
 
+import com.spenditure.R;
 import com.spenditure.logic.ICategoryHandler;
 import com.spenditure.logic.ITransactionHandler;
 import com.spenditure.logic.UserManager;
@@ -25,7 +27,7 @@ import java.util.List;
 
 public abstract class TestUtility {
     public static void login(String username,String password){
-        onView(withId(R.id.edittext_username)).perform(
+        onView(ViewMatchers.withId(R.id.edittext_username)).perform(
                 typeText(username),
                 ViewActions.closeSoftKeyboard()
         );

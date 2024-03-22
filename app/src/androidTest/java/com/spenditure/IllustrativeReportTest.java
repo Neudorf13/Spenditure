@@ -3,7 +3,6 @@ package com.spenditure;
 import static androidx.test.espresso.Espresso.onData;
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
-import static androidx.test.espresso.action.ViewActions.typeText;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
@@ -15,23 +14,15 @@ import static org.hamcrest.Matchers.is;
 import android.os.SystemClock;
 
 import androidx.test.core.app.ActivityScenario;
-import androidx.test.espresso.ViewAction;
 import androidx.test.espresso.action.ViewActions;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
-import com.spenditure.application.Services;
-import com.spenditure.logic.CategoryHandler;
-import com.spenditure.logic.ICategoryHandler;
-import com.spenditure.logic.ITransactionHandler;
-import com.spenditure.logic.TransactionHandler;
-import com.spenditure.object.Transaction;
 import com.spenditure.presentation.LoginActivity;
+import com.spenditure.utility.TestUtility;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-
-import java.util.List;
 
 @RunWith(AndroidJUnit4.class)
 public class IllustrativeReportTest {
