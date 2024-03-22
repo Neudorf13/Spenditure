@@ -10,7 +10,6 @@ import android.widget.TextView;
 import com.spenditure.R;
 import com.spenditure.application.Services;
 import com.spenditure.logic.CategoryHandler;
-import com.spenditure.logic.GoalHandler;
 import com.spenditure.logic.ICategoryHandler;
 import com.spenditure.object.Goal;
 import com.spenditure.object.MainCategory;
@@ -66,5 +65,4 @@ public class CustomGoalAdapter extends BaseAdapter {
 
         return view;
     }
-
 }

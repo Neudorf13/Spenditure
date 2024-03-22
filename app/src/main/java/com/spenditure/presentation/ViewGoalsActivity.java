@@ -6,8 +6,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -15,12 +15,9 @@ import com.spenditure.R;
 import com.spenditure.application.Services;
 import com.spenditure.logic.GoalHandler;
 import com.spenditure.logic.IGoalHandler;
-import com.spenditure.logic.TransactionHandler;
 import com.spenditure.logic.UserManager;
+import com.spenditure.logic.exceptions.InvalidGoalException;
 import com.spenditure.object.Goal;
-import com.spenditure.presentation.transaction.CustomTransactionAdapter;
-
-import org.checkerframework.framework.qual.DefaultQualifier;
 
 import java.util.List;
 
@@ -45,7 +42,7 @@ public class ViewGoalsActivity extends AppCompatActivity {
         goalsListView = findViewById(R.id.listview_goals);
 
         // Create an adaptor to format transactions in the list view
-        adaptor = new CustomGoalAdapter(goals, this);    // TODO
+        adaptor = new CustomGoalAdapter(goals, this);
         goalsListView.setAdapter(adaptor);
 
         // Trigger when list item is selected
@@ -59,6 +56,8 @@ public class ViewGoalsActivity extends AppCompatActivity {
             }
         });
 
+        setUpAddButton();
+        setUpDeleteButton();
         navBarHandling();
     }
 
@@ -71,6 +70,40 @@ public class ViewGoalsActivity extends AppCompatActivity {
             goalsListView.setSelection(-1);
             currentIdSelected = -1;
         }
+    }
+
+    private void setUpAddButton() {
+        FloatingActionButton button = findViewById(R.id.floatingActionButton_new_goal);
+        button.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                try {
+                    Intent newIntent = new Intent(getApplicationContext(), CreateGoalActivity.class);
+                    startActivity(newIntent);
+                } catch (InvalidGoalException e){
+                    Toast.makeText(ViewGoalsActivity.this, e.getMessage(),Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+    }
+
+    private void setUpDeleteButton() {
+        FloatingActionButton button = findViewById(R.id.floatingActionButton_delete);
+        button.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                // Deselect any items
+                goalsListView.clearChoices();
+
+                // Get and delete the chosen goal
+                Goal toDelete = goalHandler.getGoalByID(currentIdSelected);
+                goalHandler.deleteGoal(toDelete.getGoalID());
+
+                // Refresh the list view
+                adaptor.notifyDataSetChanged();
+
+                deleteButtonChangeState(false);
+                currentIdSelected = -1;
+            }
+        });
     }
 
     // Handle the bottom navigation bar
