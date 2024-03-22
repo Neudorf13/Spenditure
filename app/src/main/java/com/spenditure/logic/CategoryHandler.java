@@ -109,10 +109,5 @@ public class CategoryHandler implements ICategoryHandler{
         return parentCategory.getSubCategoryByID(subCategoryID);
     }
 
-    public int getTotalNumberOfCategories() {
-
-        return dataAccessCategory.getTotalCategoryCount();
-
-    }
 
 }
