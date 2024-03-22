@@ -10,8 +10,6 @@ import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
 import static org.hamcrest.Matchers.allOf;
 
-import android.os.SystemClock;
-
 import androidx.test.core.app.ActivityScenario;
 import androidx.test.espresso.action.ViewActions;
 import androidx.test.espresso.contrib.RecyclerViewActions;
@@ -43,11 +41,9 @@ public class CategoryTest {
         ActivityScenario.launch(LoginActivity.class);
         categoryHandler = new CategoryHandler(Services.DEVELOPING_STATUS);
         transactionHandler = new TransactionHandler(Services.DEVELOPING_STATUS);
-
         TestUtility.setUpEnvirForReportTest(categoryHandler,transactionHandler,4);
 
         TestUtility.login("TestingUser1","12345");
-
         onView(withId(R.id.navigation_category)).perform(click());
 
     }

@@ -10,14 +10,11 @@ import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
 import static org.hamcrest.Matchers.allOf;
-import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertEquals;
 
 import android.os.SystemClock;
-import android.view.View;
-import android.view.ViewGroup;
 
 import androidx.test.core.app.ActivityScenario;
 import androidx.test.espresso.action.ViewActions;
@@ -32,16 +29,13 @@ import com.spenditure.presentation.LoginActivity;
 import com.spenditure.presentation.report.ViewReportActivity;
 import com.spenditure.utility.TestUtility;
 
-import org.hamcrest.Description;
-import org.hamcrest.Matcher;
-import org.hamcrest.TypeSafeMatcher;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
 @RunWith(AndroidJUnit4.class)
-public class TimeBaseReportTest {
+public class TimeBaseHeavyTest {
     private final int sleepTime = 5000;
     private ITransactionHandler transactionHandler;
     private ICategoryHandler categoryHandler;
@@ -63,45 +57,6 @@ public class TimeBaseReportTest {
         TestUtility.cleanUpEnvir(categoryHandler,transactionHandler,4);
     }
 
-
-    @Test
-    public void testSelectDate(){
-        SystemClock.sleep(sleepTime);
-        onView(withId(R.id.textview_customTime_percentage)).perform(ViewActions.scrollTo());
-        onView(withId(R.id.button_report_from)).check(matches(isDisplayed()));
-
-        TestUtility.setDate(R.id.button_report_from,2023,9,5);
-        onView(withId(R.id.button_report_from)).check(matches(withText(containsString("9/5/2023"))));
-
-        SystemClock.sleep(sleepTime);
-
-        onView(withId(R.id.button_report_to)).check(matches(isDisplayed()));
-        TestUtility.setDate(R.id.button_report_to,2024,3,4);
-        onView(withId(R.id.button_report_to)).check(matches(withText(containsString("3/4/2024"))));
-
-        onView(withId(R.id.button_get_report)).check(matches(isDisplayed()));
-        onView(withId(R.id.button_get_report)).perform(click());
-
-
-
-        SystemClock.sleep(sleepTime);
-
-        onView(withId(R.id.textview_customTime_totalAmount)).check(matches(withText(containsString("500.95"))));
-        onView(withId(R.id.textview_customTime_percentage)).check(matches(withText(containsString("66.14"))));
-        onView(withId(R.id.textview_customTime_totalTrans)).check(matches(withText(containsString("1"))));
-        onView(withId(R.id.textview_customTime_average)).check(matches(withText(containsString("500.95"))));
-
-    }
-    @Test
-    public void testLastYearReport(){
-        onView(withId(R.id.report_last_year)).perform(ViewActions.scrollTo());
-        SystemClock.sleep(sleepTime);
-
-        onView(withId(R.id.textview_lastYear_total)).check(matches(withText(containsString("751.4"))));
-        onView(withId(R.id.textview_lastYear_percentage)).check(matches(withText(containsString("99.21"))));
-        onView(withId(R.id.textview_lastYear_transactionsCount)).check(matches(withText(containsString("2"))));
-        onView(withId(R.id.textview_lastYear_average)).check(matches(withText(containsString("375.7"))));
-    }
 
     @Test
     public void testTimeBaseReport(){
@@ -127,4 +82,5 @@ public class TimeBaseReportTest {
             onView(withId(R.id.gridlayout_timebase_report)).perform(swipeLeft());
         }
     }
+
 }
