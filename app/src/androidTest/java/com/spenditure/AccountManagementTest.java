@@ -59,8 +59,6 @@ public class AccountManagementTest
     @After
     public void teardown(){
         TestUtility.cleanUpEnvir(categoryHandler,transactionHandler,4);
-        // reset the user accounts
-        UserManager.cleanup(Services.DEVELOPING_STATUS);
 
         SystemClock.sleep(sleepTime);
     }
@@ -110,7 +108,6 @@ public class AccountManagementTest
         onView(withId(R.id.button_login)).perform(click());
 
     }
-
 
     @Test
     public void newAccount()
@@ -170,5 +167,8 @@ public class AccountManagementTest
         );
         onView(withId(R.id.button_login)).perform(click());
     }
+
+
+
 
 }
