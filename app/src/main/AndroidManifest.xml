@@ -32,10 +32,10 @@
             android:name=".presentation.RegistrationActivity"
             android:exported="false" />
         <activity
-            android:name=".presentation.ImageViewActivity"
+            android:name=".presentation.transaction.ImageViewActivity"
             android:exported="false" />
         <activity
-            android:name=".presentation.ImageCaptureActivity"
+            android:name=".presentation.transaction.ImageCaptureActivity"
             android:exported="false" />
         <activity
             android:name=".presentation.LoginActivity"

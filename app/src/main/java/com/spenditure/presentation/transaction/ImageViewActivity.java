@@ -10,7 +10,7 @@
  * This file allows users to view images attached to a transaction
  **/
 
-package com.spenditure.presentation;
+package com.spenditure.presentation.transaction;
 
 import androidx.appcompat.app.AppCompatActivity;
 
