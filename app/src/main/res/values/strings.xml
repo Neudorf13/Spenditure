@@ -12,6 +12,7 @@
     <string name="title_profile">Your Profile</string>
     <string name="title_stats">Stats</string>
     <string name="title_view_goals">View Goals</string>
+    <string name="title_create_goal">Create Goal</string>
 
     // Transaction Activities
     <string name="field_what_the_heck">What the heck?</string>
@@ -48,4 +49,6 @@
     <string name="label_email">Email</string>
 
     // Goal Activities
+    <string name="label_goal_name">Goal Name</string>
+    <string name="label_complete_by">Complete By</string>
 </resources>

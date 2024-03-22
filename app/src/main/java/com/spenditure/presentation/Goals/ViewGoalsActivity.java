@@ -87,7 +87,7 @@ public class ViewGoalsActivity extends AppCompatActivity {
         });
     }
 
-    private void setUpDeleteButton() {
+    private void setUpDeleteButton() {  // TODO: not functioning yet
         FloatingActionButton button = findViewById(R.id.floatingActionButton_delete);
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
