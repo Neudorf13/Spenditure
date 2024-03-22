@@ -216,7 +216,5 @@ public class CreateTransactionActivity extends AppCompatActivity {
         // Create the new transaction object
         transactionHandler.addTransaction(UserManager.getUserID(),whatTheHeck.getText().toString(),selectedDate,place.getText().toString(),
                 Double.parseDouble(amount.getText().toString()),comments.getText().toString(),type.isChecked(),imageBytes,cat.getCategoryID());
-
-
     }
 }
