@@ -7,6 +7,8 @@ import com.spenditure.database.UserPersistence;
 import com.spenditure.logic.exceptions.InvalidStringFormat;
 import com.spenditure.logic.exceptions.InvalidUserInformationException;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -29,12 +31,14 @@ public class UserManager implements IUserManager{
         sets the corresponding User ID as the current user.
 
      */
-    public int login(String username, String password) throws InvalidUserInformationException {
+    public int login(String username, String password) throws InvalidUserInformationException, NoSuchAlgorithmException {
 
         validateUsernameAndPassword(username, password);
 
         if(userID < 0) {
-            int userIDReturn = accountPersistence.login(username,password);
+            String hashedPassword = hashPassword(password);
+            System.out.println("In UserManager: " + hashedPassword);
+            int userIDReturn = accountPersistence.login(username,hashedPassword);
             UserManager.userID = userIDReturn;
 
             return userIDReturn;
@@ -71,14 +75,18 @@ public class UserManager implements IUserManager{
         Old password is required. Both are taken as Strings
 
      */
-    public boolean changePassword(int userID, String oldPassword, String newPassword) throws InvalidUserInformationException {
+    public boolean changePassword(int userID, String oldPassword, String newPassword) throws InvalidUserInformationException, NoSuchAlgorithmException {
 
         validatePassword(newPassword);
 
         if(userID < 0)
             throw new InvalidUserInformationException("No users are logged in; please log in before changing your password.");
 
-        return accountPersistence.changePassword(userID,oldPassword,newPassword);
+        String oldHashedPassword = hashPassword(oldPassword);
+        String newHashedPassword = hashPassword(newPassword);
+
+        //return accountPersistence.changePassword(userID,oldPassword,newPassword);
+        return accountPersistence.changePassword(userID,oldHashedPassword,newHashedPassword);
 
     }
 
@@ -104,17 +112,42 @@ public class UserManager implements IUserManager{
 
     /*
 
+        changeEmail
+
+        For a logged in user, enables user to change the account's associated email. The new
+        email is taken in as a String.
+
+     */
+//    public void changeEmail(int providedUserID, String newEmail) throws InvalidUserInformationException {
+//
+//        validateEmail(newEmail);
+//
+//        if(providedUserID < 0)
+//            throw new InvalidUserInformationException("No users are logged in; please log in before changing your email.");
+//
+//        accountPersistence.changeEmail(providedUserID, newEmail);
+//
+//    }
+
+    /*
+
         register
 
         Creates a new user account with the given Strings for username and password. Returns the
         new user's User ID.
 
      */
-    public int register(String username, String password) throws InvalidStringFormat {
+    public int register(String username, String password, String email, String securityAnswer, int securityQID) throws InvalidStringFormat, NoSuchAlgorithmException {
 
         validateUsernameAndPassword(username, password);
 
-        int newUserID = accountPersistence.register(username,password,null);
+        validateEmail(email);
+
+        String hashedPassword = hashPassword(password);
+
+        String hashedSecurityAnswer = hashPassword(securityAnswer);
+
+        int newUserID = accountPersistence.register(username,hashedPassword,email, hashedSecurityAnswer, securityQID);
 
         UserManager.userID = newUserID;
 
@@ -163,6 +196,37 @@ public class UserManager implements IUserManager{
         Services.restartAccountDB(getStubDB);
         UserManager.userID = -1;
     }
+
+    public String getSecurityQuestion(int securityQuestionID) {
+
+        //need to use an instance of securityQuestionPersistence to get securityQuestion
+//        return accountPersistence.getSecurityQuestion(securityQuestionID);
+
+        return null;
+    }
+
+    public void checkSecurityAnswer(int userID, String answer) throws InvalidUserInformationException {
+
+//        String storedAnswer = accountPersistence.getSecurityAnswer(userID);
+
+//        if(!answer.equals(storedAnswer))
+//            throw new InvalidUserInformationException("The provided answer to the user's security question is incorrect.");
+
+    }
+
+    private String hashPassword(String password) throws NoSuchAlgorithmException {
+        MessageDigest digest = MessageDigest.getInstance("SHA-256");
+        byte[] hash = digest.digest(password.getBytes());
+
+        StringBuilder result = new StringBuilder();
+        for (byte b : hash) {
+            result.append(String.format("%02x", b));
+        }
+
+        return result.toString();
+    }
+
+
 
 
 }

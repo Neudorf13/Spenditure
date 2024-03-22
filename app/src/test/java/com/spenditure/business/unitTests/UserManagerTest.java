@@ -8,6 +8,8 @@ import static org.junit.Assert.*;
 import com.spenditure.logic.UserManager;
 import com.spenditure.logic.exceptions.InvalidUserInformationException;
 
+import java.security.NoSuchAlgorithmException;
+
 /**
  * Category handler unit tests
  * @author Bao Ngo
@@ -27,7 +29,7 @@ public class UserManagerTest {
     }
 
     @Test
-    public void testLogin(){
+    public void testLogin() throws NoSuchAlgorithmException {
         int userID = accountManager.login("Me","123");
         assertEquals(1,userID);
         accountManager.logout();
@@ -37,7 +39,7 @@ public class UserManagerTest {
     }
 
     @Test
-    public void testGetUserID(){
+    public void testGetUserID() throws NoSuchAlgorithmException {
         accountManager.login("Me","123");
         int userID = UserManager.getUserID();
         assertEquals(1,userID);
@@ -45,7 +47,7 @@ public class UserManagerTest {
     }
 
     @Test
-    public void testGetUsername(){
+    public void testGetUsername() throws NoSuchAlgorithmException {
         int userID = accountManager.login("Me","123");
         String username= accountManager.getUserName(userID);
         assertEquals("Me",username);
@@ -53,7 +55,7 @@ public class UserManagerTest {
     }
 
     @Test
-    public void testChangePassword(){
+    public void testChangePassword() throws NoSuchAlgorithmException {
         int userID = accountManager.login("Me","123");
         boolean changed;
 
@@ -73,8 +75,8 @@ public class UserManagerTest {
     }
 
     @Test
-    public void testRegister(){
-        int userID = accountManager.register("new user","testpassword123");
+    public void testRegister() throws NoSuchAlgorithmException {
+        int userID = accountManager.register("new user","testpassword123", "test.email@mail.com", "buddy", 1);
         assertEquals(4,userID);
         accountManager.logout();
         userID = accountManager.login("new user","testpassword123");
@@ -82,7 +84,7 @@ public class UserManagerTest {
     }
 
     @Test
-    public void testLogOut(){
+    public void testLogOut() throws NoSuchAlgorithmException {
         accountManager.login("Me","123");
         accountManager.logout();
         boolean isLogout = false;
@@ -96,7 +98,7 @@ public class UserManagerTest {
     }
 
     @Test
-    public void testChangeUsername(){
+    public void testChangeUsername() throws NoSuchAlgorithmException {
         int userID = accountManager.login("Me","123");
         assertEquals(1,userID);
         boolean success = accountManager.changeUsername(userID,"newUsername");

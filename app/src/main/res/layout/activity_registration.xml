@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.spenditure.presentation.LoginActivity">
+    tools:context="com.spenditure.presentation.RegistrationActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -57,7 +57,7 @@
                 <ImageView
                     android:id="@+id/imageview_edit_credentials"
                     android:layout_width="0dp"
-                    android:layout_height="200dp"
+                    android:layout_height="300dp"
 
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -89,7 +89,7 @@
                     android:textColor="@color/white"
                     android:textSize="@dimen/small_size"
                     android:width="150dp"
-                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintBottom_toBottomOf="@+id/edittext_current_password"
                     app:layout_constraintEnd_toEndOf="@+id/imageview_edit_credentials"
                     app:layout_constraintStart_toEndOf="@+id/textview_username"
                     app:layout_constraintTop_toTopOf="parent"
@@ -104,7 +104,7 @@
                     android:textColor="@color/white"
                     android:textSize="@dimen/small_size"
                     android:layout_marginStart="15dp"
-                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintBottom_toTopOf="@+id/textview_email"
                     app:layout_constraintEnd_toStartOf="@+id/edittext_current_password"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="@+id/imageview_edit_credentials"
@@ -119,10 +119,99 @@
                     android:textSize="@dimen/small_size"
                     android:inputType="textPassword"
                     android:width="150dp"
-                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintBottom_toTopOf="@+id/edittext_email"
                     app:layout_constraintEnd_toEndOf="@+id/imageview_edit_credentials"
                     app:layout_constraintStart_toEndOf="@+id/textview_current_password"
-                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/edittext_username"
+                    app:layout_constraintVertical_bias="0.85"
+                    />
+
+                <TextView
+                    android:id="@+id/textview_email"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/label_email"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/small_size"
+                    android:layout_marginStart="15dp"
+                    app:layout_constraintBottom_toTopOf="@+id/textview_security_question"
+                    app:layout_constraintEnd_toStartOf="@+id/edittext_email"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="@+id/imageview_edit_credentials"
+                    app:layout_constraintTop_toBottomOf="@+id/textview_current_password"
+                    app:layout_constraintVertical_bias="0.63" />
+
+                <EditText
+                    android:id="@+id/edittext_email"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/small_size"
+                    android:width="150dp"
+                    app:layout_constraintBottom_toTopOf="@+id/spinner_security_question"
+                    app:layout_constraintEnd_toEndOf="@+id/imageview_edit_credentials"
+                    app:layout_constraintStart_toEndOf="@+id/textview_email"
+                    app:layout_constraintTop_toBottomOf="@+id/edittext_current_password"
+                    app:layout_constraintVertical_bias="0.85"
+                    />
+
+                <TextView
+                    android:id="@+id/textview_security_question"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/label_security_question"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/small_size"
+                    android:layout_marginStart="15dp"
+                    app:layout_constraintBottom_toTopOf="@+id/textview_question_answer"
+                    app:layout_constraintEnd_toStartOf="@+id/spinner_security_question"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="@+id/imageview_edit_credentials"
+                    app:layout_constraintTop_toBottomOf="@+id/textview_email"
+                    app:layout_constraintVertical_bias="0.63" />
+
+                <Spinner
+                    android:id="@+id/spinner_security_question"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/light_blue"
+                    android:minWidth="150dp"
+                    android:minHeight="30dp"
+                    android:spinnerMode="dropdown"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/small_size"
+                    app:layout_constraintBottom_toTopOf="@+id/edittext_question_answer"
+                    app:layout_constraintEnd_toEndOf="@+id/imageview_edit_credentials"
+                    app:layout_constraintStart_toEndOf="@+id/textview_security_question"
+                    app:layout_constraintTop_toBottomOf="@+id/edittext_email"
+                    app:layout_constraintVertical_bias="0.85" />
+
+                <TextView
+                    android:id="@+id/textview_question_answer"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/label_answer"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/small_size"
+                    android:layout_marginStart="15dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/edittext_question_answer"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="@+id/imageview_edit_credentials"
+                    app:layout_constraintTop_toBottomOf="@+id/textview_security_question"
+                    app:layout_constraintVertical_bias="0.63" />
+
+                <EditText
+                    android:id="@+id/edittext_question_answer"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/small_size"
+                    android:width="150dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="@+id/imageview_edit_credentials"
+                    app:layout_constraintStart_toEndOf="@+id/textview_question_answer"
+                    app:layout_constraintTop_toBottomOf="@+id/spinner_security_question"
                     app:layout_constraintVertical_bias="0.85"
                     />
 
@@ -131,28 +220,28 @@
         </LinearLayout>
 
         <Button
-            android:id="@+id/button_login"
+            android:id="@+id/button_register"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:backgroundTint="@color/light_blue"
             android:textSize="@dimen/medium_size"
-            android:text="@string/label_login"
+            android:text="@string/label_register"
             android:layout_marginTop="100dp"
             android:layout_gravity="center"/>
 
     </LinearLayout>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/floatingActionButton_register"
+        android:id="@+id/floatingActionButton_back"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="24dp"
+        android:layout_marginStart="24dp"
         android:layout_marginBottom="24dp"
         android:backgroundTint="@color/light_blue"
         android:clickable="true"
         android:tint="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@drawable/symbol_add" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/symbol_arrow_back" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

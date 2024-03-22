@@ -39,4 +39,10 @@
     <string name="label_logout">Logout</string>
     <string name="label_login">Login</string>
     <string name="label_save_changes">Save Changes</string>
+
+    // Registration Activity
+    <string name="label_register">Register</string>
+    <string name="label_security_question">Security Question</string>
+    <string name="label_answer">Answer</string>
+    <string name="label_email">Email</string>
 </resources>

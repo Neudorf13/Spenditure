@@ -20,6 +20,7 @@ import org.junit.Test;
 
 import java.io.File;
 import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,7 +31,7 @@ public class ReportHandlerIntegrationTest {
     private File tempDB;
 
     @Before
-    public void setup() throws IOException {
+    public void setup() throws IOException, NoSuchAlgorithmException {
 
         this.tempDB = TestUtils.copyDB();
         this.reportManager = new TimeBaseReportHandler(false);

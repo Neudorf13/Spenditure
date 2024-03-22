@@ -151,8 +151,8 @@ public class UserValidator {
                 sections[1] = split[0];
                 sections[2] = split[1];
 
-                result = sections[0].length() > 0
-                        && sections[1].length() > 0
+                result = !sections[0].isEmpty()
+                        && !sections[1].isEmpty()
                         && sections[2].length() > 1;
 
             } else {
