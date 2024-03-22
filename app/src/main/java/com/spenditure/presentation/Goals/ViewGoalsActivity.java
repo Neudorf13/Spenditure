@@ -99,7 +99,8 @@ public class ViewGoalsActivity extends AppCompatActivity {
                 goalHandler.deleteGoal(toDelete.getGoalID());
 
                 // Refresh the list view
-                adaptor.notifyDataSetChanged();
+                adaptor = new CustomGoalAdapter(goalHandler.getGoalsForUserID(UserManager.getUserID()), getBaseContext());
+                goalsListView.setAdapter(adaptor);
 
                 deleteButtonChangeState(false);
                 currentIdSelected = -1;
