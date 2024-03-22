@@ -455,7 +455,7 @@ public class TimeBaseReportHandler implements ITimeBaseReportHandler {
 
         ArrayList<CategoryStatistics> categoryList = new ArrayList<>();
         List<MainCategory> categories = getCategories(userID);
-        int numCategories = categories.size();
+        int numCategories = dataAccessCategory.getTotalCategoryCount();
 
         for(int i = 1; i < numCategories+1; i++) {
 
@@ -487,7 +487,7 @@ public class TimeBaseReportHandler implements ITimeBaseReportHandler {
 
         MainCategory result = null;
 
-        for(int i = 0; i < categories.size(); i ++) {
+        for(int i = 0; i < dataAccessCategory.getTotalCategoryCount(); i ++) {
 
             if(categories.get(i).getCategoryID() == id)
                 result = categories.get(i);

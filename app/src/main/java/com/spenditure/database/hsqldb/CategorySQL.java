@@ -155,6 +155,12 @@ public class CategorySQL implements CategoryPersistence {
 
     }
 
+    public int getCurrentCategoryCount() {
+
+        return currentCategoryID;
+
+    }
+
 
 
 }

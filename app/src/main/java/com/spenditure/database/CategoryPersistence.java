@@ -18,4 +18,5 @@ public interface CategoryPersistence {
 
     MainCategory getCategoryByID(int categoryID) throws InvalidCategoryException;
 
+    int getTotalCategoryCount();
 }
