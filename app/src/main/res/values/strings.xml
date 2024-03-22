@@ -41,6 +41,7 @@
     <string name="label_logout">Logout</string>
     <string name="label_login">Login</string>
     <string name="label_save_changes">Save Changes</string>
+    <string name="label_profile_update">Update Your Credentials</string>
 
     // Registration Activity
     <string name="label_register">Register</string>
