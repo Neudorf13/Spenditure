@@ -21,10 +21,13 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
+import java.util.List;
 
 public class TransactionHandlerIT {
 
@@ -127,9 +130,59 @@ public class TransactionHandlerIT {
 //        boolean withdrawal) {
         DateTime testImageDate = new DateTime(2024, 3, 15, 7, 11, 0);
         Transaction testImageTransaction = new Transaction(-1, "test image", testImageDate, "higins and main", 69.69, "lovely service", true);
+
+        byte[] byteArray = new byte[0];
+        
+        try {
+            // Replace "path/to/your/file.txt" with the actual path to your text file
+            byteArray = readBinaryDataFromFile("C:\\Users\\trevo\\Documents\\School\\Computer Science\\Comp 3350\\threequarterscs-a02-3\\app\\src\\test\\java\\com\\spenditure\\business\\integrationTests\\Image.txt");
+            testImageTransaction.setImage(byteArray);
+            System.out.println(byteArray[0]);
+            System.out.println(byteArray[1]);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+        
+        
+
+        //byte[] byteArray = new byte[]{0x48, 0x65, 0x6C, 0x6C, 0x6F, 0x2C, 0x20, 0x77, 0x6F, 0x72, 0x6C, 0x64};
+        testImageTransaction.setImage(byteArray);
+        addTransaction(testImageTransaction);
+        assertEquals(transactionHandler.getAllTransactions(1).size(), EXPECTED_SIZE + 2);
+
         //assertEquals("Tow Truck Fee", transactionHandler.getTransactionByID(EXPECTED_SIZE + 1).getName());
 
 
+    }
+
+
+    public byte[] readBinaryDataFromFile(String filePath) throws IOException {
+        List<Byte> byteList = new ArrayList<>();
+        BufferedReader reader = new BufferedReader(new FileReader(filePath));
+        String line;
+
+        while ((line = reader.readLine()) != null) {
+            // Remove leading/trailing brackets and split by comma and space
+            String[] tokens = line.substring(1, line.length() - 1).split(", ");
+
+            // Convert tokens to bytes and add them to the list
+            for (String token : tokens) {
+                byteList.add(Byte.parseByte(token.trim()));
+            }
+        }
+
+        // Convert List<Byte> to byte array
+        byte[] byteArray = new byte[byteList.size()];
+        for (int i = 0; i < byteList.size(); i++) {
+            byteArray[i] = byteList.get(i);
+        }
+
+        // Close the reader
+        reader.close();
+
+        return byteArray;
     }
 
     @Test
