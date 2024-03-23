@@ -121,6 +121,12 @@ public class TransactionHandlerIT {
 
         //Should return true
         assertEquals("Morning Dons", transactionHandler.getTransactionByID(1).getName());
+
+//    public Transaction(int transactionID, String name, DateTime dateTime,
+//                String place, double amount, String comments,
+//        boolean withdrawal) {
+        DateTime testImageDate = new DateTime(2024, 3, 15, 7, 11, 0);
+        Transaction testImageTransaction = new Transaction(-1, "test image", testImageDate, "higins and main", 69.69, "lovely service", true);
         //assertEquals("Tow Truck Fee", transactionHandler.getTransactionByID(EXPECTED_SIZE + 1).getName());
 
 
