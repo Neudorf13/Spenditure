@@ -128,7 +128,7 @@ public class TransactionSQL implements TransactionPersistence {
             return true;
         }
         catch (final SQLException e) {
-            throw new RuntimeException("An error occurred while processing the SQL operation", e);
+            throw new RuntimeException("An error occurred while processing the SQL operation " + e.getMessage(), e);
         }
     }
 
