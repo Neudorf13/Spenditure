@@ -125,9 +125,6 @@ public class TransactionHandlerIT {
         //Should return true
         assertEquals("Morning Dons", transactionHandler.getTransactionByID(1).getName());
 
-//    public Transaction(int transactionID, String name, DateTime dateTime,
-//                String place, double amount, String comments,
-//        boolean withdrawal) {
         DateTime testImageDate = new DateTime(2024, 3, 15, 7, 11, 0);
         Transaction testImageTransaction = new Transaction(-1, "test image", testImageDate, "higins and main", 69.69, "lovely service", true);
 
@@ -139,13 +136,10 @@ public class TransactionHandlerIT {
             testImageTransaction.setImage(byteArray);
             System.out.println(byteArray[0]);
             System.out.println(byteArray[1]);
+            System.out.println(byteArray[900]);
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-
-        
-        
 
         //byte[] byteArray = new byte[]{0x48, 0x65, 0x6C, 0x6C, 0x6F, 0x2C, 0x20, 0x77, 0x6F, 0x72, 0x6C, 0x64};
         testImageTransaction.setImage(byteArray);
