@@ -1,5 +1,7 @@
 package com.spenditure.presentation.category;
 
+import static android.os.SystemClock.sleep;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -60,15 +62,10 @@ public class ViewCategoryActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 AddNewCategory.newInstance().show(getSupportFragmentManager(),AddNewCategory.TAG);
-                adapter = new CategoryAdapter(ViewCategoryActivity.this, categoryHandler.getAllCategory(UserManager.getUserID()));
-                recyclerView.setAdapter(adapter);
             }
 
         });
 
-        //We are planning to let user remove category, but this react is unexpected, so we leave this for future work
-//        ItemTouchHelper itemTouchHelper = new ItemTouchHelper((new TouchHelper(adapter)));
-//        itemTouchHelper.attachToRecyclerView(recyclerView);
 
         navBarHandling();
 
@@ -93,5 +90,11 @@ public class ViewCategoryActivity extends AppCompatActivity {
 
         // Set the selected item if needed
         navView.setSelectedItemId(R.id.navigation_category);
+    }
+
+    public void refresh()
+    {
+        adapter = new CategoryAdapter(ViewCategoryActivity.this, categoryHandler.getAllCategory(UserManager.getUserID()));
+        recyclerView.setAdapter(adapter);
     }
 }

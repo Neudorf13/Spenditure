@@ -216,10 +216,19 @@ public class CreateTransactionActivity extends AppCompatActivity {
         AppCompatToggleButton type = findViewById(R.id.togglebutton_type);
         Spinner category = findViewById(R.id.spinner_categories);
 
-        MainCategory cat = adapter.getItem(category.getSelectedItemPosition());
-        // Create the new transaction object
-        transactionHandler.addTransaction(UserManager.getUserID(),whatTheHeck.getText().toString(),selectedDate,place.getText().toString(),
-                Double.parseDouble(amount.getText().toString()),comments.getText().toString(),type.isChecked(),imageBytes,cat.getCategoryID());
+        // this has to be checked in UI because otherwise it crashes on "MainCategory cat = adapter.getItem(category.getSelectedItemPosition());"
+        if(category.getSelectedItemPosition() == -1)
+        {
+            throw new InvalidTransactionException("Transactions must have a category.");
+        }
+        else
+        {
+            MainCategory cat = adapter.getItem(category.getSelectedItemPosition());
+            // Create the new transaction object
+            transactionHandler.addTransaction(UserManager.getUserID(),whatTheHeck.getText().toString(),selectedDate,place.getText().toString(),
+                    Double.parseDouble(amount.getText().toString()),comments.getText().toString(),type.isChecked(),imageBytes,cat.getCategoryID());
+        }
+
 
 
     }

@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
+import androidx.appcompat.app.AppCompatActivity;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +19,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.spenditure.R;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.spenditure.logic.CategoryHandler;
@@ -91,6 +93,9 @@ public class AddNewCategory extends BottomSheetDialogFragment {
                 }else{
                     try {
                         categoryHandler.addCategory(newCategory, UserManager.getUserID());
+                        ViewCategoryActivity activity = (ViewCategoryActivity) getActivity();
+                        activity.refresh();
+
                     }catch (InvalidCategoryException e){
                         Toast.makeText(context,"Category already exists", Toast.LENGTH_SHORT).show();
                     }
