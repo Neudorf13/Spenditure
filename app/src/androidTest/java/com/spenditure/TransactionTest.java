@@ -152,7 +152,6 @@ public class TransactionTest {
     }
 
 
-/*
 
     @Test
     public void viewTransaction()
@@ -292,7 +291,7 @@ public class TransactionTest {
                 check(matches(withText("$3350.99")));
 
     }
-*/
+
 
 
 

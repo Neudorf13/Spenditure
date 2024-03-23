@@ -60,6 +60,8 @@ public class ViewCategoryActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 AddNewCategory.newInstance().show(getSupportFragmentManager(),AddNewCategory.TAG);
+                adapter = new CategoryAdapter(ViewCategoryActivity.this, categoryHandler.getAllCategory(UserManager.getUserID()));
+                recyclerView.setAdapter(adapter);
             }
 
         });

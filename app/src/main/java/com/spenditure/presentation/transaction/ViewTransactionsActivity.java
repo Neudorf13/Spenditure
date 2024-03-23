@@ -117,24 +117,19 @@ public class ViewTransactionsActivity extends AppCompatActivity {
         ArrayList<Transaction> updatedList;
 
         if (newestFirst){
-            // Newest transactions first
-            updatedList = transactionHandler.getAllByNewestFirst(UserManager.getUserID());
-        } else {
             // Oldest transactions first
             updatedList = transactionHandler.getAllByOldestFirst(UserManager.getUserID());
+        } else {
+            // Newest transactions first
+            updatedList = transactionHandler.getAllByNewestFirst(UserManager.getUserID());
         }
 
         // Update the list view with the new order
         transactions = updatedList;
+        ListView transactionsListView = (ListView)findViewById(R.id.listview_transactions);
+        adaptor = new CustomTransactionAdapter(transactions, this);
+        transactionsListView.setAdapter(adaptor);
 
-        final Handler handler = new Handler(Looper.getMainLooper());
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                //Do something after 100ms
-                adaptor.notifyDataSetChanged();
-            }
-        }, 2000);
     }
 
     // Change the state of the edit and delete button
