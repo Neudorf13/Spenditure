@@ -4,14 +4,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.spenditure.presentation.transaction.EditTransactionActivity">
+    tools:context="com.spenditure.presentation.Goals.CreateGoalActivity">
 
     <LinearLayout
         android:id="@+id/linearlayout_header"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:background="@color/background_color">
+        android:background="@color/background_color"
+        app:layout_constraintBottom_toTopOf="@id/nav_view"
+        app:layout_constraintTop_toTopOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -55,7 +57,7 @@
                     android:id="@+id/textView2"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:text="@string/title_edit_transaction"
+                    android:text="@string/title_create_goal"
                     android:textColor="@color/white"
                     android:textStyle="bold"
                     android:gravity="center"
@@ -66,12 +68,8 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-
-            android:layout_marginStart="24dp"
-            android:layout_marginEnd="24dp"
-            android:layout_marginTop="24dp"
-            android:layout_marginBottom="100dp">
+            android:layout_height="500dp"
+            android:layout_margin="24dp">
 
             <ImageView
                 android:id="@+id/imageview_edit_credentials"
@@ -86,19 +84,19 @@
                 app:srcCompat="@drawable/background_light_blue" />
 
             <TextView
-                android:id="@+id/textview_what_the_heck"
+                android:id="@+id/textview_goal_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/field_what_the_heck"
+                android:text="@string/label_goal_name"
                 android:textSize="25dp"
                 android:textColor="@color/white"
                 app:layout_constraintBottom_toTopOf="@+id/textview_date"
-                app:layout_constraintEnd_toStartOf="@+id/edittext_what_the_heck"
+                app:layout_constraintEnd_toStartOf="@+id/edittext_goal_name"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <EditText
-                android:id="@+id/edittext_what_the_heck"
+                android:id="@+id/edittext_goal_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:minWidth="120dp"
@@ -106,20 +104,20 @@
                 android:textColor="@color/white"
                 app:layout_constraintBottom_toTopOf="@+id/edittext_date"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/textview_what_the_heck"
+                app:layout_constraintStart_toEndOf="@+id/textview_goal_name"
                 app:layout_constraintTop_toTopOf="parent"/>
 
             <TextView
                 android:id="@+id/textview_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/field_date"
+                android:text="@string/label_complete_by"
                 android:textSize="25dp"
                 android:textColor="@color/white"
-                app:layout_constraintBottom_toTopOf="@+id/textview_place"
+                app:layout_constraintBottom_toTopOf="@+id/textview_amount"
                 app:layout_constraintEnd_toStartOf="@+id/edittext_date"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textview_what_the_heck" />
+                app:layout_constraintTop_toBottomOf="@+id/textview_goal_name" />
 
             <EditText
                 android:id="@+id/edittext_date"
@@ -132,34 +130,10 @@
                 android:cursorVisible="false"
                 android:focusable="false"
                 android:focusableInTouchMode="false"
-                app:layout_constraintBottom_toTopOf="@+id/textview_place"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/textview_date"
-                app:layout_constraintTop_toBottomOf="@+id/edittext_what_the_heck"/>
-
-            <TextView
-                android:id="@+id/textview_place"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/field_place"
-                android:textSize="25dp"
-                android:textColor="@color/white"
-                app:layout_constraintBottom_toTopOf="@+id/textview_amount"
-                app:layout_constraintEnd_toStartOf="@+id/edittext_place"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textview_date" />
-
-            <EditText
-                android:id="@+id/edittext_place"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:minWidth="120dp"
-                android:textSize="25dp"
-                android:textColor="@color/white"
                 app:layout_constraintBottom_toTopOf="@+id/edittext_amount"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/textview_place"
-                app:layout_constraintTop_toBottomOf="@+id/edittext_date"/>
+                app:layout_constraintStart_toEndOf="@+id/textview_date"
+                app:layout_constraintTop_toBottomOf="@+id/edittext_goal_name"/>
 
             <TextView
                 android:id="@+id/textview_amount"
@@ -168,10 +142,10 @@
                 android:text="@string/field_amount"
                 android:textSize="25dp"
                 android:textColor="@color/white"
-                app:layout_constraintBottom_toTopOf="@+id/textview_type"
+                app:layout_constraintBottom_toTopOf="@+id/textview_categories"
                 app:layout_constraintEnd_toStartOf="@+id/edittext_amount"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textview_place" />
+                app:layout_constraintTop_toBottomOf="@+id/textview_date" />
 
             <EditText
                 android:id="@+id/edittext_amount"
@@ -181,38 +155,10 @@
                 android:inputType="numberDecimal"
                 android:textSize="25dp"
                 android:textColor="@color/white"
-                app:layout_constraintBottom_toTopOf="@+id/togglebutton_type"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/textview_amount"
-                app:layout_constraintTop_toBottomOf="@+id/edittext_place"/>
-
-            <TextView
-                android:id="@+id/textview_type"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/field_type"
-                android:textSize="25dp"
-                android:textColor="@color/white"
-                app:layout_constraintBottom_toTopOf="@+id/textview_categories"
-                app:layout_constraintEnd_toStartOf="@+id/togglebutton_type"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textview_amount" />
-
-            <androidx.appcompat.widget.AppCompatToggleButton
-                android:id="@+id/togglebutton_type"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Deposit"
-                android:textSize="25dp"
-                android:textOn="Withdrawal"
-                android:textOff="Deposit"
-                android:checked="true"
-                android:textColor="@color/white"
-                android:backgroundTint="@color/light_blue"
                 app:layout_constraintBottom_toTopOf="@+id/spinner_categories"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/textview_type"
-                app:layout_constraintTop_toBottomOf="@+id/edittext_amount"/>
+                app:layout_constraintStart_toEndOf="@+id/textview_amount"
+                app:layout_constraintTop_toBottomOf="@+id/edittext_date"/>
 
             <TextView
                 android:id="@+id/textview_categories"
@@ -221,10 +167,10 @@
                 android:text="@string/field_categories"
                 android:textSize="25dp"
                 android:textColor="@color/white"
-                app:layout_constraintBottom_toTopOf="@+id/textview_image"
+                app:layout_constraintBottom_toTopOf="@+id/button_create_goal"
                 app:layout_constraintEnd_toStartOf="@+id/spinner_categories"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textview_type" />
+                app:layout_constraintTop_toBottomOf="@+id/textview_amount" />
 
             <Spinner
                 android:id="@+id/spinner_categories"
@@ -234,86 +180,39 @@
                 android:minHeight="30dp"
                 android:textColor="@color/white"
                 android:backgroundTint="@color/light_blue"
-                app:layout_constraintBottom_toTopOf="@+id/button_take_image"
+                app:layout_constraintBottom_toTopOf="@+id/button_create_goal"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/textview_categories"
-                app:layout_constraintTop_toBottomOf="@+id/togglebutton_type"/>
-
-            <TextView
-                android:id="@+id/textview_image"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/field_image"
-                android:textSize="25dp"
-                android:textColor="@color/white"
-                app:layout_constraintBottom_toTopOf="@+id/textview_comments"
-                app:layout_constraintEnd_toStartOf="@+id/button_view_image"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textview_categories" />
+                app:layout_constraintTop_toBottomOf="@+id/edittext_amount"/>
 
             <Button
-                android:id="@+id/button_view_image"
+                android:id="@+id/button_create_goal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/label_view_image"
-                android:textSize="20dp"
-                android:backgroundTint="@color/light_blue"
-                android:enabled="false"
-                app:layout_constraintBottom_toTopOf="@+id/edittext_comments"
-                app:layout_constraintEnd_toStartOf="@+id/button_take_image"
-                app:layout_constraintStart_toEndOf="@+id/textview_image"
-                app:layout_constraintTop_toBottomOf="@+id/spinner_categories"/>
-
-            <ImageButton
-                android:id="@+id/button_take_image"
-                android:layout_width="100dp"
-                android:layout_height="50dp"
-                android:src="@drawable/symbol_camera"
-                android:backgroundTint="@color/light_blue"
-                app:layout_constraintBottom_toTopOf="@+id/edittext_comments"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/button_view_image"
-                app:layout_constraintTop_toBottomOf="@+id/spinner_categories"/>
-
-            <TextView
-                android:id="@+id/textview_comments"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/field_comments"
-                android:textSize="25dp"
-                android:textColor="@color/white"
-                app:layout_constraintBottom_toTopOf="@+id/button_edit_transaction"
-                app:layout_constraintEnd_toStartOf="@+id/edittext_comments"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textview_image" />
-
-            <EditText
-                android:id="@+id/edittext_comments"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:minWidth="120dp"
-                android:textSize="25dp"
-                android:textColor="@color/white"
-                app:layout_constraintBottom_toTopOf="@+id/button_edit_transaction"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/textview_comments"
-                app:layout_constraintTop_toBottomOf="@+id/button_take_image"/>
-
-            <Button
-                android:id="@+id/button_edit_transaction"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/title_edit_transaction"
+                android:text="@string/title_create_goal"
                 android:textSize="25dp"
                 android:backgroundTint="@color/light_blue"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textview_comments"/>
+                app:layout_constraintTop_toBottomOf="@+id/textview_categories"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </LinearLayout>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/floatingActionButton_back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginBottom="24dp"
+        android:backgroundTint="@color/light_blue"
+        android:clickable="true"
+        android:tint="@color/white"
+        app:layout_constraintBottom_toTopOf="@+id/nav_view"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/symbol_arrow_back" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/nav_view"

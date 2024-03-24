@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.spenditure.presentation.transaction.ViewTransactionsActivity">
+    tools:context="com.spenditure.presentation.Goals.ViewGoalsActivity">
 
     <LinearLayout
         android:id="@+id/linearlayout_header"
@@ -57,7 +57,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:gravity="center"
-                    android:text="@string/title_view_transactions"
+                    android:text="@string/title_view_goals"
                     android:textColor="@color/white"
                     android:textSize="@dimen/small_size"
                     android:textStyle="bold" />
@@ -65,63 +65,67 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <LinearLayout
-            android:id="@+id/linearlayout_controls"
-            android:layout_width="wrap_content"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_gravity="center"
-            app:layout_constraintBottom_toTopOf="@+id/scrollview_list"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            android:layout_margin="24dp">
 
-            <androidx.appcompat.widget.AppCompatToggleButton
-                android:id="@+id/togglebutton_transaction_date_sort"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="50dp"
-                android:backgroundTint="@color/light_blue"
-                android:checked="true"
-                android:textColor="@color/white"
-                android:textOff="Oldest First"
-                android:textOn="Newest First" />
+            <ListView
+                android:id="@+id/listview_goals"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:choiceMode="singleChoice"
+                android:listSelector="@color/dark_blue"
+                android:text="@string/title_view_goals"
+                android:textSize="40dp"
+                android:layout_marginBottom="100dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-            <Button
-                android:id="@+id/button_edit"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="50dp"
-                android:backgroundTint="@color/light_blue"
-                android:enabled="false"
-                android:onClick="editTransactionClicked"
-                android:text="@string/label_edit"
-                android:textColor="@color/white" />
-
-            <Button
-                android:id="@+id/button_delete"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="50dp"
-                android:backgroundTint="@color/light_blue"
-                android:enabled="false"
-                android:onClick="deleteTransactionClicked"
-                android:text="@string/label_delete"
-                android:textColor="@color/white" />
-
-        </LinearLayout>
-
-        <ListView
-            android:id="@+id/listview_transactions"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:layout_marginBottom="100dp"
-            android:choiceMode="singleChoice"
-            android:listSelector="@color/dark_blue"
-            android:text="@string/title_view_transactions"
-            android:textSize="40dp" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </LinearLayout>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/floatingActionButton_new_goal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="24dp"
+        android:backgroundTint="@color/light_blue"
+        android:clickable="true"
+        android:tint="@color/white"
+        app:layout_constraintBottom_toTopOf="@+id/floatingActionButton_delete"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:srcCompat="@drawable/symbol_add" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/floatingActionButton_delete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="24dp"
+        android:backgroundTint="@color/light_blue"
+        android:clickable="true"
+        android:tint="@color/white"
+        app:layout_constraintBottom_toTopOf="@+id/nav_view"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:srcCompat="@drawable/symbol_delete" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/floatingActionButton_back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginBottom="24dp"
+        android:backgroundTint="@color/light_blue"
+        android:clickable="true"
+        android:tint="@color/white"
+        app:layout_constraintBottom_toTopOf="@+id/nav_view"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/symbol_arrow_back" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/nav_view"

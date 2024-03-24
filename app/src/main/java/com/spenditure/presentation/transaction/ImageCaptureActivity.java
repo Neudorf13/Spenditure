@@ -10,7 +10,7 @@
  * This file allows users to capture an image to attach to a transaction.
  **/
 
-package com.spenditure.presentation;
+package com.spenditure.presentation.transaction;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
