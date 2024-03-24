@@ -1,3 +1,17 @@
+/**
+ * ViewGoalsActivity.java
+ *
+ * COMP3350 SECTION A02
+ *
+ * @author Jillian Friesen, 7889402
+ * @date Friday, March 22, 2024
+ *
+ * PURPOSE:
+ *  This file contains all the event handlers and UI management for the View Goals
+ *  activity where users can view a list of all their goals. The UI allows users
+ *  to create or delete goals.
+ **/
+
 package com.spenditure.presentation.Goals;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -26,7 +40,7 @@ public class ViewGoalsActivity extends AppCompatActivity {
     private static IGoalHandler goalHandler = null;
     private List<Goal> goals;
     private int currentIdSelected = -1;
-    private CustomGoalAdapter adaptor; // TODO
+    private CustomGoalAdapter adaptor;  // Adaptor to display the Goals in a list
     private ListView goalsListView;
 
     @Override
@@ -40,13 +54,12 @@ public class ViewGoalsActivity extends AppCompatActivity {
 
         goals = goalHandler.getGoalsForUserID(UserManager.getUserID());
 
-        goalsListView = findViewById(R.id.listview_goals);
-
         // Create an adaptor to format transactions in the list view
+        goalsListView = findViewById(R.id.listview_goals);
         adaptor = new CustomGoalAdapter(goals, this);
         goalsListView.setAdapter(adaptor);
 
-        // Trigger when list item is selected
+        // Trigger when list item is selected, save the ID of the selected item
         goalsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -60,11 +73,13 @@ public class ViewGoalsActivity extends AppCompatActivity {
         navBarHandling();
     }
 
+    // Set up the Add Goal button
     private void setUpAddButton() {
         FloatingActionButton button = findViewById(R.id.floatingActionButton_new_goal);
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 try {
+                    // Open the window to create a new Goal
                     Intent newIntent = new Intent(getApplicationContext(), CreateGoalActivity.class);
                     startActivity(newIntent);
                 } catch (InvalidGoalException e){
@@ -74,7 +89,8 @@ public class ViewGoalsActivity extends AppCompatActivity {
         });
     }
 
-    private void setUpDeleteButton() {  // TODO: not functioning yet
+    // Set up the Delete Goal button
+    private void setUpDeleteButton() {
         FloatingActionButton button = findViewById(R.id.floatingActionButton_delete);
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -100,6 +116,7 @@ public class ViewGoalsActivity extends AppCompatActivity {
         });
     }
 
+    // Set up the Back button
     private void setupBackButton() {
         FloatingActionButton backButton = findViewById(R.id.floatingActionButton_back);
 
@@ -119,9 +136,6 @@ public class ViewGoalsActivity extends AppCompatActivity {
         BottomNavigationHandler navigationHandler = new BottomNavigationHandler();
 
         navView.setOnItemSelectedListener((item -> {
-            if (item.getItemId() == R.id.navigation_view_transactions){ // TODO
-                return false;
-            }
             Class<? extends AppCompatActivity> newActivity = navigationHandler.select(item.getItemId());
             if(newActivity != null){
                 startActivity(new Intent(getApplicationContext(), newActivity));
@@ -131,6 +145,6 @@ public class ViewGoalsActivity extends AppCompatActivity {
         }));
 
         // Set the selected item if needed
-        navView.setSelectedItemId(R.id.navigation_view_transactions);   // TODO
+        navView.setSelectedItemId(R.id.navigation_user);
     }
 }

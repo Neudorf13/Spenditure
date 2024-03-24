@@ -51,9 +51,9 @@ import java.time.LocalDateTime;
 public class CreateTransactionActivity extends AppCompatActivity {
 
     private ActivityResultLauncher<Intent> getImageCaptureResult;
-    private byte[] imageBytes;
+    private byte[] imageBytes;  // Holds the bytes of a captured image
     private Button viewImageButton;
-    private CustomCategorySpinnerAdapter adapter;
+    private CustomCategorySpinnerAdapter adapter;   // Adaptor to display the Categories in a drop down menu
     private DateTime selectedDate;
     private int userID;
     private ITransactionHandler transactionHandler;
@@ -75,8 +75,8 @@ public class CreateTransactionActivity extends AppCompatActivity {
         navBarHandling();
     }
 
+    // Set up the Create Transaction button
     private void setUpCreateButton() {
-        // Set up click event for the Create Transaction Button
         Button button = findViewById(R.id.button_create_transaction);
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -84,7 +84,7 @@ public class CreateTransactionActivity extends AppCompatActivity {
                     // Call helper method
                     createTransaction();
 
-                    // Return to the main window
+                    // Return to the View Report activity
                     startActivity(new Intent(getApplicationContext(), ViewReportActivity.class));
                 } catch (InvalidTransactionException e) {
                     Toast.makeText(CreateTransactionActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();

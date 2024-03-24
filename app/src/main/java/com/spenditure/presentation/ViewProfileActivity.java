@@ -31,8 +31,6 @@ import com.spenditure.presentation.Goals.ViewGoalsActivity;
 import java.security.NoSuchAlgorithmException;
 
 public class ViewProfileActivity extends AppCompatActivity {
-
-    // Instance variables
     private String username;
     private String currentPassword;
     private String newPassword;
@@ -47,9 +45,7 @@ public class ViewProfileActivity extends AppCompatActivity {
         setUpFields();
         setUpSaveButton();
         setUpLogoutButton();
-
         setUpViewGoalsButton();
-
         navBarHandling();
     }
 
@@ -110,6 +106,7 @@ public class ViewProfileActivity extends AppCompatActivity {
         });
     }
 
+    // Handle the bottom nav bar
     private void navBarHandling(){
         BottomNavigationView navView = findViewById(R.id.nav_view);
 
@@ -131,11 +128,13 @@ public class ViewProfileActivity extends AppCompatActivity {
         navView.setSelectedItemId(R.id.navigation_user);
     }
 
+    // Set up the View Goals button
     private void setUpViewGoalsButton(){
         Button button = findViewById(R.id.button_goals);
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 try {
+                    // Open the View Goals activity
                     Intent newIntent = new Intent(getApplicationContext(), ViewGoalsActivity.class);
                     startActivity(newIntent);
                 } catch (InvalidUserInformationException e){

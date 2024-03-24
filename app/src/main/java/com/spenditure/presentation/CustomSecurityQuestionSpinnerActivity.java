@@ -1,9 +1,19 @@
+/**
+ * CustomSecurityQuestionSpinnerActivity.java
+ * <p>
+ * COMP3350 SECTION A02
+ *
+ * @author Jillian Friesen, 7889402
+ * @date Friday, March 22, 2024
+ * <p>
+ * PURPOSE:
+ * This file contains an adapter that takes in a list of SecurityQuestion objects and generates
+ *  a custom UI list of security questions for the user to view.
+ **/
+
 package com.spenditure.presentation;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Context;
-import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,8 +49,6 @@ public class CustomSecurityQuestionSpinnerActivity extends BaseAdapter {
 
     @Override
     public long getItemId(int i) {
-        // TODO: fix this?
-//        return questions.get(i).getCategoryID();
         return 1;
     }
 
@@ -48,6 +56,7 @@ public class CustomSecurityQuestionSpinnerActivity extends BaseAdapter {
         return questions.indexOf(question);
     }
 
+    // Set up the UI with the information about the Security Question
     @Override
     public View getView(int i, View view, ViewGroup viewGroup){
         view =inflator.inflate(R.layout.activity_custom_security_question_spinner, null);

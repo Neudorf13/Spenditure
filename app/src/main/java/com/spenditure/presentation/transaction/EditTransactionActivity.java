@@ -46,8 +46,6 @@ import com.spenditure.presentation.BottomNavigationHandler;
 import com.spenditure.presentation.category.CustomCategorySpinnerAdapter;
 
 public class EditTransactionActivity extends AppCompatActivity {
-
-    // Instance Variables
     private Transaction givenTransaction;
     private ITransactionHandler transactionHandler;
     private ICategoryHandler categoryHandler;
@@ -89,16 +87,15 @@ public class EditTransactionActivity extends AppCompatActivity {
         navBarHandling();
     }
 
+    // Set up the Edit Transaction button
     private void setUpEditButton() {
-        // Set up click event for the Edit Transaction Button
         Button button = findViewById(R.id.button_edit_transaction);
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
 
                 try {
-                    // Call helper method
+                    // Call helper method & modify the Transaction
                     Transaction updatedTransaction = editTransaction();
-
                     transactionHandler.modifyTransaction(updatedTransaction);
 
                     startActivity(new Intent(getApplicationContext(), ViewTransactionsActivity.class));
@@ -152,11 +149,12 @@ public class EditTransactionActivity extends AppCompatActivity {
         });
     }
 
-
+    // Set up the View Image button
     private void setUpViewImageButton(){
         viewImageButton = findViewById(R.id.button_view_image);
 
         viewImageButton.setOnClickListener(view -> {
+            // Open the Image View activity and pass in the image bytes
             Intent imageViewActivity = new Intent(getApplicationContext(), ImageViewActivity.class);
             imageViewActivity.putExtra("imageBytes", imageBytes);
             startActivity(imageViewActivity);
@@ -183,8 +181,10 @@ public class EditTransactionActivity extends AppCompatActivity {
                 }
         );
 
+        // Create event for when Image Capture button is clicked
         ImageButton button = findViewById(R.id.button_take_image);
         button.setOnClickListener(view -> {
+            // Open the Image Capture activity to take the image
             Intent imageCaptureActivity = new Intent(getApplicationContext(), ImageCaptureActivity.class);
             getImageCaptureResult.launch(imageCaptureActivity);
         });
