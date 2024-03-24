@@ -1,3 +1,17 @@
+/**
+ * AccountManagementTest
+ *
+ * COMP3350 SECTION A02
+ *
+ * @author JR
+ * @date Mar 23
+ *
+ * PURPOSE:
+ *  System test for account management (feature 6)
+ *
+ **/
+
+
 package com.spenditure;
 
 
@@ -45,6 +59,12 @@ public class AccountManagementTest
     private ITransactionHandler transactionHandler;
     private ICategoryHandler categoryHandler;
 
+    /**
+     * setup
+     *
+     * Sets up the test user account by resetting the category/transaction database, and launching the log in screen
+     * @returns void - NA
+     */
     @Before
     public void setup(){
         ActivityScenario.launch(LoginActivity.class);
@@ -54,16 +74,25 @@ public class AccountManagementTest
         categoryHandler = new CategoryHandler(Services.DEVELOPING_STATUS);
         TestUtility.setUpEnvirForReportTest(categoryHandler,transactionHandler,4);
 
-       // TestUtility.login("TestingUser1","12345");
     }
 
+    /**
+     * teardown
+     *
+     * Resets the test user account by deleting everything in the database and logging out
+     * @returns void - NA
+     */
     @After
     public void teardown(){
         TestUtility.cleanUpEnvir(categoryHandler,transactionHandler,4);
-
-        SystemClock.sleep(sleepTime);
     }
 
+    /**
+     * changePassword
+     *
+     * Logs in and attempts to change the username and password of current user. Then it logs out, logs back in, and changes it back to what it was before
+     * @returns void - NA
+     */
     @Test
     public void changePassword()
     {
@@ -139,6 +168,12 @@ public class AccountManagementTest
 
     }
 
+    /**
+     * newAccount
+     *
+     * Attempts to create a new account from log in page then log in with that account
+     * @returns void - NA
+     */
     @Test
     public void newAccount()
     {

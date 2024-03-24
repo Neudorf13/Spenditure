@@ -1,3 +1,16 @@
+/**
+ * GoalsTest
+ *
+ * COMP3350 SECTION A02
+ *
+ * @author JR
+ * @date Mar 23
+ *
+ * PURPOSE:
+ *  System test for financial goal tracker (feature 7)
+ *
+ **/
+
 package com.spenditure;
 
 import static androidx.test.espresso.Espresso.onData;
@@ -73,6 +86,12 @@ public class GoalsTest {
     private ICategoryHandler categoryHandler;
     private IGoalHandler goalHandler;
 
+    /**
+     * setup
+     *
+     * Sets up the test user account by resetting the category/transaction database, launching the log in screen, and logging in
+     * @returns void - NA
+     */
     @Before
     public void setup(){
         ActivityScenario.launch(LoginActivity.class);
@@ -86,18 +105,29 @@ public class GoalsTest {
         TestUtility.login("TestingUser1","12345");
     }
 
+    /**
+     * teardown
+     *
+     * Resets the test user account by deleting everything in the database and logging out
+     * @returns void - NA
+     */
     @After
     public void teardown(){
-
-        TestUtility.cleanUpEnvir(categoryHandler,transactionHandler,4);
         List<Goal> goalList = goalHandler.getGoalsForUserID(4);
-
         for (Goal currGoal : goalList){
             goalHandler.deleteGoal(currGoal.getGoalID());
         }
+
+        TestUtility.cleanUpEnvir(categoryHandler,transactionHandler,4);
+
     }
 
-
+    /**
+     * createGoal
+     *
+     * Attempts to create a new goal and then verifies that goal was created
+     * @returns void - NA
+     */
     @Test
     public void createGoal()
     {
@@ -157,6 +187,12 @@ public class GoalsTest {
 
     }
 
+    /**
+     * deleteGoal
+     *
+     * Creates 2 goals, deletes one of them, then verifies that it was deleted and the UI was updated
+     * @returns void - NA
+     */
     @Test
     public void deleteGoal()
     {

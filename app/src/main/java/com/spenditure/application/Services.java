@@ -33,6 +33,7 @@ public class Services {
     private static UserPersistence userPersistence = null;
     private static GoalPersistence goalPersistence = null;
     private static SecurityQuestionPersistence securityQuestionPersistence = null;
+    public static boolean START_UP = false;
 
 
     public static synchronized CategoryPersistence getCategoryPersistence(boolean inDeveloping){

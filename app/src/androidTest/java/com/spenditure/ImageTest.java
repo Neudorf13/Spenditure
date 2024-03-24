@@ -1,3 +1,17 @@
+/**
+ * ImageTest
+ *
+ * COMP3350 SECTION A02
+ *
+ * @author JR
+ * @date Mar 23
+ *
+ * PURPOSE:
+ *  System test for adding image (feature 5)
+ *
+ **/
+
+
 package com.spenditure;
 
 
@@ -72,6 +86,12 @@ public class ImageTest {
     private ITransactionHandler transactionHandler;
     private ICategoryHandler categoryHandler;
 
+    /**
+     * setup
+     *
+     * Sets up the test user account by resetting the category/transaction database, launching the log in screen, and logging in
+     * @returns void - NA
+     */
     @Before
     public void setup(){
         ActivityScenario.launch(LoginActivity.class);
@@ -84,11 +104,23 @@ public class ImageTest {
         TestUtility.login("TestingUser1","12345");
     }
 
+    /**
+     * teardown
+     *
+     * Resets the test user account by deleting everything in the database and logging out
+     * @returns void - NA
+     */
     @After
     public void teardown(){
         TestUtility.cleanUpEnvir(categoryHandler,transactionHandler,4);
     }
 
+    /**
+     * newTransactionWithImage
+     *
+     * Creates a new transaction and adds an image, then views that transaction and verifies that the image is there
+     * @returns void - NA
+     */
     @Test
     public void newTransactionWithImage()
     {
@@ -136,7 +168,7 @@ public class ImageTest {
         onView(withId(R.id.navigation_view_transactions)).perform(click());
 
         // check database that it image is not null
-       // assert(transactionHandler.getTransactionByName(UserManager.getUserID(), "Testing image").get(0).getImage() != null);
+        assert(transactionHandler.getTransactionByName(UserManager.getUserID(), "Testing image").get(0).getImage() != null);
 
         // press on button to sort by newest first
         onView(withId(R.id.togglebutton_transaction_date_sort)).perform(click());
@@ -159,7 +191,12 @@ public class ImageTest {
 
     }
 
-
+    /**
+     * addImageToTransaction
+     *
+     * Attempts to add an image to an existing transaction, then verifies that the image was added
+     * @returns void - NA
+     */
     @Test
     public void addImageToTransaction()
     {

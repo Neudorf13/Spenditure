@@ -1,3 +1,16 @@
+/**
+ * TransactionTest
+ *
+ * COMP3350 SECTION A02
+ *
+ * @author JR
+ * @date Mar 23
+ *
+ * PURPOSE:
+ *  System test for transaction controller (feature 1)
+ *
+ **/
+
 package com.spenditure;
 
 
@@ -63,7 +76,12 @@ public class TransactionTest {
     private ICategoryHandler categoryHandler;
 
 
-
+    /**
+     * setup
+     *
+     * Sets up the test user account by resetting the category/transaction database, launching the log in screen, and logging in
+     * @returns void - NA
+     */
     @Before
     public void setup(){
 
@@ -78,12 +96,23 @@ public class TransactionTest {
         TestUtility.login("TestingUser1","12345");
     }
 
-
+    /**
+     * teardown
+     *
+     * Resets the test user account by deleting everything in the database and logging out
+     * @returns void - NA
+     */
     @After
     public void teardown(){
         TestUtility.cleanUpEnvir(categoryHandler,transactionHandler,4);
     }
 
+    /**
+     * createTransaction
+     *
+     * Attempts to create a transaction then verifies that the transaction was added
+     * @returns void - NA
+     */
     @Test
     public void createTransaction()
     {
@@ -149,12 +178,28 @@ public class TransactionTest {
         onData(anything()).inAdapterView(withId(R.id.listview_transactions)).atPosition(0).
                 onChildView(withId(R.id.textview_list_amount)).
                 check(matches(withText("$69.00")));
+
+        // verify in database
+        assert(transactionHandler.getAllTransactions(4).size()==4);
+        assert(transactionHandler.getTransactionByName(4, "Tutor Bao in DB mastery").get(0).getComments().equals("I still get to keep the title, right?"));
+        assert(transactionHandler.getTransactionByName(4, "Tutor Bao in DB mastery").get(0).getAmount() == 69);
+        assert(categoryHandler.getCategoryByID(transactionHandler.getTransactionByName(4, "Tutor Bao in DB mastery").get(0).getCategoryID()).getName().equals("Food"));
+        assert(transactionHandler.getTransactionByName(4, "Tutor Bao in DB mastery").get(0).getDateTime().getMonth() == 5);
+        assert(transactionHandler.getTransactionByName(4, "Tutor Bao in DB mastery").get(0).getDateTime().getYear() == 2024);
+        assert(transactionHandler.getTransactionByName(4, "Tutor Bao in DB mastery").get(0).getDateTime().getDay() == 13);
+        assert(transactionHandler.getTransactionByName(4, "Tutor Bao in DB mastery").get(0).getWithdrawal() == false);
     }
 
 
 
+    /**
+     * viewTransaction
+     *
+     * Attempts to sort transactions then verifies that they are sorted properly
+     * @returns void - NA
+     */
     @Test
-    public void viewTransaction()
+    public void sortTransaction()
     {
         // now we click over to view transactions
         onView(withId(R.id.navigation_view_transactions)).perform(click());
@@ -197,7 +242,12 @@ public class TransactionTest {
     }
 
 
-
+    /**
+     * deleteTransaction
+     *
+     * Attempts to delete a transaction then verifies that it was deleted
+     * @returns void - NA
+     */
     @Test
     public void deleteTransaction()
     {
@@ -226,8 +276,18 @@ public class TransactionTest {
                 onChildView(withId(R.id.textview_list_amount)).
                 check(matches(withText("$500.95")));
 
+        // verify in database
+        assert(transactionHandler.getAllTransactions(4).size()==2);
+
+
     }
 
+    /**
+     * modifyTransaction
+     *
+     * Attempts to modify an existing transaction then verifies that it was modified
+     * @returns void - NA
+     */
     @Test
     public void modifyTransaction()
     {
@@ -263,14 +323,14 @@ public class TransactionTest {
                 click()
         );
 
-        // changed my mind
-        onView(withId(R.id.togglebutton_type)).perform(
-                click()
-        );
-
         // edit category
         onView(withId(R.id.spinner_categories)).perform(click());
         onView(allOf(withText("Hang out"))).perform(click());
+
+        // edit date
+        onView(withId(R.id.edittext_date)).perform(click());
+        onView(withClassName(Matchers.equalTo(DatePicker.class.getName()))).perform(PickerActions.setDate(2020, 1, 1));
+        onView(withId(android.R.id.button1)).perform(click());
 
         // edit comments
         onView(withId(R.id.edittext_comments)).perform(
@@ -289,6 +349,15 @@ public class TransactionTest {
         onData(anything()).inAdapterView(withId(R.id.listview_transactions)).atPosition(1).
                 onChildView(withId(R.id.textview_list_amount)).
                 check(matches(withText("$3350.99")));
+
+        // verify in database
+        assert(transactionHandler.getTransactionByName(4, "PP fan club store").get(0).getComments().equals("Bought life size Pedro Pascal body pillow"));
+        assert(transactionHandler.getTransactionByName(4, "PP fan club store").get(0).getAmount() == 3350.99);
+        assert(categoryHandler.getCategoryByID(transactionHandler.getTransactionByName(4, "PP fan club store").get(0).getCategoryID()).getName().equals("Hang out"));
+        assert(transactionHandler.getTransactionByName(4, "PP fan club store").get(0).getDateTime().getMonth() == 1);
+        assert(transactionHandler.getTransactionByName(4, "PP fan club store").get(0).getDateTime().getYear() == 2020);
+        assert(transactionHandler.getTransactionByName(4, "PP fan club store").get(0).getDateTime().getDay() == 1);
+        assert(transactionHandler.getTransactionByName(4, "PP fan club store").get(0).getWithdrawal() == false);
 
     }
 

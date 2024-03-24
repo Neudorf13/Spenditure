@@ -20,6 +20,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4;
 import com.spenditure.presentation.LoginActivity;
 import com.spenditure.utility.TestUtility;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -35,7 +36,12 @@ public class IllustrativeReportTest {
     @Before
     public void setup(){
         ActivityScenario.launch(LoginActivity.class);
-        TestUtility.login("Me","123");
+        TestUtility.login("TestingUser1","12345");
+    }
+
+    @After
+    public void teardown(){
+        TestUtility.logout();
     }
 
     @Test

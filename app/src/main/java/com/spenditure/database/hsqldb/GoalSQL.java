@@ -56,7 +56,7 @@ public class GoalSQL implements GoalPersistence {
 
         }
         catch (final SQLException e) {
-            throw new RuntimeException("An error occurred while processing the SQL operation", e);
+            throw new RuntimeException("An error occurred while processing the SQL operation " + e.getMessage(), e);
         }
     }
 
@@ -83,7 +83,7 @@ public class GoalSQL implements GoalPersistence {
             return goalsForUser;
         }
         catch (final SQLException e) {
-            throw new RuntimeException("An error occurred while processing the SQL operation", e);
+            throw new RuntimeException("An error occurred while processing the SQL operation " + e.getMessage(), e);
         }
     }
 
@@ -99,7 +99,7 @@ public class GoalSQL implements GoalPersistence {
             return row > 0; //true if row number is greater than 0
         }
         catch (final SQLException e) {
-            throw new RuntimeException("An error occurred while processing the SQL operation", e);
+            throw new RuntimeException("An error occurred while processing the SQL operation " + e.getMessage(), e);
         }
     }
 
@@ -122,7 +122,7 @@ public class GoalSQL implements GoalPersistence {
 
         }
         catch (final SQLException e) {
-            throw new RuntimeException("An error occurred while processing the SQL operation5", e);
+            throw new RuntimeException("An error occurred while processing the SQL operation " + e.getMessage(), e);
         }
 
     }
@@ -148,7 +148,7 @@ public class GoalSQL implements GoalPersistence {
 
         }
         catch (final SQLException e) {
-            throw new RuntimeException("An error occurred while processing the SQL operation", e);
+            throw new RuntimeException("An error occurred while processing the SQL operation " + e.getMessage(), e);
         }
 
     }

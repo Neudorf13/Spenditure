@@ -44,7 +44,8 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if(!Services.DEVELOPING_STATUS){
+        if(!Services.START_UP && !Services.DEVELOPING_STATUS){
+            Services.START_UP = true;
             DBHelper.copyDatabaseToDevice(this);
         }
 

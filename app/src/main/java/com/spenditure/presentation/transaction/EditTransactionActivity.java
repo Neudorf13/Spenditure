@@ -130,7 +130,7 @@ public class EditTransactionActivity extends AppCompatActivity {
         DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker datePicker, int year, int month, int day) {
-                selectedDate = new DateTime(year, month, day);
+                selectedDate = new DateTime(year, month+1, day);
                 dateField.setText(selectedDate.toString());
             }
         };
