@@ -1,6 +1,6 @@
 # Iteration 3
 
-* Note: to login to the app. Use username:Me and password:123
+* Note: to login to the app. Use username: Me and password: 123
 
 
 
