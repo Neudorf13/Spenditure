@@ -44,8 +44,6 @@ import com.spenditure.object.Transaction;
 
 import com.spenditure.R;
 import com.spenditure.presentation.BottomNavigationHandler;
-import com.spenditure.presentation.ImageCaptureActivity;
-import com.spenditure.presentation.ImageViewActivity;
 import com.spenditure.presentation.category.CustomCategorySpinnerAdapter;
 import com.spenditure.presentation.category.ViewCategoryActivity;
 import com.spenditure.presentation.report.ViewReportActivity;

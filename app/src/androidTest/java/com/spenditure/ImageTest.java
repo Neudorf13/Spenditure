@@ -65,6 +65,7 @@ import org.junit.runner.RunWith;
 
 import java.util.List;
 
+@RunWith(AndroidJUnit4.class)
 public class ImageTest {
 
     private final int sleepTime = 1000;
@@ -158,7 +159,7 @@ public class ImageTest {
 
     }
 
-/*
+
     @Test
     public void addImageToTransaction()
     {
@@ -210,5 +211,5 @@ public class ImageTest {
         // exit transaction edit screen
         onView(withId(R.id.navigation_create_transaction)).perform(click());
 
-    }*/
+    }
 }

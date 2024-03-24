@@ -1,6 +1,5 @@
 package com.spenditure;
 
-import com.spenditure.
 
 
 import org.junit.runner.RunWith;
@@ -11,10 +10,10 @@ import org.junit.runners.Suite;
         AccountManagementTest.class,
         CategoryTest.class,
         GeneralReportTest.class,
+        GoalsTest.class,
         IllustrativeReportTest.class,
         ImageTest.class,
-        TimeBaseHeavyTest.class,
-        TimeBasedReportTest.class,
+        TimeBaseReportTest.class,
         TransactionTest.class
 })
 
