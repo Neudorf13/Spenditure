@@ -9,8 +9,9 @@ public class User {
     //Attributes
     private String fullName;
     private String username;
-
     private String email;
+    private String securityQuestionAnswer;
+    private int securityQuestionID;
 
 
     //Constructors
@@ -18,6 +19,17 @@ public class User {
         this.username = username;
         this.fullName = fullName;
         this.email = email;
+        this.securityQuestionAnswer = "";
+        this.securityQuestionID = -1;
+    }
+
+    //will convert to using this constructor once we finish implementing security question in regristration
+    public User(String fullName, String username, String email, String securityQuestionAnswer, int securityQuestionID) {
+        this.fullName = fullName;
+        this.username = username;
+        this.email = email;
+        this.securityQuestionAnswer = securityQuestionAnswer;
+        this.securityQuestionID = securityQuestionID;
     }
 
     //Business methods
@@ -36,6 +48,13 @@ public class User {
         return this.username;
     }
 
+    public String getSecurityQuestionAnswer() {
+        return securityQuestionAnswer;
+    }
+
+    public int getSecurityQuestionID() {
+        return securityQuestionID;
+    }
 
     public void updateName(String newFullName) {
         this.fullName = newFullName;
@@ -51,5 +70,11 @@ public class User {
         this.email = newEmail;
     }
 
+    public void setSecurityQuestionAnswer(String securityQuestionAnswer) {
+        this.securityQuestionAnswer = securityQuestionAnswer;
+    }
 
+    public void setSecurityQuestionID(int securityQuestionID) {
+        this.securityQuestionID = securityQuestionID;
+    }
 }

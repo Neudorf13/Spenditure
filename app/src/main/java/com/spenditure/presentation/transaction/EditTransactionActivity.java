@@ -43,10 +43,7 @@ import com.spenditure.object.DateTime;
 import com.spenditure.object.MainCategory;
 import com.spenditure.object.Transaction;
 import com.spenditure.presentation.BottomNavigationHandler;
-import com.spenditure.presentation.ImageCaptureActivity;
-import com.spenditure.presentation.ImageViewActivity;
 import com.spenditure.presentation.category.CustomCategorySpinnerAdapter;
-import com.spenditure.presentation.report.ViewReportActivity;
 
 public class EditTransactionActivity extends AppCompatActivity {
 
@@ -133,7 +130,7 @@ public class EditTransactionActivity extends AppCompatActivity {
         DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker datePicker, int year, int month, int day) {
-                selectedDate = new DateTime(year, month, day);
+                selectedDate = new DateTime(year, month+1, day);
                 dateField.setText(selectedDate.toString());
             }
         };

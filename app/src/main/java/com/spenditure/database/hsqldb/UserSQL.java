@@ -53,6 +53,56 @@ public class UserSQL implements UserPersistence {
 
     }
 
+    @Override
+    public String getSecurityQuestionAnswer(int userID) {
+        String securityQuestionAnswer = "";
+        try(final Connection connection = connection()) {
+            final PreparedStatement statement = connection.prepareStatement("SELECT * FROM users\nWHERE userID=?");
+            statement.setInt(1,userID);
+
+            final ResultSet resultSet = statement.executeQuery();
+            if(resultSet.next()) {
+                securityQuestionAnswer = resultSet.getString("SECURITYQUESTIONANSWER");
+            }
+
+            resultSet.close();
+            statement.close();
+
+            return securityQuestionAnswer;
+        }
+        catch (final SQLException e) {
+            throw new RuntimeException("An error occurred while processing the SQL operation", e);
+        }
+    }
+
+    @Override
+    public int getSecurityQuestionID(int userID) {
+        //String securityQuestionAnswer = "";
+        int securityQuestionID = 0;
+        try(final Connection connection = connection()) {
+            final PreparedStatement statement = connection.prepareStatement("SELECT * FROM users\nWHERE userID=?");
+            statement.setInt(1,userID);
+
+            final ResultSet resultSet = statement.executeQuery();
+            if(resultSet.next()) {
+                securityQuestionID = resultSet.getInt("SECURITYQUESTIONID");
+            }
+
+            resultSet.close();
+            statement.close();
+
+            if(securityQuestionID > 0) {
+                return securityQuestionID;
+            }
+            else {
+                throw new InvalidUserInformationException("Invalid securityQuestionID");
+            }
+        }
+        catch (final SQLException e) {
+            throw new RuntimeException("An error occurred while processing the SQL operation", e);
+        }
+    }
+
     //returns number of users in user table
     private int getNumberOfUsers() {
         int count = 0;
@@ -162,10 +212,10 @@ public class UserSQL implements UserPersistence {
     //attempts to insert new entry into user table
     //returns UID on sucess, throws exception on failure
     @Override
-    public int register( String username, String password,String email) {
+    public int register( String username, String password,String email, String securityQAnswer, int securityQID) {
         try(final Connection connection = connection()) {
 
-            String insertQuery = "INSERT INTO users (userid, username, password, email) VALUES (?, ?, ?, ?)";
+            String insertQuery = "INSERT INTO users (userid, username, password, email, securityquestionanswer, securityquestionid) VALUES (?, ?, ?, ?, ?, ?)";
 
             int newUserID = getNumberOfUsers() + 1;
             try (PreparedStatement preparedStatement = connection.prepareStatement(insertQuery)) {
@@ -173,6 +223,8 @@ public class UserSQL implements UserPersistence {
                 preparedStatement.setString(2, username);
                 preparedStatement.setString(3, password);
                 preparedStatement.setString(4, email);
+                preparedStatement.setString(5, securityQAnswer);
+                preparedStatement.setInt(6, securityQID);
 
                 int rowsAffected = preparedStatement.executeUpdate();
 

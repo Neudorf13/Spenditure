@@ -21,12 +21,17 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.spenditure.R;
 import com.spenditure.application.Services;
 import com.spenditure.database.utils.DBHelper;
+import com.spenditure.logic.GoalHandler;
+import com.spenditure.logic.IGoalHandler;
 import com.spenditure.logic.UserManager;
 import com.spenditure.logic.exceptions.InvalidUserInformationException;
 import com.spenditure.presentation.report.ViewReportActivity;
+
+import java.security.NoSuchAlgorithmException;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -34,11 +39,13 @@ public class LoginActivity extends AppCompatActivity {
     private String username;
     private String password;
     private UserManager userManager;
+    private FloatingActionButton registerButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if(!Services.DEVELOPING_STATUS){
+        if(!Services.START_UP && !Services.DEVELOPING_STATUS){
+            Services.START_UP = true;
             DBHelper.copyDatabaseToDevice(this);
         }
 
@@ -46,6 +53,7 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
         setUpLoginButton();
+        setUpRegisterButton();
     }
 
     // Set up the login button
@@ -71,7 +79,23 @@ public class LoginActivity extends AppCompatActivity {
                     Toast.makeText(LoginActivity.this, "Unable to log in: " + e.getMessage(),Toast.LENGTH_LONG).show();
                     user.setText("");
                     pass.setText("");
+                } catch (NoSuchAlgorithmException e) {
+                    throw new RuntimeException(e);
                 }
+            }
+        });
+    }
+
+    // Set up the registration button to open the registration window
+    private void setUpRegisterButton() {
+        registerButton = findViewById(R.id.floatingActionButton_register);
+
+        registerButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Open a registration window
+                Intent registrationActivity = new Intent(getApplicationContext(), RegistrationActivity.class);
+                startActivity(registrationActivity);
             }
         });
     }

@@ -19,6 +19,8 @@ import androidx.appcompat.widget.AppCompatToggleButton;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -55,7 +57,7 @@ public class ViewTransactionsActivity extends AppCompatActivity {
         if( transactionHandler == null){
             transactionHandler = new TransactionHandler(Services.DEVELOPING_STATUS);
         }
-        transactions = transactionHandler.getAllByNewestFirst(UserManager.getUserID());
+        transactions = transactionHandler.getAllByOldestFirst(UserManager.getUserID());
 
         ListView transactionsListView = (ListView)findViewById(R.id.listview_transactions);
 
@@ -115,16 +117,19 @@ public class ViewTransactionsActivity extends AppCompatActivity {
         ArrayList<Transaction> updatedList;
 
         if (newestFirst){
-            // Newest transactions first
-            updatedList = transactionHandler.getAllByNewestFirst(UserManager.getUserID());
-        } else {
             // Oldest transactions first
             updatedList = transactionHandler.getAllByOldestFirst(UserManager.getUserID());
+        } else {
+            // Newest transactions first
+            updatedList = transactionHandler.getAllByNewestFirst(UserManager.getUserID());
         }
 
         // Update the list view with the new order
         transactions = updatedList;
-        adaptor.notifyDataSetChanged();
+        ListView transactionsListView = (ListView)findViewById(R.id.listview_transactions);
+        adaptor = new CustomTransactionAdapter(transactions, this);
+        transactionsListView.setAdapter(adaptor);
+
     }
 
     // Change the state of the edit and delete button

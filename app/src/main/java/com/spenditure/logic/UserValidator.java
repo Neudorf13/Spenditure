@@ -4,6 +4,9 @@ import com.spenditure.logic.exceptions.InvalidUserInformationException;
 
 import org.jetbrains.annotations.TestOnly;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public class UserValidator {
 
     //Maximum characters for a username
@@ -118,10 +121,16 @@ public class UserValidator {
 
         }
 
-        if( !email.contains("@") || !email.contains(".") || !validEmailFormat(email) )
+        if(!isValidEmail(email)) {
             throw new InvalidUserInformationException("Provided email is not formatted correctly. Emails must" +
                     "contain exactly one \"@\" symbol, one \".\" symbol, and be in the general format of:" +
                     "\n\"johnny.appleseed@domain.com\".\nEmail provided: "+email);
+        }
+
+//        if( !email.contains("@") || !email.contains(".") || !validEmailFormat(email) )
+//            throw new InvalidUserInformationException("Provided email is not formatted correctly. Emails must" +
+//                    "contain exactly one \"@\" symbol, one \".\" symbol, and be in the general format of:" +
+//                    "\n\"johnny.appleseed@domain.com\".\nEmail provided: "+email);
 
     }
 
@@ -151,8 +160,8 @@ public class UserValidator {
                 sections[1] = split[0];
                 sections[2] = split[1];
 
-                result = sections[0].length() > 0
-                        && sections[1].length() > 0
+                result = !sections[0].isEmpty()
+                        && !sections[1].isEmpty()
                         && sections[2].length() > 1;
 
             } else {
@@ -164,6 +173,15 @@ public class UserValidator {
 
         return result;
 
+    }
+
+    public static boolean isValidEmail(String email) {
+        String regex = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
+
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(email);
+
+        return matcher.matches();
     }
 
     /*

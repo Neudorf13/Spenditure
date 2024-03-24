@@ -70,7 +70,7 @@ public class SliderAdapterTimeBase extends PagerAdapter {
         countTransactions.setText(UIUtility.cleanTransactionNumberString( currReport.getNumTrans()));
         totalTransactions.setText(UIUtility.cleanTotalString(currReport.getTotal()));
         average.setText(UIUtility.cleanAverageString(currReport.getAvgTransSize()));
-        percentage.setText(UIUtility.cleanAverageString(currReport.getPercent()));
+        percentage.setText(UIUtility.cleanPercentageString(currReport.getPercent()));
 
         linearLayout.setBackgroundResource(R.drawable.background_light_green);
         container.addView(view);

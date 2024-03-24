@@ -44,8 +44,6 @@ import com.spenditure.object.Transaction;
 
 import com.spenditure.R;
 import com.spenditure.presentation.BottomNavigationHandler;
-import com.spenditure.presentation.ImageCaptureActivity;
-import com.spenditure.presentation.ImageViewActivity;
 import com.spenditure.presentation.category.CustomCategorySpinnerAdapter;
 import com.spenditure.presentation.category.ViewCategoryActivity;
 import com.spenditure.presentation.report.ViewReportActivity;
@@ -115,13 +113,13 @@ public class CreateTransactionActivity extends AppCompatActivity {
         EditText dateField = findViewById(R.id.edittext_date);
         // Default to today's date
         LocalDateTime today = LocalDateTime.now();
-        selectedDate = new DateTime(today.getYear(), today.getMonthValue(), today.getDayOfMonth());
+        selectedDate = new DateTime(today.getYear(), today.getMonthValue()-1, today.getDayOfMonth());
 
         // Create event for when a new date is selected
         DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker datePicker, int year, int month, int day) {
-                selectedDate = new DateTime(year, month, day);
+                selectedDate = new DateTime(year, month+1, day);
                 dateField.setText(selectedDate.toString());
             }
         };
@@ -216,10 +214,19 @@ public class CreateTransactionActivity extends AppCompatActivity {
         AppCompatToggleButton type = findViewById(R.id.togglebutton_type);
         Spinner category = findViewById(R.id.spinner_categories);
 
-        MainCategory cat = adapter.getItem(category.getSelectedItemPosition());
-        // Create the new transaction object
-        transactionHandler.addTransaction(UserManager.getUserID(),whatTheHeck.getText().toString(),selectedDate,place.getText().toString(),
-                Double.parseDouble(amount.getText().toString()),comments.getText().toString(),type.isChecked(),imageBytes,cat.getCategoryID());
+        // this has to be checked in UI because otherwise it crashes on "MainCategory cat = adapter.getItem(category.getSelectedItemPosition());"
+        if(category.getSelectedItemPosition() == -1)
+        {
+            throw new InvalidTransactionException("Transactions must have a category.");
+        }
+        else
+        {
+            MainCategory cat = adapter.getItem(category.getSelectedItemPosition());
+            // Create the new transaction object
+            transactionHandler.addTransaction(UserManager.getUserID(),whatTheHeck.getText().toString(),selectedDate,place.getText().toString(),
+                    Double.parseDouble(amount.getText().toString()),comments.getText().toString(),type.isChecked(),imageBytes,cat.getCategoryID());
+        }
+
 
 
     }

@@ -17,13 +17,28 @@
         android:theme="@style/Theme.Spenditure"
         tools:targetApi="31">
         <activity
-            android:name="com.spenditure.presentation.ImageViewActivity"
+            android:name=".presentation.Goals.ViewGoalsActivity"
             android:exported="false" />
         <activity
-            android:name="com.spenditure.presentation.ImageCaptureActivity"
+            android:name=".presentation.Goals.GoalListViewActivity"
             android:exported="false" />
         <activity
-            android:name="com.spenditure.presentation.LoginActivity"
+            android:name=".presentation.Goals.CreateGoalActivity"
+            android:exported="false" />
+        <activity
+            android:name=".presentation.CustomSecurityQuestionSpinnerActivity"
+            android:exported="false" />
+        <activity
+            android:name=".presentation.RegistrationActivity"
+            android:exported="false" />
+        <activity
+            android:name=".presentation.transaction.ImageViewActivity"
+            android:exported="false" />
+        <activity
+            android:name=".presentation.transaction.ImageCaptureActivity"
+            android:exported="false" />
+        <activity
+            android:name=".presentation.LoginActivity"
             android:exported="true"
             android:label="@string/app_name">
             <intent-filter>
@@ -33,28 +48,28 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.spenditure.presentation.category.CategorySpinnerActivity"
+            android:name=".presentation.category.CategorySpinnerActivity"
             android:exported="false" />
         <activity
-            android:name="com.spenditure.presentation.category.ViewCategoryActivity"
+            android:name=".presentation.category.ViewCategoryActivity"
             android:exported="false" />
         <activity
-            android:name="com.spenditure.presentation.transaction.TransactionsListViewActivity"
+            android:name=".presentation.transaction.TransactionsListViewActivity"
             android:exported="false" />
         <activity
-            android:name="com.spenditure.presentation.transaction.EditTransactionActivity"
+            android:name=".presentation.transaction.EditTransactionActivity"
             android:exported="false" />
         <activity
-            android:name="com.spenditure.presentation.transaction.ViewTransactionsActivity"
+            android:name=".presentation.transaction.ViewTransactionsActivity"
             android:exported="false" />
         <activity
-            android:name="com.spenditure.presentation.transaction.CreateTransactionActivity"
+            android:name=".presentation.transaction.CreateTransactionActivity"
             android:exported="false" />
         <activity
-            android:name="com.spenditure.presentation.ViewProfileActivity"
+            android:name=".presentation.ViewProfileActivity"
             android:exported="false" />
         <activity
-            android:name="com.spenditure.presentation.report.ViewReportActivity"
+            android:name=".presentation.report.ViewReportActivity"
             android:exported="true" />
     </application>
 
