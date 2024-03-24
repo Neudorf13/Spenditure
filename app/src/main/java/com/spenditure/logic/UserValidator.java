@@ -127,20 +127,11 @@ public class UserValidator {
                     "\n\"johnny.appleseed@domain.com\".\nEmail provided: "+email);
         }
 
-       /* if( !email.contains("@") || !email.contains(".") || !validEmailFormat(email) )
-            throw new InvalidUserInformationException("Provided email is not formatted correctly. Emails must" +
-                    "contain exactly one \"@\" symbol, one \".\" symbol, and be in the general format of:" +
-                    "\n\"johnny.appleseed@domain.com\".\nEmail provided: "+email);
-*/
-    }
+//        if( !email.contains("@") || !email.contains(".") || !validEmailFormat(email) )
+//            throw new InvalidUserInformationException("Provided email is not formatted correctly. Emails must" +
+//                    "contain exactly one \"@\" symbol, one \".\" symbol, and be in the general format of:" +
+//                    "\n\"johnny.appleseed@domain.com\".\nEmail provided: "+email);
 
-    public static boolean isValidEmail(String email) {
-        String regex = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
-
-        Pattern pattern = Pattern.compile(regex);
-        Matcher matcher = pattern.matcher(email);
-
-        return matcher.matches();
     }
 
     /*
@@ -182,6 +173,15 @@ public class UserValidator {
 
         return result;
 
+    }
+
+    public static boolean isValidEmail(String email) {
+        String regex = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
+
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(email);
+
+        return matcher.matches();
     }
 
     /*
