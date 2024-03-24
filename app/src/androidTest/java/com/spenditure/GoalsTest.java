@@ -157,7 +157,7 @@ public class GoalsTest {
 
     }
 
-    /*@Test
+    @Test
     public void deleteGoal()
     {
         // this moves us from the home page to user profile page
@@ -232,7 +232,7 @@ public class GoalsTest {
         onData(anything()).inAdapterView(withId(R.id.listview_goals)).atPosition(0).perform(click());
 
         // delete first goal
-        onView(withId(R.id.button_delete)).perform(click());
+        onView(withId(R.id.floatingActionButton_delete)).perform(click());
 
 
         // check to see whether new top goal is what we expect
@@ -258,6 +258,6 @@ public class GoalsTest {
         assert(goalHandler.getGoalsForUserID(4).size() == 1);
 
 
-    }*/
+    }
 
 }

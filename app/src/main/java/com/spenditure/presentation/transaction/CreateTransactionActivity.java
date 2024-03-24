@@ -113,13 +113,13 @@ public class CreateTransactionActivity extends AppCompatActivity {
         EditText dateField = findViewById(R.id.edittext_date);
         // Default to today's date
         LocalDateTime today = LocalDateTime.now();
-        selectedDate = new DateTime(today.getYear(), today.getMonthValue(), today.getDayOfMonth());
+        selectedDate = new DateTime(today.getYear(), today.getMonthValue()-1, today.getDayOfMonth());
 
         // Create event for when a new date is selected
         DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker datePicker, int year, int month, int day) {
-                selectedDate = new DateTime(year, month, day);
+                selectedDate = new DateTime(year, month+1, day);
                 dateField.setText(selectedDate.toString());
             }
         };
