@@ -4,14 +4,14 @@
  * COMP3350 SECTION A02
  *
  * @author JR,
- * @date Mar 2
+ * @date Mar 25
  *
  * PURPOSE:
  *  Handles all reporting related to statistics that are not dependant on a time frame.
- *  Namely: summnation statistics for categories, summnation statistics for all transactions, and sorting categories by these statistics
+ *  Namely: summation statistics for categories, summation statistics for all transactions,
+ *  and sorting categories by these statistics
  *
  **/
-
 
 package com.spenditure.logic;
 
@@ -22,7 +22,6 @@ import com.spenditure.object.CategoryReport;
 import com.spenditure.object.MainCategory;
 import com.spenditure.object.Transaction;
 import com.spenditure.logic.exceptions.*;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -43,8 +42,11 @@ public class GeneralReportHandler implements IGeneralReportHandler {
      * @returns NA
      */
     public GeneralReportHandler(boolean getStubDB) {
+
         this.dataAccessTransaction = Services.getTransactionPersistence(getStubDB);
+
         this.dataAccessCategory = Services.getCategoryPersistence(getStubDB);
+
     }
 
 
@@ -230,7 +232,7 @@ public class GeneralReportHandler implements IGeneralReportHandler {
      * Returns a category report object with statistics about the selected category
      * @param int userID - userID of person logged in
      * @param int categoryID - categoryID of category to be reported on
-     * @returns ICategoryReport - report object
+     * @returns CategoryReport - report object
      */
     public CategoryReport getCategoryReport(int userID, int categoryID) throws InvalidLogInException, InvalidCategoryException
     {
@@ -252,16 +254,26 @@ public class GeneralReportHandler implements IGeneralReportHandler {
         return new CategoryReport(getCategoryByID(categoryID), totalSpending, numTransactions, average, percentage);
     }
 
-    //Bao new function
-    public List<CategoryReport> getAllCategoryReport(int userID){
+    /**
+     * getAllCategoryReport
+     *
+     * Returns a list of category report objects
+     * @param int userID - userID of person logged in
+     * @returns List<CategoryReport> - list of CategoryReports
+     */
+    public List<CategoryReport> getAllCategoryReport(int userID) {
+
         checkSaveState(userID);
 
         List<CategoryReport> categoryReportList = new ArrayList<>();
         List<MainCategory> mainCategoryList = allCategories;
-        for (MainCategory mainCategory : mainCategoryList){
+
+        for (MainCategory mainCategory : mainCategoryList) {
             categoryReportList.add(getCategoryReport(userID,mainCategory.getCategoryID()));
         }
+
         return categoryReportList;
+
     }
 
 
@@ -272,7 +284,7 @@ public class GeneralReportHandler implements IGeneralReportHandler {
      * Returns a list of all categories for a user sorted by total number of transactions in each
      * @param int userID - userID of person logged in
      * @param boolean descending - if true then sorted in descending order, else ascending
-     * @returns ArrayList<IMainCategory> - sorted array list
+     * @returns ArrayList<MainCategory> - sorted array list
      */
     public ArrayList<MainCategory> sortByTotal(int userID, boolean descending) throws InvalidLogInException
     {
@@ -319,8 +331,8 @@ public class GeneralReportHandler implements IGeneralReportHandler {
     {
         checkSaveState(userID);
 
-        ArrayList<CategoryReport> categoryReportList = new ArrayList<CategoryReport>();
-        ArrayList<MainCategory> sortedCategories = new ArrayList<MainCategory>();
+        ArrayList<CategoryReport> categoryReportList = new ArrayList<>();
+        ArrayList<MainCategory> sortedCategories = new ArrayList<>();
 
         // generate report for each category user has
         for(MainCategory node : allCategories)
@@ -360,8 +372,8 @@ public class GeneralReportHandler implements IGeneralReportHandler {
     {
         checkSaveState(userID);
 
-        ArrayList<CategoryReport> categoryReportList = new ArrayList<CategoryReport>();
-        ArrayList<MainCategory> sortedCategories = new ArrayList<MainCategory>();
+        ArrayList<CategoryReport> categoryReportList = new ArrayList<>();
+        ArrayList<MainCategory> sortedCategories = new ArrayList<>();
 
         // generate report for each category user has
         for(MainCategory node : allCategories)
@@ -403,8 +415,10 @@ public class GeneralReportHandler implements IGeneralReportHandler {
             throw new InvalidLogInException();
 
         if(allTransactions == null) {
+
             allTransactions = dataAccessTransaction.getAllTransactionsForUser(userID);
             allCategories = dataAccessCategory.getAllCategory(userID);
+
         }
 
     }

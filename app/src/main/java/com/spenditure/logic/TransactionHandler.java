@@ -4,12 +4,12 @@
  * COMP3350 SECTION A02
  *
  * @author Toran Pillay, 7842389
- * @date Tuesday, February 6, 2024
+ * @date March 25, 2024
  *
  * PURPOSE:
  *  This file interprets information from Transactions sent by the UI layer,
- * sends information to the Database layer, and also validates all necessary
- * information in the Transactions.
+ * sends information to the Database layer, and performs all logic operations
+ * pertaining to Transactions.
  **/
 
 package com.spenditure.logic;
@@ -19,13 +19,10 @@ import com.spenditure.database.TransactionPersistence;
 import com.spenditure.object.DateTime;
 import com.spenditure.object.Transaction;
 import com.spenditure.logic.exceptions.*;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 public class TransactionHandler implements ITransactionHandler, Serializable {
-
-
 
     //Handles communication with data layer
     private static TransactionPersistence dataAccessTransaction;
@@ -66,6 +63,13 @@ public class TransactionHandler implements ITransactionHandler, Serializable {
 
     }
 
+    /*
+
+        addTransaction
+
+        Alternate constructor
+
+     */
     @Override
     public boolean addTransaction(int userID, String whatTheHeck, DateTime date, String place, double amount, String comments, boolean withdrawal, byte[] image, int categoryID)
         throws InvalidTransactionException {

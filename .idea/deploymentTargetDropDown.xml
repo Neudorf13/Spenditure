@@ -2,19 +2,7 @@
 <project version="4">
   <component name="deploymentTargetDropDown">
     <value>
-      <entry key="AllSystemTests">
-        <State />
-      </entry>
-      <entry key="GoalsTest">
-        <State />
-      </entry>
-      <entry key="IllustrativeReportTest">
-        <State />
-      </entry>
-      <entry key="ImageTest">
-        <State />
-      </entry>
-      <entry key="TransactionTest">
+      <entry key="TimeBaseReportTest">
         <State />
       </entry>
       <entry key="app">

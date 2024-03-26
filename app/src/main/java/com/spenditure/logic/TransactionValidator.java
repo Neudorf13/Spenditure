@@ -4,7 +4,7 @@
  * COMP3350 SECTION A02
  *
  * @author Toran Pillay, 7842389
- * @date Tuesday, February 6, 2024
+ * @date March 25, 2024
  *
  * PURPOSE:
  *  This file contains all of the methods necessary to validate the data in a
@@ -15,8 +15,6 @@ package com.spenditure.logic;
 
 import com.spenditure.object.Transaction;
 import com.spenditure.logic.exceptions.*;
-
-
 
 public class TransactionValidator {
 
@@ -53,7 +51,7 @@ public class TransactionValidator {
      */
     private static void validateName(String name) throws InvalidTransactionNameException {
 
-        if( name == null || name.length() == 0 )
+        if( name == null || name.isEmpty())
             throw new InvalidTransactionNameException("Provided name was blank.");
 
     }
@@ -66,7 +64,7 @@ public class TransactionValidator {
      */
     private static void validatePlace(String place) throws InvalidTransactionPlaceException {
 
-        if( place == null || place.length() == 0 )
+        if( place == null || place.isEmpty())
             throw new InvalidTransactionPlaceException("Provided place was blank.");
 
 
