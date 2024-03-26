@@ -4,7 +4,7 @@
  * COMP3350 SECTION A02
  *
  * @author Toran Pillay, 7842389
- * @date Tuesday, March 4, 2024
+ * @date March 25, 2024
  *
  * PURPOSE:
  *  This file contains all of the methods necessary to ensure that adjusted DateTimes
@@ -15,9 +15,7 @@ package com.spenditure.logic;
 
 import static com.spenditure.logic.DateTimeValidator.*;
 import static java.lang.Math.abs;
-
-import com.spenditure.logic.exceptions.InvalidDateException;
-import com.spenditure.logic.exceptions.InvalidDateTimeException;
+import com.spenditure.logic.exceptions.*;
 import com.spenditure.object.DateTime;
 
 public class DateTimeAdjuster {
@@ -232,13 +230,13 @@ public class DateTimeAdjuster {
 
         int months = dateTime.getMonth();
 
-        while(months <= 0 || months > 12) {
+        while(months <= 0 || months > MAX_MONTHS) {
 
             if(months <= 0) {
-                dateTime.absoluteAdjust(-1, 12, 0, 0, 0, 0);
+                dateTime.absoluteAdjust(-1, MAX_MONTHS, 0, 0, 0, 0);
 
             } else {
-                dateTime.absoluteAdjust(1, -12, 0, 0, 0, 0);
+                dateTime.absoluteAdjust(1, -MAX_MONTHS, 0, 0, 0, 0);
             }
 
             months = dateTime.getMonth();

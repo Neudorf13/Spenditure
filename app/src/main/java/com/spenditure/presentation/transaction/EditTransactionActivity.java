@@ -37,7 +37,7 @@ import com.spenditure.logic.CategoryHandler;
 import com.spenditure.logic.ICategoryHandler;
 import com.spenditure.logic.ITransactionHandler;
 import com.spenditure.logic.TransactionHandler;
-import com.spenditure.logic.UserManager;
+import com.spenditure.logic.UserHandler;
 import com.spenditure.logic.exceptions.InvalidTransactionException;
 import com.spenditure.object.DateTime;
 import com.spenditure.object.MainCategory;
@@ -62,7 +62,7 @@ public class EditTransactionActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_transaction);
-        this.userID = UserManager.getUserID();
+        this.userID = UserHandler.getUserID();
         categoryHandler = new CategoryHandler(Services.DEVELOPING_STATUS);
 
         int givenID = -1;
@@ -262,7 +262,7 @@ public class EditTransactionActivity extends AppCompatActivity {
         // Create the new transaction object
         Transaction updatedTransaction = new Transaction(
                 givenTransaction.getTransactionID(),
-                UserManager.getUserID(),
+                UserHandler.getUserID(),
                 whatTheHeck.getText().toString(),
                 selectedDate,
                 place.getText().toString(),

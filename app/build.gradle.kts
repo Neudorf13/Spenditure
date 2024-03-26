@@ -69,4 +69,7 @@ dependencies {
     androidTestImplementation("androidx.test:rules:1.5.0")
     androidTestImplementation(project(":app"))
     androidTestImplementation(project(":app"))
+
+    dependencies { testImplementation("org.mockito:mockito-core:3.+")}
+
 }

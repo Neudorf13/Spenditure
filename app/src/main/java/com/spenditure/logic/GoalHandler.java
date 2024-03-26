@@ -1,7 +1,20 @@
+/**
+ * GoalHandler.java
+ *
+ * COMP3350 SECTION A02
+ *
+ * @author Toran Pillay, 7842389
+ * @date March 25, 2024
+ *
+ * PURPOSE:
+ *  This file interprets information from Goals sent by the UI layer,
+ * sends information to the Database layer, and performs all logic operations
+ * pertaining to Goals.
+ **/
+
 package com.spenditure.logic;
 
 import static com.spenditure.logic.GoalValidator.validateGoal;
-
 import com.spenditure.application.Services;
 import com.spenditure.database.GoalPersistence;
 import com.spenditure.object.DateTime;
@@ -18,6 +31,12 @@ public class GoalHandler implements IGoalHandler {
         if(dataAccessGoal == null) {
             dataAccessGoal = Services.getGoalPersistence(getStubDB);
         }
+
+    }
+
+    public GoalHandler(GoalPersistence database) {
+
+        dataAccessGoal = database;
 
     }
 

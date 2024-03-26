@@ -5,12 +5,9 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
-import com.spenditure.business.unitTests.GoalHandlerTest;
 import com.spenditure.logic.GoalHandler;
-import com.spenditure.logic.TransactionHandler;
-import com.spenditure.logic.UserManager;
+import com.spenditure.logic.UserHandler;
 import com.spenditure.logic.exceptions.InvalidGoalException;
-import com.spenditure.logic.exceptions.InvalidUserInformationException;
 import com.spenditure.object.DateTime;
 import com.spenditure.object.Goal;
 import com.spenditure.utils.TestUtils;
@@ -27,7 +24,7 @@ import java.util.List;
 public class GoalHandlerIT {
 
     private GoalHandler goalHandler;
-    private UserManager userManager;
+    private UserHandler userHandler;
 
     private File tempDB;
 
@@ -35,13 +32,13 @@ public class GoalHandlerIT {
     public void setup() throws IOException, NoSuchAlgorithmException {
         this.tempDB = TestUtils.copyDB();
         this.goalHandler = new GoalHandler(false);
-        userManager = new UserManager(false);
-        userManager.login("Me", "123");
+        userHandler = new UserHandler(false);
+        userHandler.login("Me", "123");
         goalHandler.cleanup(false);
     }
     @After
     public void tearDown(){
-        userManager.logout();
+        userHandler.logout();
         this.goalHandler = null;
         this.tempDB = null;
     }

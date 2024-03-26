@@ -17,7 +17,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 
 import com.spenditure.logic.GeneralReportHandler;
-import com.spenditure.logic.UserManager;
+import com.spenditure.logic.UserHandler;
 import com.spenditure.logic.exceptions.InvalidCategoryException;
 import com.spenditure.logic.exceptions.InvalidLogInException;
 import com.spenditure.object.CategoryReport;
@@ -40,7 +40,7 @@ public class GeneralReportHandlerTest {
 
     @After
     public void tearDown(){
-        UserManager.cleanup(true);
+        UserHandler.cleanup(true);
         this.generalReportHandler = null;
     }
 

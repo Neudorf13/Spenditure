@@ -24,7 +24,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.spenditure.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.spenditure.application.Services;
-import com.spenditure.logic.UserManager;
+import com.spenditure.logic.UserHandler;
 import com.spenditure.logic.exceptions.InvalidUserInformationException;
 import com.spenditure.presentation.Goals.ViewGoalsActivity;
 
@@ -36,12 +36,12 @@ public class ViewProfileActivity extends AppCompatActivity {
     private String username;
     private String currentPassword;
     private String newPassword;
-    private UserManager userManager;
+    private UserHandler userHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        userManager = new UserManager(Services.DEVELOPING_STATUS);
+        userHandler = new UserHandler(Services.DEVELOPING_STATUS);
         setContentView(R.layout.activity_view_profile);
 
         setUpFields();
@@ -56,7 +56,7 @@ public class ViewProfileActivity extends AppCompatActivity {
     // Populate the information fields
     private void setUpFields(){
         EditText usernameField = findViewById(R.id.edittext_username);
-        usernameField.setText(userManager.getUserName(UserManager.getUserID()));
+        usernameField.setText(userHandler.getUserName(UserHandler.getUserID()));
 
         EditText currentPasswordField = findViewById(R.id.edittext_current_password);
         currentPasswordField.setText("123");
@@ -78,8 +78,8 @@ public class ViewProfileActivity extends AppCompatActivity {
 
                 try {
                     // Try to change both values
-                    userManager.changeUsername(userManager.getUserID(), username);
-                    userManager.changePassword(userManager.getUserID(), currentPassword, newPassword);
+                    userHandler.changeUsername(userHandler.getUserID(), username);
+                    userHandler.changePassword(userHandler.getUserID(), currentPassword, newPassword);
 
                     Toast.makeText(ViewProfileActivity.this, "Changes saved successfully.",Toast.LENGTH_LONG).show();
                 } catch (InvalidUserInformationException e){
@@ -99,7 +99,7 @@ public class ViewProfileActivity extends AppCompatActivity {
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 try {
-                    userManager.logout();
+                    userHandler.logout();
 
                     Intent newIntent = new Intent(getApplicationContext(), LoginActivity.class);
                     startActivity(newIntent);

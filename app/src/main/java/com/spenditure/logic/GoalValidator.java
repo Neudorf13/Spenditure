@@ -1,7 +1,19 @@
+/**
+ * GoalValidator.java
+ *
+ * COMP3350 SECTION A02
+ *
+ * @author Toran Pillay, 7842389
+ * @date March 25, 2024
+ *
+ * PURPOSE:
+ *  This file contains all of the methods necessary to validate the data in a
+ * Goal.
+ **/
+
 package com.spenditure.logic;
 
 import static com.spenditure.logic.DateTimeValidator.validateDateTime;
-
 import com.spenditure.logic.exceptions.InvalidGoalException;
 import com.spenditure.object.Goal;
 

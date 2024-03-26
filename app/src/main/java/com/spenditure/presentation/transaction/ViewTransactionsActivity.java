@@ -19,8 +19,6 @@ import androidx.appcompat.widget.AppCompatToggleButton;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -29,13 +27,10 @@ import android.widget.ListView;
 import com.spenditure.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.spenditure.application.Services;
-import com.spenditure.logic.ITransactionHandler;
 import com.spenditure.logic.TransactionHandler;
-import com.spenditure.logic.UserManager;
+import com.spenditure.logic.UserHandler;
 import com.spenditure.object.Transaction;
 import com.spenditure.presentation.BottomNavigationHandler;
-import com.spenditure.presentation.category.ViewCategoryActivity;
-import com.spenditure.presentation.report.ViewReportActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -57,7 +52,7 @@ public class ViewTransactionsActivity extends AppCompatActivity {
         if( transactionHandler == null){
             transactionHandler = new TransactionHandler(Services.DEVELOPING_STATUS);
         }
-        transactions = transactionHandler.getAllByOldestFirst(UserManager.getUserID());
+        transactions = transactionHandler.getAllByOldestFirst(UserHandler.getUserID());
 
         ListView transactionsListView = (ListView)findViewById(R.id.listview_transactions);
 
@@ -118,10 +113,10 @@ public class ViewTransactionsActivity extends AppCompatActivity {
 
         if (newestFirst){
             // Oldest transactions first
-            updatedList = transactionHandler.getAllByOldestFirst(UserManager.getUserID());
+            updatedList = transactionHandler.getAllByOldestFirst(UserHandler.getUserID());
         } else {
             // Newest transactions first
-            updatedList = transactionHandler.getAllByNewestFirst(UserManager.getUserID());
+            updatedList = transactionHandler.getAllByNewestFirst(UserHandler.getUserID());
         }
 
         // Update the list view with the new order
