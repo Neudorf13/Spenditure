@@ -205,7 +205,7 @@ public class ImageCaptureActivity extends AppCompatActivity {
 
         // Compress the bitmap to reduce byte[] size
         ByteArrayOutputStream os = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 70, os);
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 10, os);
         imageBytes = os.toByteArray();
 
         imageView.setImageBitmap(bitmap);
