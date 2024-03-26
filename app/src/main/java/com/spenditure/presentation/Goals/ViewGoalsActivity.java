@@ -51,7 +51,7 @@ public class ViewGoalsActivity extends AppCompatActivity {
         if (goalHandler == null) {
             goalHandler = new GoalHandler(Services.DEVELOPING_STATUS);
         }
-
+//
         goals = goalHandler.getGoalsForUserID(UserHandler.getUserID());
 
         // Create an adaptor to format transactions in the list view
@@ -143,8 +143,6 @@ public class ViewGoalsActivity extends AppCompatActivity {
             }
             return false;
         }));
-
-        // Set the selected item if needed
-        navView.setSelectedItemId(R.id.navigation_user);
+        
     }
 }
