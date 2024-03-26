@@ -51,12 +51,4 @@ public class Report {
         return numTrans * avgTransSize;
     }
 
-//    public double getPercentage(){
-//        double percentage = 0;
-//        for(CategoryStatistics categoryStatistics: this.categoryStatisticsList){
-//            percentage += categoryStatistics.getPercent();
-//        }
-//        return percentage;
-//
-//    }
 }

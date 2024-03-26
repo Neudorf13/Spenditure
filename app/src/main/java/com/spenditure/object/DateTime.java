@@ -95,21 +95,6 @@ public class DateTime {
         seconds = 0;
     }
 
-//    public DateTime(String dateString) {
-//
-//
-////        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-//        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-//
-//        LocalDateTime dateTime = LocalDateTime.parse(dateString, formatter);
-//
-//        this.year = dateTime.getYear();
-//        this.month = dateTime.getMonthValue();
-//        this.day = dateTime.getDayOfMonth();
-////        this.hour = dateTime.getHour();
-////        this.minute = dateTime.getMinute();
-////        this.seconds = dateTime.getSecond();
-//    }
     public DateTime(String dateString) {
 
         String[] parts = dateString.split("-");
@@ -150,28 +135,6 @@ public class DateTime {
         @SuppressLint("DefaultLocale") String result = String.format("%d-%d-%d", this.year, this.month, this.day);
         return result;
     }
-
-
-
-//    public static DateTime FromTimestamp(Timestamp timestamp)
-//    {
-//        // Convert milliseconds since the epoch to seconds
-//        long secondsSinceEpoch = timestamp.Value / 1000;
-//
-//        // Create a DateTimeOffset object representing the timestamp
-//        DateTimeOffset dateTimeOffset = DateTimeOffset.FromUnixTimeSeconds(secondsSinceEpoch);
-//
-//        // Extract year, month, day, hour, minute, and second components
-//        int year = dateTimeOffset.Year;
-//        int month = dateTimeOffset.Month;
-//        int day = dateTimeOffset.Day;
-//        int hour = dateTimeOffset.Hour;
-//        int minute = dateTimeOffset.Minute;
-//        int seconds = dateTimeOffset.Second;
-//
-//        // Create and return a new DateTime object using the constructor
-//        return new DateTime(year, month, day, hour, minute, seconds);
-//    }
 
     /*
         compare()

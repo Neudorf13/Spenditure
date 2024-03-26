@@ -69,7 +69,6 @@ public class Transaction {
 
         this.image = image;
 
-        //this.category = null;
         this.categoryID = 0;    //represents not having an associated category
     }
 
@@ -114,7 +113,6 @@ public class Transaction {
 
         this.image = null;
 
-        //this.category = null;
         this.categoryID = 0;    //represents not having an associated category
     }
 
@@ -156,11 +154,6 @@ public class Transaction {
         return withdrawal;
     }
 
-//    public MainCategory getCategory() {
-//        return category;
-//    }
-
-
     public byte[] getImage() {
         return image;
     }
@@ -168,8 +161,6 @@ public class Transaction {
     public int getCategoryID() {
         return categoryID;
     }
-
-
 
     // setters
     public void setTransactionID(int transactionID)
@@ -206,11 +197,6 @@ public class Transaction {
     {
         this.withdrawal = withdrawal;
     }
-
-//    public void setCategory(MainCategory category) {
-//        this.category = category;
-//    }
-
 
     public void setImage(byte[] image) {
         this.image = image;

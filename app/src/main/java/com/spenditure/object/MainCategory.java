@@ -90,5 +90,4 @@ public class MainCategory  {
         return currentCategoryID++;
     }
 
-    private static int generateUniqueUserID() { return currentUserID++; }
 }
