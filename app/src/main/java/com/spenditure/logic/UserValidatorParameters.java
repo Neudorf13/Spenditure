@@ -28,6 +28,7 @@ public class UserValidatorParameters {
         File input = new File("src/main/java/com/spenditure/logic/UserValidatorConfig.ini");
 
         try {
+
             FileInputStream inputStream = new FileInputStream(input.getAbsolutePath());
             Scanner scanner = new Scanner(inputStream);
 
@@ -77,7 +78,7 @@ public class UserValidatorParameters {
 
         int result;
 
-        if(!setTo.isEmpty()) {
+        if(setTo != null && !setTo.isEmpty()) {
 
             try {
 
