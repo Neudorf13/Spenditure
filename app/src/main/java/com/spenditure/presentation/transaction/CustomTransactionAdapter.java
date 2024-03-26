@@ -26,13 +26,10 @@ import com.spenditure.object.Transaction;
 import java.util.List;
 
 public class CustomTransactionAdapter extends BaseAdapter {
-
-    // Instance Variables
     private Context context;
     private List<Transaction> transactions;
     private LayoutInflater inflator;
 
-    // Constructor
     public CustomTransactionAdapter(List<Transaction> transactions, Context context){
         this.context = context;
         this.transactions = transactions;
@@ -54,6 +51,7 @@ public class CustomTransactionAdapter extends BaseAdapter {
         return transactions.get(i).getTransactionID();
     }
 
+    // Set up the UI with the information about the Transaction
     @Override
     public View getView(int i, View view, ViewGroup viewGroup){
         view =inflator.inflate(R.layout.activity_transactions_list_view, null);

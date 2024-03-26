@@ -1,3 +1,15 @@
+/**
+ * CreateGoalActivity.java
+ * <p>
+ * COMP3350 SECTION A02
+ *
+ * @author Jillian Friesen, 7889402
+ * @date Friday, March 22, 2024
+ * <p>
+ * PURPOSE:
+ * This file handles the the Create Goal screen where users can create a new financial goal.
+ **/
+
 package com.spenditure.presentation.Goals;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -30,7 +42,7 @@ import com.spenditure.presentation.category.CustomCategorySpinnerAdapter;
 import java.time.LocalDateTime;
 
 public class CreateGoalActivity extends AppCompatActivity {
-    private CustomCategorySpinnerAdapter adapter;
+    private CustomCategorySpinnerAdapter adapter;   // Adaptor to display the Categories in a drop down menu
     private DateTime selectedDate;
     private int userID;
     private IGoalHandler goalHandler;
@@ -52,8 +64,8 @@ public class CreateGoalActivity extends AppCompatActivity {
         navBarHandling();
     }
 
+    // Set up the Create Goal button
     private void setUpCreateButton() {
-        // Set up click event for the Create Transaction Button
         Button button = findViewById(R.id.button_create_goal);
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -61,7 +73,7 @@ public class CreateGoalActivity extends AppCompatActivity {
                     // Call helper method
                     createGoal();
 
-                    // Return to the Goals window
+                    // Return to the View Goals window
                     startActivity(new Intent(getApplicationContext(), ViewGoalsActivity.class));
                 } catch (InvalidGoalException e) {
                     Toast.makeText(CreateGoalActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
@@ -72,6 +84,7 @@ public class CreateGoalActivity extends AppCompatActivity {
         });
     }
 
+    // Helper method: Gathers user input and sends it to Logic to create a new Goal
     private void createGoal() {
         // Parse all the user fields
         EditText goalName = findViewById(R.id.edittext_goal_name);
@@ -89,7 +102,7 @@ public class CreateGoalActivity extends AppCompatActivity {
                 cat.getCategoryID());
     }
 
-    // Set up the category drop down menu
+    // Set up the drop down menu that displays the Categories
     private void setUpCategories() {
         Spinner categories = findViewById(R.id.spinner_categories);
 
@@ -131,6 +144,7 @@ public class CreateGoalActivity extends AppCompatActivity {
         });
     }
 
+    // Set up the Back button to return to the previous activity
     private void setupBackButton() {
         FloatingActionButton backButton = findViewById(R.id.floatingActionButton_back);
 
@@ -150,9 +164,6 @@ public class CreateGoalActivity extends AppCompatActivity {
         BottomNavigationHandler navigationHandler = new BottomNavigationHandler();
 
         navView.setOnItemSelectedListener((item -> {
-            if (item.getItemId() == R.id.navigation_create_transaction){    // TODO
-                return false;
-            }
             Class<? extends AppCompatActivity> newActivity = navigationHandler.select(item.getItemId());
             if(newActivity != null){
                 startActivity(new Intent(getApplicationContext(), newActivity));
@@ -162,6 +173,6 @@ public class CreateGoalActivity extends AppCompatActivity {
         }));
 
         // Set the selected item if needed
-        navView.setSelectedItemId(R.id.navigation_create_transaction);  // TODO
+        navView.setSelectedItemId(R.id.navigation_user);
     }
 }

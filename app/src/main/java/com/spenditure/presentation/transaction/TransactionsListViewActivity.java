@@ -10,7 +10,6 @@
  *  This file changes the layout when a new transaction is created
  **/
 
-
 package com.spenditure.presentation.transaction;
 
 import androidx.appcompat.app.AppCompatActivity;

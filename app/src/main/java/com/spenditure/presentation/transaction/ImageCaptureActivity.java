@@ -79,6 +79,12 @@ public class ImageCaptureActivity extends AppCompatActivity {
             ActivityCompat.requestPermissions(this, REQUIRED_PERMISSIONS, REQUEST_CODE_PERMISSIONS);
         }
 
+        setUpCaptureButton();
+        setUpConfirmButton();
+    }
+
+    // Set up the Image Capture button to take the image
+    private void setUpCaptureButton() {
         // Set up button event to capture image
         captureButton.setOnClickListener(view -> {
             if (previewMode) {
@@ -89,8 +95,10 @@ public class ImageCaptureActivity extends AppCompatActivity {
                 confirmButton.setVisibility(View.VISIBLE);
             }
         });
+    }
 
-        // Set up button event to confirm image and close the activity
+    // Set up button event to confirm image and close the activity
+    private void setUpConfirmButton() {
         confirmButton.setOnClickListener(view -> {
             try {
                 // Return to the Create Transaction activity that called this one

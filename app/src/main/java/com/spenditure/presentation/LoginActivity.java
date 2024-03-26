@@ -32,8 +32,6 @@ import com.spenditure.presentation.report.ViewReportActivity;
 import java.security.NoSuchAlgorithmException;
 
 public class LoginActivity extends AppCompatActivity {
-
-    // Instance variables
     private String username;
     private String password;
     private UserHandler userHandler;

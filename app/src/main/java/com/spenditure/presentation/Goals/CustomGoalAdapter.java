@@ -1,3 +1,16 @@
+/**
+ * CustomGoalAdapter.java
+ * <p>
+ * COMP3350 SECTION A02
+ *
+ * @author Jillian Friesen, 7889402
+ * @date Friday, March 22, 2024
+ * <p>
+ * PURPOSE:
+ * This file contains an adapter that takes in a list of Goal objects and generates
+ *  a custom UI list of goals for the user to view.
+ **/
+
 package com.spenditure.presentation.Goals;
 
 import android.content.Context;
@@ -17,14 +30,11 @@ import com.spenditure.object.MainCategory;
 import java.util.List;
 
 public class CustomGoalAdapter extends BaseAdapter {
-
-    // Instance Variables
     private Context context;
     private List<Goal> goals;
     private LayoutInflater inflator;
     private ICategoryHandler categoryHandler;
 
-    // Constructor
     public CustomGoalAdapter(List<Goal> goals, Context context){
         this.context = context;
         this.goals = goals;
@@ -48,6 +58,7 @@ public class CustomGoalAdapter extends BaseAdapter {
         return goals.get(i).getGoalID();
     }
 
+    // Set up the UI with the information about the Goal
     @Override
     public View getView(int i, View view, ViewGroup viewGroup){
         view =inflator.inflate(R.layout.activity_goal_list_view, null);

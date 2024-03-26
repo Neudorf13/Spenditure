@@ -57,6 +57,7 @@ public class RegistrationActivity extends AppCompatActivity {
         setupBackButton();
     }
 
+    // Setup the drop down menu to display the available security questions
     private void setupSecurityQuestions() {
         Spinner questions = findViewById(R.id.spinner_security_question);
 
@@ -81,6 +82,7 @@ public class RegistrationActivity extends AppCompatActivity {
         });
     }
 
+    // Set up the Back button
     private void setupBackButton() {
         backButton = findViewById(R.id.floatingActionButton_back);
 
