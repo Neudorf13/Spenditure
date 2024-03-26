@@ -30,7 +30,6 @@ public class SecurityQuestionHandlerIT {
 
     @After
     public void tearDown(){
-        //SecurityQuestionHandler.cleanup(false);
         this.securityQuestionHandler = null;
         this.tempDB = null;
     }
@@ -83,22 +82,10 @@ public class SecurityQuestionHandlerIT {
 
         assert(questions.size() == 3);
 
-        System.out.println(questions.size());
-        System.out.println(questions.get(0).getSid());
-        System.out.println(questions.get(0).getSecurityQuestion());
-
-        System.out.println(questions.get(1).getSid());
-        System.out.println(questions.get(1).getSecurityQuestion());
-
         assertEquals("name of childhood pet", questions.get(0).getSecurityQuestion());
         assertEquals("fathers bachelors name", questions.get(1).getSecurityQuestion());
         assertEquals("best comp class", questions.get(2).getSecurityQuestion());
 
     }
 
-    @Test
-    public void testTest() {
-        ArrayList<SecurityQuestion> list =  securityQuestionHandler.getAllSecurityQuestions();
-        System.out.println(list.size());
-    }
 }

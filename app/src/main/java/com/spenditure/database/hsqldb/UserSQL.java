@@ -77,7 +77,6 @@ public class UserSQL implements UserPersistence {
 
     @Override
     public int getSecurityQuestionID(int userID) {
-        //String securityQuestionAnswer = "";
         int securityQuestionID = 0;
         try(final Connection connection = connection()) {
             final PreparedStatement statement = connection.prepareStatement("SELECT * FROM users\nWHERE userID=?");

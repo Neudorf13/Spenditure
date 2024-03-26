@@ -399,7 +399,4 @@ public class TransactionSQL implements TransactionPersistence {
         }
     }
 
-//    //generates a new unique TID
-//    public int generateUniqueID() { return currentID++; }
-
 }

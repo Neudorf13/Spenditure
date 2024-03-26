@@ -30,7 +30,7 @@ public class CategorySQL implements CategoryPersistence {
         return DriverManager.getConnection("jdbc:hsqldb:file:" + dbPath + ";shutdown=true", "SA", "");
     }
 
-    //initalize currentCategoryID variable to be largest CID in db
+    //initialize currentCategoryID variable to be largest CID in db
     private int initCategoryID() {
         int largestCategoryID = 1;
         try(final Connection connection = connection()) {
@@ -88,7 +88,7 @@ public class CategorySQL implements CategoryPersistence {
         }
         }
 
-    //takes name + userID, incrememnts current CID -> adds a new category to the table
+    //takes name + userID, increments current CID -> adds a new category to the table
     @Override
     public MainCategory addCategory(String categoryName, int userID) {
         currentCategoryID++;
@@ -108,7 +108,7 @@ public class CategorySQL implements CategoryPersistence {
         }
     }
 
-    //updates all transactions attatched to this CID to have CID = -1
+    //updates all transactions attached to this CID to have CID = -1
     //deletes the entry in categories table with given CID
     @Override
     public void deleteCategoryByID(int categoryID) throws InvalidCategoryException {

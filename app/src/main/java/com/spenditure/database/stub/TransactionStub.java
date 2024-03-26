@@ -72,10 +72,6 @@ public class TransactionStub implements TransactionPersistence {
 
     }
 
-//    public int countTransactions() {
-//        return 0;
-//    }
-
     public ArrayList<Transaction> getAllTransactions(int userID)
     {
         ArrayList<Transaction> transactions = new ArrayList<>();
@@ -213,15 +209,10 @@ public class TransactionStub implements TransactionPersistence {
             int upperBound = transaction.getDateTime().compare(upper);
 
             if( 0 <= lowerBound && upperBound <= 0 && transaction.getUserID() == userID) {
-
                 allTransactionsInBounds.add(transaction);
-
             }
-
         }
-
         return allTransactionsInBounds;
-
     }
 
     public int generateUniqueID()
@@ -253,13 +244,5 @@ public class TransactionStub implements TransactionPersistence {
         Collections.sort(transactionList, new DateOldestFirstComparator());
         return transactionList;
     }
-
-
-
-
-
-//    public static void cleanup() { currentID = 1; }
-
-
 
 }

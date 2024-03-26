@@ -127,53 +127,8 @@ public class UserValidator {
                     "\n\"johnny.appleseed@domain.com\".\nEmail provided: "+email);
         }
 
-//        if( !email.contains("@") || !email.contains(".") || !validEmailFormat(email) )
-//            throw new InvalidUserInformationException("Provided email is not formatted correctly. Emails must" +
-//                    "contain exactly one \"@\" symbol, one \".\" symbol, and be in the general format of:" +
-//                    "\n\"johnny.appleseed@domain.com\".\nEmail provided: "+email);
-
     }
 
-    /*
-
-        validEmailFormat
-
-        Takes a string and checks to ensure it follows the general format of
-        name@domain.com
-
-     */
-    private static boolean validEmailFormat(String email) {
-
-        boolean result = checkEmailSymbolCount(email);
-        String[] sections = new String[3];
-
-        if(result) {
-
-            String[] split = email.split("@");
-
-            sections[0] = split[0];
-
-            if(split[1].contains(".")) {
-
-                split = split[1].split("\\.");
-
-                sections[1] = split[0];
-                sections[2] = split[1];
-
-                result = !sections[0].isEmpty()
-                        && !sections[1].isEmpty()
-                        && sections[2].length() > 1;
-
-            } else {
-
-                result = false;
-
-            }
-        }
-
-        return result;
-
-    }
 
     public static boolean isValidEmail(String email) {
         String regex = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
@@ -184,45 +139,5 @@ public class UserValidator {
         return matcher.matches();
     }
 
-    /*
-
-        checkEmailSymbolCount
-
-        Ensures the given string only has one "@" and only one "." after the "@"
-
-     */
-    private static boolean checkEmailSymbolCount(String email) {
-
-        int countAts = 0;
-        int countPeriodsAfterAt = 0;
-
-        for(int i = 0; i < email.length(); i ++ ) {
-
-            char current = email.charAt(i);
-
-            if(current == '@')
-                countAts++;
-
-        }
-
-        if(countAts == 1) {
-            String split = email.split("@")[1];
-
-            for(int i = 0; i < split.length(); i++) {
-
-                char current = email.charAt(i);
-
-                if(current == '.')
-                    countPeriodsAfterAt++;
-
-            }
-
-            return countPeriodsAfterAt == 1;
-
-        }
-
-        return false;
-
-    }
 
 }

@@ -129,30 +129,27 @@ public class TransactionHandlerIT {
         Transaction testImageTransaction = new Transaction(-1, "test image", testImageDate, "higins and main", 69.69, "lovely service", true);
 
         byte[] byteArray = new byte[0];
-        
+        String fileName = "Image.txt";
+        String directoryPath = "src/test/java/com/spenditure/business/integrationTests/";
+        String path = directoryPath + fileName;
+
         try {
-            // Replace "path/to/your/file.txt" with the actual path to your text file
-            byteArray = readBinaryDataFromFile("C:\\Users\\trevo\\Documents\\School\\Computer Science\\Comp 3350\\threequarterscs-a02-3\\app\\src\\test\\java\\com\\spenditure\\business\\integrationTests\\Image.txt");
+
+            byteArray = readBinaryDataFromFile(path);
             testImageTransaction.setImage(byteArray);
-            System.out.println(byteArray[0]);
-            System.out.println(byteArray[1]);
-            System.out.println(byteArray[900]);
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        //byte[] byteArray = new byte[]{0x48, 0x65, 0x6C, 0x6C, 0x6F, 0x2C, 0x20, 0x77, 0x6F, 0x72, 0x6C, 0x64};
         testImageTransaction.setImage(byteArray);
         addTransaction(testImageTransaction);
         assertEquals(transactionHandler.getAllTransactions(1).size(), EXPECTED_SIZE + 2);
 
-        //assertEquals("Tow Truck Fee", transactionHandler.getTransactionByID(EXPECTED_SIZE + 1).getName());
-
-
     }
 
 
-    public byte[] readBinaryDataFromFile(String filePath) throws IOException {
+    //helper method
+    private byte[] readBinaryDataFromFile(String filePath) throws IOException {
         List<Byte> byteList = new ArrayList<>();
         BufferedReader reader = new BufferedReader(new FileReader(filePath));
         String line;

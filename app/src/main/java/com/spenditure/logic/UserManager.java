@@ -37,7 +37,6 @@ public class UserManager implements IUserManager{
 
         if(userID < 0) {
             String hashedPassword = hashPassword(password);
-            System.out.println("In UserManager: " + hashedPassword);
             int userIDReturn = accountPersistence.login(username,hashedPassword);
             UserManager.userID = userIDReturn;
 
