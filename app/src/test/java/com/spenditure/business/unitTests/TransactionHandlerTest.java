@@ -18,7 +18,6 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import com.spenditure.logic.TransactionHandler;
-import com.spenditure.logic.UserManager;
 import com.spenditure.logic.exceptions.InvalidDateTimeException;
 import com.spenditure.logic.exceptions.InvalidTransactionAmountException;
 import com.spenditure.logic.exceptions.InvalidTransactionException;

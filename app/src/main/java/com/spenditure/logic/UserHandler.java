@@ -1,5 +1,5 @@
 /**
- * UserManager.java
+ * UserHandler.java
  *
  * COMP3350 SECTION A02
  *
@@ -22,13 +22,13 @@ import com.spenditure.logic.exceptions.InvalidUserInformationException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-public class UserManager implements IUserManager{
+public class UserHandler implements IUserHandler {
 
     private UserPersistence accountPersistence;
     private static int userID = -1; //Store ID of user that are currently using the app
 
     //Constructor
-    public UserManager(boolean getStubDB){
+    public UserHandler(boolean getStubDB){
         accountPersistence = Services.getUserPersistence(getStubDB);
 
     }
@@ -50,7 +50,7 @@ public class UserManager implements IUserManager{
 
             int userIDReturn = accountPersistence.login(username,hashedPassword);
 
-            UserManager.userID = userIDReturn;
+            UserHandler.userID = userIDReturn;
 
             return userIDReturn;
 
@@ -162,7 +162,7 @@ public class UserManager implements IUserManager{
 
         int newUserID = accountPersistence.register(username,hashedPassword,email, hashedSecurityAnswer, securityQID);
 
-        UserManager.userID = newUserID;
+        UserHandler.userID = newUserID;
 
         return newUserID;
 
@@ -207,7 +207,7 @@ public class UserManager implements IUserManager{
     //For testing purposes
     public static void cleanup(boolean getStubDB){
         Services.restartAccountDB(getStubDB);
-        UserManager.userID = -1;
+        UserHandler.userID = -1;
     }
 
     /*

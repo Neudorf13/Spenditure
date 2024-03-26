@@ -22,7 +22,6 @@ import androidx.test.espresso.matcher.ViewMatchers;
 import com.spenditure.R;
 import com.spenditure.logic.ICategoryHandler;
 import com.spenditure.logic.ITransactionHandler;
-import com.spenditure.logic.UserManager;
 import com.spenditure.object.DateTime;
 import com.spenditure.object.MainCategory;
 import com.spenditure.object.Transaction;

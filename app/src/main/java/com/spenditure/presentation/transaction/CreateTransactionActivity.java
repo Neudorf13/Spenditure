@@ -36,16 +36,14 @@ import com.spenditure.logic.CategoryHandler;
 import com.spenditure.logic.ICategoryHandler;
 import com.spenditure.logic.ITransactionHandler;
 import com.spenditure.logic.TransactionHandler;
-import com.spenditure.logic.UserManager;
+import com.spenditure.logic.UserHandler;
 import com.spenditure.logic.exceptions.InvalidTransactionException;
 import com.spenditure.object.DateTime;
 import com.spenditure.object.MainCategory;
-import com.spenditure.object.Transaction;
 
 import com.spenditure.R;
 import com.spenditure.presentation.BottomNavigationHandler;
 import com.spenditure.presentation.category.CustomCategorySpinnerAdapter;
-import com.spenditure.presentation.category.ViewCategoryActivity;
 import com.spenditure.presentation.report.ViewReportActivity;
 
 import java.time.LocalDateTime;
@@ -65,7 +63,7 @@ public class CreateTransactionActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_transaction);
-        this.userID = UserManager.getUserID();
+        this.userID = UserHandler.getUserID();
 
         transactionHandler = new TransactionHandler(Services.DEVELOPING_STATUS);
 
@@ -223,7 +221,7 @@ public class CreateTransactionActivity extends AppCompatActivity {
         {
             MainCategory cat = adapter.getItem(category.getSelectedItemPosition());
             // Create the new transaction object
-            transactionHandler.addTransaction(UserManager.getUserID(),whatTheHeck.getText().toString(),selectedDate,place.getText().toString(),
+            transactionHandler.addTransaction(UserHandler.getUserID(),whatTheHeck.getText().toString(),selectedDate,place.getText().toString(),
                     Double.parseDouble(amount.getText().toString()),comments.getText().toString(),type.isChecked(),imageBytes,cat.getCategoryID());
         }
 

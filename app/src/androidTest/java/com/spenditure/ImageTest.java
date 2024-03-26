@@ -16,68 +16,41 @@ package com.spenditure;
 
 
 
-import static androidx.test.InstrumentationRegistry.getTargetContext;
 import static androidx.test.espresso.Espresso.onData;
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
-import static androidx.test.espresso.action.ViewActions.replaceText;
 import static androidx.test.espresso.action.ViewActions.typeText;
-import static androidx.test.espresso.assertion.ViewAssertions.matches;
-import static androidx.test.espresso.matcher.ViewMatchers.hasDescendant;
-import static androidx.test.espresso.matcher.ViewMatchers.isDescendantOfA;
-import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withClassName;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
-import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
 
 import static org.hamcrest.Matchers.allOf;
-import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.anything;
 
-import android.Manifest;
-import android.accounts.AccountManager;
-import android.app.UiAutomation;
-import android.os.Build;
 import android.os.SystemClock;
-import android.view.View;
-import android.widget.AdapterView;
 import android.widget.DatePicker;
 
-import androidx.recyclerview.widget.RecyclerView;
 import androidx.test.core.app.ActivityScenario;
 import androidx.test.espresso.action.ViewActions;
 import androidx.test.espresso.contrib.PickerActions;
-import androidx.test.espresso.contrib.RecyclerViewActions;
-import androidx.test.espresso.intent.rule.IntentsTestRule;
-import androidx.test.espresso.matcher.BoundedMatcher;
-import androidx.test.espresso.matcher.RootMatchers;
-import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
-import androidx.test.rule.GrantPermissionRule;
 
 
 import com.spenditure.application.Services;
-import com.spenditure.database.TransactionPersistence;
 import com.spenditure.logic.CategoryHandler;
 import com.spenditure.logic.ICategoryHandler;
 import com.spenditure.logic.ITransactionHandler;
 import com.spenditure.logic.TransactionHandler;
-import com.spenditure.logic.UserManager;
-import com.spenditure.object.MainCategory;
-import com.spenditure.object.Transaction;
+import com.spenditure.logic.UserHandler;
 import com.spenditure.presentation.LoginActivity;
 import com.spenditure.utility.TestUtility;
 
 import org.hamcrest.Matchers;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-
-import java.util.List;
 
 @RunWith(AndroidJUnit4.class)
 public class ImageTest {
@@ -168,7 +141,7 @@ public class ImageTest {
         onView(withId(R.id.navigation_view_transactions)).perform(click());
 
         // check database that it image is not null
-        assert(transactionHandler.getTransactionByName(UserManager.getUserID(), "Testing image").get(0).getImage() != null);
+        assert(transactionHandler.getTransactionByName(UserHandler.getUserID(), "Testing image").get(0).getImage() != null);
 
         // press on button to sort by newest first
         onView(withId(R.id.togglebutton_transaction_date_sort)).perform(click());
@@ -228,7 +201,7 @@ public class ImageTest {
         onView(withId(R.id.button_edit_transaction)).perform(click());
 
         // verify an image has been added
-        assert(transactionHandler.getTransactionByName(UserManager.getUserID(), "Morning Dons").get(0).getImage() != null);
+        assert(transactionHandler.getTransactionByName(UserHandler.getUserID(), "Morning Dons").get(0).getImage() != null);
 
         // now we click over to view transactions
         onView(withId(R.id.navigation_view_transactions)).perform(click());

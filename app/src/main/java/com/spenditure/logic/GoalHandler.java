@@ -34,6 +34,12 @@ public class GoalHandler implements IGoalHandler {
 
     }
 
+    public GoalHandler(GoalPersistence database) {
+
+        dataAccessGoal = database;
+
+    }
+
     public void cleanup(boolean getStubDB) {
 
         Services.restartGoalDB(getStubDB);

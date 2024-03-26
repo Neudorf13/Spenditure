@@ -7,7 +7,7 @@ import static org.junit.Assert.assertTrue;
 import com.spenditure.application.Services;
 import com.spenditure.database.CategoryPersistence;
 import com.spenditure.logic.TimeBaseReportHandler;
-import com.spenditure.logic.UserManager;
+import com.spenditure.logic.UserHandler;
 import com.spenditure.object.CategoryStatistics;
 import com.spenditure.object.DateTime;
 import com.spenditure.object.MainCategory;
@@ -27,7 +27,7 @@ import java.util.List;
 public class ReportHandlerIntegrationTest {
 
     private TimeBaseReportHandler reportManager;
-    private UserManager userManager;
+    private UserHandler userHandler;
     private File tempDB;
 
     @Before
@@ -35,15 +35,15 @@ public class ReportHandlerIntegrationTest {
 
         this.tempDB = TestUtils.copyDB();
         this.reportManager = new TimeBaseReportHandler(false);
-        userManager = new UserManager(false);
-        userManager.login("Me", "123");
+        userHandler = new UserHandler(false);
+        userHandler.login("Me", "123");
 
         assertNotNull(this.reportManager);
     }
 
     @After
     public void teardown() {
-        userManager.logout();
+        userHandler.logout();
         reportManager = null;
         tempDB = null;
     }

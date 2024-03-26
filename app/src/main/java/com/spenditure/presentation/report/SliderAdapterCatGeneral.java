@@ -17,9 +17,8 @@ import com.spenditure.logic.GeneralReportHandler;
 import com.spenditure.logic.IGeneralReportHandler;
 import com.spenditure.logic.ITimeBaseReportHandler;
 import com.spenditure.logic.TimeBaseReportHandler;
-import com.spenditure.logic.UserManager;
+import com.spenditure.logic.UserHandler;
 import com.spenditure.object.CategoryReport;
-import com.spenditure.object.MainCategory;
 import com.spenditure.presentation.UIUtility;
 
 import java.util.List;
@@ -50,7 +49,7 @@ public class SliderAdapterCatGeneral extends PagerAdapter {
 
     @Override
     public int getCount() {
-        return categoryHandler.getAllCategory(UserManager.getUserID()).size();
+        return categoryHandler.getAllCategory(UserHandler.getUserID()).size();
     }
 
     @Override

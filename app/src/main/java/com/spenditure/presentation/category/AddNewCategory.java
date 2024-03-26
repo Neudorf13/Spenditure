@@ -6,12 +6,10 @@ import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
-import androidx.appcompat.app.AppCompatActivity;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Adapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -19,12 +17,11 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.spenditure.R;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.spenditure.logic.CategoryHandler;
 import com.spenditure.logic.ICategoryHandler;
-import com.spenditure.logic.UserManager;
+import com.spenditure.logic.UserHandler;
 import com.spenditure.logic.exceptions.InvalidCategoryException;
 import com.spenditure.presentation.IOnDialogCloseListener;
 
@@ -92,7 +89,7 @@ public class AddNewCategory extends BottomSheetDialogFragment {
 
                 }else{
                     try {
-                        categoryHandler.addCategory(newCategory, UserManager.getUserID());
+                        categoryHandler.addCategory(newCategory, UserHandler.getUserID());
                         ViewCategoryActivity activity = (ViewCategoryActivity) getActivity();
                         activity.refresh();
 

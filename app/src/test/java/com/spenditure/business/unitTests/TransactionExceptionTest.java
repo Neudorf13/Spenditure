@@ -17,7 +17,6 @@ import static org.junit.Assert.assertTrue;
 
 import com.spenditure.logic.TransactionHandler;
 import com.spenditure.logic.TransactionValidator;
-import com.spenditure.logic.UserManager;
 import com.spenditure.logic.exceptions.*;
 import com.spenditure.object.DateTime;
 import com.spenditure.object.Transaction;

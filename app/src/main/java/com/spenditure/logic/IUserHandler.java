@@ -2,7 +2,7 @@ package com.spenditure.logic;
 
 import java.security.NoSuchAlgorithmException;
 
-public interface IUserManager {
+public interface IUserHandler {
 
     /*
         login

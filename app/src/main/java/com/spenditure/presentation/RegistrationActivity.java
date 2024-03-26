@@ -27,10 +27,10 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.spenditure.R;
 import com.spenditure.application.Services;
 import com.spenditure.logic.ISecurityQuestionHandler;
-import com.spenditure.logic.IUserManager;
+import com.spenditure.logic.IUserHandler;
 
 import com.spenditure.logic.SecurityQuestionHandler;
-import com.spenditure.logic.UserManager;
+import com.spenditure.logic.UserHandler;
 import com.spenditure.logic.exceptions.InvalidUserInformationException;
 import com.spenditure.object.SecurityQuestion;
 import com.spenditure.presentation.report.ViewReportActivity;
@@ -38,7 +38,7 @@ import com.spenditure.presentation.report.ViewReportActivity;
 import java.security.NoSuchAlgorithmException;
 
 public class RegistrationActivity extends AppCompatActivity {
-    private IUserManager userManager;
+    private IUserHandler userManager;
     private ISecurityQuestionHandler securityQuestionHandler;
     private FloatingActionButton backButton;
     private Button registerButton;
@@ -49,7 +49,7 @@ public class RegistrationActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registration);
 
-        userManager = new UserManager(Services.DEVELOPING_STATUS);
+        userManager = new UserHandler(Services.DEVELOPING_STATUS);
         securityQuestionHandler = new SecurityQuestionHandler(Services.DEVELOPING_STATUS);
 
         setupSecurityQuestions();

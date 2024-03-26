@@ -1,7 +1,7 @@
 package com.spenditure.business.unitTests;
 
 
-import com.spenditure.logic.UserManager;
+import com.spenditure.logic.UserHandler;
 import com.spenditure.logic.UserValidator;
 import com.spenditure.logic.exceptions.*;
 import org.junit.Before;
@@ -11,27 +11,27 @@ import static org.junit.Assert.*;
 
 import java.security.NoSuchAlgorithmException;
 
-public class UserManagerExceptionTest {
+public class UserHandlerExceptionTest {
 
-    private UserManager userManager;
+    private UserHandler userHandler;
     private boolean caught;
 
     @Before
     public void setup(){
-        userManager = new UserManager(true);
+        userHandler = new UserHandler(true);
     }
 
     @After
     public void teardown(){
-        UserManager.cleanup(true);
-        this.userManager = null;
+        UserHandler.cleanup(true);
+        this.userHandler = null;
     }
 
     @Test
     public void testLogin() throws NoSuchAlgorithmException {
         caught = false;
         try{
-            userManager.login(null,"123");
+            userHandler.login(null,"123");
         }catch (InvalidUserInformationException e){
             caught = true;
         } catch (NoSuchAlgorithmException e) {
@@ -41,7 +41,7 @@ public class UserManagerExceptionTest {
 
         caught = false;
         try{
-            userManager.login("null",null);
+            userHandler.login("null",null);
         }catch (InvalidUserInformationException | NoSuchAlgorithmException e){
             caught = true;
         }
@@ -49,7 +49,7 @@ public class UserManagerExceptionTest {
 
         caught = false;
         try{
-            userManager.login("","123");
+            userHandler.login("","123");
         }catch (InvalidUserInformationException | NoSuchAlgorithmException e){
             caught = true;
         }
@@ -57,7 +57,7 @@ public class UserManagerExceptionTest {
 
         caught = false;
         try{
-            userManager.login("Me","");
+            userHandler.login("Me","");
         }catch (InvalidUserInformationException | NoSuchAlgorithmException e){
             caught = true;
         }
@@ -65,7 +65,7 @@ public class UserManagerExceptionTest {
 
         caught = false;
         try{
-            userManager.login("Hehe","123");
+            userHandler.login("Hehe","123");
         }catch (InvalidUserInformationException | NoSuchAlgorithmException e){
             caught = true;
         }
@@ -73,16 +73,16 @@ public class UserManagerExceptionTest {
 
         caught = false;
         try{
-            userManager.login("Me","12233");
+            userHandler.login("Me","12233");
         }catch (InvalidUserInformationException | NoSuchAlgorithmException e){
             caught = true;
         }
         assertTrue(caught);
 
-        userManager.login("Me","123");
+        userHandler.login("Me","123");
         caught = false;
         try{
-            userManager.login("Me","123");
+            userHandler.login("Me","123");
         }catch (InvalidUserInformationException e){
             caught = true;
         }
@@ -93,7 +93,7 @@ public class UserManagerExceptionTest {
     public void testGetUserID(){
         caught = false;
         try {
-            UserManager.getUserID();
+            UserHandler.getUserID();
         }catch (InvalidUserInformationException e){
             caught = true;
         }
@@ -105,7 +105,7 @@ public class UserManagerExceptionTest {
     public void testGetUsername(){
         caught = false;
         try {
-            userManager.getUserName(-1);
+            userHandler.getUserName(-1);
         }catch (InvalidUserInformationException e){
             caught = true;
         }
@@ -114,12 +114,12 @@ public class UserManagerExceptionTest {
 
     @Test
     public void testChangePassword() throws NoSuchAlgorithmException {
-        int userID = userManager.login("Me","123");
+        int userID = userHandler.login("Me","123");
 
 
         caught = false;
         try{
-            userManager.changePassword(userID,null,"hihi");
+            userHandler.changePassword(userID,null,"hihi");
         }catch (InvalidUserInformationException e){
             caught = true;
         }
@@ -127,7 +127,7 @@ public class UserManagerExceptionTest {
 
         caught = false;
         try{
-            userManager.changePassword(userID,"null",null);
+            userHandler.changePassword(userID,"null",null);
         }catch (InvalidUserInformationException e){
             caught = true;
         }
@@ -135,7 +135,7 @@ public class UserManagerExceptionTest {
 
         caught = false;
         try{
-            userManager.changePassword(userID,"","null");
+            userHandler.changePassword(userID,"","null");
         }catch (InvalidUserInformationException e){
             caught = true;
         }
@@ -143,7 +143,7 @@ public class UserManagerExceptionTest {
 
         caught = false;
         try{
-            userManager.changePassword(userID,"null","");
+            userHandler.changePassword(userID,"null","");
         }catch (InvalidUserInformationException e){
             caught = true;
         }
@@ -151,7 +151,7 @@ public class UserManagerExceptionTest {
 
         caught = false;
         try{
-            userManager.changePassword(-1,"null","asd");
+            userHandler.changePassword(-1,"null","asd");
         }catch (InvalidUserInformationException e){
             caught = true;
         }
@@ -162,7 +162,7 @@ public class UserManagerExceptionTest {
     public void testRegister(){
         caught = false;
         try{
-           userManager.register(null,"null", "", "", -1);
+           userHandler.register(null,"null", "", "", -1);
         }catch (InvalidUserInformationException e){
             caught = true;
         } catch (NoSuchAlgorithmException e) {
@@ -172,7 +172,7 @@ public class UserManagerExceptionTest {
 
         caught = false;
         try{
-            userManager.register("null",null, null, null, 0);
+            userHandler.register("null",null, null, null, 0);
         }catch (InvalidUserInformationException e){
             caught = true;
         } catch (NoSuchAlgorithmException e) {
@@ -182,7 +182,7 @@ public class UserManagerExceptionTest {
 
         caught = false;
         try{
-            userManager.register("null","", "null", "null", 0);
+            userHandler.register("null","", "null", "null", 0);
         }catch (InvalidUserInformationException | NoSuchAlgorithmException e){
             caught = true;
         }
@@ -190,7 +190,7 @@ public class UserManagerExceptionTest {
 
         caught = false;
         try{
-            userManager.register("","aaa", "", "anser", 1);
+            userHandler.register("","aaa", "", "anser", 1);
         }catch (InvalidUserInformationException | NoSuchAlgorithmException e){
             caught = true;
         }
@@ -198,7 +198,7 @@ public class UserManagerExceptionTest {
 
         caught = false;
         try{
-            userManager.register("Aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa","aaa", "aaaaaaaaaa", "aaaaaaa", 1);
+            userHandler.register("Aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa","aaa", "aaaaaaaaaa", "aaaaaaa", 1);
         }catch (InvalidUserInformationException | NoSuchAlgorithmException e){
             caught = true;
         }
@@ -209,7 +209,7 @@ public class UserManagerExceptionTest {
     public void testLogOut(){
         caught = false;
         try{
-            userManager.logout();
+            userHandler.logout();
         }catch (InvalidUserInformationException e){
             caught = true;
         }
@@ -218,10 +218,10 @@ public class UserManagerExceptionTest {
 
     @Test
     public void testChangeUsername() throws NoSuchAlgorithmException {
-        int userID = userManager.login("Me","123");
+        int userID = userHandler.login("Me","123");
         caught = false;
         try{
-            userManager.changeUsername(-1,"me");
+            userHandler.changeUsername(-1,"me");
         }catch (InvalidUserInformationException e){
             caught = true;
         }
@@ -229,7 +229,7 @@ public class UserManagerExceptionTest {
 
         caught = false;
         try{
-            userManager.changeUsername(userID,"");
+            userHandler.changeUsername(userID,"");
         }catch (InvalidUserInformationException e){
             caught = true;
         }
@@ -237,7 +237,7 @@ public class UserManagerExceptionTest {
 
         caught = false;
         try{
-            userManager.changeUsername(userID,null);
+            userHandler.changeUsername(userID,null);
         }catch (InvalidUserInformationException e){
             caught = true;
         }
@@ -245,7 +245,7 @@ public class UserManagerExceptionTest {
 
         caught = false;
         try{
-            userManager.changeUsername(userID,"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+            userHandler.changeUsername(userID,"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
         }catch (InvalidUserInformationException e){
             caught = true;
         }

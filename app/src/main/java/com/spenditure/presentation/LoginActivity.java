@@ -25,9 +25,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.spenditure.R;
 import com.spenditure.application.Services;
 import com.spenditure.database.utils.DBHelper;
-import com.spenditure.logic.GoalHandler;
-import com.spenditure.logic.IGoalHandler;
-import com.spenditure.logic.UserManager;
+import com.spenditure.logic.UserHandler;
 import com.spenditure.logic.exceptions.InvalidUserInformationException;
 import com.spenditure.presentation.report.ViewReportActivity;
 
@@ -38,7 +36,7 @@ public class LoginActivity extends AppCompatActivity {
     // Instance variables
     private String username;
     private String password;
-    private UserManager userManager;
+    private UserHandler userHandler;
     private FloatingActionButton registerButton;
 
     @Override
@@ -49,7 +47,7 @@ public class LoginActivity extends AppCompatActivity {
             DBHelper.copyDatabaseToDevice(this);
         }
 
-        userManager = new UserManager(Services.DEVELOPING_STATUS);
+        userHandler = new UserHandler(Services.DEVELOPING_STATUS);
         setContentView(R.layout.activity_login);
 
         setUpLoginButton();
@@ -68,7 +66,7 @@ public class LoginActivity extends AppCompatActivity {
                 password = pass.getText().toString();
 
                 try {
-                    int userID = userManager.login(username, password);
+                    int userID = userHandler.login(username, password);
 
                     if (userID != 0){
                         // Login and open the report activity

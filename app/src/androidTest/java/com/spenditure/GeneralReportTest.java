@@ -6,7 +6,6 @@ import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.scrollTo;
 import static androidx.test.espresso.action.ViewActions.swipeLeft;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
-import static androidx.test.espresso.matcher.ViewMatchers.isDescendantOfA;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
@@ -18,8 +17,6 @@ import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertEquals;
 
 import android.os.SystemClock;
-import android.view.View;
-import android.view.ViewGroup;
 
 import androidx.test.core.app.ActivityScenario;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
@@ -29,14 +26,10 @@ import com.spenditure.logic.CategoryHandler;
 import com.spenditure.logic.ICategoryHandler;
 import com.spenditure.logic.ITransactionHandler;
 import com.spenditure.logic.TransactionHandler;
-import com.spenditure.logic.UserManager;
+import com.spenditure.logic.UserHandler;
 import com.spenditure.presentation.LoginActivity;
 import com.spenditure.utility.TestUtility;
-import com.spenditure.utility.ViewPagerSupporter;
 
-import org.hamcrest.Description;
-import org.hamcrest.Matcher;
-import org.hamcrest.TypeSafeMatcher;
 import org.junit.After;
 import org.junit.Before;
 
@@ -79,7 +72,7 @@ public class GeneralReportTest {
     public void testGeneralReport() {
         SystemClock.sleep(sleepTime);
 
-        assertEquals(4,UserManager.getUserID());
+        assertEquals(4, UserHandler.getUserID());
         onView(withId(R.id.textview_general_total_spending)).check(matches(isDisplayed()));
         onView(withId(R.id.textview_summary_num_trans)).check(matches(isDisplayed()));
 
