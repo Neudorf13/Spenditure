@@ -85,7 +85,8 @@ public class CategoryStub implements CategoryPersistence {
 
     private boolean validateUnique(String categoryName){
         for(MainCategory currCategory : this.categoryList){
-            if (categoryName.equalsIgnoreCase(currCategory.getName())) return false;
+            if (categoryName.equalsIgnoreCase(currCategory.getName()))
+                return false;
         }
         return true;
     }
