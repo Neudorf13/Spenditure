@@ -1,22 +1,16 @@
 package com.spenditure.logic;
 
+import static com.spenditure.logic.UserValidatorParameters.*;
+
+
 import com.spenditure.logic.exceptions.InvalidUserInformationException;
-
-import org.jetbrains.annotations.TestOnly;
-
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class UserValidator {
 
-    //Maximum characters for a username
-    public static final int USERNAME_CHARACTER_LIMIT = 32;
-    //Maximum characters for a password
-    public static final int PASSWORD_CHARACTER_LIMIT = 32;
-    //Minumum characters for a password
-    public static final int PASSWORD_MIN_LENGTH = 3;
-    //Minumum number of numerical characters to be present in a password
-    public static final int MIN_PASSWORD_NUMERICAL = 3;
+    //Other defining variables are in UserValidatorConfig.ini
+
     //Maximum number of characters in an email, according to Simple Mail Transfer Protocol RFC 3521 4.5.3.1.3
     public static final int MAX_EMAIL_LENGTH = 256;
     //Minimum possible length of an email; a@b.co
@@ -48,6 +42,8 @@ public class UserValidator {
      */
     public static void validateUsername(String username) throws InvalidUserInformationException {
 
+        new UserValidatorParameters();
+
         if( username == null || username.isEmpty() || username.trim().isEmpty()
                 || username.length() > USERNAME_CHARACTER_LIMIT ) {
 
@@ -66,6 +62,8 @@ public class UserValidator {
 
      */
     public static void validatePassword(String password) throws InvalidUserInformationException {
+
+        new UserValidatorParameters();
 
         if( password == null || password.isEmpty() || password.trim().isEmpty() || password.length() < PASSWORD_MIN_LENGTH
                 || password.length() > PASSWORD_CHARACTER_LIMIT ) {
@@ -224,5 +222,7 @@ public class UserValidator {
         return false;
 
     }
+
+
 
 }

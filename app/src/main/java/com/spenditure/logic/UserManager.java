@@ -85,7 +85,6 @@ public class UserManager implements IUserManager{
         String oldHashedPassword = hashPassword(oldPassword);
         String newHashedPassword = hashPassword(newPassword);
 
-        //return accountPersistence.changePassword(userID,oldPassword,newPassword);
         return accountPersistence.changePassword(userID,oldHashedPassword,newHashedPassword);
 
     }
@@ -112,7 +111,7 @@ public class UserManager implements IUserManager{
 
     /*
 
-        changeEmail
+        changeEmail (FUTURE DEVELOPMENT)
 
         For a logged in user, enables user to change the account's associated email. The new
         email is taken in as a String.
@@ -125,7 +124,7 @@ public class UserManager implements IUserManager{
 //        if(providedUserID < 0)
 //            throw new InvalidUserInformationException("No users are logged in; please log in before changing your email.");
 //
-//        accountPersistence.changeEmail(providedUserID, newEmail);
+//        accountPersistence.changeEmail(providedUserID, newEmail); //IMPLEMENT
 //
 //    }
 
@@ -195,23 +194,6 @@ public class UserManager implements IUserManager{
     public static void cleanup(boolean getStubDB){
         Services.restartAccountDB(getStubDB);
         UserManager.userID = -1;
-    }
-
-    public String getSecurityQuestion(int securityQuestionID) {
-
-        //need to use an instance of securityQuestionPersistence to get securityQuestion
-//        return accountPersistence.getSecurityQuestion(securityQuestionID);
-
-        return null;
-    }
-
-    public void checkSecurityAnswer(int userID, String answer) throws InvalidUserInformationException {
-
-//        String storedAnswer = accountPersistence.getSecurityAnswer(userID);
-
-//        if(!answer.equals(storedAnswer))
-//            throw new InvalidUserInformationException("The provided answer to the user's security question is incorrect.");
-
     }
 
     private String hashPassword(String password) throws NoSuchAlgorithmException {
