@@ -172,7 +172,6 @@ public class CreateGoalActivity extends AppCompatActivity {
             return false;
         }));
 
-        // Set the selected item if needed
-        navView.setSelectedItemId(R.id.navigation_user);
+
     }
 }
