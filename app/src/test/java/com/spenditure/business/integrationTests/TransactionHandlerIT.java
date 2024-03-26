@@ -5,14 +5,9 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
-import com.spenditure.logic.CategoryHandler;
 import com.spenditure.logic.TransactionHandler;
-import com.spenditure.logic.UserManager;
-import com.spenditure.logic.exceptions.InvalidDateTimeException;
-import com.spenditure.logic.exceptions.InvalidTransactionAmountException;
+import com.spenditure.logic.UserHandler;
 import com.spenditure.logic.exceptions.InvalidTransactionException;
-import com.spenditure.logic.exceptions.InvalidTransactionNameException;
-import com.spenditure.logic.exceptions.InvalidTransactionPlaceException;
 import com.spenditure.object.DateTime;
 import com.spenditure.object.Transaction;
 import com.spenditure.utils.TestUtils;
@@ -32,7 +27,7 @@ import java.util.List;
 public class TransactionHandlerIT {
 
     private TransactionHandler transactionHandler;
-    private UserManager userManager;
+    private UserHandler userHandler;
 
     private File tempDB;
 
@@ -42,13 +37,13 @@ public class TransactionHandlerIT {
     public void setup() throws IOException, NoSuchAlgorithmException {
         this.tempDB = TestUtils.copyDB();
         this.transactionHandler = new TransactionHandler(false);
-        userManager = new UserManager(false);
-        userManager.login("Me", "123");
+        userHandler = new UserHandler(false);
+        userHandler.login("Me", "123");
         transactionHandler.cleanup(false);
     }
     @After
     public void tearDown(){
-        userManager.logout();
+        userHandler.logout();
         this.transactionHandler = null;
         this.tempDB = null;
     }

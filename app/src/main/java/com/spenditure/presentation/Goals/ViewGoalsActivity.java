@@ -15,7 +15,7 @@ import com.spenditure.R;
 import com.spenditure.application.Services;
 import com.spenditure.logic.GoalHandler;
 import com.spenditure.logic.IGoalHandler;
-import com.spenditure.logic.UserManager;
+import com.spenditure.logic.UserHandler;
 import com.spenditure.logic.exceptions.InvalidGoalException;
 import com.spenditure.object.Goal;
 import com.spenditure.presentation.BottomNavigationHandler;
@@ -38,7 +38,7 @@ public class ViewGoalsActivity extends AppCompatActivity {
             goalHandler = new GoalHandler(Services.DEVELOPING_STATUS);
         }
 
-        goals = goalHandler.getGoalsForUserID(UserManager.getUserID());
+        goals = goalHandler.getGoalsForUserID(UserHandler.getUserID());
 
         goalsListView = findViewById(R.id.listview_goals);
 
@@ -92,7 +92,7 @@ public class ViewGoalsActivity extends AppCompatActivity {
                 goalHandler.deleteGoal(toDelete.getGoalID());
 
                 // Refresh the list view
-                adaptor = new CustomGoalAdapter(goalHandler.getGoalsForUserID(UserManager.getUserID()), getBaseContext());
+                adaptor = new CustomGoalAdapter(goalHandler.getGoalsForUserID(UserHandler.getUserID()), getBaseContext());
                 goalsListView.setAdapter(adaptor);
 
                 currentIdSelected = -1;

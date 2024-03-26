@@ -4,7 +4,6 @@ import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -35,7 +34,7 @@ import com.spenditure.logic.ITimeBaseReportHandler;
 import com.spenditure.logic.ITransactionHandler;
 import com.spenditure.logic.TimeBaseReportHandler;
 import com.spenditure.logic.TransactionHandler;
-import com.spenditure.logic.UserManager;
+import com.spenditure.logic.UserHandler;
 import com.spenditure.object.CategoryReport;
 import com.spenditure.object.DateTime;
 import com.spenditure.object.MainCategory;
@@ -84,7 +83,7 @@ public class ViewReportActivity extends AppCompatActivity {
         reportManager = new TimeBaseReportHandler(Services.DEVELOPING_STATUS);
         categoryHandler = new CategoryHandler(Services.DEVELOPING_STATUS);
         generalReportHandler = new GeneralReportHandler(Services.DEVELOPING_STATUS);
-        this.userID = UserManager.getUserID();
+        this.userID = UserHandler.getUserID();
         this.currDate = TimeBaseReportHandler.getCurrentDate();
 
         handleGeneralReport();
@@ -112,7 +111,7 @@ public class ViewReportActivity extends AppCompatActivity {
     }
 
     private void handleCategoriesReport(){
-        List<CategoryReport> categoryStatisticsList = generalReportHandler.getAllCategoryReport(UserManager.getUserID());
+        List<CategoryReport> categoryStatisticsList = generalReportHandler.getAllCategoryReport(UserHandler.getUserID());
 
         handleStatsCategories(categoryStatisticsList);
         handleChartCategory(categoryStatisticsList);

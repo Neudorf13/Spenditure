@@ -19,16 +19,12 @@ import com.spenditure.application.Services;
 import com.spenditure.logic.CategoryHandler;
 import com.spenditure.logic.ITransactionHandler;
 import com.spenditure.logic.TransactionHandler;
-import com.spenditure.logic.UserManager;
-import com.spenditure.object.MainCategory;
 import com.spenditure.presentation.LoginActivity;
 import com.spenditure.utility.TestUtility;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-
-import java.util.List;
 
 /**
  * Category handler system test (Feature 2)

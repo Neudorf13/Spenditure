@@ -1,36 +1,31 @@
-package com.spenditure.business.integrationTests;
+package com.spenditure.business.unitTests;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-
-import com.spenditure.logic.UserManager;
-import com.spenditure.logic.exceptions.InvalidUserInformationException;
-import com.spenditure.utils.TestUtils;
-
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.After;
+import static org.junit.Assert.*;
 
-import java.io.File;
-import java.io.IOException;
+import com.spenditure.logic.UserHandler;
+import com.spenditure.logic.exceptions.InvalidUserInformationException;
+
 import java.security.NoSuchAlgorithmException;
 
-public class UserManagerIT {
+/**
+ * Category handler unit tests
+ * @author Bao Ngo
+ * @version 01 March 2024
+ */
+public class UserHandlerTest {
 
-    private UserManager accountManager;
-    private File tempDB;
-
+    private UserHandler accountManager;
     @Before
-    public void setup() throws IOException {
-        this.tempDB = TestUtils.copyDB();
-        this.accountManager = new UserManager(false);
+    public void setup(){
+        this.accountManager = new UserHandler(true);
     }
     @After
     public void tearDown(){
-        UserManager.cleanup(false);
+        UserHandler.cleanup(true);
         this.accountManager = null;
-        this.tempDB = null;
     }
 
     @Test
@@ -42,13 +37,12 @@ public class UserManagerIT {
         userID = accountManager.login("He","12345");
         assertEquals(3,userID);
     }
-//
+
     @Test
     public void testGetUserID() throws NoSuchAlgorithmException {
         accountManager.login("Me","123");
-        int userID = UserManager.getUserID();
+        int userID = UserHandler.getUserID();
         assertEquals(1,userID);
-
 
     }
 
@@ -57,6 +51,7 @@ public class UserManagerIT {
         int userID = accountManager.login("Me","123");
         String username= accountManager.getUserName(userID);
         assertEquals("Me",username);
+
     }
 
     @Test
@@ -81,21 +76,20 @@ public class UserManagerIT {
 
     @Test
     public void testRegister() throws NoSuchAlgorithmException {
-        int userID = accountManager.register("new user","testpassword123", "test.email@domain.com", "buddy", 1);
-        assertEquals(6,userID);
+        int userID = accountManager.register("new user","testpassword123", "test.email@mail.com", "buddy", 1);
+        assertEquals(4,userID);
         accountManager.logout();
         userID = accountManager.login("new user","testpassword123");
-        assertEquals(6,userID);
+        assertEquals(4,userID);
     }
 
-//
     @Test
     public void testLogOut() throws NoSuchAlgorithmException {
         accountManager.login("Me","123");
         accountManager.logout();
         boolean isLogout = false;
         try{
-            UserManager.getUserID();
+            UserHandler.getUserID();
         }catch (InvalidUserInformationException e){
             isLogout= true;
         }
@@ -105,10 +99,11 @@ public class UserManagerIT {
 
     @Test
     public void testChangeUsername() throws NoSuchAlgorithmException {
-        int userID = accountManager.login("TestingUser1","12345");
-        assertEquals(4,userID);
+        int userID = accountManager.login("Me","123");
+        assertEquals(1,userID);
         boolean success = accountManager.changeUsername(userID,"newUsername");
         assertTrue(success);
         assertEquals("newUsername",accountManager.getUserName(userID));
     }
 }
+

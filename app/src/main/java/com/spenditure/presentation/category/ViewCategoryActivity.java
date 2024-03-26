@@ -1,7 +1,5 @@
 package com.spenditure.presentation.category;
 
-import static android.os.SystemClock.sleep;
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -16,7 +14,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.spenditure.application.Services;
 import com.spenditure.logic.CategoryHandler;
 import com.spenditure.logic.ICategoryHandler;
-import com.spenditure.logic.UserManager;
+import com.spenditure.logic.UserHandler;
 import com.spenditure.presentation.BottomNavigationHandler;
 
 
@@ -47,13 +45,13 @@ public class ViewCategoryActivity extends AppCompatActivity {
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        adapter = new CategoryAdapter(ViewCategoryActivity.this, categoryHandler.getAllCategory(UserManager.getUserID()));
+        adapter = new CategoryAdapter(ViewCategoryActivity.this, categoryHandler.getAllCategory(UserHandler.getUserID()));
         recyclerView.setAdapter(adapter);
 
         refreshButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                adapter = new CategoryAdapter(ViewCategoryActivity.this, categoryHandler.getAllCategory(UserManager.getUserID()));
+                adapter = new CategoryAdapter(ViewCategoryActivity.this, categoryHandler.getAllCategory(UserHandler.getUserID()));
                 recyclerView.setAdapter(adapter);
             }
         });
@@ -94,7 +92,7 @@ public class ViewCategoryActivity extends AppCompatActivity {
 
     public void refresh()
     {
-        adapter = new CategoryAdapter(ViewCategoryActivity.this, categoryHandler.getAllCategory(UserManager.getUserID()));
+        adapter = new CategoryAdapter(ViewCategoryActivity.this, categoryHandler.getAllCategory(UserHandler.getUserID()));
         recyclerView.setAdapter(adapter);
     }
 }

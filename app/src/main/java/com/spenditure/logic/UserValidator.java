@@ -1,9 +1,19 @@
+/**
+ * UserValidator.java
+ *
+ * COMP3350 SECTION A02
+ *
+ * @author Toran Pillay, 7842389
+ * @date March 25, 2024
+ *
+ * PURPOSE:
+ *  This file contains all of the methods necessary to validate the data in a
+ * User.
+ **/
+
 package com.spenditure.logic;
 
 import com.spenditure.logic.exceptions.InvalidUserInformationException;
-
-import org.jetbrains.annotations.TestOnly;
-
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -13,9 +23,9 @@ public class UserValidator {
     public static final int USERNAME_CHARACTER_LIMIT = 32;
     //Maximum characters for a password
     public static final int PASSWORD_CHARACTER_LIMIT = 32;
-    //Minumum characters for a password
+    //Minimum characters for a password
     public static final int PASSWORD_MIN_LENGTH = 3;
-    //Minumum number of numerical characters to be present in a password
+    //Minimum number of numerical characters to be present in a password
     public static final int MIN_PASSWORD_NUMERICAL = 3;
     //Maximum number of characters in an email, according to Simple Mail Transfer Protocol RFC 3521 4.5.3.1.3
     public static final int MAX_EMAIL_LENGTH = 256;
@@ -48,7 +58,7 @@ public class UserValidator {
      */
     public static void validateUsername(String username) throws InvalidUserInformationException {
 
-        if( username == null || username.isEmpty() || username.trim().isEmpty()
+        if( username == null || username.trim().isEmpty()
                 || username.length() > USERNAME_CHARACTER_LIMIT ) {
 
             throw new InvalidUserInformationException("Username cannot be blank or over "+USERNAME_CHARACTER_LIMIT
@@ -67,7 +77,7 @@ public class UserValidator {
      */
     public static void validatePassword(String password) throws InvalidUserInformationException {
 
-        if( password == null || password.isEmpty() || password.trim().isEmpty() || password.length() < PASSWORD_MIN_LENGTH
+        if( password == null || password.trim().isEmpty() || password.length() < PASSWORD_MIN_LENGTH
                 || password.length() > PASSWORD_CHARACTER_LIMIT ) {
 
             throw new InvalidUserInformationException("Password cannot be blank, over "+PASSWORD_CHARACTER_LIMIT
@@ -91,6 +101,7 @@ public class UserValidator {
 
         int numbersPresent = 0;
 
+        //Search the string for instances of char 0-9
         for(int i=0; i<10; i++) {
 
             if(password.contains(String.valueOf(i)))
@@ -113,7 +124,7 @@ public class UserValidator {
      */
     public static void validateEmail(String email) throws InvalidUserInformationException {
 
-        if( email == null || email.isEmpty() || email.trim().isEmpty() || email.length() < MIN_EMAIL_LENGTH
+        if( email == null || email.trim().isEmpty() || email.length() < MIN_EMAIL_LENGTH
                 || email.length() > MAX_EMAIL_LENGTH ) {
 
             throw new InvalidUserInformationException("Email cannot be blank, over "+MAX_EMAIL_LENGTH

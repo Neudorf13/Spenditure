@@ -4,7 +4,7 @@
  * COMP3350 SECTION A02
  *
  * @author Toran Pillay, 7842389
- * @date Tuesday, February 6, 2024
+ * @date March 25, 2024
  *
  * PURPOSE:
  *  This file contains all of the methods necessary to validate DateTimes, ensuring
@@ -15,7 +15,6 @@ package com.spenditure.logic;
 
 import com.spenditure.logic.exceptions.*;
 import com.spenditure.object.DateTime;
-
 import java.time.LocalDate;
 
 
@@ -48,6 +47,7 @@ public class DateTimeValidator {
         returns true if the DateTime has valid values.
      */
     public static void validateDateTime(DateTime dateTime) throws InvalidDateTimeException {
+
         validateDate(dateTime);
         validateTime(dateTime);
 
@@ -72,7 +72,6 @@ public class DateTimeValidator {
         boolean leapYear = checkLeapYear(year);
 
         validateMonthDay(month, day, leapYear);
-
 
     }
 
@@ -194,11 +193,7 @@ public class DateTimeValidator {
 
         }
 
-        if( numDays >= day && day > 0 )
-        {
-            // we good
-        }
-        else {
+        if( day > numDays )  {
 
             String leapYearMessage = "";
 

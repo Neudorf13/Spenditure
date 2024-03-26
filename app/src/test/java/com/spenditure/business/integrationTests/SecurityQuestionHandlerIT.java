@@ -5,7 +5,6 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import com.spenditure.logic.SecurityQuestionHandler;
-import com.spenditure.logic.UserManager;
 import com.spenditure.object.SecurityQuestion;
 import com.spenditure.utils.TestUtils;
 

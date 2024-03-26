@@ -20,7 +20,7 @@ import com.spenditure.logic.CategoryHandler;
 import com.spenditure.logic.GoalHandler;
 import com.spenditure.logic.ICategoryHandler;
 import com.spenditure.logic.IGoalHandler;
-import com.spenditure.logic.UserManager;
+import com.spenditure.logic.UserHandler;
 import com.spenditure.logic.exceptions.InvalidGoalException;
 import com.spenditure.object.DateTime;
 import com.spenditure.object.MainCategory;
@@ -40,7 +40,7 @@ public class CreateGoalActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_goal);
 
-        this.userID = UserManager.getUserID();
+        this.userID = UserHandler.getUserID();
 
         goalHandler = new GoalHandler(Services.DEVELOPING_STATUS);
         categoryHandler = new CategoryHandler(Services.DEVELOPING_STATUS);

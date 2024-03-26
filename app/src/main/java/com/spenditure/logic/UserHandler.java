@@ -1,24 +1,34 @@
+/**
+ * UserHandler.java
+ *
+ * COMP3350 SECTION A02
+ *
+ * @author Toran Pillay, 7842389
+ * @date March 25, 2024
+ *
+ * PURPOSE:
+ *  This file interprets information from Users sent by the UI layer,
+ * sends information to the Database layer, and performs all logic operations
+ * pertaining to Users.
+ **/
+
 package com.spenditure.logic;
 
 import static com.spenditure.logic.UserValidator.*;
-
 import com.spenditure.application.Services;
 import com.spenditure.database.UserPersistence;
 import com.spenditure.logic.exceptions.InvalidStringFormat;
 import com.spenditure.logic.exceptions.InvalidUserInformationException;
-
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
-public class UserManager implements IUserManager{
+public class UserHandler implements IUserHandler {
 
     private UserPersistence accountPersistence;
     private static int userID = -1; //Store ID of user that are currently using the app
 
     //Constructor
-    public UserManager(boolean getStubDB){
+    public UserHandler(boolean getStubDB){
         accountPersistence = Services.getUserPersistence(getStubDB);
 
     }
@@ -37,8 +47,10 @@ public class UserManager implements IUserManager{
 
         if(userID < 0) {
             String hashedPassword = hashPassword(password);
+
             int userIDReturn = accountPersistence.login(username,hashedPassword);
-            UserManager.userID = userIDReturn;
+
+            UserHandler.userID = userIDReturn;
 
             return userIDReturn;
 
@@ -48,7 +60,7 @@ public class UserManager implements IUserManager{
 
         }
 
-    } //Return user id
+    } //Returns user id
 
     /*
 
@@ -116,6 +128,8 @@ public class UserManager implements IUserManager{
         For a logged in user, enables user to change the account's associated email. The new
         email is taken in as a String.
 
+        //COMMENTED OUT; future development
+
      */
 //    public void changeEmail(int providedUserID, String newEmail) throws InvalidUserInformationException {
 //
@@ -148,7 +162,7 @@ public class UserManager implements IUserManager{
 
         int newUserID = accountPersistence.register(username,hashedPassword,email, hashedSecurityAnswer, securityQID);
 
-        UserManager.userID = newUserID;
+        UserHandler.userID = newUserID;
 
         return newUserID;
 
@@ -193,26 +207,15 @@ public class UserManager implements IUserManager{
     //For testing purposes
     public static void cleanup(boolean getStubDB){
         Services.restartAccountDB(getStubDB);
-        UserManager.userID = -1;
+        UserHandler.userID = -1;
     }
 
-    public String getSecurityQuestion(int securityQuestionID) {
+    /*
 
-        //need to use an instance of securityQuestionPersistence to get securityQuestion
-//        return accountPersistence.getSecurityQuestion(securityQuestionID);
+        hashPassword
+        Given the password, creates and returns a hash
 
-        return null;
-    }
-
-    public void checkSecurityAnswer(int userID, String answer) throws InvalidUserInformationException {
-
-//        String storedAnswer = accountPersistence.getSecurityAnswer(userID);
-
-//        if(!answer.equals(storedAnswer))
-//            throw new InvalidUserInformationException("The provided answer to the user's security question is incorrect.");
-
-    }
-
+     */
     private String hashPassword(String password) throws NoSuchAlgorithmException {
         MessageDigest digest = MessageDigest.getInstance("SHA-256");
         byte[] hash = digest.digest(password.getBytes());

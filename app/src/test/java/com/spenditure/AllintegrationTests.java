@@ -5,8 +5,8 @@ import com.spenditure.business.integrationTests.GeneralReportHandlerIT;
 import com.spenditure.business.integrationTests.GoalHandlerIT;
 import com.spenditure.business.integrationTests.ReportHandlerIntegrationTest;
 import com.spenditure.business.integrationTests.TransactionHandlerIT;
-import com.spenditure.business.integrationTests.UserManagerIT;
-//import com.spenditure.business.integrationTests.UserManagerIT;
+import com.spenditure.business.integrationTests.UserHandlerIT;
+//import com.spenditure.business.integrationTests.UserHandlerIT;
 
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
@@ -17,7 +17,7 @@ import org.junit.runners.Suite;
         GeneralReportHandlerIT.class,
         ReportHandlerIntegrationTest.class,
         TransactionHandlerIT.class,
-        UserManagerIT.class,
+        UserHandlerIT.class,
         GoalHandlerIT.class
 })
 

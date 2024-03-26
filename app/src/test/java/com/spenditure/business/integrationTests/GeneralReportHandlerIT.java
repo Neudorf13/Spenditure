@@ -5,7 +5,7 @@ import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 
 import com.spenditure.logic.GeneralReportHandler;
-import com.spenditure.logic.UserManager;
+import com.spenditure.logic.UserHandler;
 import com.spenditure.logic.exceptions.InvalidCategoryException;
 import com.spenditure.logic.exceptions.InvalidLogInException;
 import com.spenditure.object.CategoryReport;
@@ -23,7 +23,7 @@ import java.util.ArrayList;
 
 public class GeneralReportHandlerIT {
     private GeneralReportHandler generalReportHandler;
-    private UserManager userManager;
+    private UserHandler userHandler;
     private File tempDB;
 
     @Before
@@ -31,15 +31,15 @@ public class GeneralReportHandlerIT {
 
         this.tempDB = TestUtils.copyDB();
         this.generalReportHandler = new GeneralReportHandler(false);
-        userManager = new UserManager(false);
-        userManager.login("Me", "123");
+        userHandler = new UserHandler(false);
+        userHandler.login("Me", "123");
 
         assertNotNull(this.generalReportHandler);
     }
 
     @After
     public void teardown() {
-        userManager.logout();
+        userHandler.logout();
         generalReportHandler = null;
         tempDB = null;
     }
