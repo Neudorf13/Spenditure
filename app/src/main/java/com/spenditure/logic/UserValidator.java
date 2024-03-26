@@ -13,20 +13,17 @@
 
 package com.spenditure.logic;
 
+import static com.spenditure.logic.UserValidatorParameters.*;
+
+
 import com.spenditure.logic.exceptions.InvalidUserInformationException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class UserValidator {
 
-    //Maximum characters for a username
-    public static final int USERNAME_CHARACTER_LIMIT = 32;
-    //Maximum characters for a password
-    public static final int PASSWORD_CHARACTER_LIMIT = 32;
-    //Minimum characters for a password
-    public static final int PASSWORD_MIN_LENGTH = 3;
-    //Minimum number of numerical characters to be present in a password
-    public static final int MIN_PASSWORD_NUMERICAL = 3;
+    //Other defining variables are in UserValidatorConfig.ini
+
     //Maximum number of characters in an email, according to Simple Mail Transfer Protocol RFC 3521 4.5.3.1.3
     public static final int MAX_EMAIL_LENGTH = 256;
     //Minimum possible length of an email; a@b.co
@@ -58,6 +55,8 @@ public class UserValidator {
      */
     public static void validateUsername(String username) throws InvalidUserInformationException {
 
+        new UserValidatorParameters();
+        
         if( username == null || username.trim().isEmpty()
                 || username.length() > USERNAME_CHARACTER_LIMIT ) {
 
@@ -77,6 +76,8 @@ public class UserValidator {
      */
     public static void validatePassword(String password) throws InvalidUserInformationException {
 
+        new UserValidatorParameters();
+        
         if( password == null || password.trim().isEmpty() || password.length() < PASSWORD_MIN_LENGTH
                 || password.length() > PASSWORD_CHARACTER_LIMIT ) {
 
@@ -140,6 +141,46 @@ public class UserValidator {
 
     }
 
+    /*
+
+        validEmailFormat
+
+        Takes a string and checks to ensure it follows the general format of
+        name@domain.com
+
+     */
+    private static boolean validEmailFormat(String email) {
+
+        boolean result = checkEmailSymbolCount(email);
+        String[] sections = new String[3];
+
+        if(result) {
+
+            String[] split = email.split("@");
+
+            sections[0] = split[0];
+
+            if(split[1].contains(".")) {
+
+                split = split[1].split("\\.");
+
+                sections[1] = split[0];
+                sections[2] = split[1];
+
+                result = !sections[0].isEmpty()
+                        && !sections[1].isEmpty()
+                        && sections[2].length() > 1;
+
+            } else {
+
+                result = false;
+
+            }
+        }
+
+        return result;
+
+    }
 
     public static boolean isValidEmail(String email) {
         String regex = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
@@ -150,5 +191,45 @@ public class UserValidator {
         return matcher.matches();
     }
 
+    /*
+
+        checkEmailSymbolCount
+
+        Ensures the given string only has one "@" and only one "." after the "@"
+
+     */
+    private static boolean checkEmailSymbolCount(String email) {
+
+        int countAts = 0;
+        int countPeriodsAfterAt = 0;
+
+        for(int i = 0; i < email.length(); i ++ ) {
+
+            char current = email.charAt(i);
+
+            if(current == '@')
+                countAts++;
+
+        }
+
+        if(countAts == 1) {
+            String split = email.split("@")[1];
+
+            for(int i = 0; i < split.length(); i++) {
+
+                char current = email.charAt(i);
+
+                if(current == '.')
+                    countPeriodsAfterAt++;
+
+            }
+
+            return countPeriodsAfterAt == 1;
+
+        }
+
+        return false;
+
+    }
 
 }
