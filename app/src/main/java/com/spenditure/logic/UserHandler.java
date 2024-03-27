@@ -96,7 +96,6 @@ public class UserHandler implements IUserHandler {
         String oldHashedPassword = hashPassword(oldPassword);
         String newHashedPassword = hashPassword(newPassword);
 
-        //return accountPersistence.changePassword(userID,oldPassword,newPassword);
         return accountPersistence.changePassword(userID,oldHashedPassword,newHashedPassword);
 
     }

@@ -155,8 +155,10 @@ public class ViewTransactionsActivity extends AppCompatActivity {
         Transaction toDelete = transactionHandler.getTransactionByID(currentIdSelected);
         transactionHandler.deleteTransaction(toDelete);
 
-        // Refresh the list view
-        adaptor.notifyDataSetChanged();
+        // Create an adaptor to format transactions in the list view
+        transactions = transactionHandler.getAllByOldestFirst(UserHandler.getUserID());
+        adaptor = new CustomTransactionAdapter(transactions, this);
+        transactionsListView.setAdapter(adaptor);
 
         changeButtonEnabled(false);
         currentIdSelected = -1;
